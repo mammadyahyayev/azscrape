@@ -10,3 +10,4 @@ column types
 - decimal
 - logical
 - date
+- datetime
