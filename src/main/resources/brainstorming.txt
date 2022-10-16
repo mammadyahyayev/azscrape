@@ -1,0 +1,12 @@
+selector types
+- class
+- id
+- complex class
+
+
+column types
+- text
+- number
+- decimal
+- logical
+- date

@@ -1,0 +1,21 @@
+{
+  "title": "Github Search",
+  "exported_file": "CSV",
+  "exported_file_extension": "xlsx",
+  "description": "Dummy Description",
+  "url": "https://github.com/search?q=java",
+  "data": [
+    {
+      "name": "title",
+      "type": "TEXT",
+      "selector_type": "COMPLEX_CLASS",
+      "selector": ".repo-list-item  .v-align-middle"
+    },
+    {
+      "name": "description",
+      "type": "TEXT",
+      "selector_type": "COMPLEX_CLASS",
+      "selector": ".repo-list-item  .mb-1"
+    }
+  ]
+}
