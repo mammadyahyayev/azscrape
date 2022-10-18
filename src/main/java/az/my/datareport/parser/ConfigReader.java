@@ -6,4 +6,6 @@ public interface ConfigReader {
     void read(String configFilePath);
 
     void read(File configFile);
+
+    void read(ConfigFile configFile);
 }

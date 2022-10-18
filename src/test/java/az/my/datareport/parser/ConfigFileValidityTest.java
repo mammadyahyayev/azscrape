@@ -17,13 +17,13 @@ class ConfigFileValidityTest {
     @Test
     void should_throw_exception_when_given_file_is_not_supported() {
         assertThrows(UnsupportedFileFormatException.class,
-                () -> ConfigFileValidity.validate("C:\\Users\\User\\Desktop\\data-report\\src\\main\\resources\\brainstorming.txt"));
+                () -> ConfigFileValidity.validateAndGet("C:\\Users\\User\\Desktop\\data-report\\src\\main\\resources\\brainstorming.txt"));
     }
 
     @Test
     void should_throw_exception_when_path_refer_to_directory() {
         assertThrows(IllegalArgumentException.class,
-                () -> ConfigFileValidity.validate("C:\\Users\\User\\Desktop\\data-report\\src\\main\\resources"));
+                () -> ConfigFileValidity.validateAndGet("C:\\Users\\User\\Desktop\\data-report\\src\\main\\resources"));
     }
 
 }

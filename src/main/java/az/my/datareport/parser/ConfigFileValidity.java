@@ -4,27 +4,24 @@ import az.my.datareport.model.enumeration.FileExtension;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class ConfigFileValidity {
-    private static final FileExtension[] SUPPORTED_CONFIG_FILE_EXTENSION = {FileExtension.JSON};
+    private static final String[] SUPPORTED_CONFIG_FILE_EXTENSIONS = {FileExtension.JSON.fileType()};
 
-    public static void validate(String filePath) {
+    public static ConfigFile validateAndGet(String filePath) {
         File file = new File(filePath);
-        if (!file.isFile() || file.exists()) {
+
+        if (!file.isFile() || !file.exists()) {
             throw new IllegalArgumentException(String.format("File not found or path %s isn't refer to a file", filePath));
         }
 
-        isSupportedFileExtension(file);
-    }
-
-    private static void isSupportedFileExtension(File file) {
-        String extension = FilenameUtils.getExtension(file.getPath());
-
-        for (var supported : SUPPORTED_CONFIG_FILE_EXTENSION) {
-            if (!supported.fileType().equals(extension)) {
-                throw new UnsupportedFileFormatException(extension + " is not supported extension!");
-            }
+        String extension = FilenameUtils.getExtension(filePath);
+        if (!Arrays.asList(SUPPORTED_CONFIG_FILE_EXTENSIONS).contains(extension)) {
+            throw new UnsupportedFileFormatException(extension + " is not supported extension!");
         }
+
+        return new ConfigFile(file.getName(), file.getPath(), extension);
     }
 
 }

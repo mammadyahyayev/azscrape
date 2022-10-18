@@ -6,6 +6,18 @@ public class ConfigReaderFactory {
             throw new IllegalArgumentException("file path isn't exist");
         }
 
-        ConfigFileValidity.validate(configFilePath);
+        ConfigFile configFile = ConfigFileValidity.validateAndGet(configFilePath);
+        ConfigReader reader = getReader(configFile);
+        reader.read(configFile);
+    }
+
+    private static ConfigReader getReader(ConfigFile configFile) {
+        switch (configFile.getFileExtension()) {
+            case "json":
+                return new JSONConfigReader();
+            default:
+                assert false;
+                throw new UnsupportedFileFormatException(configFile.getFileExtension() + " is unsupported");
+        }
     }
 }

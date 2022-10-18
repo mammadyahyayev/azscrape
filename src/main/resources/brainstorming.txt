@@ -11,3 +11,8 @@ column types
 - logical
 - date
 - datetime
+
+Get ConfigFile object after validation, this class keeps followings
+- filename
+- filepath
+- file_extension
