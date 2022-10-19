@@ -1,20 +1,16 @@
 package az.my.datareport.parser;
 
 public class ConfigReaderFactory {
-    public static void read(String configFilePath) {
+    public static ConfigReader getReader(String configFilePath) {
         if (configFilePath == null || configFilePath.isEmpty()) {
-            throw new IllegalArgumentException("file path isn't exist");
+            throw new NullPointerException("Please specify path of the config file!");
         }
 
         ConfigFile configFile = ConfigFileValidity.validateAndGet(configFilePath);
-        ConfigReader reader = getReader(configFile);
-        reader.read(configFile);
-    }
 
-    private static ConfigReader getReader(ConfigFile configFile) {
         switch (configFile.getFileExtension()) {
             case "json":
-                return new JSONConfigReader();
+                return new JSONConfigReader(configFile);
             default:
                 assert false;
                 throw new UnsupportedFileFormatException(configFile.getFileExtension() + " is unsupported");
