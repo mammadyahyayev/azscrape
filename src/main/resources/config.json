@@ -7,14 +7,10 @@
   "data": [
     {
       "name": "title",
-      "type": "TEXT",
-      "selector_type": "COMPLEX_CLASS",
       "selector": ".repo-list-item  .v-align-middle"
     },
     {
       "name": "description",
-      "type": "TEXT",
-      "selector_type": "COMPLEX_CLASS",
       "selector": ".repo-list-item  .mb-1"
     }
   ]
