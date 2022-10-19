@@ -13,7 +13,7 @@ public class ConfigFileValidity {
         File file = new File(filePath);
 
         if (!file.isFile() || !file.exists()) {
-            throw new IllegalArgumentException(String.format("File not found or path %s isn't refer to a file", filePath));
+            throw new IllegalArgumentException(String.format("File not found or path '%s' isn't refer to a file", filePath));
         }
 
         String extension = FilenameUtils.getExtension(filePath);

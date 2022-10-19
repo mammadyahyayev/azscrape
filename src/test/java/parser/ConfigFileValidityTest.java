@@ -1,5 +1,7 @@
-package az.my.datareport.parser;
+package parser;
 
+import az.my.datareport.parser.ConfigFileValidity;
+import az.my.datareport.parser.UnsupportedFileFormatException;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.Test;
 
