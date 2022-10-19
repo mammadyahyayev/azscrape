@@ -4,15 +4,14 @@ import az.my.datareport.ast.DataAST;
 import az.my.datareport.ast.DataElement;
 import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 public class ASTParser {
 
-    DataAST parseJSON(List<JsonNode> nodes) {
-        List<DataElement> elements = new ArrayList<>();
+    DataAST parseJsonNode(JsonNode jsonNode) {
         DataAST dataAST = new DataAST();
-        for (JsonNode node : nodes) {
+        for (Iterator<JsonNode> it = jsonNode.elements(); it.hasNext(); ) {
+            JsonNode node = it.next();
             String name = node.get("name").asText();
             Assert.required(name, "name");
 
@@ -20,10 +19,8 @@ public class ASTParser {
             Assert.required(selector, "selector");
 
             DataElement dataElement = new DataElement(name, selector);
-            elements.add(dataElement);
+            dataAST.addChildDataElement(dataElement);
         }
-
-        dataAST.setElements(elements);
 
         return dataAST;
     }

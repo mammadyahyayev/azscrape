@@ -5,9 +5,9 @@ public final class Assert {
 
     }
 
-    public static void required(String str, String field) {
+    public static void required(String str, String message) {
         if (str == null || str.isEmpty() || str.isBlank()) {
-            throw new NullPointerException(field + " is required field!");
+            throw new NullPointerException(message);
         }
     }
 }

@@ -29,7 +29,7 @@ public class JSONConfigReader implements ConfigReader {
             JsonNode jsonNode = mapper.readTree(Paths.get(configFile.getFilepath()).toFile());
             readReportFileProperties(jsonNode);
 
-            List<JsonNode> data = jsonNode.findValues("data");
+            JsonNode data = jsonNode.findValue("data");
             if (data == null || data.size() == 0) {
                 throw new ConfigNotValidException("config file must contain 'data' field!");
             }
@@ -38,7 +38,7 @@ public class JSONConfigReader implements ConfigReader {
             //TODO: check url is valid url or not
 
             ASTParser astParser = new ASTParser();
-            DataAST dataAST = astParser.parseJSON(data);
+            DataAST dataAST = astParser.parseJsonNode(data);
 
             WebScrapingService service = new WebScrapingService();
             List<ReportData> reportDataList = service.scrape(url, dataAST);

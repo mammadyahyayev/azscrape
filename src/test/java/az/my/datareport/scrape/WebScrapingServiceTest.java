@@ -21,7 +21,8 @@ class WebScrapingServiceTest {
         DataElement dataElement2 = new DataElement("description", ".repo-list-item  .mb-1");
 
         dataAST = new DataAST();
-        dataAST.setElements(List.of(dataElement, dataElement2));
+        dataAST.addChildDataElement(dataElement);
+        dataAST.addChildDataElement(dataElement2);
     }
 
     @Test
