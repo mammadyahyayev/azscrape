@@ -1,13 +1,18 @@
 package az.my.datareport.parser;
 
+import az.my.datareport.ast.DataAST;
 import az.my.datareport.mapper.StringToEnumConverter;
+import az.my.datareport.model.FileReport;
+import az.my.datareport.model.ReportData;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
+import az.my.datareport.scrape.WebScrapingService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class JSONConfigReader implements ConfigReader {
 
@@ -23,12 +28,26 @@ public class JSONConfigReader implements ConfigReader {
         try {
             JsonNode jsonNode = mapper.readTree(Paths.get(configFile.getFilepath()).toFile());
             readReportFileProperties(jsonNode);
+
+            List<JsonNode> data = jsonNode.findValues("data");
+            if (data == null || data.size() == 0) {
+                throw new ConfigNotValidException("config file must contain 'data' field!");
+            }
+
+            String url = jsonNode.get("url").asText();
+            //TODO: check url is valid url or not
+
+            ASTParser astParser = new ASTParser();
+            DataAST dataAST = astParser.parseJSON(data);
+
+            WebScrapingService service = new WebScrapingService();
+            List<ReportData> reportDataList = service.scrape(url, dataAST);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private void readReportFileProperties(JsonNode jsonNode) {
+    private FileReport readReportFileProperties(JsonNode jsonNode) {
         String title = jsonNode.get("title").asText();
         String exportedFile = jsonNode.get("exported_file").asText();
         String exportedFileExtension = jsonNode.get("exported_file_extension").asText();
@@ -45,7 +64,9 @@ public class JSONConfigReader implements ConfigReader {
             throw new UnsupportedFileFormatException(exportedFile + " file extension not supported!");
         }
 
-        FileReportService fileReportService = new FileReportService();
-        fileReportService.generateReportFile(filename, fileType, FileExtension.TXT);
+        //TODO: check file type and file format are matched and they are appropriate
+        // for example VALID: JSON - json, CSV - xlsx, INVALID: JSON - txt, CSV - json
+
+        return new FileReport(filename, fileType, fileExtension);
     }
 }
