@@ -1,6 +1,7 @@
 package parser;
 
 import az.my.datareport.constant.TestConstants;
+import az.my.datareport.parser.ConfigFile;
 import az.my.datareport.parser.ConfigReader;
 import az.my.datareport.parser.ConfigReaderFactory;
 import az.my.datareport.parser.UnsupportedFileFormatException;
@@ -15,7 +16,8 @@ class JSONConfigReaderTest {
 
     @BeforeEach
     public void setUp() {
-        reader = ConfigReaderFactory.getReader(TestConstants.TEST_CONFIG_FILE_PATH);
+        ConfigFile configFile = new ConfigFile("config", TestConstants.TEST_CONFIG_FILE_PATH, "json");
+        reader = ConfigReaderFactory.jsonConfigReader(configFile);
     }
 
     @Test
