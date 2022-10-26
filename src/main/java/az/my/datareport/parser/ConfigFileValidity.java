@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.Arrays;
 
 public class ConfigFileValidity {
-    private static final String[] SUPPORTED_CONFIG_FILE_EXTENSIONS = {FileExtension.JSON.fileType()};
+    private static final String[] SUPPORTED_CONFIG_FILE_EXTENSIONS = {FileExtension.JSON.name()};
 
     public static ConfigFile validateAndGet(String filePath) {
         File file = new File(filePath);

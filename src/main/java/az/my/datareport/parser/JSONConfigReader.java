@@ -1,9 +1,9 @@
 package az.my.datareport.parser;
 
 import az.my.datareport.ast.DataAST;
-import az.my.datareport.mapper.StringToEnumConverter;
-import az.my.datareport.model.FileReport;
+import az.my.datareport.converter.StringToEnumConverter;
 import az.my.datareport.model.ReportData;
+import az.my.datareport.model.ReportFile;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
 import az.my.datareport.scrape.WebScrapingService;
@@ -27,7 +27,7 @@ public class JSONConfigReader implements ConfigReader {
         ObjectMapper mapper = new ObjectMapper();
         try {
             JsonNode jsonNode = mapper.readTree(Paths.get(configFile.getFilepath()).toFile());
-            readReportFileProperties(jsonNode);
+            ReportFile reportFile = readReportFileProperties(jsonNode);
 
             JsonNode data = jsonNode.findValue("data");
             if (data == null || data.size() == 0) {
@@ -47,7 +47,7 @@ public class JSONConfigReader implements ConfigReader {
         }
     }
 
-    private FileReport readReportFileProperties(JsonNode jsonNode) {
+    private ReportFile readReportFileProperties(JsonNode jsonNode) {
         String title = jsonNode.get("title").asText();
         String exportedFile = jsonNode.get("exported_file").asText();
         String exportedFileExtension = jsonNode.get("exported_file_extension").asText();
@@ -55,18 +55,16 @@ public class JSONConfigReader implements ConfigReader {
         String filename = FileUtility.constructFilename(title);
 
         FileType fileType = StringToEnumConverter.convert(exportedFile, FileType.class);
-        if (fileType == null) {
-            throw new UnsupportedFileFormatException(exportedFile + " file format not supported!");
-        }
-
         FileExtension fileExtension = StringToEnumConverter.convert(exportedFileExtension, FileExtension.class);
-        if (fileExtension == null) {
-            throw new UnsupportedFileFormatException(exportedFile + " file extension not supported!");
-        }
 
         //TODO: check file type and file format are matched and they are appropriate
         // for example VALID: JSON - json, CSV - xlsx, INVALID: JSON - txt, CSV - json
 
-        return new FileReport(filename, fileType, fileExtension);
+        return new ReportFile.Builder()
+                .filename(filename)
+                .fileType(fileType)
+                .fileExtension(fileExtension)
+                .title(title)
+                .build();
     }
 }

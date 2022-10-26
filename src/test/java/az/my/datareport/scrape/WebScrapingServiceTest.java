@@ -29,7 +29,7 @@ class WebScrapingServiceTest {
     void collected_data_size_should_be_greater_than_zero() {
         WebScrapingService service = new WebScrapingService();
         List<ReportData> data = service.scrape(url, dataAST);
-        assertTrue(data.size() > 0);
+        data.forEach(d -> assertTrue(d.values().size() > 0));
     }
 
 }

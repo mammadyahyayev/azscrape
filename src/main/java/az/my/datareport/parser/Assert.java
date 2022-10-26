@@ -10,4 +10,10 @@ public final class Assert {
             throw new NullPointerException(message);
         }
     }
+
+    public static void required(Class<?> type, String message) {
+        if (type == null) {
+            throw new NullPointerException(message);
+        }
+    }
 }
