@@ -36,7 +36,7 @@ public class WebScrapingService {
         List<DataElement> elements = dataAST.getElements();
 
         for (DataElement element : elements) {
-            List<Object> values = fetchDateFromUrl(element.getSelector());
+            List<Object> values = fetchDataFromUrl(element.getSelector());
             ReportData reportData = new ReportData(element.getName(), values);
             reportDataList.add(reportData);
         }
@@ -44,7 +44,7 @@ public class WebScrapingService {
         return reportDataList;
     }
 
-    private List<Object> fetchDateFromUrl(String selector) {
+    private List<Object> fetchDataFromUrl(String selector) {
         try {
             return driver.findElements(By.cssSelector(selector))
                     .stream()
