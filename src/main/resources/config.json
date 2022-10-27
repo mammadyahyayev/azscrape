@@ -1,17 +1,20 @@
 {
   "title": "Github Search",
-  "exported_file": "CSV",
-  "exported_file_extension": "xlsx",
+  "exported_file_type": "CSV",
   "description": "Dummy Description",
-  "url": "https://github.com/search?q=java",
   "data": [
     {
-      "name": "title",
-      "selector": ".repo-list-item  .v-align-middle"
-    },
-    {
-      "name": "description",
-      "selector": ".repo-list-item  .mb-1"
+      "url": "https://github.com/search?q=java",
+      "elements": [
+        {
+          "name": "title",
+          "selector": ".repo-list-item  .v-align-middle"
+        },
+        {
+          "name": "description",
+          "selector": ".repo-list-item  .mb-1"
+        }
+      ]
     }
   ]
 }
