@@ -1,7 +1,34 @@
 {
-  "title": "Github Search",
-  "exported_file_type": "CSV",
+  "TitLe": "Github Search",
+  "exported-file-type": "CSV",
   "description": "Dummy Description",
+  "counTry": {
+    "cItY": "Baku",
+    "adDreSs": [
+      "Xatai",
+      "Koroglu",
+      "28May"
+    ],
+    "phOne": {
+      "postAlCoDe": [
+        {
+          "ID": "1",
+          "CoDe": "1000"
+        },
+        {
+          "ID": "3",
+          "CoDe": "1455"
+        }
+      ],
+      "hOmE": "0124444444",
+      "wOrk": "0553344444",
+      "adDreSS": [
+        "Xatai",
+        "Koroglu",
+        "28May"
+      ]
+    }
+  },
   "data": [
     {
       "url": "https://github.com/search?q=java",
