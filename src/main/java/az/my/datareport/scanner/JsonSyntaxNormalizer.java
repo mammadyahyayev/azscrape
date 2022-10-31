@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -24,28 +24,13 @@ public class JsonSyntaxNormalizer {
 
         while (fields.hasNext()) {
             Map.Entry<String, JsonNode> next = fields.next();
+            JsonNode jsonNode = next.getValue();
             String field = normalizeFieldDelimiter(next.getKey().toLowerCase());
-
-            if (next.getValue().isArray()) {
-                ArrayNode arrayFields = normalizeArrayFields(next.getValue());
-                objectNode.set(field, arrayFields);
-            } else if (next.getValue().isObject()) {
-                ObjectNode normalizedObjectNode = normalizeObjectFields(next.getValue());
-                objectNode.set(field, normalizedObjectNode);
-            } else {
-                objectNode.set(field, next.getValue());
-            }
+            jsonNode = JsonNodeFactoryNormalizer.normalizeNode(jsonNode);
+            objectNode.set(field, jsonNode);
         }
 
         return objectNode;
-    }
-
-    private static Map<String, JsonNode> normalizeField(String key, JsonNode node) {
-        //TODO: check field is required or not, throw exception if it is required, do nothing if it is optional
-
-        Map<String, JsonNode> field = new HashMap<>();
-        field.put(key, node);
-        return field;
     }
 
     private static String normalizeFieldDelimiter(String field) {
@@ -55,60 +40,38 @@ public class JsonSyntaxNormalizer {
     }
 
     private static ArrayNode normalizeArrayFields(JsonNode arrayNode) {
-        if (arrayNode instanceof ArrayNode) {
-            ArrayNode normalizedArrayNode = new ArrayNode(new JsonNodeFactory(false));
-            Iterator<JsonNode> elements = arrayNode.elements();
+        ArrayNode normalizedArrayNode = new ArrayNode(new JsonNodeFactory(false));
+        Iterator<JsonNode> elements = arrayNode.elements();
 
-            if (!elements.hasNext()) {
-                arrayNode.elements().forEachRemaining(normalizedArrayNode::add);
-                return normalizedArrayNode;
+        while (elements.hasNext()) {
+            JsonNode next = elements.next();
+            JsonNode normalizedNode;
+
+            if (next.isObject()) {
+                normalizedNode = normalize(next);
+            } else if (next.isArray()) {
+                normalizedNode = normalizeArrayFields(next);
+            } else {
+                normalizedArrayNode.add(next);
+                continue;
             }
 
-            while (elements.hasNext()) {
-                JsonNode next = elements.next();
-                if (next.isObject()) {
-                    ObjectNode objectNode = normalizeObjectFields(next);
-                    normalizedArrayNode.add(objectNode);
-                } else if (next.isArray()) {
-                    ArrayNode arrayFields = normalizeArrayFields(next);
-                    normalizedArrayNode.add(arrayFields);
-                } else {
-                    normalizedArrayNode.add(next);
-                }
-            }
-
-            return normalizedArrayNode;
+            normalizedArrayNode.add(normalizedNode);
         }
 
-        return null;
+        return normalizedArrayNode;
     }
 
-    private static ObjectNode normalizeObjectFields(JsonNode objectNode) {
-        if (objectNode instanceof ObjectNode) {
-            Iterator<Map.Entry<String, JsonNode>> fields = objectNode.fields();
-            ObjectNode newObjectNode = new ObjectNode(new JsonNodeFactory(false));
 
-            while (fields.hasNext()) {
-                Map.Entry<String, JsonNode> next = fields.next();
-                String field = normalizeFieldDelimiter(next.getKey().toLowerCase());
-                if (next.getValue().isObject()) {
-                    ObjectNode subNode = normalizeObjectFields(next.getValue());
-                    newObjectNode.set(field, subNode);
-                } else if (next.getValue().isArray()) {
-                    ArrayNode arrayFields = normalizeArrayFields(next.getValue());
-                    newObjectNode.set(field, arrayFields);
-                } else {
-                    newObjectNode.set(field, next.getValue());
-                }
+    static class JsonNodeFactoryNormalizer {
+        public static JsonNode normalizeNode(JsonNode jsonNode) {
+            if (jsonNode instanceof ArrayNode) {
+                return normalizeArrayFields(jsonNode);
+            } else if (jsonNode instanceof TextNode) {
+                return jsonNode;
             }
 
-            return newObjectNode;
+            return normalizeFields(jsonNode);
         }
-
-        return null;
     }
-
-    //TODO: normalize object fields which are inside of the array such as element, name, selector
-    //TODO: normalize fields which are inside of another object.
-
 }
