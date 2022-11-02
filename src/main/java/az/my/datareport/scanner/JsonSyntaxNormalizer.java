@@ -11,8 +11,19 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Used for resolve config file anomalies such as invalid case, invalid delimiter
+ */
 public class JsonSyntaxNormalizer {
 
+    private static final char FIELD_DELIMITER = '_';
+
+    /**
+     * Visits every field and normalize them
+     *
+     * @param jsonNode object contains json config fields
+     * @return normalized object node
+     */
     public static ObjectNode normalize(JsonNode jsonNode) {
         Objects.requireNonNull(jsonNode, "jsonNode cannot be null");
         return normalizeFields(jsonNode);
@@ -33,10 +44,17 @@ public class JsonSyntaxNormalizer {
         return objectNode;
     }
 
+    /**
+     * Replace any special character or separators in field names
+     * with supported field delimiter ( {@value FIELD_DELIMITER} ) {@link JsonSyntaxNormalizer#FIELD_DELIMITER}
+     *
+     * @param field field
+     * @return field with supported delimiter
+     */
     private static String normalizeFieldDelimiter(String field) {
         if (field == null || field.isEmpty()) return field;
 
-        return StringUtil.replaceAllSymbols(field, '_');
+        return StringUtil.replaceAllSymbols(field, FIELD_DELIMITER);
     }
 
     private static ArrayNode normalizeArrayFields(JsonNode arrayNode) {
