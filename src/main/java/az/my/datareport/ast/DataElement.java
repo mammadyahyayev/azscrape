@@ -1,8 +1,12 @@
 package az.my.datareport.ast;
 
 public class DataElement {
-    private final String name;
-    private final String selector;
+    private String name;
+    private String selector;
+
+    public DataElement() {
+
+    }
 
     public DataElement(String name, String selector) {
         this.name = name;
@@ -17,5 +21,11 @@ public class DataElement {
         return selector;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public void setSelector(String selector) {
+        this.selector = selector;
+    }
 }
