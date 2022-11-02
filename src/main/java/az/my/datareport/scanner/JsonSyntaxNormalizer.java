@@ -1,6 +1,6 @@
 package az.my.datareport.scanner;
 
-import az.my.datareport.parser.StringUtil;
+import az.my.datareport.utils.StringUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -54,7 +54,7 @@ public class JsonSyntaxNormalizer {
     private static String normalizeFieldDelimiter(String field) {
         if (field == null || field.isEmpty()) return field;
 
-        return StringUtil.replaceAllSymbols(field, FIELD_DELIMITER);
+        return StringUtils.replaceAllSymbols(field, FIELD_DELIMITER);
     }
 
     private static ArrayNode normalizeArrayFields(JsonNode arrayNode) {

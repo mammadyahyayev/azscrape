@@ -1,9 +1,9 @@
-package az.my.datareport.parser;
+package az.my.datareport.utils;
 
-public final class StringUtil {
+public final class StringUtils {
     private static final char[] SYMBOLS = {'.', ' ', '#', '$', '@', ',', '-', '_'};
 
-    private StringUtil() {
+    private StringUtils() {
 
     }
 

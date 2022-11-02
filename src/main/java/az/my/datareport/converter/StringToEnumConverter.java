@@ -1,6 +1,6 @@
 package az.my.datareport.converter;
 
-import az.my.datareport.parser.Assert;
+import az.my.datareport.utils.Assert;
 
 public class StringToEnumConverter {
 

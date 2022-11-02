@@ -1,4 +1,4 @@
-package az.my.datareport.parser;
+package az.my.datareport.utils;
 
 public final class Assert {
     private Assert() {
