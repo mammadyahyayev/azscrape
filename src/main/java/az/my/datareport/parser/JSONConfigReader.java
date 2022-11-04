@@ -6,14 +6,14 @@ import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
-import az.my.datareport.scrape.WebScrapingService;
+import az.my.datareport.scrape.WebScraper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.List;
 
+@Deprecated
 public class JSONConfigReader implements ConfigReader {
 
     private final ConfigFile configFile;
@@ -23,10 +23,10 @@ public class JSONConfigReader implements ConfigReader {
     }
 
     @Override
-    public void read() {
+    public List<ReportData> read() {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            JsonNode jsonNode = mapper.readTree(Paths.get(configFile.getFilepath()).toFile());
+            JsonNode jsonNode = mapper.readTree(FileUtility.getFile(configFile.getFilepath()));
             ReportFile reportFile = readReportFileProperties(jsonNode);
 
             JsonNode data = jsonNode.findValue("data");
@@ -40,8 +40,8 @@ public class JSONConfigReader implements ConfigReader {
             ASTParser astParser = new ASTParser();
             DataAST dataAST = astParser.parseJsonNode(data);
 
-            WebScrapingService service = new WebScrapingService();
-            List<ReportData> reportDataList = service.scrape(url, dataAST);
+            WebScraper service = new WebScraper();
+            return null;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

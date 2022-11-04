@@ -2,6 +2,7 @@ package az.my.datareport.parser;
 
 import az.my.datareport.ast.DataAST;
 import az.my.datareport.ast.DataElement;
+import az.my.datareport.utils.Assert;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Iterator;
@@ -19,7 +20,7 @@ public class ASTParser {
             Assert.required(selector, "selector");
 
             DataElement dataElement = new DataElement(name, selector);
-            dataAST.addChildDataElement(dataElement);
+//            dataAST.addChildDataElement(dataElement);
         }
 
         return dataAST;
