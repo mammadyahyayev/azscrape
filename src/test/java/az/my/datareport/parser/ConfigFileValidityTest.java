@@ -1,4 +1,4 @@
-package parser;
+package az.my.datareport.parser;
 
 import az.my.datareport.parser.ConfigFileValidity;
 import az.my.datareport.parser.UnsupportedFileFormatException;

@@ -1,13 +1,31 @@
 package az.my.datareport.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
+//TODO: reportDataElements is sensible variable, add helper methods
+// and remove setters
 public class ReportData {
-    private final String name;
-    private final List<Object> values; //TODO: replace this with Generics
+    private String url;
+    private List<ReportDataElement> reportDataElements = new ArrayList<>();
 
-    public ReportData(String name, List<Object> values) {
-        this.name = name;
-        this.values = values;
+    public ReportData() {
+
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public List<ReportDataElement> getReportDataElements() {
+        return reportDataElements;
+    }
+
+    public void setReportDataElements(List<ReportDataElement> reportDataElements) {
+        this.reportDataElements = new ArrayList<>(reportDataElements);
     }
 }
