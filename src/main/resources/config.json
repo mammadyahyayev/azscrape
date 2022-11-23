@@ -1,6 +1,7 @@
 {
-  "title": "Github Search",
-  "exported_file_type": "CSV",
+  "exported_file_name": "Github Search",
+  "exported_file_type": "EXCEL",
+  "exported_file_type_extension": "xlsx",
   "description": "Dummy Description",
   "data": [
     {
