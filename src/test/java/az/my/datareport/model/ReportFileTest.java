@@ -14,11 +14,9 @@ class ReportFileTest {
                 .filename("test")
                 .fileType(FileType.TEXT)
                 .fileExtension(FileExtension.TXT)
-                .title("Test")
                 .build();
 
         assertEquals("test", reportFile.getFilename());
-        assertEquals("Test", reportFile.getTitle());
         assertEquals(FileExtension.TXT, reportFile.getFileExtension());
         assertEquals(FileType.TEXT, reportFile.getFiletype());
     }

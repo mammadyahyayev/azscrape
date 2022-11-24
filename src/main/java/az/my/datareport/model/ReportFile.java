@@ -8,16 +8,14 @@ import java.time.LocalDateTime;
 public class ReportFile {
     private final String filename;
     private final FileType filetype;
-    private final String title;
     private FileExtension fileExtension;
     private final LocalDateTime createdAt = LocalDateTime.now();
 
 
-    private ReportFile(String filename, FileType filetype, FileExtension fileExtension, String title) {
+    private ReportFile(String filename, FileType filetype, FileExtension fileExtension) {
         this.filename = filename;
         this.filetype = filetype;
         this.fileExtension = fileExtension;
-        this.title = title;
     }
 
     public String getFilename() {
@@ -40,18 +38,13 @@ public class ReportFile {
         return createdAt;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
     public static class Builder {
         private String filename;
         private FileType filetype;
         private FileExtension fileExtension;
-        private String title;
 
         public ReportFile build() {
-            return new ReportFile(filename, filetype, fileExtension, title);
+            return new ReportFile(filename, filetype, fileExtension);
         }
 
         public Builder filename(String filename) {
@@ -68,12 +61,6 @@ public class ReportFile {
             this.fileExtension = extension;
             return this;
         }
-
-        public Builder title(String title) {
-            this.title = title;
-            return this;
-        }
-
     }
 
 }
