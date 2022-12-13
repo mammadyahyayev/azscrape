@@ -17,24 +17,20 @@ public class WebScraper implements Scraper {
     private static final Logger LOG = LoggerFactory.getLogger(WebScraper.class);
 
     @Override
-    public List<ReportData> scrape(DataAST dataAST) {
+    public ReportData scrape(DataAST dataAST) {
         Objects.requireNonNull(dataAST);
-        List<ReportData> reportDataList = new ArrayList<>();
 
-        List<DataNode> dataNodes = dataAST.getDataNodes();
-        for (DataNode dataNode : dataNodes) {
-            WebPage page = new WebPage(dataNode.getUrl());
-            page.connect();
+        DataNode dataNode = dataAST.getDataNode();
+        WebPage page = new WebPage(dataNode.getUrl());
+        page.connect();
 
-            List<ReportDataElement> elements = fetchDataFromUrl(page, dataNode.getElements());
+        List<ReportDataElement> elements = fetchDataFromUrl(page, dataNode.getElements());
 
-            ReportData reportData = new ReportData();
-            reportData.setUrl(dataNode.getUrl());
-            reportData.setReportDataElements(elements);
-            reportDataList.add(reportData);
-        }
+        ReportData reportData = new ReportData();
+        reportData.setUrl(dataNode.getUrl());
+        reportData.setReportDataElements(elements);
 
-        return reportDataList;
+        return reportData;
     }
 
     private List<ReportDataElement> fetchDataFromUrl(final WebPage page, final List<DataElement> elements) {

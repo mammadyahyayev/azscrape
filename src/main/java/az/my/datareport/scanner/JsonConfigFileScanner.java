@@ -3,6 +3,11 @@ package az.my.datareport.scanner;
 import az.my.datareport.ast.DataAST;
 import az.my.datareport.ast.DataNode;
 import az.my.datareport.config.ConfigFileException;
+import az.my.datareport.converter.StringToEnumConverter;
+import az.my.datareport.model.ReportFile;
+import az.my.datareport.model.enumeration.FileExtension;
+import az.my.datareport.model.enumeration.FileType;
+import az.my.datareport.parser.ConfigFile;
 import az.my.datareport.parser.ConfigNotValidException;
 import az.my.datareport.parser.FileUtility;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,13 +22,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 public class JsonConfigFileScanner implements ConfigFileScanner {
 
     private static final Logger LOG = LoggerFactory.getLogger(JsonConfigFileScanner.class);
 
     @Override
-    public DataAST read(String filePath) {
+    public DataAST readDataConfig(String filePath) {
         File file = FileUtility.getFile(filePath);
         if (file == null) {
             throw new ConfigFileException(new FileNotFoundException());
@@ -40,10 +46,6 @@ public class JsonConfigFileScanner implements ConfigFileScanner {
 
             //TODO: Implement a class that will check existence of required fields (or add a new method inside SyntaxNormalizer)
 
-            String title = objectNode.get("title").asText();
-            String description = objectNode.get("description").asText();
-            String fileType = objectNode.get("exported_file_type").asText();
-
             JsonNode data = objectNode.findValue("data");
             if (data == null || data.size() == 0) {
                 throw new ConfigFileException(new ConfigNotValidException("config file must contain 'data' field!"));
@@ -51,6 +53,42 @@ public class JsonConfigFileScanner implements ConfigFileScanner {
 
             AbstractTreeBuilder abstractTreeBuilder = new AbstractTreeBuilder(data);
             return abstractTreeBuilder.build();
+        } catch (IOException e) {
+            LOG.error("Can't read from file: " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ReportFile readFileConfig(ConfigFile configFile) {
+        Objects.requireNonNull(configFile);
+
+        File file = FileUtility.getFile(configFile.getFilepath());
+        if (file == null) {
+            throw new ConfigFileException(new FileNotFoundException());
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode jsonNode = mapper.readTree(file);
+            if (jsonNode == null || jsonNode instanceof MissingNode) {
+                throw new ConfigFileException("Content not found inside of the config file!");
+            }
+
+            ObjectNode objectNode = JsonSyntaxNormalizer.normalize(jsonNode);
+
+            String filename = objectNode.get("exported_file_name").asText();
+            String fileType = objectNode.get("exported_file_type").asText();
+            String fileExtension = objectNode.get("exported_file_type_extension").asText();
+
+            FileType type = StringToEnumConverter.convert(fileType, FileType.class);
+            FileExtension extension = StringToEnumConverter.convert(fileExtension, FileExtension.class);
+
+            return new ReportFile.Builder()
+                    .filename(filename)
+                    .fileType(type)
+                    .fileExtension(extension)
+                    .build();
         } catch (IOException e) {
             LOG.error("Can't read from file: " + e);
             throw new RuntimeException(e);
@@ -69,9 +107,9 @@ public class JsonConfigFileScanner implements ConfigFileScanner {
             ObjectMapper mapper = new ObjectMapper();
 
             try {
-                List<DataNode> dataNodes = mapper.readerFor(new TypeReference<List<DataNode>>() {
+                DataNode dataNode = mapper.readerFor(new TypeReference<DataNode>() {
                 }).readValue(node);
-                tree.setDataNodes(dataNodes);
+                tree.setDataNode(dataNode);
             } catch (IOException e) {
                 LOG.error("Conversion from node to POJO failed: " + e);
                 throw new RuntimeException(e);

@@ -1,21 +1,27 @@
 package az.my.datareport;
 
 import az.my.datareport.ast.DataAST;
+import az.my.datareport.exporter.ExcelExporter;
+import az.my.datareport.exporter.Exporter;
+import az.my.datareport.model.ReportData;
+import az.my.datareport.model.ReportFile;
 import az.my.datareport.parser.ConfigFile;
-import az.my.datareport.parser.ConfigFileValidity;
-import az.my.datareport.parser.UnsupportedFileFormatException;
+import az.my.datareport.parser.ConfigFileManager;
 import az.my.datareport.scanner.ConfigFileScanner;
 import az.my.datareport.scanner.JsonConfigFileScanner;
 import az.my.datareport.scrape.Scraper;
 import az.my.datareport.scrape.WebScraper;
 
+import java.io.File;
+
 public final class DataReportApplication {
 
-    private DataAST dataAST;
     private final Scraper scraper;
+    private final Exporter exporter;
 
     public DataReportApplication() {
         scraper = new WebScraper();
+        exporter = new ExcelExporter();
     }
 
     public void init(String configFilePath) {
@@ -23,20 +29,20 @@ public final class DataReportApplication {
             throw new NullPointerException("Please specify path of the config file!");
         }
 
-        ConfigFile configFile = ConfigFileValidity.validateAndGet(configFilePath);
-
-        switch (configFile.getFileExtension()) {
-            case "json":
-                ConfigFileScanner scanner = new JsonConfigFileScanner();
-                dataAST = scanner.read(configFilePath);
-            default:
-                assert false;
-                throw new UnsupportedFileFormatException(configFile.getFileExtension() + " is unsupported");
+        File file = new File(configFilePath);
+        if (!file.isFile() || !file.exists()) {
+            throw new IllegalArgumentException(String.format("File not found or path '%s' isn't refer to a file", configFilePath));
         }
-    }
 
-    private void tryToScrape() {
-        scraper.scrape(dataAST);
+        ConfigFileScanner scanner = new JsonConfigFileScanner();
+        DataAST dataAST = scanner.readDataConfig(configFilePath);
+
+        ConfigFileManager manager = new ConfigFileManager();
+        ConfigFile configFile = manager.getConfigFile(configFilePath);
+
+        ReportData reportData = scraper.scrape(dataAST);
+        ReportFile reportFile = scanner.readFileConfig(configFile);
+        exporter.export(reportFile, reportData);
     }
 
 }

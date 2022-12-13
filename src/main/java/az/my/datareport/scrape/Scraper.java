@@ -6,5 +6,5 @@ import az.my.datareport.model.ReportData;
 import java.util.List;
 
 public interface Scraper {
-    List<ReportData> scrape(DataAST dataAST);
+    ReportData scrape(DataAST dataAST);
 }

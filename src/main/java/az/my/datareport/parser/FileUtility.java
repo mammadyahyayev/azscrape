@@ -18,11 +18,20 @@ public final class FileUtility {
         return StringUtils.replaceAllSymbols(filename, FILE_NAME_DELIMITER);
     }
 
+    public static String constructFilename(String name, String extension) {
+        Assert.required(name, "name is required field");
+        Assert.required(extension, "extension is required field");
+
+        String filename = name.toLowerCase();
+        filename = StringUtils.replaceAllSymbols(filename, FILE_NAME_DELIMITER);
+        return filename + "." + extension;
+    }
+
     public static File getFile(String filepath) {
         Assert.required(filepath, "filepath is required to construct File object");
 
         File file = new File(filepath);
-        if(file.exists() && file.canRead()) {
+        if (file.exists() && file.canRead()) {
             return file;
         }
 

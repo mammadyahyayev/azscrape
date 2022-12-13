@@ -29,22 +29,17 @@ class WebScraperTest {
         dataNode.setElements(List.of(dataElement, dataElement2));
 
         dataAST = new DataAST();
-        dataAST.setDataNodes(List.of(dataNode));
+        dataAST.setDataNode(dataNode);
     }
 
     @Test
     void collected_data_size_should_be_greater_than_zero() {
         Scraper scraper = new WebScraper();
-        List<ReportData> reportDataList = scraper.scrape(dataAST);
+        ReportData reportData = scraper.scrape(dataAST);
 
-        assertNotNull(reportDataList);
-        reportDataList.forEach(reportData -> {
-            assertTrue(reportData.getReportDataElements().size() > 0);
-
-            reportData.getReportDataElements().forEach((element) -> {
-                assertTrue(element.values().size() > 0);
-            });
-        });
+        assertNotNull(reportData);
+        assertTrue(reportData.getReportDataElements().size() > 0);
+        reportData.getReportDataElements().forEach((element) -> assertTrue(element.values().size() > 0));
     }
 
 }
