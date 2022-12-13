@@ -21,4 +21,12 @@ public class ReportDataElement {
     public List<String> values() {
         return new ArrayList<>(values);
     }
+
+    @Override
+    public String toString() {
+        return "ReportDataElement{" +
+                "name='" + name + '\'' +
+                ", values=" + String.join(",", values) +
+                '}';
+    }
 }

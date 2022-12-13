@@ -3,19 +3,17 @@
   "exported_file_type": "EXCEL",
   "exported_file_type_extension": "xlsx",
   "description": "Dummy Description",
-  "data": [
-    {
-      "url": "https://github.com/search?q=java",
-      "elements": [
-        {
-          "name": "title",
-          "selector": ".repo-list-item  .v-align-middle"
-        },
-        {
-          "name": "description",
-          "selector": ".repo-list-item  .mb-1"
-        }
-      ]
-    }
-  ]
+  "data": {
+    "url": "https://github.com/search?q=java",
+    "elements": [
+      {
+        "name": "title",
+        "selector": ".repo-list-item  .v-align-middle"
+      },
+      {
+        "name": "description",
+        "selector": ".repo-list-item  .mb-1"
+      }
+    ]
+  }
 }

@@ -1,16 +1,13 @@
 package az.my.datareport.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DataAST {
-    private List<DataNode> dataNodes = new ArrayList<>();
+    private DataNode dataNode;
 
-    public List<DataNode> getDataNodes() {
-        return new ArrayList<>(dataNodes);
+    public DataNode getDataNode() {
+        return dataNode;
     }
 
-    public void setDataNodes(List<DataNode> dataNodes) {
-        this.dataNodes = dataNodes;
+    public void setDataNode(DataNode dataNode) {
+        this.dataNode = dataNode;
     }
 }
