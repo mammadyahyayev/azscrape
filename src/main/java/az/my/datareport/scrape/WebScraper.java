@@ -29,6 +29,8 @@ public class WebScraper implements Scraper {
         ReportData reportData = new ReportData();
         reportData.setReportDataElements(elements);
 
+        page.disconnect();
+
         return reportData;
     }
 

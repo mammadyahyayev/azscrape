@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeDriverLogLevel;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +24,9 @@ public class WebPage {
 
     static {
         WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setLogLevel(ChromeDriverLogLevel.OFF);
+        driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
     }
 
@@ -38,8 +42,15 @@ public class WebPage {
             isConnected = true;
         } catch (Exception e) {
             LOG.error("Couldn't connect to webpage with url: [ " + url + " ]");
-            isConnected = false;
+            disconnect();
             throw new InternetConnectionException("Problem to connect to webpage, check your internet connection!", e);
+        }
+    }
+
+    public void disconnect() {
+        if (isConnected) {
+            driver.quit();
+            isConnected = false;
         }
     }
 
