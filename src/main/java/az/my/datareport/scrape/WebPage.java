@@ -39,7 +39,7 @@ public class WebPage {
         } catch (Exception e) {
             LOG.error("Couldn't connect to webpage with url: [ " + url + " ]");
             isConnected = false;
-            throw new RuntimeException("Problem to connect to webpage, check your internet connection!", e);
+            throw new InternetConnectionException("Problem to connect to webpage, check your internet connection!", e);
         }
     }
 

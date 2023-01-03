@@ -27,7 +27,6 @@ public class WebScraper implements Scraper {
         List<ReportDataElement> elements = fetchDataFromUrl(page, dataNode.getElements());
 
         ReportData reportData = new ReportData();
-        reportData.setUrl(dataNode.getUrl());
         reportData.setReportDataElements(elements);
 
         return reportData;

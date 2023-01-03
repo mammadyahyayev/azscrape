@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 class ExcelExporterTest {
 
@@ -41,16 +41,16 @@ class ExcelExporterTest {
     @Test
     void testConstructReportFile_whenDirectoryPathGiven_constructAndReturnFile() {
         //given
-        String directory = "C:\\Users\\User\\Desktop\\test-report";
+        String directory = "C:/Users/User/Desktop/test-report";
         String expectedFileName = "github_search.xlsx";
-        String expectedFilePath = directory + File.separator + expectedFileName;
+        String expectedFilePath = directory + "/" + expectedFileName;
 
         //when
         File file = exporter.constructReportFile(directory, reportFile);
 
         //then
         assertEquals(expectedFileName, file.getName());
-        assertEquals(expectedFilePath, file.getAbsolutePath());
+        assertEquals(expectedFilePath, file.toPath());
     }
 
 
@@ -74,14 +74,13 @@ class ExcelExporterTest {
     void testExport_whenGivingReportDataColumns_thenWriteThemIntoExcelFile() {
         String path = "C:\\Users\\User\\Desktop\\data-report\\src\\main\\resources\\github_search.xlsx";
         ReportData reportData = new ReportData();
-        reportData.setUrl(null);
         ReportDataElement title = new ReportDataElement("title", List.of("Java9", "Java11", "Java8"));
         ReportDataElement description = new ReportDataElement("description", List.of("Desc Java9", "Desc Java11", "Desc Java8"));
         reportData.setReportDataElements(List.of(title, description));
 
         File expectedFile = new File(path);
 
-        ExcelExporter mock = org.mockito.Mockito.mock(ExcelExporter.class);
+        ExcelExporter mock = mock(ExcelExporter.class);
 
         Mockito.when(mock.constructReportFile(reportFile)).thenReturn(expectedFile);
 

@@ -24,6 +24,7 @@ import java.util.Objects;
 public class ExcelExporter implements Exporter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExcelExporter.class);
+    private static final String RESOURCE_DIR = "/src/main/resources";
 
     @Override
     public void export(ReportFile reportFile, ReportData reportData) {
@@ -47,23 +48,38 @@ public class ExcelExporter implements Exporter {
 
     private void createHeaders(Sheet sheet, ReportData reportData) {
         Row headerRow = sheet.createRow(0);
-        for (int i = 0; i < reportData.getReportDataElements().size(); i++) {
-            headerRow.createCell(i, CellType.STRING).setCellValue(reportData.getReportDataElements().get(i).getName());
+        List<ReportDataElement> reportDataElements = reportData.getReportDataElements();
+
+        int column = 0;
+        for (ReportDataElement element : reportDataElements) {
+            headerRow.createCell(column++, CellType.STRING).setCellValue(element.getName());
         }
     }
 
     private void createValues(Sheet sheet, ReportData reportData) {
         List<ReportDataElement> reportDataElements = reportData.getReportDataElements();
-        for (int i = 0; i < reportDataElements.size(); i++) {
-            for (int j = 0; j < reportDataElements.get(i).values().size(); j++) {
-                Row valueRow = sheet.getRow(j + 1);
-                if (valueRow == null) {
-                    valueRow = sheet.createRow(j + 1);
-                }
-
-                valueRow.createCell(i, CellType.STRING).setCellValue(reportDataElements.get(i).values().get(j));
+        int column = 0;
+        for (ReportDataElement dataElement : reportDataElements) {
+            int row = 0;
+            for (String value : dataElement.values()) {
+                Row valueRow = createOrGetRow(sheet, row++);
+                valueRow.createCell(column, CellType.STRING).setCellValue(value);
             }
+            column++;
         }
+    }
+
+    /**
+     * @param sheet  sheet of the Excel file
+     * @param rowNum Zero based row number, first row number is 0
+     * @return row if it exists, or create
+     */
+    private Row createOrGetRow(Sheet sheet, int rowNum) {
+        Row row = sheet.getRow(rowNum + 1);
+        if (row == null) {
+            row = sheet.createRow(rowNum + 1);
+        }
+        return row;
     }
 
     @Override
@@ -76,7 +92,7 @@ public class ExcelExporter implements Exporter {
 
         String filename = FileUtility.constructFilename(reportFile.getFilename());
         String extension = reportFile.getFileExtension().name().toLowerCase();
-        String filepath = directoryPath + File.separator + filename + "." + extension;
+        String filepath = directoryPath + "/" + filename + "." + extension;
 
         return fileManager.constructFile(filepath);
     }
@@ -84,7 +100,7 @@ public class ExcelExporter implements Exporter {
     @Override
     public File constructReportFile(ReportFile reportFile) {
         String currDir = System.getProperty("user.dir");
-        String directory = currDir + "/src/main/resources";
+        String directory = currDir + RESOURCE_DIR;
         return constructReportFile(directory, reportFile);
     }
 
