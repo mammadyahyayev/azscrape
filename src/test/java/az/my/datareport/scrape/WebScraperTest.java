@@ -3,6 +3,7 @@ package az.my.datareport.scrape;
 import az.my.datareport.ast.DataAST;
 import az.my.datareport.ast.DataElement;
 import az.my.datareport.ast.DataNode;
+import az.my.datareport.ast.DataParent;
 import az.my.datareport.model.ReportData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,12 +22,16 @@ class WebScraperTest {
 
     @BeforeEach
     public void setUp() {
-        DataElement dataElement = new DataElement("title", ".repo-list-item  .v-align-middle");
-        DataElement dataElement2 = new DataElement("description", ".repo-list-item  .mb-1");
+        DataParent parent = new DataParent();
+        parent.setSelector(".repo-list-item");
+
+        DataElement dataElement = new DataElement("title", ".v-align-middle");
+        DataElement dataElement2 = new DataElement("description", ".mb-1");
+        parent.setChildren(List.of(dataElement, dataElement2));
 
         DataNode dataNode = new DataNode();
         dataNode.setUrl(url);
-        dataNode.setElements(List.of(dataElement, dataElement2));
+        dataNode.setParent(parent);
 
         dataAST = new DataAST();
         dataAST.setDataNode(dataNode);
@@ -38,8 +43,10 @@ class WebScraperTest {
         ReportData reportData = scraper.scrape(dataAST);
 
         assertNotNull(reportData);
-        assertTrue(reportData.getReportDataElements().size() > 0);
-        reportData.getReportDataElements().forEach((element) -> assertTrue(element.values().size() > 0));
+        assertTrue(reportData.getReportParentElements().size() > 0);
+        reportData.getReportParentElements().forEach(parent -> {
+            assertTrue(parent.getReportDataElements().size() > 0);
+        });
     }
 
 }

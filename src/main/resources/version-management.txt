@@ -1,13 +1,28 @@
 Version 1.0.1
-- Disable Selenium logging
+- Disable Selenium logging ✅
 - Write test methods for platform specific
 - Test this application from other application
 - Generate maven dependency for the project
-- Problem: Shifted Values
+- Problem: Shifted Values ✅
 Description:
 When fetching from the website, there are some empty values for fields, empty values are ignored and row values
 are shifted above. That leads to incorrect values for rows.
+Problem happens because of the Selenium fetching, if there is no selector for it, Selenium ignore them.
 
 Solution:
+Direct fetching avoided. In order to get all elements in the list, firstly all list elements need to fetch.
+Then child elements can be obtained from the parent elements. There is a possibility that some child elements cannot be existed for
+particular parent element. Problem fixed by adding new layer called DataParent
+
+New config file structure
+data
+ |
+ ---- parent
+        |
+        ---- selector for parent -
+        ---- children
+                |
+                ---- name
+                ---- selector
 
 

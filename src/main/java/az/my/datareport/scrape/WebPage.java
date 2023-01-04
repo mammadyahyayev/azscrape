@@ -54,7 +54,7 @@ public class WebPage {
         }
     }
 
-    public List<String> fetchElements(String cssSelector) {
+    public List<String> fetchElementsAsText(String cssSelector) {
         if (!isConnected) {
             connect();
         }
@@ -66,6 +66,54 @@ public class WebPage {
                     .map(WebElement::getText).collect(Collectors.toList());
         } catch (Exception e) {
             LOG.error("Unknown error happened");
+        }
+
+        return elements;
+    }
+
+    public List<String> fetchElementsAsText(String cssSelector, WebElement webElement) {
+        if (!isConnected) {
+            connect();
+        }
+
+        List<String> elements = new ArrayList<>();
+        try {
+            elements = webElement.findElements(By.cssSelector(cssSelector))
+                    .stream()
+                    .map(WebElement::getText).collect(Collectors.toList());
+        } catch (Exception e) {
+            LOG.error("Unknown error happened: " + e);
+        }
+
+        return elements;
+    }
+
+    public String fetchElementAsText(String cssSelector, WebElement webElement) {
+        if (!isConnected) {
+            connect();
+        }
+
+        String text;
+        try {
+            text = webElement.findElement(By.cssSelector(cssSelector)).getText();
+        } catch (Exception e) {
+            LOG.error("Unknown error happened: " + e);
+            text = "";
+        }
+
+        return text;
+    }
+
+    public List<WebElement> fetchWebElements(String cssSelector) {
+        if (!isConnected) {
+            connect();
+        }
+
+        List<WebElement> elements = new ArrayList<>();
+        try {
+            elements = new ArrayList<>(driver.findElements(By.cssSelector(cssSelector)));
+        } catch (Exception e) {
+            LOG.error("Unknown error happened: " + e);
         }
 
         return elements;

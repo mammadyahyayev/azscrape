@@ -2,6 +2,7 @@ package az.my.datareport.exporter;
 
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
+import az.my.datareport.model.ReportDataParent;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -38,19 +40,20 @@ class ExcelExporterTest {
         fileManager = new FileManager();
     }
 
+    //TODO: Add rule for OS specific
     @Test
     void testConstructReportFile_whenDirectoryPathGiven_constructAndReturnFile() {
         //given
-        String directory = "C:/Users/User/Desktop/test-report";
+        Path directory = Path.of("C:", "Users", "User", "Desktop", "test-report");
         String expectedFileName = "github_search.xlsx";
-        String expectedFilePath = directory + "/" + expectedFileName;
+        String expectedFilePath = Path.of(directory.toString(), expectedFileName).toString();
 
         //when
-        File file = exporter.constructReportFile(directory, reportFile);
+        File file = exporter.constructReportFile(directory.toString(), reportFile);
 
         //then
         assertEquals(expectedFileName, file.getName());
-        assertEquals(expectedFilePath, file.toPath());
+        assertEquals(expectedFilePath, file.getAbsolutePath());
     }
 
 
@@ -58,35 +61,55 @@ class ExcelExporterTest {
     @Test
     void testConstructReportFile_whenAppDirectoryPathGiven_constructAndReturnFile() {
         //given
-        String directory = System.getProperty("user.dir") + File.separator + "src\\main\\resources";
+        Path directory = Path.of(System.getProperty("user.dir"), "src", "main", "resources");
         String expectedFileName = "github_search.xlsx";
-        String expectedFilePath = directory + "\\" + expectedFileName;
+        Path expectedFilePath = Path.of(directory.toString(), expectedFileName);
 
         // when
         File file = exporter.constructReportFile(reportFile);
 
         // then
         assertEquals(expectedFileName, file.getName());
-        assertEquals(expectedFilePath, file.getAbsolutePath());
+        assertEquals(expectedFilePath.toString(), file.getAbsolutePath());
     }
 
     @Test
     void testExport_whenGivingReportDataColumns_thenWriteThemIntoExcelFile() {
-        String path = "C:\\Users\\User\\Desktop\\data-report\\src\\main\\resources\\github_search.xlsx";
+        //given
+        Path path = Path.of(System.getProperty("user.dir"), "src", "main", "resources", "github_search.xlsx");
+
         ReportData reportData = new ReportData();
-        ReportDataElement title = new ReportDataElement("title", List.of("Java9", "Java11", "Java8"));
-        ReportDataElement description = new ReportDataElement("description", List.of("Desc Java9", "Desc Java11", "Desc Java8"));
-        reportData.setReportDataElements(List.of(title, description));
 
-        File expectedFile = new File(path);
+        ReportDataParent parent = new ReportDataParent();
+        ReportDataElement titleJava9 = new ReportDataElement("title", "Java9");
+        ReportDataElement descJava9 = new ReportDataElement("description", "Desc Java9");
+        parent.setReportDataElements(List.of(titleJava9, descJava9));
 
+        ReportDataParent parent2 = new ReportDataParent();
+        ReportDataElement titleJava8 = new ReportDataElement("title", "Java8");
+        ReportDataElement descJava8 = new ReportDataElement("description", "Desc Java8");
+        parent2.setReportDataElements(List.of(titleJava8, descJava8));
+
+        ReportDataParent parent3 = new ReportDataParent();
+        ReportDataElement titleJava7 = new ReportDataElement("title", "Java7");
+        ReportDataElement descJava7 = new ReportDataElement("description", "");
+        parent3.setReportDataElements(List.of(titleJava7, descJava7));
+
+        ReportDataParent parent4 = new ReportDataParent();
+        ReportDataElement titleJava6 = new ReportDataElement("title", "");
+        ReportDataElement descJava6 = new ReportDataElement("description", "Desc Java6");
+        parent4.setReportDataElements(List.of(titleJava6, descJava6));
+
+        reportData.setReportParentElements(List.of(parent, parent2, parent3, parent4));
+
+        //when
+        File expectedFile = new File(path.toString());
         ExcelExporter mock = mock(ExcelExporter.class);
-
         Mockito.when(mock.constructReportFile(reportFile)).thenReturn(expectedFile);
-
         exporter.export(reportFile, reportData);
 
-        File file = new File(path);
+        //then
+        File file = new File(path.toString());
         assertTrue(file.exists());
     }
 }

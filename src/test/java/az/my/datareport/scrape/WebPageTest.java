@@ -20,14 +20,14 @@ class WebPageTest {
     @Test
     void should_return_empty_list_for_given_invalid_selector() {
         WebPage page = new WebPage(URL);
-        List<String> strings = page.fetchElements("invalid selector");
+        List<String> strings = page.fetchElementsAsText("invalid selector");
         assertEquals(0, strings.size());
     }
 
     @Test
     void should_not_equal_to_empty_list_for_true_selector() {
         WebPage page = new WebPage(URL);
-        List<String> strings = page.fetchElements(".repo-list-item  .v-align-middle");
+        List<String> strings = page.fetchElementsAsText(".repo-list-item  .v-align-middle");
         assertNotEquals(0, strings.size());
     }
 

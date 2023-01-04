@@ -3,6 +3,7 @@ package az.my.datareport.exporter;
 import az.my.datareport.DataReportAppException;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
+import az.my.datareport.model.ReportDataParent;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.parser.FileUtility;
 import az.my.datareport.utils.Assert;
@@ -20,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class ExcelExporter implements Exporter {
 
@@ -48,24 +50,28 @@ public class ExcelExporter implements Exporter {
 
     private void createHeaders(Sheet sheet, ReportData reportData) {
         Row headerRow = sheet.createRow(0);
-        List<ReportDataElement> reportDataElements = reportData.getReportDataElements();
+        List<ReportDataParent> reportParentElements = reportData.getReportParentElements();
 
-        int column = 0;
-        for (ReportDataElement element : reportDataElements) {
-            headerRow.createCell(column++, CellType.STRING).setCellValue(element.getName());
+        Optional<ReportDataParent> first = reportParentElements.stream().findFirst();
+        if (first.isPresent()) {
+            ReportDataParent parent = first.get();
+            int column = 0;
+            for (ReportDataElement element : parent.getReportDataElements()) {
+                headerRow.createCell(column++, CellType.STRING).setCellValue(element.getName());
+            }
         }
     }
 
     private void createValues(Sheet sheet, ReportData reportData) {
-        List<ReportDataElement> reportDataElements = reportData.getReportDataElements();
-        int column = 0;
-        for (ReportDataElement dataElement : reportDataElements) {
-            int row = 0;
-            for (String value : dataElement.values()) {
-                Row valueRow = createOrGetRow(sheet, row++);
-                valueRow.createCell(column, CellType.STRING).setCellValue(value);
+        List<ReportDataParent> parentElements = reportData.getReportParentElements();
+        int row = 0;
+        for (ReportDataParent parentElement : parentElements) {
+            int column = 0;
+            for (ReportDataElement element : parentElement.getReportDataElements()) {
+                Row valueRow = createOrGetRow(sheet, row);
+                valueRow.createCell(column++, CellType.STRING).setCellValue(element.getValue());
             }
-            column++;
+            row++;
         }
     }
 
