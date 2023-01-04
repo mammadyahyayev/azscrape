@@ -1,22 +1,11 @@
 package az.my.datareport.ast;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DataNode {
     private String url;
-    private List<DataElement> elements = new ArrayList<>();
+    private DataParent parent;
 
     public DataNode() {
 
-    }
-
-    public List<DataElement> getElements() {
-        return new ArrayList<>(elements);
-    }
-
-    public void setElements(List<DataElement> elements) {
-        this.elements = elements;
     }
 
     public String getUrl() {
@@ -25,5 +14,17 @@ public class DataNode {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public DataParent getParent() {
+        return parent;
+    }
+
+    public void setParent(DataParent parent) {
+        this.parent = parent;
+    }
+
+    public String getParentSelector() {
+        return this.parent.getSelector();
     }
 }

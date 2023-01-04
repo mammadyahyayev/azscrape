@@ -1,32 +1,29 @@
 package az.my.datareport.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //TODO: values is sensible variable, add helper methods
 // and remove setters
 public class ReportDataElement {
     private final String name;
-    private final List<String> values; //TODO: replace this with Generics
+    private final String value;
 
-    public ReportDataElement(String name, List<String> values) {
+    public ReportDataElement(String name, String value) {
         this.name = name;
-        this.values = values;
+        this.value = value;
     }
 
     public String getName() {
         return name;
     }
 
-    public List<String> values() {
-        return new ArrayList<>(values);
+    public String getValue() {
+        return value;
     }
 
     @Override
     public String toString() {
         return "ReportDataElement{" +
                 "name='" + name + '\'' +
-                ", values=" + String.join(",", values) +
+                ", value='" + value + '\'' +
                 '}';
     }
 }

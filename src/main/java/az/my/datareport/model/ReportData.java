@@ -6,17 +6,17 @@ import java.util.List;
 //TODO: reportDataElements is sensible variable, add helper methods
 // and remove setters
 public class ReportData {
-    private List<ReportDataElement> reportDataElements = new ArrayList<>();
+    private List<ReportDataParent> reportParentElements = new ArrayList<>();
 
     public ReportData() {
 
     }
 
-    public List<ReportDataElement> getReportDataElements() {
-        return reportDataElements;
+    public List<ReportDataParent> getReportParentElements() {
+        return reportParentElements;
     }
 
-    public void setReportDataElements(List<ReportDataElement> reportDataElements) {
-        this.reportDataElements = new ArrayList<>(reportDataElements);
+    public void setReportParentElements(List<ReportDataParent> reportParentElements) {
+        this.reportParentElements = new ArrayList<>(reportParentElements);
     }
 }

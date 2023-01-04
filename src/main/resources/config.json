@@ -5,15 +5,18 @@
   "description": "Dummy Description",
   "data": {
     "url": "https://github.com/search?q=java",
-    "elements": [
-      {
-        "name": "title",
-        "selector": ".repo-list-item  .v-align-middle"
-      },
-      {
-        "name": "description",
-        "selector": ".repo-list-item  .mb-1"
-      }
-    ]
+    "parent": {
+      "selector": ".repo-list-item",
+      "children": [
+        {
+          "name": "title",
+          "selector": ".v-align-middle"
+        },
+        {
+          "name": "description",
+          "selector": ".mb-1"
+        }
+      ]
+    }
   }
 }
