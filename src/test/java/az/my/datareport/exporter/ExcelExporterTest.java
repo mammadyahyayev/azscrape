@@ -10,6 +10,8 @@ import az.my.datareport.utils.FileManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.mockito.Mockito;
 
 import java.io.File;
@@ -40,8 +42,8 @@ class ExcelExporterTest {
         fileManager = new FileManager();
     }
 
-    //TODO: Add rule for OS specific
     @Test
+    @EnabledOnOs({OS.WINDOWS})
     void testConstructReportFile_whenDirectoryPathGiven_constructAndReturnFile() {
         //given
         Path directory = Path.of("C:", "Users", "User", "Desktop", "test-report");
