@@ -165,3 +165,6 @@ docs/*.docx
 
 # Design of the system
 *.drawio
+
+# Application Logs
+logs
