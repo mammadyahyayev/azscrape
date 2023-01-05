@@ -19,14 +19,14 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class ExcelExporter implements Exporter {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExcelExporter.class);
-    private static final String RESOURCE_DIR = "/src/main/resources";
+    private static final Path RESOURCE_DIR = Path.of("src", "main", "resources");
 
     @Override
     public void export(ReportFile reportFile, ReportData reportData) {
@@ -52,11 +52,10 @@ public class ExcelExporter implements Exporter {
         Row headerRow = sheet.createRow(0);
         List<ReportDataParent> reportParentElements = reportData.getReportParentElements();
 
-        Optional<ReportDataParent> first = reportParentElements.stream().findFirst();
-        if (first.isPresent()) {
-            ReportDataParent parent = first.get();
+        ReportDataParent first = reportParentElements.get(0);
+        if (first != null && first.getReportDataElements().size() > 0) {
             int column = 0;
-            for (ReportDataElement element : parent.getReportDataElements()) {
+            for (ReportDataElement element : first.getReportDataElements()) {
                 headerRow.createCell(column++, CellType.STRING).setCellValue(element.getName());
             }
         }
@@ -98,16 +97,17 @@ public class ExcelExporter implements Exporter {
 
         String filename = FileUtility.constructFilename(reportFile.getFilename());
         String extension = reportFile.getFileExtension().name().toLowerCase();
-        String filepath = directoryPath + "/" + filename + "." + extension;
+        Path filepath = Path.of(directoryPath, filename + "." + extension);
 
-        return fileManager.constructFile(filepath);
+        return fileManager.constructFile(filepath.toString());
     }
 
     @Override
     public File constructReportFile(ReportFile reportFile) {
         String currDir = System.getProperty("user.dir");
-        String directory = currDir + RESOURCE_DIR;
-        return constructReportFile(directory, reportFile);
+        Path directory = Path.of(currDir, RESOURCE_DIR.toString());
+        LOG.info("Constructed path for report file [ " + directory + " ]");
+        return constructReportFile(directory.toString(), reportFile);
     }
 
 }

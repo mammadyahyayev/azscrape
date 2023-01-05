@@ -2,10 +2,12 @@ package az.my.datareport.parser;
 
 import az.my.datareport.config.ConfigFileException;
 import az.my.datareport.model.enumeration.ConfigFileExtension;
+import az.my.datareport.utils.Assert;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
 
 public class ConfigFileManager {
 
@@ -34,4 +36,18 @@ public class ConfigFileManager {
         return new ConfigFile(filename, path, extension);
     }
 
+    /**
+     * Returns ConfigFile object with given path
+     *
+     * @param path config file path
+     * @return ConfigFile object
+     * @throws FileNotFoundException          if file doesn't exist
+     * @throws UnsupportedFileFormatException if extension of the config file path isn't supported
+     * @see ConfigFileExtension
+     * @see ConfigFile
+     */
+    public ConfigFile getConfigFile(Path path) {
+        Assert.required(path, "Path cannot be empty or null");
+        return getConfigFile(path.toString());
+    }
 }

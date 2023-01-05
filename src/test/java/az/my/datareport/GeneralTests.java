@@ -1,6 +1,8 @@
 package az.my.datareport;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -32,6 +34,7 @@ public class GeneralTests {
     }
 
     @Test
+    @EnabledOnOs({OS.WINDOWS})
     void testSystemGetProperty_whenUserDirGiven_returnAppDirectory() {
         String currentDir = System.getProperty("user.dir");
         String expected = "C:\\Users\\User\\Desktop\\data-report";

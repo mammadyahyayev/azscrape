@@ -1,5 +1,6 @@
 package az.my.datareport.exporter;
 
+import az.my.datareport.constant.TestConstants;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
@@ -63,7 +64,7 @@ class ExcelExporterTest {
     @Test
     void testConstructReportFile_whenAppDirectoryPathGiven_constructAndReturnFile() {
         //given
-        Path directory = Path.of(System.getProperty("user.dir"), "src", "main", "resources");
+        Path directory = TestConstants.MAIN_RESOURCES;
         String expectedFileName = "github_search.xlsx";
         Path expectedFilePath = Path.of(directory.toString(), expectedFileName);
 
@@ -78,7 +79,7 @@ class ExcelExporterTest {
     @Test
     void testExport_whenGivingReportDataColumns_thenWriteThemIntoExcelFile() {
         //given
-        Path path = Path.of(System.getProperty("user.dir"), "src", "main", "resources", "github_search.xlsx");
+        Path path = Path.of(TestConstants.MAIN_RESOURCES.toString(), "github_search.xlsx");
 
         ReportData reportData = new ReportData();
 

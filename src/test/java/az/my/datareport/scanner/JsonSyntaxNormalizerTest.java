@@ -1,5 +1,6 @@
 package az.my.datareport.scanner;
 
+import az.my.datareport.constant.TestConstants;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -17,7 +18,7 @@ class JsonSyntaxNormalizerTest {
     void should_return_normalized_keys() {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            JsonNode jsonNode = mapper.readTree(new File("C:\\Users\\User\\Desktop\\data-report\\src\\test\\resources\\test-config.json"));
+            JsonNode jsonNode = mapper.readTree(new File(TestConstants.TEST_CONFIG_FILE_PATH.toString()));
             ObjectNode node = JsonSyntaxNormalizer.normalize(jsonNode);
             assertNull(node.get("TitLe"));
             assertNotNull(node.get("title"));

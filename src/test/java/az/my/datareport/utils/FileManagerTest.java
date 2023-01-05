@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FileManagerTest {
 
-    final static String TEST_FILE_PATH = "src/test/resources/test.json";
+    final static Path TEST_FILE_PATH = Path.of("src", "test", "resources", "test.json");
     FileManager manager;
 
     @BeforeEach
@@ -27,16 +28,16 @@ class FileManagerTest {
 
     @Test
     void testConstructDirectory_whenExistPathGiven_returnFolderWithGivenPath() {
-        String path = "src/test/resources";
-        File expected = new File(path);
-        File actual = manager.constructDirectory(path);
+        Path path = Path.of("src", "test", "resources");
+        File expected = new File(path.toString());
+        File actual = manager.constructDirectory(path.toString());
         assertEquals(expected.getAbsolutePath(), actual.getAbsolutePath());
     }
 
     @Test
     void testConstructDirectory_whenFileGiven_throwException() throws IOException {
         createTestFile();
-        assertThrows(DataReportAppException.class, () -> manager.constructDirectory(TEST_FILE_PATH));
+        assertThrows(DataReportAppException.class, () -> manager.constructDirectory(TEST_FILE_PATH.toString()));
     }
 
     @ParameterizedTest
@@ -49,9 +50,11 @@ class FileManagerTest {
     }
 
     private static Stream<Arguments> nonExistentDirectoryPaths() {
+        Path testPath1 = Path.of("src", "test", "resources", "images");
+        Path testPath2 = Path.of("src", "test", "resources", "images2", "new");
         return Stream.of(
-                Arguments.of("src/test/resources/images"),
-                Arguments.of("src/test/resources/images2/new")
+                Arguments.of(testPath1),
+                Arguments.of(testPath2)
         );
     }
 
@@ -64,22 +67,22 @@ class FileManagerTest {
 
     @Test
     void testConstructFile_whenDirectoryPathGiven_throwException() {
-        String path = "src/test/resources";
-        String message = assertThrows(DataReportAppException.class, () -> manager.constructFile(path)).getMessage();
+        Path path = Path.of("src", "test", "resources");
+        String message = assertThrows(DataReportAppException.class, () -> manager.constructFile(path.toString())).getMessage();
         String expected = "Given path [ " + path + " ] isn't file!";
         assertEquals(expected, message);
     }
 
     @Test
     void testConstructFile_whenNonExistPathGiven_returnFileWithGivenPath() {
-        String path = "src/test/resources/test.xlsx";
-        File expected = new File(path);
-        File file = manager.constructFile(path);
+        Path path = Path.of("src", "test", "resources", "test.xlsx");
+        File expected = new File(path.toString());
+        File file = manager.constructFile(path.toString());
         assertEquals(expected.getAbsolutePath(), file.getAbsolutePath());
     }
 
     private File createTestFile() throws IOException {
-        File file = new File(TEST_FILE_PATH);
+        File file = new File(TEST_FILE_PATH.toString());
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -89,7 +92,7 @@ class FileManagerTest {
 
     @AfterEach
     void clean() throws IOException {
-        File file = new File(TEST_FILE_PATH);
+        File file = new File(TEST_FILE_PATH.toString());
         if (file.exists()) {
             file.delete();
         }

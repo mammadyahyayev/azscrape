@@ -1,10 +1,12 @@
 package az.my.datareport.parser;
 
 import az.my.datareport.config.ConfigFileException;
+import az.my.datareport.constant.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,14 +22,15 @@ class ConfigFileManagerTest {
 
     @Test
     void testGetConfigFile_whenInvalidPathGiven_thenThrowException() {
-        String path = "C:\\Users\\User\\Desktop\\data-report\\src\\test\\resources\\test-config.xlsx";
+        Path path = Path.of(TestConstants.TEST_RESOURCES.toString(), "test-config.xlsx");
+
         ConfigFileException exception = assertThrows(ConfigFileException.class, () -> manager.getConfigFile(path));
         assertEquals(FileNotFoundException.class, exception.getCause().getClass());
     }
 
     @Test
     void testGetConfigFile_whenIncorrectFileExtensionGiven_thenThrowException() {
-        String path = "C:\\Users\\User\\Desktop\\data-report\\src\\test\\resources\\invalid-config-file-format.txt";
+        Path path = Path.of(TestConstants.TEST_RESOURCES.toString(), "invalid-config-file-format.txt");
         ConfigFileException exception = assertThrows(ConfigFileException.class, () -> manager.getConfigFile(path));
         assertEquals(UnsupportedFileFormatException.class, exception.getCause().getClass());
     }
