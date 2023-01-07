@@ -39,11 +39,11 @@ public class WebScraper implements Scraper {
     private List<ReportDataParent> fetchDataFromUrl(DataNode dataNode, WebPage page) {
         List<ReportDataParent> reportDataParentList = new ArrayList<>();
 
-        List<WebElement> webElements = page.fetchWebElements(dataNode.getParentSelector());
+        List<WebElement> webElements = page.fetchWebElements(dataNode.getElement().getSelector());
         for (WebElement webElement : webElements) {
             List<ReportDataElement> children = new ArrayList<>();
             ReportDataParent parent = new ReportDataParent();
-            for (DataElement child : dataNode.getParent().getChildren()) {
+            for (DataElement child : dataNode.getElement().getChildren()) {
                 String value = page.fetchElementAsText(child.getSelector(), webElement);
                 ReportDataElement reportData = new ReportDataElement(child.getName(), value);
                 children.add(reportData);

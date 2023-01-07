@@ -53,8 +53,8 @@ class FileManagerTest {
         Path testPath1 = Path.of("src", "test", "resources", "images");
         Path testPath2 = Path.of("src", "test", "resources", "images2", "new");
         return Stream.of(
-                Arguments.of(testPath1),
-                Arguments.of(testPath2)
+                Arguments.of(testPath1.toString()),
+                Arguments.of(testPath2.toString())
         );
     }
 

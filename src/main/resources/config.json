@@ -5,7 +5,7 @@
   "description": "Dummy Description",
   "data": {
     "url": "https://github.com/search?q=java",
-    "parent": {
+    "element": {
       "selector": ".repo-list-item",
       "children": [
         {

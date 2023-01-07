@@ -3,7 +3,6 @@ package az.my.datareport.scrape;
 import az.my.datareport.ast.DataAST;
 import az.my.datareport.ast.DataElement;
 import az.my.datareport.ast.DataNode;
-import az.my.datareport.ast.DataParent;
 import az.my.datareport.model.ReportData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ class WebScraperTest {
 
     @BeforeEach
     public void setUp() {
-        DataParent parent = new DataParent();
+        DataElement parent = new DataElement();
         parent.setSelector(".repo-list-item");
 
         DataElement dataElement = new DataElement("title", ".v-align-middle");
@@ -31,7 +30,7 @@ class WebScraperTest {
 
         DataNode dataNode = new DataNode();
         dataNode.setUrl(url);
-        dataNode.setParent(parent);
+        dataNode.setElement(parent);
 
         dataAST = new DataAST();
         dataAST.setDataNode(dataNode);

@@ -2,10 +2,9 @@ package az.my.datareport.ast;
 
 public class DataNode {
     private String url;
-    private DataParent parent;
+    private DataElement element;
 
     public DataNode() {
-
     }
 
     public String getUrl() {
@@ -16,15 +15,11 @@ public class DataNode {
         this.url = url;
     }
 
-    public DataParent getParent() {
-        return parent;
+    public DataElement getElement() {
+        return element;
     }
 
-    public void setParent(DataParent parent) {
-        this.parent = parent;
-    }
-
-    public String getParentSelector() {
-        return this.parent.getSelector();
+    public void setElement(DataElement element) {
+        this.element = element;
     }
 }

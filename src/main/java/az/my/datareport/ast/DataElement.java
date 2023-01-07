@@ -1,8 +1,12 @@
 package az.my.datareport.ast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DataElement {
     private String name;
     private String selector;
+    private List<DataElement> children = new ArrayList<>();
 
     public DataElement() {
 
@@ -21,11 +25,19 @@ public class DataElement {
         return selector;
     }
 
+    public List<DataElement> getChildren() {
+        return children;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
     public void setSelector(String selector) {
         this.selector = selector;
+    }
+
+    public void setChildren(List<DataElement> children) {
+        this.children = children;
     }
 }
