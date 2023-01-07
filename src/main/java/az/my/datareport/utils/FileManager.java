@@ -1,8 +1,8 @@
 package az.my.datareport.utils;
 
 import az.my.datareport.DataReportAppException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.io.IOException;
  * Works with files
  */
 public class FileManager {
-    private static final Logger LOG = LoggerFactory.getLogger(FileManager.class);
+    private static final Logger LOG = LogManager.getLogger(FileManager.class);
 
     public FileManager() {
     }
@@ -20,9 +20,9 @@ public class FileManager {
      * Construct file if there isn't an appropriate file,
      * if path is invalid or directory path, throws exception
      *
-     * @throws DataReportAppException when given path is invalid
      * @param path given file path
      * @return file
+     * @throws DataReportAppException when given path is invalid
      */
     public File constructFile(String path) {
         Assert.required(path);
@@ -49,9 +49,9 @@ public class FileManager {
      * Construct directory if there isn't an appropriate directory,
      * if path is invalid or file path, throws exception
      *
-     * @throws DataReportAppException when given path is invalid
      * @param path given directory path
      * @return Directory File
+     * @throws DataReportAppException when given path is invalid
      */
     public File constructDirectory(String path) {
         Assert.required(path);

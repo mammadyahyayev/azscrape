@@ -1,14 +1,10 @@
 package az.my.datareport.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public final class JsonUtils {
-
-    private static final Logger LOG = LoggerFactory.getLogger(JsonUtils.class);
 
     private JsonUtils() {
 

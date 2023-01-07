@@ -15,8 +15,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +25,7 @@ import java.util.Objects;
 
 public class JsonConfigFileScanner implements ConfigFileScanner {
 
-    private static final Logger LOG = LoggerFactory.getLogger(JsonConfigFileScanner.class);
+    private static final Logger LOG = LogManager.getLogger(JsonConfigFileScanner.class);
 
     @Override
     public DataAST readDataConfig(String filePath) {

@@ -1,14 +1,14 @@
 package az.my.datareport.scrape;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class WebPage {
-    private static final Logger LOG = LoggerFactory.getLogger(WebPage.class);
+    private static final Logger LOG = LogManager.getLogger(WebPage.class);
 
     private static final WebDriver driver;
     private final String url;

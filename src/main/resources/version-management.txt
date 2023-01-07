@@ -15,9 +15,10 @@ particular parent element. Problem fixed by adding new layer called DataParent
 
 - Refactor names (replace findFirst() with get(0)) ✅
 - Change structure of Java classes and names of fields, methods ✅
+- Generate maven dependency for the project ✅
 - Configure logging in correct way
 - Test this application from other application
-- Generate maven dependency for the project
+- Add clean methods to remove generated unnecessary files/folders
 
 
 Next Versions Ideas

@@ -8,13 +8,13 @@ import az.my.datareport.model.ReportFile;
 import az.my.datareport.parser.FileUtility;
 import az.my.datareport.utils.Assert;
 import az.my.datareport.utils.FileManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,7 +25,7 @@ import java.util.Objects;
 
 public class ExcelExporter implements Exporter {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ExcelExporter.class);
+    private static final Logger LOG = LogManager.getLogger(ExcelExporter.class);
     private static final Path RESOURCE_DIR = Path.of("src", "main", "resources");
 
     @Override
