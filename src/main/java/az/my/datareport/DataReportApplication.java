@@ -1,6 +1,7 @@
 package az.my.datareport;
 
 import az.my.datareport.ast.DataAST;
+import az.my.datareport.config.ConfigFileException;
 import az.my.datareport.exporter.ExcelExporter;
 import az.my.datareport.exporter.Exporter;
 import az.my.datareport.model.ReportData;
@@ -24,10 +25,11 @@ public final class DataReportApplication {
         exporter = new ExcelExporter();
     }
 
-    public void init(String configFilePath) {
-        if (configFilePath == null || configFilePath.isEmpty()) {
-            throw new NullPointerException("Please specify path of the config file!");
+    public void init(String[] arguments) {
+        if(arguments == null || arguments.length == 0) {
+            throw new ConfigFileException("Please specify path of the config file!");
         }
+        String configFilePath = arguments[0];
 
         File file = new File(configFilePath);
         if (!file.isFile() || !file.exists()) {

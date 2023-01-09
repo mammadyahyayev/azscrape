@@ -19,7 +19,9 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Configure logging in correct way
 - Test this application from other application
 - Add clean methods to remove generated unnecessary files/folders
+- Show specific exception message when user doesn't give path of the config file ✅
 
 
 Next Versions Ideas
 - private int inheritanceLevel;
+- provide flags for terminal operations
