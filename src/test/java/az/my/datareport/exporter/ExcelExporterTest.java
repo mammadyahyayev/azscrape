@@ -57,6 +57,10 @@ class ExcelExporterTest {
         //then
         assertEquals(expectedFileName, file.getName());
         assertEquals(expectedFilePath, file.getAbsolutePath());
+
+        // delete generated file and directory
+        deleteFile(expectedFilePath);
+        deleteFile(directory.toString());
     }
 
 
@@ -114,5 +118,12 @@ class ExcelExporterTest {
         //then
         File file = new File(path.toString());
         assertTrue(file.exists());
+    }
+
+    private void deleteFile(String filePath) {
+        File file = new File(filePath);
+        if (file.exists() || file.isDirectory()) {
+            file.delete();
+        }
     }
 }

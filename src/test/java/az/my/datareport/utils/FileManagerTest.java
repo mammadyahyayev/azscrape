@@ -47,6 +47,9 @@ class FileManagerTest {
         File expected = new File(nonExistentPath);
 
         assertEquals(expected.getAbsolutePath(), actual.getAbsolutePath());
+
+        // delete newly generated folders
+        deleteFile(nonExistentPath);
     }
 
     private static Stream<Arguments> nonExistentDirectoryPaths() {
@@ -79,6 +82,9 @@ class FileManagerTest {
         File expected = new File(path.toString());
         File file = manager.constructFile(path.toString());
         assertEquals(expected.getAbsolutePath(), file.getAbsolutePath());
+
+        // delete test.xlsx file
+        deleteFile(path.toString());
     }
 
     private File createTestFile() throws IOException {
@@ -88,6 +94,13 @@ class FileManagerTest {
         }
 
         return file;
+    }
+
+    private void deleteFile(String filePath) {
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+        }
     }
 
     @AfterEach

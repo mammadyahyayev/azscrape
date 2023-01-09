@@ -16,10 +16,10 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Refactor names (replace findFirst() with get(0)) ✅
 - Change structure of Java classes and names of fields, methods ✅
 - Generate maven dependency for the project ✅
-- Configure logging in correct way
-- Test this application from other application
-- Add clean methods to remove generated unnecessary files/folders
+- Configure logging in correct way ✅
+- Add clean methods to remove generated unnecessary files/folders ✅
 - Show specific exception message when user doesn't give path of the config file ✅
+- Test this application from other application
 
 
 Next Versions Ideas
