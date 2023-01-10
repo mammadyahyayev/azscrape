@@ -21,6 +21,32 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Show specific exception message when user doesn't give path of the config file ✅
 - Test this application from other application ✅
 
+********************************************
+               Version 1.0.2
+********************************************
+
+- Optimize pom.xml file
+    - Store dependency versions in the <properties>
+    - Add PMD plugin
+    - Add url, description tags
+    - use plugins in advance way
+    - exclude some excel, config, txt files from the jar
+- Write Recursive methods for scraping and abstract syntax tree
+- Refactor test method names
+- Create a configuration class for other java applications
+Idea: For example, when you want to give path to application instead of calling main method
+create configuration class, specify path, then send that class object to initializer
+Some arguments
+    - config file path
+    - report file output path
+- Deploy jar file to nexus
+- Change class, method, file, folder names
+- Write Javadocs
+- Restrict accessibility of the classes
+- Complete todos
+- Test following conditions
+    - Check calling other dependencies main method from the demo application
+    - Observe other codes
 
 Next Versions Ideas
 - private int inheritanceLevel;
