@@ -26,7 +26,7 @@ particular parent element. Problem fixed by adding new layer called DataParent
 ********************************************
 
 - Optimize pom.xml file
-    - Store dependency versions in the <properties>
+    - Store dependency versions in the <properties> ✅
     - Add PMD plugin
     - Add url, description tags
     - use plugins in advance way
