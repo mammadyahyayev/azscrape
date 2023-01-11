@@ -40,6 +40,7 @@
         <maven.dependency.plugin.version>2.8</maven.dependency.plugin.version>
         <maven.surefire.plugin.version>3.0.0-M7</maven.surefire.plugin.version>
         <maven.pmd.plugin.version>3.14.0</maven.pmd.plugin.version>
+        <maven.javadoc.plugin.version>3.3.0</maven.javadoc.plugin.version>
     </properties>
 
     <issueManagement>
@@ -146,6 +147,18 @@
                             <mainClass>az.my.datareport.DataReportMain</mainClass>
                         </manifest>
                     </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <quiet>true</quiet>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <doclint>none</doclint>
                 </configuration>
             </plugin>
         </plugins>

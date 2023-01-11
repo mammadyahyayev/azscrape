@@ -27,8 +27,10 @@ particular parent element. Problem fixed by adding new layer called DataParent
 
 - Optimize pom.xml file
     - Store dependency versions in the <properties> ✅
-    - Add PMD plugin
-    - Add url, description tags
+    - Add PMD plugin ✅
+    - Add javadoc plugin ✅
+    - Combine pmd and javadoc results in the same place with folders
+    - Add url, description tags ✅
     - use plugins in advance way
     - exclude some excel, config, txt files from the jar
 - Write Recursive methods for scraping and abstract syntax tree
