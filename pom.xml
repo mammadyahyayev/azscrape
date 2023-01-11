@@ -8,6 +8,14 @@
     <artifactId>data-report</artifactId>
     <version>1.0.2-SNAPSHOT</version>
 
+    <name>Data Report</name>
+    <url>https://github.com/mammadyahyayev/data-report</url>
+    <inceptionYear>2022</inceptionYear>
+    <description>
+        Data Report scrape data from the webpages and store them into different
+        files.
+    </description>
+
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -33,6 +41,11 @@
         <maven.surefire.plugin.version>3.0.0-M7</maven.surefire.plugin.version>
         <maven.pmd.plugin.version>3.14.0</maven.pmd.plugin.version>
     </properties>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/mammadyahyayev/data-report/issues</url>
+    </issueManagement>
 
     <dependencies>
         <dependency>
