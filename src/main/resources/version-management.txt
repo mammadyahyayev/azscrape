@@ -51,3 +51,8 @@ Some arguments
 Next Versions Ideas
 - private int inheritanceLevel;
 - provide flags for terminal operations
+
+Add readme file
+if possible change the group id and artifact id
+do this in separate branch
+Write some shell scripts for testing, pmd, javadoc and so on.

@@ -6,8 +6,6 @@ import az.my.datareport.ast.DataNode;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -15,8 +13,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class WebScraper implements Scraper {
-
-    private static final Logger LOG = LogManager.getLogger(WebScraper.class);
 
     @Override
     public ReportData scrape(DataAST dataAST) {
