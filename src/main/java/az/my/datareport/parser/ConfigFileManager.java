@@ -9,6 +9,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 
+/**
+ * Process operations over ConfigFile
+ */
 public class ConfigFileManager {
 
     /**

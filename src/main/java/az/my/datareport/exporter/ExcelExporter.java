@@ -26,7 +26,6 @@ import java.util.Objects;
 public class ExcelExporter implements Exporter {
 
     private static final Logger LOG = LogManager.getLogger(ExcelExporter.class);
-    private static final Path RESOURCE_DIR = Path.of("src", "main", "resources");
 
     @Override
     public void export(ReportFile reportFile, ReportData reportData) {

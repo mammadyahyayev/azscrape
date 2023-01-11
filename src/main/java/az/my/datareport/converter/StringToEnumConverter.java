@@ -2,6 +2,9 @@ package az.my.datareport.converter;
 
 import az.my.datareport.utils.Assert;
 
+/**
+ * Converts string to appropriate enum type
+ */
 public class StringToEnumConverter {
 
     /**

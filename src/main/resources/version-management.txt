@@ -43,7 +43,7 @@ Some arguments
     - report file output path
 - Deploy jar file to nexus
 - Change class, method, file, folder names
-- Write Javadocs
+- Write Javadocs ✅
 - Restrict accessibility of the classes
 - Complete todos
 - Test following conditions

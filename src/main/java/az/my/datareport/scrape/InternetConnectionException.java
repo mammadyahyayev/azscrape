@@ -1,5 +1,8 @@
 package az.my.datareport.scrape;
 
+/**
+ * Throws, when user doesn't have Internet Connection
+ */
 public class InternetConnectionException extends RuntimeException {
     public InternetConnectionException() {
         super();

@@ -15,6 +15,10 @@ import az.my.datareport.scrape.WebScraper;
 
 import java.io.File;
 
+/**
+ *  Entry point of the application after parsing
+ *  command line arguments
+ */
 public final class DataReportApplication {
 
     private final Scraper scraper;
@@ -25,6 +29,10 @@ public final class DataReportApplication {
         exporter = new ExcelExporter();
     }
 
+    /**
+     * Initialize config file, scrapes and exports data
+     * @param arguments command line arguments
+     */
     public void init(String[] arguments) {
         if(arguments == null || arguments.length == 0) {
             throw new ConfigFileException("Please specify path of the config file!");

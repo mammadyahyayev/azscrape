@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * A webpage
+ */
 public class WebPage {
     private static final Logger LOG = LogManager.getLogger(WebPage.class);
 
@@ -36,6 +39,9 @@ public class WebPage {
         this.url = url;
     }
 
+    /**
+     * Connects to web page
+     */
     public void connect() {
         try {
             driver.get(url);
@@ -47,6 +53,9 @@ public class WebPage {
         }
     }
 
+    /**
+     * Close connection with web page
+     */
     public void disconnect() {
         if (isConnected) {
             driver.quit();
@@ -54,6 +63,11 @@ public class WebPage {
         }
     }
 
+    /**
+     * Fetch web elements and stores them in list of strings
+     * @param cssSelector selector of the element
+     * @return scraped elements
+     */
     public List<String> fetchElementsAsText(String cssSelector) {
         if (!isConnected) {
             connect();
@@ -71,23 +85,11 @@ public class WebPage {
         return elements;
     }
 
-    public List<String> fetchElementsAsText(String cssSelector, WebElement webElement) {
-        if (!isConnected) {
-            connect();
-        }
-
-        List<String> elements = new ArrayList<>();
-        try {
-            elements = webElement.findElements(By.cssSelector(cssSelector))
-                    .stream()
-                    .map(WebElement::getText).collect(Collectors.toList());
-        } catch (Exception e) {
-            LOG.error("Unknown error happened: " + e);
-        }
-
-        return elements;
-    }
-
+    /**
+     * Fetch a web element
+     * @param cssSelector selector of the element
+     * @return scraped element
+     */
     public String fetchElementAsText(String cssSelector, WebElement webElement) {
         if (!isConnected) {
             connect();
@@ -104,6 +106,12 @@ public class WebPage {
         return text;
     }
 
+    /**
+     * Fetch web elements and stores them in list of strings
+     * @param cssSelector selector of the element
+     * @return scraped elements as WebElement
+     * @see WebElement
+     */
     public List<WebElement> fetchWebElements(String cssSelector) {
         if (!isConnected) {
             connect();
@@ -119,6 +127,10 @@ public class WebPage {
         return elements;
     }
 
+    /**
+     *
+     * @return true if the driver is connected to a web page
+     */
     public boolean isConnected() {
         return isConnected;
     }
