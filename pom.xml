@@ -144,6 +144,15 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>${maven.jar.plugin.version}</version>
                 <configuration>
+                    <excludes>
+                        <exclude>*.txt</exclude>
+                        <exclude>*.properties</exclude>
+                        <exclude>*.png</exclude>
+                        <exclude>*.xlsx</exclude>
+                        <exclude>*.drawio</exclude>
+                        <exclude>*.xml</exclude>
+                        <exclude>*.json</exclude>
+                    </excludes>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>

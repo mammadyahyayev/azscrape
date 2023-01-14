@@ -31,9 +31,7 @@ particular parent element. Problem fixed by adding new layer called DataParent
     - Add javadoc plugin ✅
     - Combine pmd, javadoc, test report results in the same place with folders ✅
     - Add url, description tags ✅
-    - use plugins in advance way
-    - exclude some excel, config, txt files from the jar
-- Write Recursive methods for scraping and abstract syntax tree
+    - exclude some excel, config, txt files from the jar ✅
 - Refactor test method names
 - Create a configuration class for other java applications
 Idea: For example, when you want to give path to application instead of calling main method
@@ -49,10 +47,14 @@ Some arguments
 - Test following conditions
     - Check calling other dependencies main method from the demo application
     - Observe other codes
+- Write Recursive methods for scraping and abstract syntax tree
 
 Next Versions Ideas
 - private int inheritanceLevel;
 - provide flags for terminal operations
+
+Add execution lifecycle phases to plugins
+
 
 Add readme file
 if possible change the group id and artifact id
