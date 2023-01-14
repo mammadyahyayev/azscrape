@@ -29,7 +29,7 @@ particular parent element. Problem fixed by adding new layer called DataParent
     - Store dependency versions in the <properties> ✅
     - Add PMD plugin ✅
     - Add javadoc plugin ✅
-    - Combine pmd, javadoc, test report results in the same place with folders
+    - Combine pmd, javadoc, test report results in the same place with folders ✅
     - Add url, description tags ✅
     - use plugins in advance way
     - exclude some excel, config, txt files from the jar
