@@ -41,6 +41,7 @@
         <maven.surefire.plugin.version>3.0.0-M7</maven.surefire.plugin.version>
         <maven.pmd.plugin.version>3.14.0</maven.pmd.plugin.version>
         <maven.javadoc.plugin.version>3.3.0</maven.javadoc.plugin.version>
+        <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
     </properties>
 
     <issueManagement>
@@ -164,7 +165,45 @@
                     <doclint>none</doclint>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${maven.site.plugin.version}</version>
+                <configuration>
+                    <tempWebappDirectory>${basedir}/target/site/website</tempWebappDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven.javadoc.plugin.version}</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <quiet>true</quiet>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <doclint>none</doclint>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${maven.pmd.plugin.version}</version>
+                <configuration>
+                    <outputDirectory>${project.build.directory}/site/pmd</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin.version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
 </project>
