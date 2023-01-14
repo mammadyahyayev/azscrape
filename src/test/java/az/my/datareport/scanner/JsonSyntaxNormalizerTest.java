@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class JsonSyntaxNormalizerTest {
 
     @Test
-    void should_return_normalized_keys() {
+    void testNormalize_whenAbnormalKeysGiven_returnNormalizeFormOfThem() {
         ObjectMapper mapper = new ObjectMapper();
         try {
             JsonNode jsonNode = mapper.readTree(new File(TestConstants.TEST_CONFIG_FILE_PATH.toString()));

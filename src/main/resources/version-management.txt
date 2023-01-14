@@ -32,7 +32,7 @@ particular parent element. Problem fixed by adding new layer called DataParent
     - Combine pmd, javadoc, test report results in the same place with folders ✅
     - Add url, description tags ✅
     - exclude some excel, config, txt files from the jar ✅
-- Refactor test method names
+- Refactor test method names ✅
 - Create a configuration class for other java applications
 Idea: For example, when you want to give path to application instead of calling main method
 create configuration class, specify path, then send that class object to initializer

@@ -17,20 +17,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class JsonConfigFileScannerTest {
 
     @Test
-    void should_throw_exception_when_given_path_invalid() {
+    void testReadDataConfig_whenPathInvalid_throwException() {
         ConfigFileScanner scanner = new JsonConfigFileScanner();
         ConfigFileException exception = assertThrows(ConfigFileException.class, () -> scanner.readDataConfig("invalid_path"));
         assertEquals(FileNotFoundException.class, exception.getCause().getClass());
     }
 
     @Test
-    void should_throw_exception_when_given_file_content_is_empty() {
+    void testReadDataConfig_whenFileIsEmpty_throwException() {
         ConfigFileScanner scanner = new JsonConfigFileScanner();
         assertThrows(ConfigFileException.class, () -> scanner.readDataConfig(EMPTY_CONFIG_FILE_PATH.toString()));
     }
 
     @Test
-    void should_return_ast() {
+    void testReadDataConfig_whenTrueFileGiven_returnParsedDataAsAST() {
         ConfigFileScanner scanner = new JsonConfigFileScanner();
         DataAST actual = scanner.readDataConfig(TestConstants.CONFIG_FILE_PATH.toString());
         assertNotNull(actual);

@@ -1,9 +1,11 @@
-package az.my.datareport.scrape;
+package az.my.datareport.exporter.scrape;
 
 import az.my.datareport.ast.DataAST;
 import az.my.datareport.ast.DataElement;
 import az.my.datareport.ast.DataNode;
 import az.my.datareport.model.ReportData;
+import az.my.datareport.scrape.Scraper;
+import az.my.datareport.scrape.WebScraper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +39,7 @@ class WebScraperTest {
     }
 
     @Test
-    void collected_data_size_should_be_greater_than_zero() {
+    void testScrape_whenDataGivenAsAST_returnScrapedDataElements() {
         Scraper scraper = new WebScraper();
         ReportData reportData = scraper.scrape(dataAST);
 

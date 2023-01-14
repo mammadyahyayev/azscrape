@@ -1,5 +1,6 @@
-package az.my.datareport.scrape;
+package az.my.datareport.exporter.scrape;
 
+import az.my.datareport.scrape.WebPage;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,22 +12,24 @@ class WebPageTest {
     private static final String URL = "https://github.com/search?q=java";
 
     @Test
-    void should_return_true_after_connected_to_web_page() {
+    void testConnect_whenURLGiven_returnTrue() {
         WebPage page = new WebPage(URL);
         page.connect();
         assertTrue(page.isConnected());
     }
 
     @Test
-    void should_return_empty_list_for_given_invalid_selector() {
+    void testFetchElementsAsText_whenInvalidSelectorGiven_returnEmptyList() {
         WebPage page = new WebPage(URL);
+        page.connect();
         List<String> strings = page.fetchElementsAsText("invalid selector");
         assertEquals(0, strings.size());
     }
 
     @Test
-    void should_not_equal_to_empty_list_for_true_selector() {
+    void testFetchElementsAsText_whenCorrectSelectorGiven_returnScrapedData() {
         WebPage page = new WebPage(URL);
+        page.connect();
         List<String> strings = page.fetchElementsAsText(".repo-list-item  .v-align-middle");
         assertNotEquals(0, strings.size());
     }
