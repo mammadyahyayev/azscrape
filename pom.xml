@@ -50,6 +50,18 @@
         <configFilePath>${basedir}/src/main/resources/config.json</configFilePath>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>no-tests</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
     <issueManagement>
         <system>github</system>
         <url>https://github.com/mammadyahyayev/data-report/issues</url>

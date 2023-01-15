@@ -35,7 +35,8 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Refactor test method names ✅
 - Write Javadocs ✅
 - Add exec and compiler plugins into pom.xml ✅
-
+- Add profiles
+    - no-tests ✅
 - Create a configuration class for other java applications
 Idea: For example, when you want to give path to application instead of calling main method
 create configuration class, specify path, then send that class object to initializer
