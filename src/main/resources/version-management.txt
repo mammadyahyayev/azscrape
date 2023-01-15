@@ -26,22 +26,26 @@ particular parent element. Problem fixed by adding new layer called DataParent
 ********************************************
 
 - Optimize pom.xml file
-    - Store dependency versions in the <properties> ✅
-    - Add PMD plugin ✅
-    - Add javadoc plugin ✅
-    - Combine pmd, javadoc, test report results in the same place with folders ✅
-    - Add url, description tags ✅
-    - exclude some excel, config, txt files from the jar ✅
+- Store dependency versions in the <properties> ✅
+- Add PMD plugin ✅
+- Add javadoc plugin ✅
+- Combine pmd, javadoc, test report results in the same place with folders ✅
+- Add url, description tags ✅
+- exclude some excel, config, txt files from the jar ✅
 - Refactor test method names ✅
+- Write Javadocs ✅
+- Add exec and compiler plugins into pom.xml ✅
+
 - Create a configuration class for other java applications
 Idea: For example, when you want to give path to application instead of calling main method
 create configuration class, specify path, then send that class object to initializer
 Some arguments
     - config file path
     - report file output path
+
 - Deploy jar file to nexus
 - Change class, method, file, folder names
-- Write Javadocs ✅
+- Add package-info to every package and describe what the package includes and used for what
 - Restrict accessibility of the classes
 - Complete todos
 - Test following conditions
