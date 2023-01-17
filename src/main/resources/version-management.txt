@@ -46,7 +46,8 @@ Some arguments
 
 - Deploy jar file to nexus
 - Change class, method, file, folder names
-- Add package-info to every package and describe what the package includes and used for what
+- Add package-info to every package and describe what the package includes and used for what ✅
+- Move classes, interfaces of the parser package into relevant packages
 - Restrict accessibility of the classes
 - Complete todos
 - Test following conditions
