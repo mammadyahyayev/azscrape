@@ -47,7 +47,7 @@
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
         <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
 
-        <configFilePath>${basedir}/src/main/resources/config.json</configFilePath>
+        <configFilePath>${basedir}\src\main\resources\config.txt</configFilePath>
     </properties>
 
     <profiles>
