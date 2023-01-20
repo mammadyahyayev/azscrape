@@ -1,87 +1,104 @@
 package az.my.datareport.parser;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import az.my.datareport.utils.Assert;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 /* TODO:
     1. User can give different flags other than -D, find a good way to represent Flag values
-    2. Replace REQUIRED, OPTIONAL with enum
-    3. Create ParseException (name can be change) general wrapper exception class
-    4. Create multiple Exception class for different parsing scenarios.
-    5. Change method names
     6. Restrict access to sensible fields, and don't return sensible values without copying it.
-    7. rename getRequiredKeys => requiredKeys
-    8. create method for optionalKeys
     9. make lowercase user specified keys before matching
  */
 public class CommandLineParser {
-    private static final String FLAG = "-D";
-    private static final Map<String, PropertyRequirement> APP_PROPERTIES = new HashMap();
+    private static final String FLAG = "-D"; // -D means define
+    private static final Map<String, PropertyRequirement> APP_PROPERTIES = new HashMap<>();
 
     static {
         APP_PROPERTIES.put("config.file.path", PropertyRequirement.REQUIRED);
         APP_PROPERTIES.put("output.file.path", PropertyRequirement.OPTIONAL);
     }
 
-    private String[] cliArguments;
-    private Map<String, String> properties = new HashMap<>();
+    private final String[] cliArguments;
 
     public CommandLineParser(String[] cliArguments) {
         this.cliArguments = Objects.requireNonNull(cliArguments, "Arguments cannot be null or empty");
     }
 
     public AppConfig parse() {
-        for (String cliArgument : cliArguments) {
-            checkFlagExist(cliArgument);
+        Map<String, String> definedProperties = splitArguments();
 
-            String argumentWithoutFlag = cliArgument.substring(FLAG.length());
-
-            if (!argumentWithoutFlag.contains("=")) {
-                throw new RuntimeException("There is [ " + argumentWithoutFlag + " ] no key value combination!");
+        for (String requiredKey : requiredKeys()) {
+            if (!definedProperties.containsKey(requiredKey)) {
+                throw new ParseException("Please define " + requiredKey + " because  it is required key!");
+            } else {
+                String value = definedProperties.get(requiredKey);
+                Assert.required(value, requiredKey + " value can not be null or empty!");
             }
-
-            String[] keyValue = argumentWithoutFlag.split("=");
-            properties.put(keyValue[0], keyValue[1]);
         }
 
-        List<String> requiredKeys = getRequiredKeys();
-        properties.forEach((key, value) -> {
-            checkRequirements();
+        AppConfig config = new AppConfig(definedProperties);
+        return config.load();
+    }
 
-            if (!APP_PROPERTIES.containsKey(key)) {
-                throw new RuntimeException("There is no key like [ " + key + " ]");
+    private Map<String, String> splitArguments() {
+        Map<String, String> properties = new HashMap<>();
+        for (String argument : cliArguments) {
+            checkFlagExist(argument);
+
+            String[] values = splitArgument(argument, FLAG);
+            String property = values[1].trim();
+
+            if (!hasKeyValueCombination(property)) {
+                throw new ParseException("There is [ " + property + " ] no key value combination!");
             }
-        });
 
-        String configFilePath = properties.get("config.file.path");
-        String outputFilePath = properties.get("output.file.path");
-        return new AppConfig(configFilePath, outputFilePath);
+            String[] keyValue = splitArgument(property, "=");
+            String key = keyValue[0].trim();
+            String value = keyValue[1].trim();
+
+            properties.put(key, value);
+        }
+
+        return properties;
+    }
+
+    private String[] splitArgument(final String argument, final String delimiter) {
+        if (!argument.contains(delimiter)) {
+            throw new ParseException("There is no " + delimiter + ".");
+        }
+
+        return argument.split(delimiter);
     }
 
     private void checkFlagExist(String argument) {
         if (!argument.contains(FLAG)) {
-            throw new RuntimeException("There is no " + FLAG + " flag.");
+            throw new ParseException("There is no " + FLAG + " flag.");
         }
     }
 
-    public List<String> getRequiredKeys() {
+    private boolean hasKeyValueCombination(String property) {
+        return property.contains("=");
+    }
+
+
+    public List<String> requiredKeys() {
+        return getKeys(PropertyRequirement.REQUIRED);
+    }
+
+    public List<String> optionalKeys() {
+        return getKeys(PropertyRequirement.OPTIONAL);
+    }
+
+    public List<String> getKeys() {
+        return new ArrayList<>(APP_PROPERTIES.keySet());
+    }
+
+    public List<String> getKeys(PropertyRequirement keyRequirement) {
         return APP_PROPERTIES.entrySet().stream()
-                .filter(entry -> entry.getValue().equals(PropertyRequirement.REQUIRED)) // TODO: create a method for isKeyRequired
+                .filter(entry -> entry.getValue().equals(keyRequirement))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
-    }
-
-    private void checkRequirements() {
-        List<String> requiredKeys = getRequiredKeys();
-
-        for (String requiredKey : requiredKeys) {
-            if (!properties.containsKey(requiredKey)) {
-                throw new RuntimeException(requiredKey + " is required!");
-            }
-        }
     }
 
 }
