@@ -10,7 +10,7 @@ server:
 spring:
   web:
     resources:
-      static-locations: classpath:/templates/
+      static-locations: classpath:/templates/, classpath:/static/
 
   servlet:
     multipart:
