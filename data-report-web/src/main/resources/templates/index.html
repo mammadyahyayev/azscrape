@@ -18,5 +18,45 @@
         files.
     </p>
 </div>
+
+<div class="row-cols-3 d-flex align-content-start justify-content-center mt-5 p-3">
+    <div class="border border-2 border-light-subtle bg-white shadow-lg p-3">
+        <h1>File properties</h1>
+        <div class="mt-5 d-flex flex-column">
+            <label class="fs-5 mb-2">Title</label>
+            <input type="text" class="form-control" name="title of config file"
+                   aria-describedby="title" placeholder="Enter title">
+        </div>
+
+        <div class="mt-4 d-flex flex-column">
+            <label class="fs-5 mb-2">Description</label>
+            <textarea class="form-control" name="description of config file" rows="3"
+                      aria-describedby="description" placeholder="Enter description"></textarea>
+        </div>
+
+        <div class="mt-4 d-flex flex-column">
+            <label class="fs-5 mb-2">File Type</label>
+            <select class="form-control" name="file type">
+                <option>Not Set</option>
+                <option>Excel</option>
+            </select>
+        </div>
+
+        <div class="mt-4 d-flex flex-column">
+            <label class="fs-5 mb-2">File Extension</label>
+            <select class="form-control" name="file extension">
+                <option>Not Set</option>
+                <option>.xlsx</option>
+            </select>
+        </div>
+    </div>
+    <div class="border-2 border-danger border p-3">
+        <h1>Data Properties</h1>
+    </div>
+    <div class="border-2 border-danger border p-3">
+        <h1>HTML Elements</h1>
+    </div>
+</div>
+
 </body>
 </html>
