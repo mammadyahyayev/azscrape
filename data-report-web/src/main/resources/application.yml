@@ -1,0 +1,18 @@
+server:
+  port: 8088
+  error:
+    include-binding-errors: always
+    whitelabel:
+      enabled: false
+  tomcat:
+    max-swallow-size: -1
+
+spring:
+  web:
+    resources:
+      static-locations: classpath:/templates/
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
