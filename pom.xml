@@ -6,7 +6,11 @@
 
     <groupId>az.my.datareport</groupId>
     <artifactId>data-report</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.2-SNAPSHOT</version>
+    <modules>
+        <module>data-report-web</module>
+    </modules>
 
     <name>Data Report</name>
     <url>https://github.com/mammadyahyayev/data-report</url>
