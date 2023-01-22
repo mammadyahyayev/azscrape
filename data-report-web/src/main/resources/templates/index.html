@@ -53,11 +53,8 @@
         <h1>Data Properties</h1>
         <div class="mt-5 d-flex flex-column">
             <label class="fs-5 mb-2">URL</label>
-            <div class="d-flex align-items-center">
-                <input type="text" class="form-control w-75" name="url of page"
-                       aria-describedby="URL" placeholder="Enter URL">
-                <button class="btn btn-info text-white ms-3" id="set-url">Set URL</button>
-            </div>
+            <input type="text" class="form-control" name="url of page" id="url"
+                   aria-describedby="URL" placeholder="Enter URL">
         </div>
 
         <div class="mt-4 d-flex flex-column">
@@ -85,61 +82,24 @@
                 <option>description</option>
             </select>
         </div>
-
-
         <div class="float-end mt-4">
             <button class="btn btn-success">Add element</button>
         </div>
     </div>
-    <div class="border border-2 border-light-subtle bg-white shadow-lg p-3" style="max-height: 650px; overflow: auto;">
+    <div class="border border-2 border-light-subtle bg-white shadow-lg p-3" style="max-height: 650px;">
         <h1>HTML Elements</h1>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
+        <div class="overflow-auto" style="max-height: 500px">
+            <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+                <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+                </p>
+            </div>
+            <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+                <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+                </p>
+            </div>
         </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
-        </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
-        </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
-        </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
-        </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
-        </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
-        </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
-        </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
-        </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
-        </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
-        </div>
-        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
-            </p>
+        <div class="float-end mt-4">
+            <button class="btn btn-success">Generate Report</button>
         </div>
     </div>
 </div>
@@ -147,7 +107,6 @@
 <script>
     const hasChildrenCheck = document.querySelector("#has-children");
     const childrenSelection = document.querySelector("#children-selection");
-    const setUrlBtn = document.querySelector("#set-url");
 
     hasChildrenCheck.addEventListener("click", (e) => {
         const isChecked = e.target.checked;
@@ -157,11 +116,7 @@
         } else {
             childrenSelection.classList.add('d-none');
         }
-    })
-
-    setUrlBtn.addEventListener("click", () => {
-        //TODO: Insert validation
-    })
+    });
 
 </script>
 </body>
