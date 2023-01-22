@@ -8,7 +8,6 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
     <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css">
-
 </head>
 <body>
 <div class="container-fluid bg-secondary text-white p-3 text-center">
@@ -19,7 +18,7 @@
     </p>
 </div>
 
-<div class="row-cols-3 d-flex align-content-start justify-content-center mt-5 p-3">
+<div class="row-cols-3 d-flex align-content-start justify-content-center mt-5 p-3 gap-2">
     <div class="border border-2 border-light-subtle bg-white shadow-lg p-3">
         <h1>File properties</h1>
         <div class="mt-5 d-flex flex-column">
@@ -50,13 +49,120 @@
             </select>
         </div>
     </div>
-    <div class="border-2 border-danger border p-3">
+    <div class="border border-2 border-light-subtle bg-white shadow-lg p-3">
         <h1>Data Properties</h1>
+        <div class="mt-5 d-flex flex-column">
+            <label class="fs-5 mb-2">URL</label>
+            <div class="d-flex align-items-center">
+                <input type="text" class="form-control w-75" name="url of page"
+                       aria-describedby="URL" placeholder="Enter URL">
+                <button class="btn btn-info text-white ms-3" id="set-url">Set URL</button>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex flex-column">
+            <label class="fs-5 mb-2">Name</label>
+            <input type="text" class="form-control" name="name of data element"
+                   aria-describedby="name" placeholder="Enter name of data element">
+        </div>
+
+        <div class="mt-4 d-flex flex-column">
+            <label class="fs-5 mb-2">CSS Selector</label>
+            <input type="text" class="form-control" name="selector of data element"
+                   aria-describedby="selector" placeholder="Enter CSS selector">
+        </div>
+
+        <div class="mt-4 form-group form-check">
+            <input type="checkbox" class="form-check-input" id="has-children">
+            <label class="form-check-label" for="has-children">Element has children?</label>
+        </div>
+
+        <div class="mt-4 d-flex flex-column d-none" id="children-selection">
+            <label class="fs-5 mb-2">Children</label>
+            <select class="form-control" name="file extension">
+                <option>Not Set</option>
+                <option>title</option>
+                <option>description</option>
+            </select>
+        </div>
+
+
+        <div class="float-end mt-4">
+            <button class="btn btn-success">Add element</button>
+        </div>
     </div>
-    <div class="border-2 border-danger border p-3">
+    <div class="border border-2 border-light-subtle bg-white shadow-lg p-3" style="max-height: 650px; overflow: auto;">
         <h1>HTML Elements</h1>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
+        <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
+            <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+            </p>
+        </div>
     </div>
 </div>
 
+<script>
+    const hasChildrenCheck = document.querySelector("#has-children");
+    const childrenSelection = document.querySelector("#children-selection");
+    const setUrlBtn = document.querySelector("#set-url");
+
+    hasChildrenCheck.addEventListener("click", (e) => {
+        const isChecked = e.target.checked;
+
+        if (isChecked) {
+            childrenSelection.classList.remove("d-none");
+        } else {
+            childrenSelection.classList.add('d-none');
+        }
+    })
+
+    setUrlBtn.addEventListener("click", () => {
+        //TODO: Insert validation
+    })
+
+</script>
 </body>
 </html>
