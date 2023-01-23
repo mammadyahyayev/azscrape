@@ -49,19 +49,17 @@
             </select>
         </div>
     </div>
-    <div class="border border-2 border-light-subtle bg-white shadow-lg p-3">
+    <div class="border border-2 border-light-subtle bg-white shadow-lg p-3" id="data-prop-section">
         <h1>Data Properties</h1>
-
-
         <div class="mt-4 d-flex flex-column">
             <label class="fs-5 mb-2">Name</label>
-            <input type="text" class="form-control" name="name of data element"
+            <input type="text" class="form-control" name="name of data element" id="data-element-name"
                    aria-describedby="name" placeholder="Enter name of data element">
         </div>
 
         <div class="mt-4 d-flex flex-column">
             <label class="fs-5 mb-2">CSS Selector</label>
-            <input type="text" class="form-control" name="selector of data element"
+            <input type="text" class="form-control" name="selector of data element" id="data-element-selector"
                    aria-describedby="selector" placeholder="Enter CSS selector">
         </div>
 
@@ -89,17 +87,7 @@
             <input type="text" class="form-control" name="url of page" id="url"
                    aria-describedby="URL" placeholder="Enter URL">
         </div>
-        <div class="overflow-auto mt-3" style="max-height: 400px;">
-            <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-                <p class="m-0">1. Title:Selector <span
-                        class="float-end text-danger text-decoration-underline">Remove</span>
-                </p>
-            </div>
-            <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-                <p class="m-0">1. Title:Selector <span
-                        class="float-end text-danger text-decoration-underline">Remove</span>
-                </p>
-            </div>
+        <div class="overflow-auto mt-3" style="max-height: 400px;" id="html-element-section">
         </div>
         <div class="float-end mt-4">
             <button class="btn btn-success" id="generate-report-btn">Generate Report</button>
@@ -107,6 +95,7 @@
     </div>
 </div>
 
+<script src="../static/js/dataElement.js"></script>
 <script>
     const hasChildrenCheck = document.querySelector("#has-children");
     const childrenSelection = document.querySelector("#children-selection");
@@ -122,6 +111,22 @@
             childrenSelection.classList.add('d-none');
         }
     });
+
+    const htmlElementsSection = document.querySelector("#html-element-section");
+    addElementBtn.addEventListener("click", () => {
+        console.log("Add new element into HTML properties tab...")
+        const elementName = document.querySelector("#data-element-name").value;
+        const elementSelector = document.querySelector("#data-element-selector").value;
+
+        const dataElement = new DataElement(elementName, elementSelector);
+        const htmlElement = dataElement.constructElement();
+
+        htmlElementsSection.appendChild(htmlElement);
+    })
+
+    generateReportBtn.addEventListener("click", (e) => {
+        console.log(e);
+    })
 
 </script>
 </body>
