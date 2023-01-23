@@ -64,12 +64,12 @@
         </div>
 
         <div class="mt-4 form-group form-check">
-            <input type="checkbox" class="form-check-input" id="has-children">
-            <label class="form-check-label" for="has-children">Element has children?</label>
+            <input type="checkbox" class="form-check-input" id="has-parent">
+            <label class="form-check-label" for="has-parent">Element has parent?</label>
         </div>
 
-        <div class="mt-4 d-flex flex-column d-none" id="children-selection">
-            <label class="fs-5 mb-2">Children</label>
+        <div class="mt-4 d-flex flex-column d-none" id="parent-selection">
+            <label class="fs-5 mb-2">Parent</label>
             <select class="form-control" name="file extension">
                 <option>Not Set</option>
             </select>
@@ -95,30 +95,30 @@
 
 <script src="../static/js/dataElement.js"></script>
 <script>
-    const hasChildrenCheck = document.querySelector("#has-children");
-    const childrenSelectionArea = document.querySelector("#children-selection");
+    const hasParentCheck = document.querySelector("#has-parent");
+    const parentSelectionArea = document.querySelector("#parent-selection");
     const addElementBtn = document.querySelector("#add-element-btn")
     const generateReportBtn = document.querySelector("#generate-report-btn")
     const htmlElementsSection = document.querySelector("#html-element-section");
 
-    hasChildrenCheck.addEventListener("click", (e) => {
+    hasParentCheck.addEventListener("click", (e) => {
         const isChecked = e.target.checked;
 
         if (isChecked) {
-            childrenSelectionArea.classList.remove("d-none");
-            populateChildrenElementSelection();
+            parentSelectionArea.classList.remove("d-none");
+            populateParentElementSelection();
         } else {
-            childrenSelectionArea.classList.add('d-none');
+            parentSelectionArea.classList.add('d-none');
         }
     });
 
-    function populateChildrenElementSelection() {
-        const childrenSelect = childrenSelectionArea.lastElementChild;
-        clearChildrenElementSelection();
+    function populateParentElementSelection() {
+        const parentSelect = parentSelectionArea.lastElementChild;
+        clearParentElementSelection();
 
         const notSetOption = document.createElement("option");
         notSetOption.textContent = "NOT SET";
-        childrenSelect.appendChild(notSetOption);
+        parentSelect.appendChild(notSetOption);
 
         const htmlElements = htmlElementsSection.children;
         if (htmlElements.length === 0) {
@@ -126,15 +126,15 @@
         }
 
         for (const element of htmlElements) {
-            const childOption = document.createElement("option");
-            childOption.textContent = element.firstChild.childNodes[0].nodeValue;
+            const parentOption = document.createElement("option");
+            parentOption.textContent = element.firstChild.childNodes[0].nodeValue;
 
-            childrenSelect.appendChild(childOption);
+            parentSelect.appendChild(parentOption);
         }
     }
 
-    function clearChildrenElementSelection() {
-        const childrenSelect = childrenSelectionArea.lastElementChild;
+    function clearParentElementSelection() {
+        const childrenSelect = parentSelectionArea.lastElementChild;
         let first = childrenSelect.firstChild
         while (first) {
             first.remove();
