@@ -23,7 +23,7 @@ class DataElement {
         text.textContent = this.toString();
 
         const removeBtn = document.createElement("span");
-        removeBtn.className = "float-end text-danger text-decoration-underline";
+        removeBtn.className = "float-end text-danger remove-element-btn";
         removeBtn.textContent = "Remove";
 
         text.appendChild(removeBtn);

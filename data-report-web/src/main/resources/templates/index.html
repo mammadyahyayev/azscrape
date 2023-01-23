@@ -8,6 +8,15 @@
           integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 
     <link href="../static/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <style>
+        .remove-element-btn {
+            cursor: pointer;
+        }
+
+        .remove-element-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid bg-secondary text-white p-3 text-center">
@@ -98,6 +107,7 @@
     const hasParentCheck = document.querySelector("#has-parent");
     const parentSelectionArea = document.querySelector("#parent-selection");
     const addElementBtn = document.querySelector("#add-element-btn")
+    const removeElementBtn = document.querySelector(".remove-element-btn");
     const generateReportBtn = document.querySelector("#generate-report-btn")
     const htmlElementsSection = document.querySelector("#html-element-section");
 
@@ -150,6 +160,13 @@
         const htmlElement = dataElement.constructElement();
 
         htmlElementsSection.appendChild(htmlElement);
+    })
+
+    htmlElementsSection.addEventListener("click", (e) => {
+        if(e.target.textContent === "Remove") {
+            const parentElement = e.target.parentElement.parentElement;
+            parentElement.remove();
+        }
     })
 
     generateReportBtn.addEventListener("click", (e) => {
