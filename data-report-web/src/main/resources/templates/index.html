@@ -72,8 +72,6 @@
             <label class="fs-5 mb-2">Children</label>
             <select class="form-control" name="file extension">
                 <option>Not Set</option>
-                <option>title</option>
-                <option>description</option>
             </select>
         </div>
         <div class="float-end mt-4">
@@ -98,23 +96,53 @@
 <script src="../static/js/dataElement.js"></script>
 <script>
     const hasChildrenCheck = document.querySelector("#has-children");
-    const childrenSelection = document.querySelector("#children-selection");
+    const childrenSelectionArea = document.querySelector("#children-selection");
     const addElementBtn = document.querySelector("#add-element-btn")
     const generateReportBtn = document.querySelector("#generate-report-btn")
+    const htmlElementsSection = document.querySelector("#html-element-section");
 
     hasChildrenCheck.addEventListener("click", (e) => {
         const isChecked = e.target.checked;
 
         if (isChecked) {
-            childrenSelection.classList.remove("d-none");
+            childrenSelectionArea.classList.remove("d-none");
+            populateChildrenElementSelection();
         } else {
-            childrenSelection.classList.add('d-none');
+            childrenSelectionArea.classList.add('d-none');
         }
     });
 
-    const htmlElementsSection = document.querySelector("#html-element-section");
+    function populateChildrenElementSelection() {
+        const childrenSelect = childrenSelectionArea.lastElementChild;
+        clearChildrenElementSelection();
+
+        const notSetOption = document.createElement("option");
+        notSetOption.textContent = "NOT SET";
+        childrenSelect.appendChild(notSetOption);
+
+        const htmlElements = htmlElementsSection.children;
+        if (htmlElements.length === 0) {
+            return;
+        }
+
+        for (const element of htmlElements) {
+            const childOption = document.createElement("option");
+            childOption.textContent = element.firstChild.childNodes[0].nodeValue;
+
+            childrenSelect.appendChild(childOption);
+        }
+    }
+
+    function clearChildrenElementSelection() {
+        const childrenSelect = childrenSelectionArea.lastElementChild;
+        let first = childrenSelect.firstChild
+        while (first) {
+            first.remove();
+            first = childrenSelect.firstChild;
+        }
+    }
+
     addElementBtn.addEventListener("click", () => {
-        console.log("Add new element into HTML properties tab...")
         const elementName = document.querySelector("#data-element-name").value;
         const elementSelector = document.querySelector("#data-element-selector").value;
 
