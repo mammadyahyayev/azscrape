@@ -51,11 +51,7 @@
     </div>
     <div class="border border-2 border-light-subtle bg-white shadow-lg p-3">
         <h1>Data Properties</h1>
-        <div class="mt-5 d-flex flex-column">
-            <label class="fs-5 mb-2">URL</label>
-            <input type="text" class="form-control" name="url of page" id="url"
-                   aria-describedby="URL" placeholder="Enter URL">
-        </div>
+
 
         <div class="mt-4 d-flex flex-column">
             <label class="fs-5 mb-2">Name</label>
@@ -83,23 +79,30 @@
             </select>
         </div>
         <div class="float-end mt-4">
-            <button class="btn btn-success">Add element</button>
+            <button class="btn btn-success" id="add-element-btn">Add element</button>
         </div>
     </div>
     <div class="border border-2 border-light-subtle bg-white shadow-lg p-3" style="max-height: 650px;">
         <h1>HTML Elements</h1>
-        <div class="overflow-auto" style="max-height: 500px">
+        <div class="mt-2 d-flex flex-column">
+            <label class="fs-5 mb-2">URL</label>
+            <input type="text" class="form-control" name="url of page" id="url"
+                   aria-describedby="URL" placeholder="Enter URL">
+        </div>
+        <div class="overflow-auto mt-3" style="max-height: 400px;">
             <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-                <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+                <p class="m-0">1. Title:Selector <span
+                        class="float-end text-danger text-decoration-underline">Remove</span>
                 </p>
             </div>
             <div class="w-100 fs-4 mt-3 bg-light border border-2 p-3">
-                <p class="m-0">1. Title:Selector <span class="float-end text-danger text-decoration-underline">Remove</span>
+                <p class="m-0">1. Title:Selector <span
+                        class="float-end text-danger text-decoration-underline">Remove</span>
                 </p>
             </div>
         </div>
         <div class="float-end mt-4">
-            <button class="btn btn-success">Generate Report</button>
+            <button class="btn btn-success" id="generate-report-btn">Generate Report</button>
         </div>
     </div>
 </div>
@@ -107,6 +110,8 @@
 <script>
     const hasChildrenCheck = document.querySelector("#has-children");
     const childrenSelection = document.querySelector("#children-selection");
+    const addElementBtn = document.querySelector("#add-element-btn")
+    const generateReportBtn = document.querySelector("#generate-report-btn")
 
     hasChildrenCheck.addEventListener("click", (e) => {
         const isChecked = e.target.checked;
