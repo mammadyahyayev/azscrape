@@ -7,7 +7,7 @@ const generateReportBtn = document.querySelector("#generate-report-btn")
 const dataElementsSection = document.querySelector("#data-elements-section");
 
 
-let dataElementList = [];
+const dataElementService = new DataElementService();
 
 hasParentCheckEl.addEventListener("click", (e) => {
     const isChecked = e.target.checked;
@@ -55,16 +55,18 @@ addElementBtn.addEventListener("click", () => {
     const elementName = document.querySelector("#data-element-name").value;
     const elementSelector = document.querySelector("#data-element-selector").value;
 
-    const dataElement = new DataElement(elementName, elementSelector);
+    const dataElement = {
+        elementName,
+        elementSelector
+    };
 
     const selectedParentOption = parentSelectionArea.querySelector("select").selectedOptions[0];
     if (hasParentCheckEl && selectedParentOption.id) {
-        dataElement.setParent(selectedParentOption.id);
+        dataElement.parentId = selectedParentOption.id;
     }
 
-    dataElementList.push(dataElement);
-
-    const htmlElement = dataElement.constructElementAsHTML();
+    const newDataElement = dataElementService.add(dataElement);
+    const htmlElement = dataElementService.constructElementAsHTML(newDataElement);
     dataElementsSection.appendChild(htmlElement);
 })
 
@@ -76,5 +78,5 @@ dataElementsSection.addEventListener("click", (e) => {
 })
 
 generateReportBtn.addEventListener("click", (e) => {
-    console.log(e);
+    console.log("Report going to generate...")
 })
