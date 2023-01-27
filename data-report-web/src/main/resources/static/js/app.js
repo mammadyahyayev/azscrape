@@ -1,15 +1,15 @@
 // html elements
-const hasParentCheck = document.querySelector("#has-parent");
+const hasParentCheckEl = document.querySelector("#has-parent");
 const parentSelectionArea = document.querySelector("#parent-selection");
 const addElementBtn = document.querySelector("#add-element-btn")
 const removeElementBtn = document.querySelector(".remove-element-btn");
 const generateReportBtn = document.querySelector("#generate-report-btn")
-const htmlElementsSection = document.querySelector("#html-element-section");
+const dataElementsSection = document.querySelector("#data-elements-section");
 
 
 let dataElementList = [];
 
-hasParentCheck.addEventListener("click", (e) => {
+hasParentCheckEl.addEventListener("click", (e) => {
     const isChecked = e.target.checked;
 
     if (isChecked) {
@@ -21,33 +21,33 @@ hasParentCheck.addEventListener("click", (e) => {
 });
 
 function populateParentElementSelection() {
-    const parentSelect = parentSelectionArea.lastElementChild;
+    const parentSelectEl = parentSelectionArea.querySelector("select");
     clearParentElementSelection();
 
     const notSetOption = document.createElement("option");
     notSetOption.textContent = "NOT SET";
-    parentSelect.appendChild(notSetOption);
+    parentSelectEl.appendChild(notSetOption);
 
-    const htmlElements = htmlElementsSection.children;
-    if (htmlElements.length === 0) {
+    const dataElements = dataElementsSection.children;
+    if (dataElements.length === 0) {
         return;
     }
 
-    for (const element of htmlElements) {
+    for (const element of dataElements) {
         const parentOption = document.createElement("option");
         parentOption.textContent = element.firstChild.childNodes[0].nodeValue;
         parentOption.id = element.id;
 
-        parentSelect.appendChild(parentOption);
+        parentSelectEl.appendChild(parentOption);
     }
 }
 
 function clearParentElementSelection() {
-    const childrenSelect = parentSelectionArea.lastElementChild;
-    let first = childrenSelect.firstChild
+    const parentSelectEl = parentSelectionArea.querySelector("select");
+    let first = parentSelectEl.firstChild
     while (first) {
         first.remove();
-        first = childrenSelect.firstChild;
+        first = parentSelectEl.firstChild;
     }
 }
 
@@ -58,17 +58,17 @@ addElementBtn.addEventListener("click", () => {
     const dataElement = new DataElement(elementName, elementSelector);
 
     const selectedParentOption = parentSelectionArea.querySelector("select").selectedOptions[0];
-    if (hasParentCheck && selectedParentOption.id) {
+    if (hasParentCheckEl && selectedParentOption.id) {
         dataElement.setParent(selectedParentOption.id);
     }
 
     dataElementList.push(dataElement);
 
     const htmlElement = dataElement.constructElementAsHTML();
-    htmlElementsSection.appendChild(htmlElement);
+    dataElementsSection.appendChild(htmlElement);
 })
 
-htmlElementsSection.addEventListener("click", (e) => {
+dataElementsSection.addEventListener("click", (e) => {
     if (e.target.textContent === "Remove") {
         const parentElement = e.target.parentElement.parentElement;
         parentElement.remove();

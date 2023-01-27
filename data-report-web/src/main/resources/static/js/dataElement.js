@@ -22,7 +22,7 @@ class DataElement {
         idValue.textContent = this.id;
 
         const text = document.createElement("p");
-        text.className = "m-0";
+        text.className = "m-0 data-element";
         text.textContent = this.toString();
 
         const removeBtn = document.createElement("span");
@@ -41,7 +41,6 @@ class DataElement {
         if (!parentId) {
             return;
         }
-
         this.parentId = parentId;
     }
 
