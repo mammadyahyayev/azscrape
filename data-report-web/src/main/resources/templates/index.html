@@ -33,7 +33,7 @@
         <div class="mt-5 d-flex flex-column">
             <label class="fs-5 mb-2">
                 Title
-                <input aria-describedby="title" class="form-control" name="title of config file"
+                <input aria-describedby="title" class="form-control" id="title"
                        placeholder="Enter title" type="text">
             </label>
         </div>
@@ -41,7 +41,7 @@
         <div class="mt-4 d-flex flex-column">
             <label class="fs-5 mb-2">
                 Description
-                <textarea aria-describedby="description" class="form-control" name="description of config file"
+                <textarea aria-describedby="description" class="form-control" id="description"
                           placeholder="Enter description" rows="3"></textarea>
             </label>
         </div>
@@ -49,7 +49,7 @@
         <div class="mt-4 d-flex flex-column">
             <label class="fs-5 mb-2">
                 File Type
-                <select class="form-control" name="file type">
+                <select class="form-control" id="fileType">
                     <option>Not Set</option>
                     <option>Excel</option>
                 </select>
@@ -59,7 +59,7 @@
         <div class="mt-4 d-flex flex-column">
             <label class="fs-5 mb-2">
                 File Extension
-                <select class="form-control" name="file extension">
+                <select class="form-control" id="fileExtension">
                     <option>Not Set</option>
                     <option>.xlsx</option>
                 </select>
@@ -120,6 +120,7 @@
 </div>
 
 <script src="../static/js/dataElement.js"></script>
+<script src="../static/js/configFile.js"></script>
 <script src="../static/js/app.js"></script>
 </body>
 </html>

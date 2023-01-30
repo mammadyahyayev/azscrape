@@ -12,7 +12,12 @@ class DataElementService {
         }
 
         const dataElement = new DataElement(element.elementName, element.elementSelector);
-        dataElement.setParent(element.parentId)
+        dataElement.setParent(element.parentId);
+
+        const parent = this.dataElementList.find(e => e.id === parseInt(element.parentId));
+        if (parent) {
+            parent.children.push(dataElement);
+        }
 
         this.dataElementList.push(dataElement);
 
@@ -24,7 +29,7 @@ class DataElementService {
     }
 
     elements() {
-        this.dataElementList.forEach(element => console.log(element));
+        return this.dataElementList;
     }
 
     constructElementAsHTML(dataElement) {

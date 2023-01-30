@@ -78,5 +78,15 @@ dataElementsSection.addEventListener("click", (e) => {
 })
 
 generateReportBtn.addEventListener("click", (e) => {
-    console.log("Report going to generate...")
+    const title = document.querySelector("#title").value;
+    const description = document.querySelector("#description").value;
+    const fileType = document.querySelector("#fileType").selectedOptions[0].value;
+    const fileExtension = document.querySelector("#fileExtension").selectedOptions[0].value;
+    const url = document.querySelector("#url").value;
+
+    const dataElement = dataElementService.elements().find(e => e.parentId === null);
+
+    const configFile = new ConfigFile(title, description, fileType, fileExtension, url, dataElement);
+    console.log(configFile.load());
+    //TODO: send this config file to spring controller
 })
