@@ -1,4 +1,4 @@
-package az.my.datareport.ast;
+package az.my.datareport.tree;
 
 public class DataAST {
     private DataNode dataNode;

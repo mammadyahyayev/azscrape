@@ -1,4 +1,4 @@
-package az.my.datareport.ast;
+package az.my.datareport.tree;
 
 import java.util.ArrayList;
 import java.util.List;

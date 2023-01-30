@@ -1,7 +1,5 @@
 package az.my.datareport.scanner;
 
-import az.my.datareport.ast.DataAST;
-import az.my.datareport.ast.DataNode;
 import az.my.datareport.config.ConfigFileException;
 import az.my.datareport.converter.StringToEnumConverter;
 import az.my.datareport.model.ReportFile;
@@ -10,6 +8,8 @@ import az.my.datareport.model.enumeration.FileType;
 import az.my.datareport.parser.ConfigFile;
 import az.my.datareport.parser.ConfigNotValidException;
 import az.my.datareport.parser.FileUtility;
+import az.my.datareport.tree.DataAST;
+import az.my.datareport.tree.DataNode;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

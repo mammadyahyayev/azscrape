@@ -1,11 +1,11 @@
 package az.my.datareport.scrape;
 
-import az.my.datareport.ast.DataAST;
-import az.my.datareport.ast.DataElement;
-import az.my.datareport.ast.DataNode;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
+import az.my.datareport.tree.DataAST;
+import az.my.datareport.tree.DataElement;
+import az.my.datareport.tree.DataNode;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;

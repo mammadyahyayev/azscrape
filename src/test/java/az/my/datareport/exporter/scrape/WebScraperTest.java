@@ -1,11 +1,11 @@
 package az.my.datareport.exporter.scrape;
 
-import az.my.datareport.ast.DataAST;
-import az.my.datareport.ast.DataElement;
-import az.my.datareport.ast.DataNode;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.scrape.Scraper;
 import az.my.datareport.scrape.WebScraper;
+import az.my.datareport.tree.DataAST;
+import az.my.datareport.tree.DataElement;
+import az.my.datareport.tree.DataNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

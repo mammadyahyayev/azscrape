@@ -1,6 +1,5 @@
 package az.my.datareport;
 
-import az.my.datareport.ast.DataAST;
 import az.my.datareport.config.ConfigFileException;
 import az.my.datareport.exporter.ExcelExporter;
 import az.my.datareport.exporter.Exporter;
@@ -12,6 +11,7 @@ import az.my.datareport.scanner.ConfigFileScanner;
 import az.my.datareport.scanner.JsonConfigFileScanner;
 import az.my.datareport.scrape.Scraper;
 import az.my.datareport.scrape.WebScraper;
+import az.my.datareport.tree.DataAST;
 
 import java.io.File;
 
