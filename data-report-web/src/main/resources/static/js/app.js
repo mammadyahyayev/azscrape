@@ -77,7 +77,7 @@ dataElementsSection.addEventListener("click", (e) => {
     }
 })
 
-generateReportBtn.addEventListener("click", (e) => {
+generateReportBtn.addEventListener("click", () => {
     const title = document.querySelector("#title").value;
     const description = document.querySelector("#description").value;
     const fileType = document.querySelector("#fileType").selectedOptions[0].value;
@@ -87,6 +87,13 @@ generateReportBtn.addEventListener("click", (e) => {
     const dataElement = dataElementService.elements().find(e => e.parentId === null);
 
     const configFile = new ConfigFile(title, description, fileType, fileExtension, url, dataElement);
-    console.log(configFile.load());
-    //TODO: send this config file to spring controller
+    const json = configFile.load();
+    fetch("/config/send", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(json)
+    })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
 })
