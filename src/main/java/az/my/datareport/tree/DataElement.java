@@ -6,7 +6,7 @@ import java.util.List;
 public class DataElement {
     private String name;
     private String selector;
-    private List<DataElement> children = new ArrayList<>();
+    private List<DataElement> children = new ArrayList<>(); //TODO: convert it to Set
 
     public DataElement() {
 

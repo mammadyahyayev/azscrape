@@ -54,6 +54,7 @@ Some arguments
     - Check calling other dependencies main method from the demo application
     - Observe other codes
 - Write Recursive methods for scraping and abstract syntax tree
+- Write shell scripts to execute plugins or define maven profiles
 
 Next Versions Ideas
 - private int inheritanceLevel;

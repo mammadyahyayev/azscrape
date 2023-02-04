@@ -7,42 +7,43 @@ import java.util.Map;
 
 public class ConfigMap {
 
-    private final static Map<Boolean, List<Key>> fields = new HashMap<>();
+    private final static Map<Boolean, List<Field>> fields = new HashMap<>();
 
     static {
-        List<Key> requiredKeys = new ArrayList<>();
-        requiredKeys.add(RequiredConfigField.DATA);
-        requiredKeys.add(RequiredConfigField.NAME);
-        requiredKeys.add(RequiredConfigField.ELEMENTS);
-        requiredKeys.add(RequiredConfigField.SELECTOR);
-        requiredKeys.add(RequiredConfigField.EXPORTED_FILE_TYPE);
+        List<Field> requiredFields = new ArrayList<>();
+        requiredFields.add(RequiredConfigField.DATA);
+        requiredFields.add(RequiredConfigField.NAME);
+        requiredFields.add(RequiredConfigField.ELEMENT);
+        requiredFields.add(RequiredConfigField.SELECTOR);
+        requiredFields.add(RequiredConfigField.EXPORTED_FILE_TYPE);
+        requiredFields.add(RequiredConfigField.EXPORTED_FILE_TYPE_EXTENSION);
 
-        List<Key> optionalKeys = new ArrayList<>();
-        optionalKeys.add(OptionalConfigField.TITLE);
-        optionalKeys.add(OptionalConfigField.DESCRIPTION);
+        List<Field> optionalFields = new ArrayList<>();
+        optionalFields.add(OptionalConfigField.EXPORTED_FILE_NAME);
+        optionalFields.add(OptionalConfigField.DESCRIPTION);
 
-        fields.put(true, requiredKeys);
-        fields.put(false, optionalKeys);
+        fields.put(true, requiredFields);
+        fields.put(false, optionalFields);
     }
 
-    public static List<Key> getRequiredFields() {
+    public static List<Field> requiredFields() {
         return new ArrayList<>(fields.get(true));
     }
 
-    public static List<Key> getOptionalFields() {
+    public static List<Field> optionalFields() {
         return new ArrayList<>(fields.get(false));
     }
 
-    public interface Key {
-
+    enum OptionalConfigField implements Field {
+        EXPORTED_FILE_NAME, DESCRIPTION
     }
 
-    enum OptionalConfigField implements Key {
-        TITLE, DESCRIPTION
+    enum RequiredConfigField implements Field {
+        DATA, URL, ELEMENT, NAME, SELECTOR, EXPORTED_FILE_TYPE, EXPORTED_FILE_TYPE_EXTENSION
     }
 
-    enum RequiredConfigField implements Key {
-        DATA, URL, ELEMENTS, NAME, SELECTOR, EXPORTED_FILE_TYPE
+    public interface Field {
+
     }
 
 }

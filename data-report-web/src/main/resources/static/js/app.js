@@ -95,5 +95,5 @@ generateReportBtn.addEventListener("click", () => {
     })
         .then(response => response.json())
         .then(data => console.log(data))
-        .catch(error => console.error(error));
+        .catch(error => alert(error));
 })

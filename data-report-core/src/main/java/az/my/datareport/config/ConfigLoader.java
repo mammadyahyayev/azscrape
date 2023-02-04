@@ -1,5 +1,7 @@
 package az.my.datareport.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,44 +14,46 @@ import java.util.Set;
  */
 public class ConfigLoader {
 
-    //TODO: json string doesn't contain title field
     public boolean loadConfig(String json) {
         ObjectMapper mapper = new ObjectMapper();
-        DummyConfig dummyConfig;
+        TempConfig tempConfig;
 
         try {
-            dummyConfig = mapper.readValue(json, DummyConfig.class);
+            tempConfig = mapper.readValue(json, TempConfig.class);
         } catch (JsonProcessingException e) {
             throw new ConfigurationException(e);
         }
 
-        System.out.println(dummyConfig.getExportedFileName());
-        /*
-           TODO: check required fields, if there is a problem throw an exception.
-            Check their values.
-            If everything is okay return true and wait for the action from user (generate report)
-        */
+        ConfigDataValidator validator = new ConfigDataValidator(tempConfig);
+        boolean isValid = validator.validate();
 
-        return false;
+        if (!isValid) {
+            throw new ConfigurationException("Config file isn't valid!");
+        }
+
+        return true;
     }
 
-    static class DummyConfig {
-        private String title;
+    //region Temp Classes
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    static class TempConfig {
+        @JsonProperty("description")
         private String description;
+
+        @JsonProperty("exported_file_name")
         private String exportedFileName;
+
+        @JsonProperty("exported_file_type")
         private String exportedFileType;
+
+        @JsonProperty("exported_file_type_extension")
         private String exportedFileTypeExtension;
-        private DummyDataElement data;
+
+        @JsonProperty("data")
+        private TempData data;
 
         // region Getters/Setters
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
         public String getDescription() {
             return description;
         }
@@ -82,22 +86,37 @@ public class ConfigLoader {
             this.exportedFileTypeExtension = exportedFileTypeExtension;
         }
 
-        public DummyDataElement getData() {
+        public TempData getData() {
             return data;
         }
 
-        public void setData(DummyDataElement data) {
+        public void setData(TempData data) {
             this.data = data;
         }
 
         // endregion
+
+        //region toString
+        @Override
+        public String toString() {
+            return "DummyConfig{" +
+                    "description='" + description + '\'' +
+                    ", exportedFileName='" + exportedFileName + '\'' +
+                    ", exportedFileType='" + exportedFileType + '\'' +
+                    ", exportedFileTypeExtension='" + exportedFileTypeExtension + '\'' +
+                    ", data=" + data +
+                    '}';
+        }
+        //endregion
     }
 
-    static class DummyDataElement {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    static class TempData {
+        @JsonProperty("url")
         private String url;
-        private String name;
-        private String selector;
-        private Set<DummyDataElement> children = new HashSet<>();
+
+        @JsonProperty("element")
+        private TempDataElement element;
 
         // region Getters/Setters
         public String getUrl() {
@@ -108,6 +127,37 @@ public class ConfigLoader {
             this.url = url;
         }
 
+        public TempDataElement getElement() {
+            return element;
+        }
+
+        public void setElement(TempDataElement element) {
+            this.element = element;
+        }
+        // endregion
+
+        //region toString
+        @Override
+        public String toString() {
+            return "DummyDataElement{" +
+                    "url='" + url + '\'' +
+                    '}';
+        }
+        //endregion
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    static class TempDataElement {
+        @JsonProperty("name")
+        private String name;
+
+        @JsonProperty("selector")
+        private String selector;
+
+        @JsonProperty("children")
+        private Set<TempDataElement> children = new HashSet<>();
+
+        // region Getters/Setters
         public String getName() {
             return name;
         }
@@ -124,14 +174,26 @@ public class ConfigLoader {
             this.selector = selector;
         }
 
-        public Set<DummyDataElement> getChildren() {
+        public Set<TempDataElement> getChildren() {
             return children;
         }
 
-        public void setChildren(Set<DummyDataElement> children) {
+        public void setChildren(Set<TempDataElement> children) {
             this.children = children;
         }
         // endregion
+
+        //region toString
+        @Override
+        public String toString() {
+            return "DummyDataElement{" +
+                    ", name='" + name + '\'' +
+                    ", selector='" + selector + '\'' +
+                    ", children=" + children +
+                    '}';
+        }
+        //endregion
     }
 
+    //endregion
 }
