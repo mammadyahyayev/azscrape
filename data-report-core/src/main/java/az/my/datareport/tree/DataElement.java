@@ -1,12 +1,12 @@
 package az.my.datareport.tree;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DataElement {
     private String name;
     private String selector;
-    private List<DataElement> children = new ArrayList<>(); //TODO: convert it to Set
+    private Set<DataElement> children = new HashSet<>();
 
     public DataElement() {
 
@@ -25,7 +25,7 @@ public class DataElement {
         return selector;
     }
 
-    public List<DataElement> getChildren() {
+    public Set<DataElement> getChildren() {
         return children;
     }
 
@@ -37,7 +37,7 @@ public class DataElement {
         this.selector = selector;
     }
 
-    public void setChildren(List<DataElement> children) {
+    public void setChildren(Set<DataElement> children) {
         this.children = children;
     }
 }

@@ -20,10 +20,7 @@ public class ConfigController {
     @PostMapping("/config/send")
     public ResponseEntity<String> postData(@RequestBody String json) {
         try {
-            boolean isSend = configService.sendConfigStr(json);
-            if (isSend) {
-                return new ResponseEntity<>("Configurations received...", HttpStatus.OK);
-            }
+            configService.sendConfigStr(json);
         } catch (ConfigurationException ex) {
             return new ResponseEntity<>(
                     "Exception: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR

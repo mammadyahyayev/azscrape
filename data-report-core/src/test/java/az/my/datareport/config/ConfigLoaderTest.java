@@ -1,12 +1,13 @@
 package az.my.datareport.config;
 
+import az.my.datareport.tree.DataAST;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class ConfigLoaderTest {
 
     @Test
-    void testLoadConfig_whenCorrectJsonStringGiven_returnTrue() {
+    void testLoadConfig_whenCorrectJsonStringGiven_returnDataAST() {
         String json = "{\n" +
                 "  \"exported_file_name\": \"Github Search\",\n" +
                 "  \"exported_file_type\": \"EXCEL\",\n" +
@@ -32,9 +33,9 @@ class ConfigLoaderTest {
 
 
         ConfigLoader loader = new ConfigLoader();
-        boolean isLoaded = loader.loadConfig(json);
+        DataAST ast = loader.loadConfig(json);
 
-        Assertions.assertTrue(isLoaded);
+        Assertions.assertNotNull(ast);
     }
 
     @Test

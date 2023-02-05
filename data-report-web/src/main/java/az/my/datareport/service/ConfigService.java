@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConfigService {
 
-    public boolean sendConfigStr(String json) {
+    public void sendConfigStr(String json) {
         ConfigLoader loader = new ConfigLoader();
-        return loader.loadConfig(json);
+        loader.loadConfig(json);
     }
 
 }

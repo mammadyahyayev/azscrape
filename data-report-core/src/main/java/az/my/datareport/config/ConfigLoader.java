@@ -1,5 +1,8 @@
 package az.my.datareport.config;
 
+import az.my.datareport.tree.DataAST;
+import az.my.datareport.tree.DataElement;
+import az.my.datareport.tree.DataNode;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,7 +17,7 @@ import java.util.Set;
  */
 public class ConfigLoader {
 
-    public boolean loadConfig(String json) {
+    public DataAST loadConfig(String json) {
         ObjectMapper mapper = new ObjectMapper();
         TempConfig tempConfig;
 
@@ -31,7 +34,25 @@ public class ConfigLoader {
             throw new ConfigurationException("Config file isn't valid!");
         }
 
-        return true;
+        DataAST data = new DataAST();
+        DataNode dataNode = new DataNode();
+        dataNode.setUrl(tempConfig.getData().getUrl());
+
+        DataElement dataElement = new DataElement();
+        dataElement.setName(tempConfig.getData().getElement().getName());
+        dataElement.setSelector(tempConfig.getData().getElement().getSelector());
+
+        Set<DataElement> children = new HashSet<>();
+        for (TempDataElement child : tempConfig.getData().getElement().getChildren()) {
+            DataElement element = new DataElement(child.getName(), child.getSelector());
+            children.add(element);
+        }
+
+        dataElement.setChildren(children);
+        dataNode.setElement(dataElement);
+        data.setDataNode(dataNode);
+
+        return data;
     }
 
     //region Temp Classes
