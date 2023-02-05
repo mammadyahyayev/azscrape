@@ -7,8 +7,6 @@ import az.my.datareport.service.ConfigService;
 import az.my.datareport.service.ExportService;
 import az.my.datareport.service.ScraperService;
 import az.my.datareport.tree.DataAST;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,16 +27,16 @@ public class ConfigController {
     }
 
     @PostMapping("/config/send") //TODO: Change url both here and javascript
-    public ResponseEntity<String> postData(@RequestBody String json) {
+    public String postData(@RequestBody String json) {
         try {
             DataAST dataAST = configService.sendConfigStr(json);
             ReportFile reportFile = configService.getFileConfiguration();
             ReportData reportData = scraperService.getScrapedData(dataAST);
             exportService.export(reportFile, reportData);
         } catch (ConfigurationException ex) {
-            return new ResponseEntity<>(
+            /*return new ResponseEntity<>(
                     "Exception: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR
-            );
+            );*/
             //TODO: log and show message to end user.
             //TODO: Add logging dependency to distribution management
         }
@@ -46,7 +44,7 @@ public class ConfigController {
         // send json string to end connection, it must throw an exception if there is a problem
         // catch that exception in here and show the problem to user
 
-        return new ResponseEntity<>("Configurations received...", HttpStatus.OK);
+        return "result";
     }
 
 }
