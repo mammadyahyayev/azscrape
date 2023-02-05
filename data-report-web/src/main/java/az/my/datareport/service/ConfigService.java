@@ -26,7 +26,7 @@ public class ConfigService {
         ConfigLoader.TempConfig config = loader.getReportFileConfiguration();
 
         FileType fileType = StringToEnumConverter.convert(config.getExportedFileType(), FileType.class);
-        FileExtension fileExtension = StringToEnumConverter.convert(config.getExportedFileType(), FileExtension.class);
+        FileExtension fileExtension = StringToEnumConverter.convert(config.getExportedFileTypeExtension(), FileExtension.class);
 
         return new ReportFile.Builder()
                 .filename(config.getExportedFileName())
