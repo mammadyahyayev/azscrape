@@ -40,5 +40,11 @@
             <artifactId>spring-boot-starter-validation</artifactId>
             <version>2.7.3</version>
         </dependency>
+        <dependency>
+            <groupId>az.my.datareport</groupId>
+            <artifactId>data-report</artifactId>
+            <version>1.0.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>
