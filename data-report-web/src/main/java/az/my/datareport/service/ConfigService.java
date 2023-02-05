@@ -1,14 +1,15 @@
 package az.my.datareport.service;
 
 import az.my.datareport.config.ConfigLoader;
+import az.my.datareport.tree.DataAST;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConfigService {
 
-    public void sendConfigStr(String json) {
+    public DataAST sendConfigStr(String json) {
         ConfigLoader loader = new ConfigLoader();
-        loader.loadConfig(json);
+        return loader.loadConfig(json);
     }
 
 }
