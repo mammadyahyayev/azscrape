@@ -17,6 +17,8 @@ import java.util.Set;
  */
 public class ConfigLoader {
 
+    private TempConfig config;
+
     public DataAST loadConfig(String json) {
         ObjectMapper mapper = new ObjectMapper();
         TempConfig tempConfig;
@@ -33,6 +35,8 @@ public class ConfigLoader {
         if (!isValid) {
             throw new ConfigurationException("Config file isn't valid!");
         }
+
+        this.config = tempConfig;
 
         DataAST data = new DataAST();
         DataNode dataNode = new DataNode();
@@ -55,10 +59,14 @@ public class ConfigLoader {
         return data;
     }
 
+    public TempConfig getReportFileConfiguration() {
+        return this.config;
+    }
+
     //region Temp Classes
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    static class TempConfig {
+    public static class TempConfig {
         @JsonProperty("description")
         private String description;
 

@@ -2,7 +2,9 @@ package az.my.datareport.controller;
 
 import az.my.datareport.config.ConfigurationException;
 import az.my.datareport.model.ReportData;
+import az.my.datareport.model.ReportFile;
 import az.my.datareport.service.ConfigService;
+import az.my.datareport.service.ExportService;
 import az.my.datareport.service.ScraperService;
 import az.my.datareport.tree.DataAST;
 import org.springframework.http.HttpStatus;
@@ -16,17 +18,23 @@ public class ConfigController {
 
     public final ConfigService configService;
     private final ScraperService scraperService;
+    private final ExportService exportService;
 
-    public ConfigController(ConfigService configService, ScraperService scraperService) {
+    public ConfigController(
+            ConfigService configService, ScraperService scraperService, ExportService exportService
+    ) {
         this.configService = configService;
         this.scraperService = scraperService;
+        this.exportService = exportService;
     }
 
     @PostMapping("/config/send") //TODO: Change url both here and javascript
     public ResponseEntity<String> postData(@RequestBody String json) {
         try {
             DataAST dataAST = configService.sendConfigStr(json);
+            ReportFile reportFile = configService.getFileConfiguration();
             ReportData reportData = scraperService.getScrapedData(dataAST);
+            exportService.export(reportFile, reportData);
         } catch (ConfigurationException ex) {
             return new ResponseEntity<>(
                     "Exception: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR
