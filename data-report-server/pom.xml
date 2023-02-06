@@ -10,6 +10,26 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>data-report-server</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>az.my.datareport</groupId>
+            <artifactId>data-report-scraper</artifactId>
+            <version>1.0.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>az.my.datareport</groupId>
+            <artifactId>data-report-exporter</artifactId>
+            <version>1.0.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>az.my.datareport</groupId>
+            <artifactId>data-report-scanner</artifactId>
+            <version>1.0.2-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>

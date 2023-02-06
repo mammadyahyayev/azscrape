@@ -1,12 +1,12 @@
 package az.my.datareport;
 
+import az.my.datareport.config.ConfigFile;
 import az.my.datareport.config.ConfigFileException;
+import az.my.datareport.config.ConfigFileManager;
 import az.my.datareport.exporter.ExcelExporter;
 import az.my.datareport.exporter.Exporter;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportFile;
-import az.my.datareport.parser.ConfigFile;
-import az.my.datareport.parser.ConfigFileManager;
 import az.my.datareport.scanner.ConfigFileScanner;
 import az.my.datareport.scanner.JsonConfigFileScanner;
 import az.my.datareport.scrape.Scraper;
