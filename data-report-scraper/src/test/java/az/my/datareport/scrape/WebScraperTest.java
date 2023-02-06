@@ -1,15 +1,13 @@
-package az.my.datareport.exporter.scrape;
+package az.my.datareport.scrape;
 
 import az.my.datareport.model.ReportData;
-import az.my.datareport.scrape.Scraper;
-import az.my.datareport.scrape.WebScraper;
 import az.my.datareport.tree.DataAST;
 import az.my.datareport.tree.DataElement;
 import az.my.datareport.tree.DataNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -28,7 +26,7 @@ class WebScraperTest {
 
         DataElement dataElement = new DataElement("title", ".v-align-middle");
         DataElement dataElement2 = new DataElement("description", ".mb-1");
-        parent.setChildren(List.of(dataElement, dataElement2));
+        parent.setChildren(Set.of(dataElement, dataElement2));
 
         DataNode dataNode = new DataNode();
         dataNode.setUrl(url);

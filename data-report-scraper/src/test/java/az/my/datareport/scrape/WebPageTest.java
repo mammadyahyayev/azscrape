@@ -1,6 +1,5 @@
-package az.my.datareport.exporter.scrape;
+package az.my.datareport.scrape;
 
-import az.my.datareport.scrape.WebPage;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

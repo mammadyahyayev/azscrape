@@ -1,6 +1,5 @@
-package az.my.datareport.parser;
+package az.my.datareport.config;
 
-import az.my.datareport.config.ConfigFileException;
 import az.my.datareport.constant.TestConstants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

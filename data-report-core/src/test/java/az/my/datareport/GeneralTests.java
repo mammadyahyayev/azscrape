@@ -37,7 +37,7 @@ public class GeneralTests {
     @EnabledOnOs({OS.WINDOWS})
     void testSystemGetProperty_whenUserDirGiven_returnAppDirectory() {
         String currentDir = System.getProperty("user.dir");
-        String expected = "C:\\Users\\User\\Desktop\\data-report";
+        String expected = "C:\\Users\\User\\Desktop\\data-report\\data-report-core";
         assertEquals(expected, currentDir);
     }
 
