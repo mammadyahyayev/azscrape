@@ -67,3 +67,12 @@ Add readme file
 if possible change the group id and artifact id
 do this in separate branch
 Write some shell scripts for testing, pmd, javadoc and so on.
+
+
+
+References
+https://www.naukri.com/learning/articles/tree-data-structures-types-properties-and-applications/
+
+https://www.simplilearn.com/tutorials/data-structure-tutorial/trees-in-data-structure
+
+https://www.freecodecamp.org/news/all-you-need-to-know-about-tree-data-structures-bceacb85490c/
