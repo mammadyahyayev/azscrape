@@ -11,6 +11,7 @@
     <modules>
         <module>data-report-web</module>
         <module>data-report-core</module>
+        <module>data-report-application</module>
     </modules>
 
     <name>Data Report</name>
