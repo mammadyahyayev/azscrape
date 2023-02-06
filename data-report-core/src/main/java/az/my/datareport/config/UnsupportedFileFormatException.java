@@ -1,4 +1,4 @@
-package az.my.datareport.parser;
+package az.my.datareport.config;
 
 public class UnsupportedFileFormatException extends RuntimeException {
     public UnsupportedFileFormatException() {

@@ -1,6 +1,5 @@
-package az.my.datareport.parser;
+package az.my.datareport.config;
 
-import az.my.datareport.config.ConfigFileException;
 import az.my.datareport.model.enumeration.ConfigFileExtension;
 import az.my.datareport.utils.Assert;
 import org.apache.commons.io.FilenameUtils;

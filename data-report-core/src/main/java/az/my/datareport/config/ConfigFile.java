@@ -1,10 +1,16 @@
 package az.my.datareport.config;
 
-public abstract class ConfigFile {
+public class ConfigFile {
     private final String filename;
     private final String filepath;
-    private final String absolutePath;
     private final String fileExtension;
+    private String absolutePath;
+
+    public ConfigFile(String filename, String filepath, String fileExtension) {
+        this.filename = filename;
+        this.filepath = filepath;
+        this.fileExtension = fileExtension;
+    }
 
     public ConfigFile(String filename, String filepath, String absolutePath, String fileExtension) {
         this.filename = filename;

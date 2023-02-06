@@ -1,4 +1,4 @@
-package az.my.datareport.parser;
+package az.my.datareport.config;
 
 /**
  * Throws when user give wrong configurations
