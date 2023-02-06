@@ -5,7 +5,6 @@ import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
 import az.my.datareport.model.ReportFile;
-import az.my.datareport.parser.FileUtility;
 import az.my.datareport.utils.Assert;
 import az.my.datareport.utils.FileManager;
 import org.apache.logging.log4j.LogManager;
@@ -94,7 +93,7 @@ public class ExcelExporter implements Exporter {
         FileManager fileManager = new FileManager();
         fileManager.constructDirectory(directoryPath);
 
-        String filename = FileUtility.constructFilename(reportFile.getFilename());
+        String filename = FileManager.constructFilename(reportFile.getFilename());
         String extension = reportFile.getFileExtension().name().toLowerCase();
         Path filepath = Path.of(directoryPath, filename + "." + extension);
 
