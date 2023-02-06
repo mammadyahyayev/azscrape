@@ -13,6 +13,7 @@
         <module>data-report-core</module>
         <module>data-report-application</module>
         <module>data-report-server</module>
+        <module>data-report-exporter</module>
     </modules>
 
     <name>Data Report</name>

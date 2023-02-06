@@ -9,6 +9,7 @@
         <module name="data-report-application" />
         <module name="data-report-server" />
         <module name="data-report-web" />
+        <module name="data-report-exporter" />
         <module name="data-report-core" />
       </profile>
     </annotationProcessing>
