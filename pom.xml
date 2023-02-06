@@ -16,6 +16,7 @@
         <module>data-report-exporter</module>
         <module>data-report-parser</module>
         <module>data-report-scanner</module>
+        <module>data-report-scraper</module>
     </modules>
 
     <name>Data Report</name>

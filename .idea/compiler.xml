@@ -13,6 +13,7 @@
         <module name="data-report-application" />
         <module name="data-report-server" />
         <module name="data-report-exporter" />
+        <module name="data-report-scraper" />
       </profile>
     </annotationProcessing>
   </component>
