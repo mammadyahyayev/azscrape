@@ -1,7 +1,7 @@
 package az.my.datareport.scanner;
 
+import az.my.datareport.config.ConfigFile;
 import az.my.datareport.model.ReportFile;
-import az.my.datareport.parser.ConfigFile;
 import az.my.datareport.tree.DataAST;
 
 /**

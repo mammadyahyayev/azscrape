@@ -1,15 +1,15 @@
 package az.my.datareport.scanner;
 
+import az.my.datareport.config.ConfigFile;
 import az.my.datareport.config.ConfigFileException;
+import az.my.datareport.config.ConfigNotValidException;
 import az.my.datareport.converter.StringToEnumConverter;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
-import az.my.datareport.parser.ConfigFile;
-import az.my.datareport.parser.ConfigNotValidException;
-import az.my.datareport.parser.FileUtility;
 import az.my.datareport.tree.DataAST;
 import az.my.datareport.tree.DataNode;
+import az.my.datareport.utils.FileManager;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +29,7 @@ public class JsonConfigFileScanner implements ConfigFileScanner {
 
     @Override
     public DataAST readDataConfig(String filePath) {
-        File file = FileUtility.getFile(filePath);
+        File file = FileManager.getFile(filePath);
         if (file == null) {
             throw new ConfigFileException(new FileNotFoundException());
         }
@@ -62,7 +62,7 @@ public class JsonConfigFileScanner implements ConfigFileScanner {
     public ReportFile readFileConfig(ConfigFile configFile) {
         Objects.requireNonNull(configFile);
 
-        File file = FileUtility.getFile(configFile.getFilepath());
+        File file = FileManager.getFile(configFile.getFilepath());
         if (file == null) {
             throw new ConfigFileException(new FileNotFoundException());
         }
