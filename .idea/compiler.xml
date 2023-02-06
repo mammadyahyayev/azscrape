@@ -6,12 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="data-report-web" />
+        <module name="data-report-scanner" />
+        <module name="data-report-core" />
         <module name="data-report-parser" />
         <module name="data-report-application" />
         <module name="data-report-server" />
-        <module name="data-report-web" />
         <module name="data-report-exporter" />
-        <module name="data-report-core" />
       </profile>
     </annotationProcessing>
   </component>

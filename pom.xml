@@ -15,6 +15,7 @@
         <module>data-report-server</module>
         <module>data-report-exporter</module>
         <module>data-report-parser</module>
+        <module>data-report-scanner</module>
     </modules>
 
     <name>Data Report</name>
