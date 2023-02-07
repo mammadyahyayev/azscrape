@@ -131,12 +131,6 @@
             <artifactId>log4j-core</artifactId>
             <version>${log4j.core.version}</version>
         </dependency>
-        <dependency>
-            <groupId>az.my.datareport</groupId>
-            <artifactId>data-report-core</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -264,7 +258,7 @@
                 <version>${maven.checkstyle.plugin.version}</version>
                 <configuration>
                     <enableRulesSummary>false</enableRulesSummary>
-                    <configLocation>src/main/resources/checkstyle.xml</configLocation>
+                    <configLocation>data-report-core/src/main/resources/checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
 
@@ -322,7 +316,7 @@
                 <version>${maven.checkstyle.plugin.version}</version>
                 <configuration>
                     <enableRulesSummary>false</enableRulesSummary>
-                    <configLocation>src/main/resources/checkstyle.xml</configLocation>
+                    <configLocation>data-report-core/src/main/resources/checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
         </plugins>
