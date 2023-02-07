@@ -12,15 +12,14 @@
     <artifactId>data-report-shared-resources</artifactId>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.resource.plugin.version>3.0.0</maven.resource.plugin.version>
     </properties>
 
     <build>
         <plugins>
             <plugin>
                 <artifactId>maven-remote-resources-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${maven.resource.plugin.version}</version>
                 <executions>
                     <execution>
                         <goals>

@@ -22,10 +22,10 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Test this application from other application ✅
 
 ********************************************
-               Version 1.0.2
+               Version 2.0.0
 ********************************************
 
-- Optimize pom.xml file
+- Optimize pom.xml file ✅
 - Store dependency versions in the <properties> ✅
 - Add PMD plugin ✅
 - Add javadoc plugin ✅
@@ -37,6 +37,12 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Add exec and compiler plugins into pom.xml ✅
 - Add profiles
     - no-tests ✅
+- Convert project into multi module project ✅
+
+
+********************************************
+             FUTURE Versions
+********************************************
 - Create a configuration class for other java applications
 Idea: For example, when you want to give path to application instead of calling main method
 create configuration class, specify path, then send that class object to initializer
@@ -68,7 +74,7 @@ if possible change the group id and artifact id
 do this in separate branch
 Write some shell scripts for testing, pmd, javadoc and so on.
 
-
+check other projects class packages
 
 References
 https://www.naukri.com/learning/articles/tree-data-structures-types-properties-and-applications/
