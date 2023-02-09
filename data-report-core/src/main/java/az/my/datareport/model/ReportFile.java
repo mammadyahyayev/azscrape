@@ -11,7 +11,6 @@ public class ReportFile {
     private FileExtension fileExtension;
     private final LocalDateTime createdAt = LocalDateTime.now();
 
-
     private ReportFile(String filename, FileType filetype, FileExtension fileExtension) {
         this.filename = filename;
         this.filetype = filetype;
@@ -20,6 +19,10 @@ public class ReportFile {
 
     public String getFilename() {
         return filename;
+    }
+
+    public String getFileFullName() {
+        return this.filename + "." + this.fileExtension.toString().toLowerCase();
     }
 
     public FileType getFiletype() {

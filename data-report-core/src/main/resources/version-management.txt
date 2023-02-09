@@ -39,6 +39,12 @@ particular parent element. Problem fixed by adding new layer called DataParent
     - no-tests ✅
 - Convert project into multi module project ✅
 
+********************************************
+               Version 2.0.1
+********************************************
+- Change versions to 2.0.1-snapshot ✅
+- Implement Download file feature
+
 
 ********************************************
              FUTURE Versions
