@@ -90,10 +90,11 @@ generateReportBtn.addEventListener("click", () => {
     const json = configFile.load();
     fetch("/config/send", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(json)
+    }).then(res => {
+        console.log(res)
+        if (res.url) {
+            window.location = res.url;
+        }
     })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => alert(error));
 })

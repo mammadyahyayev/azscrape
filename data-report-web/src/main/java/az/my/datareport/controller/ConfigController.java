@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.InputStream;
 
@@ -35,25 +36,21 @@ public class ConfigController {
         this.exportService = exportService;
     }
 
-    @PostMapping("/config/send") //TODO: Change url both here and javascript
-    public String postData(@RequestBody String json) {
+    @PostMapping(value = "/config/send") //TODO: Change url both here and javascript
+    public ModelAndView postData(@RequestBody String json) {
         try {
             DataAST dataAST = configService.sendConfigStr(json);
             reportFile = configService.getFileConfiguration();
             ReportData reportData = scraperService.getScrapedData(dataAST);
             exportService.export(reportFile, reportData);
         } catch (ConfigurationException ex) {
-            /*return new ResponseEntity<>(
-                    "Exception: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR
-            );*/
             //TODO: log and show message to end user.
-            //TODO: Add logging dependency to distribution management
         }
         //TODO: create a connector class between controller and service
         // send json string to end connection, it must throw an exception if there is a problem
         // catch that exception in here and show the problem to user
 
-        return "redirect:result";
+        return new ModelAndView("redirect:/result");
     }
 
     @GetMapping("/download/file")
