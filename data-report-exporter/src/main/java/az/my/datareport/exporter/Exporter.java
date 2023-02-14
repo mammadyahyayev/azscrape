@@ -19,7 +19,7 @@ public interface Exporter {
      * @param reportFile exported file
      * @param reportData class contains scraped data
      */
-    void export(ReportFile reportFile, ReportData reportData);
+    boolean export(ReportFile reportFile, ReportData reportData);
 
     /**
      * Constructs ReportFile that is going to being used to store

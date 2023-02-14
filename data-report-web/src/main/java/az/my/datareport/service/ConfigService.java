@@ -22,7 +22,7 @@ public class ConfigService {
         return loader.loadConfig(json);
     }
 
-    public ReportFile getFileConfiguration() {
+    public ReportFile getReportFileConfiguration() {
         ConfigLoader.TempConfig config = loader.getReportFileConfiguration();
 
         FileType fileType = StringToEnumConverter.convert(config.getExportedFileType(), FileType.class);

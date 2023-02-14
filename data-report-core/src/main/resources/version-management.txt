@@ -45,10 +45,10 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Change versions to 2.0.1-snapshot ✅
 - Implement Download file feature ✅
 - Fix redirect issue ✅
-- Make downloaded file name available for download request
-- File not found when file generated automatically at runtime
+- Make downloaded file name available for download request ✅
+- Write integration test
+- File not found when file generated automatically at runtime ✅
 - Configure File Saver Dialog window with extension
-- Set file path dynamically in exporter (constructReportFile)
 - Write test method for file download
 - Change rest endpoints' urls (both controller and javascript)
 

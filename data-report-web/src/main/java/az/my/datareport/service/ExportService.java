@@ -14,8 +14,8 @@ public class ExportService {
         this.exporter = exporter;
     }
 
-    public void export(ReportFile reportFile, ReportData reportData) {
-        exporter.export(reportFile, reportData);
+    public boolean export(ReportFile reportFile, ReportData reportData) {
+        return exporter.export(reportFile, reportData);
     }
 
 }

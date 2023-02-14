@@ -27,7 +27,7 @@ public class ExcelExporter implements Exporter {
     private static final Logger LOG = LogManager.getLogger(ExcelExporter.class);
 
     @Override
-    public void export(ReportFile reportFile, ReportData reportData) {
+    public boolean export(ReportFile reportFile, ReportData reportData) {
         Objects.requireNonNull(reportFile);
         Assert.required(reportFile.getFilename(), "Filename is required for report");
 
@@ -39,11 +39,14 @@ public class ExcelExporter implements Exporter {
             createValues(sheet, reportData);
             FileOutputStream outputStream = new FileOutputStream(file);
             workbook.write(outputStream);
+            outputStream.close();
         } catch (IOException e) {
             String message = "Failed to write into excel file [" + file.getAbsolutePath() + "]";
             LOG.error(message, e);
             throw new DataReportAppException(message, e);
         }
+
+        return true;
     }
 
     private void createHeaders(Sheet sheet, ReportData reportData) {
