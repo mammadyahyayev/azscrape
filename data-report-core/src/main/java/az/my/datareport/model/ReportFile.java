@@ -2,6 +2,7 @@ package az.my.datareport.model;
 
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
+import az.my.datareport.utils.FileManager;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +23,11 @@ public class ReportFile {
     }
 
     public String getFileFullName() {
-        return this.filename + "." + this.fileExtension.toString().toLowerCase();
+        if (filename.contains(" ")) {
+            return FileManager.constructFilename(filename, fileExtension.toString());
+        }
+
+        return this.filename.toLowerCase() + "." + this.fileExtension.toString().toLowerCase();
     }
 
     public FileType getFiletype() {

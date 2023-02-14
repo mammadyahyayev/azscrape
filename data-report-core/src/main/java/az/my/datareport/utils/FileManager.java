@@ -85,9 +85,9 @@ public class FileManager {
         Assert.required(name, "name is required field");
         Assert.required(extension, "extension is required field");
 
-        String filename = name.toLowerCase();
+        String filename = name.trim().toLowerCase();
         filename = StringUtils.replaceAllSymbols(filename, FILE_NAME_DELIMITER);
-        return filename + "." + extension;
+        return filename + "." + extension.trim().toLowerCase();
     }
 
     public static File getFile(String filepath) {
