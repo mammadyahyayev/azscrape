@@ -1,6 +1,6 @@
 package az.my.datareport.parser;
 
-import az.my.datareport.constant.TestConstants;
+import az.my.datareport.constant.FileConstants;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -19,13 +19,13 @@ class CommandLineParserTest {
     void testParse_whenArgumentsGiven_returnAppConfig() {
         // given
         String[] cliArguments = new String[]{
-                "-Dconfig.file.path=" + TestConstants.CONFIG_FILE_PATH,
-                "-Doutput.file.path=" + TestConstants.TEST_RESOURCES
+                "-Dconfig.file.path=" + FileConstants.CONFIG_FILE_PATH,
+                "-Doutput.file.path=" + FileConstants.TEST_RESOURCES
         };
 
         Map<String, String> config = new HashMap<>();
-        config.put("config.file.path", TestConstants.CONFIG_FILE_PATH.toString());
-        config.put("output.file.path", TestConstants.TEST_RESOURCES.toString());
+        config.put("config.file.path", FileConstants.CONFIG_FILE_PATH.toString());
+        config.put("output.file.path", FileConstants.TEST_RESOURCES.toString());
 
         AppConfig expected = new AppConfig(config);
         expected.load();
@@ -42,7 +42,7 @@ class CommandLineParserTest {
     void testParse_whenRequiredKeyMissing_throwException() {
         // given
         String[] cliArguments = new String[]{
-                "-Doutput.file.path=" + TestConstants.TEST_RESOURCES
+                "-Doutput.file.path=" + FileConstants.TEST_RESOURCES
         };
 
         // when
@@ -54,7 +54,7 @@ class CommandLineParserTest {
     void testParse_whenOptionalKeyMissing_thenConfigPropertyMustBeNull() {
         // given
         String[] cliArguments = new String[]{
-                "-Dconfig.file.path=" + TestConstants.CONFIG_FILE_PATH,
+                "-Dconfig.file.path=" + FileConstants.CONFIG_FILE_PATH,
         };
 
         // when
@@ -67,7 +67,7 @@ class CommandLineParserTest {
     void testParse_whenFlagIsNotGiven_throwException() {
         // given
         String[] cliArguments = new String[]{
-                "config.file.path=" + TestConstants.CONFIG_FILE_PATH,
+                "config.file.path=" + FileConstants.CONFIG_FILE_PATH,
         };
 
         // when
@@ -79,10 +79,10 @@ class CommandLineParserTest {
     void testParse_whenSpacesBetweenKeyAndValue_resultShouldNotBeAffected() {
         // given
         String[] cliArguments = new String[]{
-                "-Dconfig.file.path = " + TestConstants.CONFIG_FILE_PATH,
+                "-Dconfig.file.path = " + FileConstants.CONFIG_FILE_PATH,
         };
 
-        AppConfig expected = new AppConfig(TestConstants.CONFIG_FILE_PATH.toString(), null);
+        AppConfig expected = new AppConfig(FileConstants.CONFIG_FILE_PATH.toString(), null);
 
         // when
         CommandLineParser parser = new CommandLineParser(cliArguments);
@@ -95,10 +95,10 @@ class CommandLineParserTest {
     void testParse_whenSpacesBetweenFlagAndProperty_resultShouldNotBeAffected() {
         // given
         String[] cliArguments = new String[]{
-                "-D   config.file.path = " + TestConstants.CONFIG_FILE_PATH,
+                "-D   config.file.path = " + FileConstants.CONFIG_FILE_PATH,
         };
 
-        AppConfig expected = new AppConfig(TestConstants.CONFIG_FILE_PATH.toString(), null);
+        AppConfig expected = new AppConfig(FileConstants.CONFIG_FILE_PATH.toString(), null);
 
         // when
         CommandLineParser parser = new CommandLineParser(cliArguments);
