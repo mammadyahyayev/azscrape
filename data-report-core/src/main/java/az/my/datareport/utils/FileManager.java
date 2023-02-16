@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Works with files
@@ -20,7 +21,7 @@ public class FileManager {
 
     /**
      * Construct file if there isn't an appropriate file,
-     * if path is invalid or directory path, throws exception
+     * if path or directory path is invalid, throws exception
      *
      * @param path given file path
      * @return file
@@ -49,7 +50,7 @@ public class FileManager {
 
     /**
      * Construct directory if there isn't an appropriate directory,
-     * if path is invalid or file path, throws exception
+     * if path is invalid, throws exception
      *
      * @param path given directory path
      * @return Directory File
@@ -76,22 +77,24 @@ public class FileManager {
         return file;
     }
 
-    public static String constructFilename(String name) {
-        String filename = name.toLowerCase();
+    public String constructFilename(String name) {
+        Assert.required(name, "name is required field");
+
+        String filename = name.toLowerCase(Locale.ENGLISH);
         return StringUtils.replaceAllSymbols(filename, FILE_NAME_DELIMITER);
     }
 
-    public static String constructFilename(String name, String extension) {
+    public String constructFilename(String name, String extension) {
         Assert.required(name, "name is required field");
         Assert.required(extension, "extension is required field");
 
-        String filename = name.trim().toLowerCase();
+        String filename = name.trim().toLowerCase(Locale.ENGLISH);
         filename = StringUtils.replaceAllSymbols(filename, FILE_NAME_DELIMITER);
         return filename + "." + extension.trim().toLowerCase();
     }
 
-    public static File getFile(String filepath) {
-        Assert.required(filepath, "filepath is required to construct File object");
+    public File getFile(String filepath) {
+        Assert.required(filepath, "filepath is required");
 
         File file = new File(filepath);
         if (file.exists() && file.canRead()) {

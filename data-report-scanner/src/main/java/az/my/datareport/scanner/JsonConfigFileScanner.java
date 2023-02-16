@@ -26,10 +26,15 @@ import java.util.Objects;
 public class JsonConfigFileScanner implements ConfigFileScanner {
 
     private static final Logger LOG = LogManager.getLogger(JsonConfigFileScanner.class);
+    private final FileManager fileManager;
+
+    public JsonConfigFileScanner() {
+        this.fileManager = new FileManager();
+    }
 
     @Override
     public DataAST readDataConfig(String filePath) {
-        File file = FileManager.getFile(filePath);
+        File file = fileManager.getFile(filePath);
         if (file == null) {
             throw new ConfigFileException(new FileNotFoundException());
         }
@@ -62,7 +67,7 @@ public class JsonConfigFileScanner implements ConfigFileScanner {
     public ReportFile readFileConfig(ConfigFile configFile) {
         Objects.requireNonNull(configFile);
 
-        File file = FileManager.getFile(configFile.getFilepath());
+        File file = fileManager.getFile(configFile.getFilepath());
         if (file == null) {
             throw new ConfigFileException(new FileNotFoundException());
         }

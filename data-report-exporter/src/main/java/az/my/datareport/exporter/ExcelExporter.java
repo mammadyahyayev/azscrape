@@ -96,7 +96,7 @@ public class ExcelExporter implements Exporter {
         FileManager fileManager = new FileManager();
         fileManager.constructDirectory(directoryPath);
 
-        String filename = FileManager.constructFilename(reportFile.getFilename());
+        String filename = fileManager.constructFilename(reportFile.getFilename());
         String extension = reportFile.getFileExtension().name().toLowerCase();
         Path filepath = Path.of(directoryPath, filename + "." + extension);
 

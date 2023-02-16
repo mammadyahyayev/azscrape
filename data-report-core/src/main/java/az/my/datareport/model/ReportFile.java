@@ -12,10 +12,13 @@ public class ReportFile {
     private FileExtension fileExtension;
     private final LocalDateTime createdAt = LocalDateTime.now();
 
+    private final FileManager fileManager;
+
     private ReportFile(String filename, FileType filetype, FileExtension fileExtension) {
         this.filename = filename;
         this.filetype = filetype;
         this.fileExtension = fileExtension;
+        this.fileManager = new FileManager();
     }
 
     public String getFilename() {
@@ -24,7 +27,7 @@ public class ReportFile {
 
     public String getFileFullName() {
         if (filename.contains(" ")) {
-            return FileManager.constructFilename(filename, fileExtension.toString());
+            return fileManager.constructFilename(filename, fileExtension.toString());
         }
 
         return this.filename.toLowerCase() + "." + this.fileExtension.toString().toLowerCase();
