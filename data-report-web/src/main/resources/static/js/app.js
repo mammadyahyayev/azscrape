@@ -88,7 +88,7 @@ generateReportBtn.addEventListener("click", () => {
 
     const configFile = new ConfigFile(title, description, fileType, fileExtension, url, dataElement);
     const json = configFile.load();
-    fetch("/config/send", {
+    fetch("/reportFile/generate", {
         method: "POST",
         body: JSON.stringify(json)
     }).then(res => {

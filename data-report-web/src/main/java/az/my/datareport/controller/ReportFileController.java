@@ -24,7 +24,7 @@ import java.io.InputStream;
 import java.nio.file.Path;
 
 @Controller
-@RequestMapping("/report/file")
+@RequestMapping("/reportFile")
 public class ReportFileController {
 
     private static final Logger LOG = LogManager.getLogger(ReportFileController.class);
@@ -41,7 +41,7 @@ public class ReportFileController {
         this.exportService = exportService;
     }
 
-    @PostMapping(value = "/generate", produces = "text/html") //TODO: Change url both here and javascript
+    @PostMapping(value = "/generate", produces = "text/html")
     @ResponseBody
     public ModelAndView postData(@RequestBody String json) {
         try {

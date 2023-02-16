@@ -84,7 +84,7 @@ class ReportFileControllerTest {
     void testPostData_whenFileNotExported_redirectToErrorPage() throws Exception {
         when(exportService.export(Mockito.any(), Mockito.any())).thenReturn(false);
 
-        MvcResult mvcResult = mvc.perform(post("/config/send").content(json))
+        MvcResult mvcResult = mvc.perform(post("/reportFile/generate").content(json))
                 .andReturn();
 
         assertNotNull(mvcResult.getModelAndView());
@@ -95,7 +95,7 @@ class ReportFileControllerTest {
     void testPostData_whenFileExported_redirectToResultPage() throws Exception {
         when(exportService.export(Mockito.any(), Mockito.any())).thenReturn(true);
 
-        MvcResult mvcResult = mvc.perform(post("/config/send").content(json))
+        MvcResult mvcResult = mvc.perform(post("/reportFile/generate").content(json))
                 .andReturn();
 
         assertNotNull(mvcResult.getModelAndView());
@@ -117,7 +117,7 @@ class ReportFileControllerTest {
 
         when(configService.getReportFileConfiguration()).thenReturn(reportFile);
 
-        mvc.perform(get("/download/file"))
+        mvc.perform(get("/reportFile/download"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/octet-stream"))

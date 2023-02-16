@@ -46,12 +46,16 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Implement Download file feature ✅
 - Fix redirect issue ✅
 - Make downloaded file name available for download request ✅
-- Write integration test
 - File not found when file generated automatically at runtime ✅
+- Write test method for file download ✅
+- Change rest endpoints' urls (both controller and javascript) ✅
 - Configure File Saver Dialog window with extension
-- Write test method for file download
-- Change rest endpoints' urls (both controller and javascript)
+- Write integration test
 
+********************************************
+               Version 2.0.2
+********************************************
+- Configure mvn commands available for entire project (test, check, compile and so on.) (for example, test all available test methods when mvn test executed)
 
 
 ********************************************
