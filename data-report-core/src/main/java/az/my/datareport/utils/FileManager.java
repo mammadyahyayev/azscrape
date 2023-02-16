@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Locale;
 
 /**
@@ -132,6 +134,23 @@ public class FileManager {
         }
 
         return null;
+    }
+
+    /**
+     * Deletes file with given path
+     *
+     * @param filepath path of the file
+     * @return true if file deleted successfully, otherwise false
+     */
+    public boolean deleteFile(Path filepath) {
+        Assert.required(filepath, "filepath is required");
+
+        try {
+            return Files.deleteIfExists(filepath);
+        } catch (IOException e) {
+            LOG.error("Failed to delete file!", e);
+            return false;
+        }
     }
 
 }
