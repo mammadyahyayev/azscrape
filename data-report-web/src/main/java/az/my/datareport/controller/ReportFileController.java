@@ -1,7 +1,6 @@
 package az.my.datareport.controller;
 
 import az.my.datareport.DataReportAppException;
-import az.my.datareport.config.ConfigurationException;
 import az.my.datareport.constant.FileConstants;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportFile;
@@ -16,9 +15,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.FileInputStream;
@@ -27,15 +24,16 @@ import java.io.InputStream;
 import java.nio.file.Path;
 
 @Controller
-public class ConfigController {
+@RequestMapping("/report/file")
+public class ReportFileController {
 
-    private static final Logger LOG = LogManager.getLogger(ConfigController.class);
+    private static final Logger LOG = LogManager.getLogger(ReportFileController.class);
 
     public final ConfigService configService;
     private final ScraperService scraperService;
     private final ExportService exportService;
 
-    public ConfigController(
+    public ReportFileController(
             ConfigService configService, ScraperService scraperService, ExportService exportService
     ) {
         this.configService = configService;
@@ -43,7 +41,8 @@ public class ConfigController {
         this.exportService = exportService;
     }
 
-    @PostMapping(value = "/config/send") //TODO: Change url both here and javascript
+    @PostMapping(value = "/generate", produces = "text/html") //TODO: Change url both here and javascript
+    @ResponseBody
     public ModelAndView postData(@RequestBody String json) {
         try {
             DataAST dataAST = configService.sendConfigStr(json);
@@ -52,23 +51,23 @@ public class ConfigController {
             boolean isExported = exportService.export(reportFile, reportData);
             if (!isExported) {
                 LOG.warn("File wasn't generated!");
+                return new ModelAndView("redirect:/error");
             }
-        } catch (ConfigurationException ex) {
-            //TODO: log and show message to end user.
+        } catch (DataReportAppException ex) {
+            LOG.error("Failed to create file", ex);
+            return new ModelAndView("redirect:/error");
         }
-        //TODO: create a connector class between controller and service
-        // send json string to end connection, it must throw an exception if there is a problem
-        // catch that exception in here and show the problem to user
 
         return new ModelAndView("redirect:/result");
     }
 
-    @GetMapping("/download/file")
+    @GetMapping(value = "/download", produces = "application/octet-stream")
     public ResponseEntity<Resource> downloadReportFile() {
         ReportFile reportFile = configService.getReportFileConfiguration();
         Path reportFilePath = Path.of(FileConstants.MODULE_CORE_PATH, FileConstants.MAIN_RESOURCES, reportFile.getFileFullName());
 
-        try (InputStream inputStream = new FileInputStream(String.valueOf(reportFilePath.toAbsolutePath()))) {
+        try {
+            InputStream inputStream = new FileInputStream(String.valueOf(reportFilePath.toAbsolutePath()));
             InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
 
             return ResponseEntity.ok()
@@ -77,7 +76,6 @@ public class ConfigController {
         } catch (IOException e) {
             throw new DataReportAppException("File related exception happened!", e);
         }
-
     }
 
 }
