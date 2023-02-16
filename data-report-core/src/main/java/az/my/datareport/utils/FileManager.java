@@ -10,10 +10,18 @@ import java.util.Locale;
 
 /**
  * Works with files
+ * <br/>
+ * <br/>
+ * <h3>Acceptable File norm example</h3>
+ * <b>Given:</b> fiLe Operation  <br/>
+ * <b>Return:</b> file_operation <br/>
  */
 public class FileManager {
     private static final Logger LOG = LogManager.getLogger(FileManager.class);
 
+    /**
+     * Used to replace all file symbols with _ (underscore)
+     */
     private static final char FILE_NAME_DELIMITER = '_';
 
     public FileManager() {
@@ -77,22 +85,44 @@ public class FileManager {
         return file;
     }
 
+    /**
+     * Construct filename with given string, and replaces all symbols
+     * with underscore symbol
+     *
+     * @param name name of the file without extension
+     * @return file name with acceptable form
+     * @see #FILE_NAME_DELIMITER
+     */
     public String constructFilename(String name) {
         Assert.required(name, "name is required field");
 
-        String filename = name.toLowerCase(Locale.ENGLISH);
+        String filename = name.trim().toLowerCase(Locale.ENGLISH);
         return StringUtils.replaceAllSymbols(filename, FILE_NAME_DELIMITER);
     }
 
+    /**
+     * Construct full filename with given name and extension, and replaces all symbols
+     * with underscore symbol
+     *
+     * @param name name of the file without extension
+     * @return file name with acceptable form
+     * @see #constructFilename(String)
+     */
     public String constructFilename(String name, String extension) {
         Assert.required(name, "name is required field");
         Assert.required(extension, "extension is required field");
 
-        String filename = name.trim().toLowerCase(Locale.ENGLISH);
-        filename = StringUtils.replaceAllSymbols(filename, FILE_NAME_DELIMITER);
+        String filename = constructFilename(name);
         return filename + "." + extension.trim().toLowerCase();
     }
 
+    /**
+     * Gets filepath as string, and checks file exists and available to read,
+     * then return the file as <code>File</code> object, otherwise returns <code>null</code>.
+     *
+     * @param filepath path of the file, can be absolute or relative
+     * @return <code>File</code> object
+     */
     public File getFile(String filepath) {
         Assert.required(filepath, "filepath is required");
 
