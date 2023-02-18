@@ -50,7 +50,7 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Write test method for file download ✅
 - Change rest endpoints' urls (both controller and javascript) ✅
 - Configure File Saver Dialog window with extension ✅
-- Write integration test
+- Write integration test ✅
 
 ********************************************
                Version 2.1.0
@@ -59,6 +59,8 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Convert all js files into ts files
 - Change design of the website
 - Build tree model
+- Insert OWASP dependency check plugin
+- Change Exception messages
 
 ********************************************
              FUTURE Versions
