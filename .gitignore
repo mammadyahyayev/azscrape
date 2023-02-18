@@ -169,8 +169,9 @@ docs/*.docx
 # Application Logs
 logs
 
-# Excel files
+# Microsoft Office files
 *.xlsx
+*.pptx
 
 # .txt files
 *references.txt
