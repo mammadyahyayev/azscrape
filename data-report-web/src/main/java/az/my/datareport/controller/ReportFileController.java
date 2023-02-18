@@ -64,7 +64,7 @@ public class ReportFileController {
     @GetMapping(value = "/download", produces = "application/octet-stream")
     public ResponseEntity<Resource> downloadReportFile() {
         ReportFile reportFile = configService.getReportFileConfiguration();
-        Path reportFilePath = Path.of(FileConstants.MODULE_CORE_PATH, FileConstants.MAIN_RESOURCES, reportFile.getFileFullName());
+        Path reportFilePath = Path.of(FileConstants.TEMP_DIR_PATH, reportFile.getFileFullName());
 
         try {
             InputStream inputStream = new FileInputStream(String.valueOf(reportFilePath.toAbsolutePath()));

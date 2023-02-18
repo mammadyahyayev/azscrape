@@ -1,6 +1,7 @@
 package az.my.datareport.exporter;
 
 import az.my.datareport.DataReportAppException;
+import az.my.datareport.constant.FileConstants;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
@@ -105,10 +106,9 @@ public class ExcelExporter implements Exporter {
 
     @Override
     public File constructReportFile(ReportFile reportFile) {
-        String currDir = System.getProperty("user.dir");
-        Path directory = Path.of(currDir, "data-report-core", RESOURCE_DIR.toString());
+        String directory = FileConstants.TEMP_DIR_PATH;
         LOG.info("Constructed path for report file [ " + directory + " ]");
-        return constructReportFile(directory.toString(), reportFile);
+        return constructReportFile(directory, reportFile);
     }
 
 }

@@ -69,7 +69,7 @@ class ExcelExporterTest {
     void testConstructReportFile_whenAppDirectoryPathGiven_constructAndReturnFile() {
         //given
         String expectedFileName = "github_search.xlsx";
-        Path expectedFilePath = Path.of(FileConstants.MODULE_CORE_PATH, FileConstants.MAIN_RESOURCES, expectedFileName);
+        Path expectedFilePath = Path.of(FileConstants.TEMP_DIR_PATH, expectedFileName);
 
         // when
         File file = exporter.constructReportFile(reportFile);
@@ -82,7 +82,7 @@ class ExcelExporterTest {
     @Test
     void testExport_whenGivingReportDataColumns_thenWriteThemIntoExcelFile() {
         //given
-        Path path = Path.of(FileConstants.MODULE_CORE_PATH, FileConstants.MAIN_RESOURCES, "github_search.xlsx");
+        Path path = Path.of(FileConstants.TEMP_DIR_PATH, "github_search.xlsx");
 
         ReportData reportData = new ReportData();
 

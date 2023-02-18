@@ -104,7 +104,7 @@ class ReportFileControllerTest {
 
     @Test
     void testDownloadFile_whenFilePathGiven_returnExportedFile() throws Exception {
-        Path path = Path.of(FileConstants.MODULE_CORE_PATH, FileConstants.MAIN_RESOURCES, "file.xlsx");
+        Path path = Path.of(FileConstants.TEMP_DIR_PATH, "file.xlsx");
 
         FileManager fileManager = new FileManager();
         fileManager.constructFile(path.toString());
