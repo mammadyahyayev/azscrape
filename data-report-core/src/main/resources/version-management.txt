@@ -49,14 +49,16 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - File not found when file generated automatically at runtime ✅
 - Write test method for file download ✅
 - Change rest endpoints' urls (both controller and javascript) ✅
-- Configure File Saver Dialog window with extension
+- Configure File Saver Dialog window with extension ✅
 - Write integration test
 
 ********************************************
-               Version 2.0.2
+               Version 2.1.0
 ********************************************
 - Configure mvn commands available for entire project (test, check, compile and so on.) (for example, test all available test methods when mvn test executed)
-
+- Convert all js files into ts files
+- Change design of the website
+- Build tree model
 
 ********************************************
              FUTURE Versions
