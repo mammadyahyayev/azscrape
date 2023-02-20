@@ -59,12 +59,12 @@
 
     <profiles>
         <profile>
-            <id>no-tests</id>
+            <id>no-test</id>
             <properties>
                 <maven.test.skip>true</maven.test.skip>
             </properties>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>false</activeByDefault>
             </activation>
         </profile>
     </profiles>
@@ -144,7 +144,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
