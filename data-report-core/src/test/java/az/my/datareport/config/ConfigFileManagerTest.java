@@ -21,17 +21,17 @@ class ConfigFileManagerTest {
 
     @Test
     void testGetConfigFile_whenInvalidPathGiven_thenThrowException() {
-        Path path = Path.of(FileConstants.TEST_RESOURCES.toString(), "test-config.xlsx");
+        Path path = Path.of(FileConstants.TEST_RESOURCES, "test-config.xlsx");
 
         ConfigFileException exception = assertThrows(ConfigFileException.class, () -> manager.getConfigFile(path));
         assertEquals(FileNotFoundException.class, exception.getCause().getClass());
     }
 
     @Test
-    void testGetConfigFile_whenIncorrectFileExtensionGiven_thenThrowException() {
-        Path path = Path.of(FileConstants.TEST_RESOURCES.toString(), "invalid-config-file-format.txt");
+    void testGetConfigFile_whenNonExistFileGiven_thenThrowException() {
+        Path path = Path.of(FileConstants.TEST_RESOURCES, "invalid-config-file-format.txt");
         ConfigFileException exception = assertThrows(ConfigFileException.class, () -> manager.getConfigFile(path));
-        assertEquals(UnsupportedFileFormatException.class, exception.getCause().getClass());
+        assertEquals(FileNotFoundException.class, exception.getCause().getClass());
     }
 
 }
