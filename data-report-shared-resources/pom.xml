@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>data-report-shared-resources</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.resource.plugin.version>3.0.0</maven.resource.plugin.version>

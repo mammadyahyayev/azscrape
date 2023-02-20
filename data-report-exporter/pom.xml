@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>data-report-exporter</artifactId>
+    <packaging>jar</packaging>
 
     <properties>
         <apache.poi.version>5.2.2</apache.poi.version>
