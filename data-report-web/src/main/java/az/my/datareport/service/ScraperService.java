@@ -14,7 +14,7 @@ public class ScraperService {
         this.scraper = scraper;
     }
 
-    public ReportData getScrapedData(DataAST dataAST) {
-        return scraper.scrape(dataAST);
+    public ReportData getScrapedData(DataAST tree) {
+        return scraper.scrape(tree);
     }
 }

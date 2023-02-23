@@ -48,9 +48,9 @@ public class ReportFileController {
     @ResponseBody
     public ModelAndView generateReportFile(@RequestBody String json, HttpServletResponse response) {
         try {
-            DataAST dataAST = configService.sendConfigStr(json);
+            DataAST tree = configService.sendConfigStr(json);
             ReportFile reportFile = configService.getReportFileConfiguration();
-            ReportData reportData = scraperService.getScrapedData(dataAST);
+            ReportData reportData = scraperService.getScrapedData(tree);
             boolean isExported = exportService.export(reportFile, reportData);
 
             response.setContentType(String.valueOf(ContentType.TEXT_HTML));

@@ -108,6 +108,7 @@ public class WebPage {
 
     /**
      * Fetch web elements and stores them in list of strings
+     *
      * @param cssSelector selector of the element
      * @return scraped elements as WebElement
      * @see WebElement
@@ -128,6 +129,7 @@ public class WebPage {
     }
 
     /**
+     * Checks whether driver is connected
      *
      * @return true if the driver is connected to a web page
      */

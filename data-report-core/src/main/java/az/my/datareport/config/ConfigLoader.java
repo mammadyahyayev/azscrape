@@ -12,8 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Loads configurations for config file from different
- * sources
+ * Loads configurations for config file from different sources
  */
 public class ConfigLoader {
 
@@ -38,7 +37,6 @@ public class ConfigLoader {
 
         this.config = tempConfig;
 
-        DataAST data = new DataAST();
         DataNode dataNode = new DataNode();
         dataNode.setUrl(tempConfig.getData().getUrl());
 
@@ -54,6 +52,8 @@ public class ConfigLoader {
 
         dataElement.setChildren(children);
         dataNode.setElement(dataElement);
+
+        DataAST data = new DataAST();
         data.setDataNode(dataNode);
 
         return data;
@@ -95,24 +95,12 @@ public class ConfigLoader {
             return exportedFileName;
         }
 
-        public void setExportedFileName(String exportedFileName) {
-            this.exportedFileName = exportedFileName;
-        }
-
         public String getExportedFileType() {
             return exportedFileType;
         }
 
-        public void setExportedFileType(String exportedFileType) {
-            this.exportedFileType = exportedFileType;
-        }
-
         public String getExportedFileTypeExtension() {
             return exportedFileTypeExtension;
-        }
-
-        public void setExportedFileTypeExtension(String exportedFileTypeExtension) {
-            this.exportedFileTypeExtension = exportedFileTypeExtension;
         }
 
         public TempData getData() {

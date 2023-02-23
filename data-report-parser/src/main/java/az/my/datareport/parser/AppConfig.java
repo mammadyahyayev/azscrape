@@ -41,10 +41,17 @@ public class AppConfig {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
         AppConfig appConfig = (AppConfig) o;
-        return com.google.common.base.Objects.equal(configFilePath, appConfig.configFilePath) && com.google.common.base.Objects.equal(outputFilePath, appConfig.outputFilePath);
+        return com.google.common.base.Objects.equal(configFilePath, appConfig.configFilePath)
+                && com.google.common.base.Objects.equal(outputFilePath, appConfig.outputFilePath);
     }
 
     @Override

@@ -52,7 +52,9 @@ public class JsonSyntaxNormalizer {
      * @return field with supported delimiter
      */
     private static String normalizeFieldDelimiter(String field) {
-        if (field == null || field.isEmpty()) return field;
+        if (field == null || field.isEmpty()) {
+            return field;
+        }
 
         return StringUtils.replaceAllSymbols(field, FIELD_DELIMITER);
     }

@@ -15,10 +15,10 @@ import java.util.Objects;
 public class WebScraper implements Scraper {
 
     @Override
-    public ReportData scrape(DataAST dataAST) {
-        Objects.requireNonNull(dataAST);
+    public ReportData scrape(DataAST tree) {
+        Objects.requireNonNull(tree);
 
-        DataNode dataNode = dataAST.getDataNode();
+        DataNode dataNode = tree.getDataNode();
         WebPage page = new WebPage(dataNode.getUrl());
         page.connect();
 

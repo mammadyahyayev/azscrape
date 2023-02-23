@@ -16,8 +16,8 @@ import az.my.datareport.tree.DataAST;
 import java.io.File;
 
 /**
- *  Entry point of the application after parsing
- *  command line arguments
+ * Entry point of the application after parsing
+ * command line arguments
  */
 public final class DataReportApplication {
 
@@ -31,12 +31,14 @@ public final class DataReportApplication {
 
     /**
      * Initialize config file, scrapes and exports data
+     *
      * @param arguments command line arguments
      */
     public void init(String[] arguments) {
-        if(arguments == null || arguments.length == 0) {
+        if (arguments == null || arguments.length == 0) {
             throw new ConfigFileException("Please specify path of the config file!");
         }
+
         String configFilePath = arguments[0];
 
         File file = new File(configFilePath);
@@ -45,12 +47,12 @@ public final class DataReportApplication {
         }
 
         ConfigFileScanner scanner = new JsonConfigFileScanner();
-        DataAST dataAST = scanner.readDataConfig(configFilePath);
+        DataAST tree = scanner.readDataConfig(configFilePath);
 
         ConfigFileManager manager = new ConfigFileManager();
         ConfigFile configFile = manager.getConfigFile(configFilePath);
 
-        ReportData reportData = scraper.scrape(dataAST);
+        ReportData reportData = scraper.scrape(tree);
         ReportFile reportFile = scanner.readFileConfig(configFile);
         exporter.export(reportFile, reportData);
     }

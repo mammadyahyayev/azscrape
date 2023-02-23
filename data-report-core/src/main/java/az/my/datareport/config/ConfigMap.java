@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class ConfigMap {
 
-    private final static Map<Boolean, List<Field>> fields = new HashMap<>();
+    private static final Map<Boolean, List<Field>> fields = new HashMap<>();
 
     static {
         List<Field> requiredFields = new ArrayList<>();
