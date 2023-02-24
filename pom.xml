@@ -174,13 +174,9 @@
                 <version>${maven.jar.plugin.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>*.txt</exclude>
-                        <exclude>*.properties</exclude>
                         <exclude>*.png</exclude>
                         <exclude>*.xlsx</exclude>
                         <exclude>*.drawio</exclude>
-                        <exclude>*.xml</exclude>
-                        <exclude>*.json</exclude>
                     </excludes>
                     <archive>
                         <manifest>
@@ -263,7 +259,7 @@
 
     <reporting>
         <plugins>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven.javadoc.plugin.version}</version>
@@ -273,7 +269,7 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <doclint>none</doclint>
                 </configuration>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>

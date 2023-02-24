@@ -43,7 +43,9 @@ public class JsonConfigFileScanner implements ConfigFileScanner {
         try {
             JsonNode jsonNode = mapper.readTree(file);
             if (jsonNode == null || jsonNode instanceof MissingNode) {
-                throw new ConfigFileException("Content not found inside of the config file!");
+                throw new ConfigFileException(
+                        String.format("Content not found or given file path %s doesn't refer to json file!", filePath)
+                );
             }
 
             ObjectNode objectNode = JsonSyntaxNormalizer.normalize(jsonNode);
@@ -59,7 +61,7 @@ public class JsonConfigFileScanner implements ConfigFileScanner {
             return abstractTreeBuilder.build();
         } catch (IOException e) {
             LOG.error("Can't read from file: " + e);
-            throw new RuntimeException(e);
+            throw new ConfigFileException(String.format("Failed to read from given %s config file", filePath), e);
         }
     }
 

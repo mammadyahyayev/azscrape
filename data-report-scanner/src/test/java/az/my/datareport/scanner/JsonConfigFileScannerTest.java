@@ -1,11 +1,8 @@
 package az.my.datareport.scanner;
 
-import az.my.datareport.config.ConfigFile;
 import az.my.datareport.config.ConfigFileException;
-import az.my.datareport.model.ReportFile;
+import az.my.datareport.config.ConfigNotValidException;
 import az.my.datareport.tree.DataAST;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -15,57 +12,65 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JsonConfigFileScannerTest {
 
-    static String configFilePath = "";
-
-    @BeforeAll
-    static void setUp() {
-        ClassLoader classLoader = JsonConfigFileScannerTest.class.getClassLoader();
-        URL resource = classLoader.getResource("config.json");
-        if (resource == null) {
-            fail("config.json was not found");
-        }
-
-        configFilePath = resource.getPath();
-    }
-
     @Test
-    void testReadDataConfig_whenPathInvalid_throwException() {
+    void testReadDataConfig_whenInvalidFilePathGiven_throwException() {
+        // given
+        String invalidFilePath = "invalid-file-path";
+
+        //when
         ConfigFileScanner scanner = new JsonConfigFileScanner();
-        ConfigFileException exception = assertThrows(ConfigFileException.class, () -> scanner.readDataConfig("invalid_path"));
-        assertEquals(FileNotFoundException.class, exception.getCause().getClass());
+        ConfigFileException configFileException = assertThrows(ConfigFileException.class,
+                () -> scanner.readDataConfig(invalidFilePath));
+
+        // then
+        assertEquals(FileNotFoundException.class, configFileException.getCause().getClass());
     }
 
     @Test
-    void testReadDataConfig_whenFileIsEmpty_throwException() {
+    void testReadDataConfig_whenConfigFilePathGiven_thenReturnConfigData() {
         //given
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource("test-resources/empty-config.json");
-        if (resource == null) {
-            fail("empty-config.json was not found");
-        }
+        URL resource = getClass().getResource("/config.json");
+        assertNotNull(resource);
+
+        // when
+        ConfigFileScanner scanner = new JsonConfigFileScanner();
+        DataAST actual = scanner.readDataConfig(resource.getPath());
+
+        // then
+        assertNotNull(actual);
+        assertNotNull(actual.getDataNode());
+    }
+
+    @Test
+    void testReadDataConfig_whenFileWithoutDataFieldGiven_thenReturnConfigData() {
+        //given
+        URL resource = getClass().getResource("/test-resources/file-without-data-field.json");
+        assertNotNull(resource);
+
+        // when
+        ConfigFileScanner scanner = new JsonConfigFileScanner();
+        ConfigFileException configFileException = assertThrows(ConfigFileException.class, () -> scanner.readDataConfig(resource.getPath()));
+
+        // then
+        assertEquals(ConfigNotValidException.class, configFileException.getCause().getClass());
+        assertEquals("config file must contain 'data' field!", configFileException.getCause().getMessage());
+    }
+
+    @Test
+    void testReadDataConfig_whenInvalidFileTypeGiven_thenThrowException() {
+        //given
+        URL resource = getClass().getResource("/test-resources/invalid-config-file-format.txt");
+        assertNotNull(resource);
 
         String path = resource.getPath();
+
+        // when
         ConfigFileScanner scanner = new JsonConfigFileScanner();
-        assertThrows(ConfigFileException.class, () -> scanner.readDataConfig(path));
+        ConfigFileException configFileException = assertThrows(ConfigFileException.class, () -> scanner.readDataConfig(path));
+
+        // then
+        assertEquals(configFileException.getMessage(),
+                String.format("Content not found or given file path %s doesn't refer to json file!", path));
     }
 
-    @Test
-    void testReadDataConfig_whenTrueFileGiven_returnParsedDataAsAST() {
-        ConfigFileScanner scanner = new JsonConfigFileScanner();
-        DataAST actual = scanner.readDataConfig(configFilePath);
-        assertNotNull(actual);
-    }
-
-    @DisplayName("it will read report file configurations in given config file")
-    @Test
-    void testReadFileConfig_whenConfigFileGiven_thenReturnReportFile() {
-        ConfigFile configFile = new ConfigFile("config.json", configFilePath, "json");
-
-        ConfigFileScanner scanner = new JsonConfigFileScanner();
-        ReportFile reportFile = scanner.readFileConfig(configFile);
-        assertNotNull(reportFile);
-        assertNotNull(reportFile.getFiletype());
-        assertNotNull(reportFile.getFilename());
-        assertNotNull(reportFile.getFileExtension());
-    }
 }

@@ -5,9 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,16 +14,15 @@ class JsonSyntaxNormalizerTest {
 
     @Test
     void testNormalize_whenAbnormalKeysGiven_returnNormalizeFormOfThem() {
-        //given
+        // given
         ClassLoader classLoader = getClass().getClassLoader();
-        URL resource = classLoader.getResource("test-resources/test-config.json");
-        if (resource == null) {
-            fail("empty-config.json was not found");
-        }
+        try (InputStream inputStream = classLoader.getResourceAsStream("test-resources/test-config.json")) {
+            if (inputStream == null) {
+                fail("test-config.json was not found");
+            }
 
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            JsonNode jsonNode = mapper.readTree(new File(resource.getPath()));
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonNode = mapper.readTree(inputStream);
             ObjectNode node = JsonSyntaxNormalizer.normalize(jsonNode);
             assertNull(node.get("TitLe"));
             assertNotNull(node.get("title"));
