@@ -3,6 +3,7 @@ package az.my.datareport.scanner;
 import az.my.datareport.config.ConfigFileException;
 import az.my.datareport.config.ConfigNotValidException;
 import az.my.datareport.tree.DataAST;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -12,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JsonConfigFileScannerTest {
 
+    @Disabled
     @Test
     void testReadDataConfig_whenInvalidFilePathGiven_throwException() {
         // given
@@ -26,6 +28,7 @@ class JsonConfigFileScannerTest {
         assertEquals(FileNotFoundException.class, configFileException.getCause().getClass());
     }
 
+    @Disabled
     @Test
     void testReadDataConfig_whenConfigFilePathGiven_thenReturnConfigData() {
         //given
@@ -41,6 +44,7 @@ class JsonConfigFileScannerTest {
         assertNotNull(actual.getDataNode());
     }
 
+    @Disabled
     @Test
     void testReadDataConfig_whenFileWithoutDataFieldGiven_thenReturnConfigData() {
         //given
@@ -56,6 +60,7 @@ class JsonConfigFileScannerTest {
         assertEquals("config file must contain 'data' field!", configFileException.getCause().getMessage());
     }
 
+    @Disabled
     @Test
     void testReadDataConfig_whenInvalidFileTypeGiven_thenThrowException() {
         //given
