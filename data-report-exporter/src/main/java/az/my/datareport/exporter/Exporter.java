@@ -4,14 +4,11 @@ import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportFile;
 
 import java.io.File;
-import java.nio.file.Path;
 
+/**
+ * Exports report files
+ */
 public interface Exporter {
-
-    /**
-     * Resource Directory of the maven projects, e.g. src/main/resources
-     */
-    Path RESOURCE_DIR = Path.of("src", "main", "resources");
 
     /**
      * Exports scraped data into appropriate file
@@ -32,7 +29,7 @@ public interface Exporter {
     File constructReportFile(String directory, ReportFile reportFile);
 
     /**
-     * Constructs ReportFile in project resource folder, {@link #RESOURCE_DIR}
+     * Constructs ReportFile in project resource folder
      *
      * @param reportFile exported file
      * @return constructed output file for export

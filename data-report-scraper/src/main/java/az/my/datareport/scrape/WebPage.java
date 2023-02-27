@@ -40,7 +40,7 @@ public class WebPage {
     }
 
     /**
-     * Connects to web page
+     * Connects to a web page
      */
     public void connect() {
         try {
@@ -49,7 +49,7 @@ public class WebPage {
         } catch (Exception e) {
             LOG.error("Couldn't connect to webpage with url: [ " + url + " ]");
             disconnect();
-            throw new InternetConnectionException("Problem to connect to webpage, check your internet connection!", e);
+            throw new InternetConnectionException("Failed to connect to webpage, check your internet connection!", e);
         }
     }
 

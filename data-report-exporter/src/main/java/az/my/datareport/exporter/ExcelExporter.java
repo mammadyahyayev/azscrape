@@ -23,6 +23,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Exports report data into Excel file
+ */
 public class ExcelExporter implements Exporter {
 
     private static final Logger LOG = LogManager.getLogger(ExcelExporter.class);

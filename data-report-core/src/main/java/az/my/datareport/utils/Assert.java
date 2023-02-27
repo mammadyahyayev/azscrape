@@ -9,25 +9,49 @@ public final class Assert {
 
     }
 
+    /**
+     * Check whether given string is null empty, or blank
+     *
+     * @param str a string
+     */
     public static void required(String str) {
         required(str, str + " is required field");
     }
 
+    /**
+     * Check whether given string is null empty, or blank
+     * and print message
+     *
+     * @param str     a string
+     * @param message exception message
+     */
     public static void required(String str, String message) {
         if (str == null || str.isEmpty() || str.isBlank()) {
-            throw new AssertionError(message);
+            throw new IllegalArgumentException(message);
         }
     }
 
+    /**
+     * Check whether given object is null and print message
+     *
+     * @param type    an object
+     * @param message exception message
+     */
     public static void required(Object type, String message) {
         if (type == null) {
-            throw new AssertionError(message);
+            throw new IllegalArgumentException(message);
         }
     }
 
+    /**
+     * Check whether given class type is null and print message
+     *
+     * @param type    a class type
+     * @param message exception message
+     */
     public static void required(Class<?> type, String message) {
         if (type == null) {
-            throw new AssertionError(message);
+            throw new IllegalArgumentException(message);
         }
     }
 

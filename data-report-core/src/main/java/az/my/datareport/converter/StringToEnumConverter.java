@@ -27,6 +27,6 @@ public class StringToEnumConverter {
             }
         }
 
-        throw new ConversionFailedException("Can't convert from " + str + " to " + enumType.getName());
+        throw new ConversionFailedException("Failed to convert from " + str + " to " + enumType.getName());
     }
 }

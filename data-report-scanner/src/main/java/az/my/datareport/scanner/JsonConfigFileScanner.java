@@ -23,6 +23,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Reads configurations from JSON file
+ */
 public class JsonConfigFileScanner implements ConfigFileScanner {
 
     private static final Logger LOG = LogManager.getLogger(JsonConfigFileScanner.class);
