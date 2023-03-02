@@ -59,12 +59,25 @@ particular parent element. Problem fixed by adding new layer called DataParent
 - Convert all js files into ts files
 - Change design of the website
 - Build tree model
-- Insert OWASP dependency check plugin
-- Change Exception messages
+- Insert OWASP dependency check plugin ✅
+- Change Exception messages ✅
+- Add <scope>test</scope> to mockito and junit ✅
+- Change data-report-web project main class ✅
+- Change owasp dependency check plugin phase to only install [ if it is available create issue on GitHub ] ✅
+- Check other interfaces for javadoc (especially base interfaces)
+- Create a constructor inside WebPage class, and add second parameter that indicates driver window should be close or not
+
 
 ********************************************
              FUTURE Versions
 ********************************************
+- FileManager Design
+ rename construct to create
+ - create directories (if given path contains more than one non-existent directory, then it will create all of them)
+ - create files - takes string[] file path or file[] (create files if all given path are valid)
+ - create files (string[] , Predicate) - apply some filter or conditions
+
+
 - Create a configuration class for other java applications
 Idea: For example, when you want to give path to application instead of calling main method
 create configuration class, specify path, then send that class object to initializer
