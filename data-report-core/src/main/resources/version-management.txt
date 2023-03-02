@@ -71,6 +71,97 @@ particular parent element. Problem fixed by adding new layer called DataParent
 ********************************************
              FUTURE Versions
 ********************************************
+- After stable release, add @since annotation to every class or methods
+- When writing methods like toUpperCase or toLowerCase use them with overloaded version of Locale
+- Use string format for wrapping messages with dynamic values
+- Create a class called Constants (or think a great name), that keeps project metadata such as version,
+  project name, modules and so on.
+
+- DataReportFileType for config json (for more info : JdlFileType) (getName, description, extension, singleton class)
+
+- Do following code snippet
+<code>
+
+public static final String EXCEL = "..."
+
+static {
+
+    map = new HashMap(20); // use initial value
+    map.put("xlsx", EXCEL);
+
+}
+
+</code>
+
+[[[ Tree Implementation ]]]
+
+- Tree Methods: getParent, getLast, getFirst, ChildNode, getNext, getPrev, isRoot, HasSubNode (iterator), level
+    preOrder, postOrder, post and preOrder from given location, nodes, hasParent
+- Throw NoSucElementException inside of Tree
+- Some available classes and interfaces: Abstract Tree, Tree, TreeBuilder, Node
+- Node class methods or fields: level, order, location, value, parent, iterator (pre, post),
+    height - longest path, depth, predecessor, successor
+
+<h1>Show error in Tree format</h1>
+If there is a problem in your code show where it causes to problem
+
+     location: A0 | A (root) | Level: A, order: 0
+                        |
+                        |
+     location: B0 | B (node) | Level: B, order: 0
+                        |
+Node: C,           _____|_____ Node: C, Level: C, order: 1, location: C1
+Level: C,
+order: 0,
+location: C0
+
+- For this purpose create a file called LocationIndicator (Or Definer)
+
+Child Calculation
+root
+ |
+ |
+ |  DataNode (Child #1)
+ |        |
+ |        |______ SubDataNode (Child #1.1) for main: (Child #2)
+ |        |______ SubDataNode (Child #1.2) for main: (Child #3)
+ |
+ |
+ |  DataNode (Child #4)
+ |         |
+ |         |______ SubDataNode (Child #2.1) for main: (Child #5)
+ |         |______ SubDataNode (Child #2.2) for main: (Child #6)
+
+
+ There will be 6 children for root, 2 children for child #1 and so on.
+
+[[[ End of Tree Implementation ]]]
+
+- If returned list or set is vulnerable, return unmodifiable list
+- Some good names: isFinite, ensureNonNegative, firstCharToUpper, appendTo, skipNulls
+- Look @throws documentations inside GraphBuilder (guava)
+
+[[[ Cache Implementation ]]]
+
+- Implement Cache<K, V>
+    getIfPresent(key), put(key, value), CacheStats stats(), ConcurrentMap<K,V> asMap()
+- CacheBuilder<K,V>
+    maximumSize
+
+[[[ End Cache Implementation ]]]
+
+New Config File Design
+Config file will includes different types of parts into config file, therefore there will be parts
+                    ConfigFile
+                        |
+                        |
+                        |
+                  ConfigFilePart
+    1) FilePart, FilePartValidator, FilePartField (enum)
+    2) DataPart, DataPartValidator, DataPartField (enum)
+
+
+
 - FileManager Design
  rename construct to create
  - create directories (if given path contains more than one non-existent directory, then it will create all of them)
