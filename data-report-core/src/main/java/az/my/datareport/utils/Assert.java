@@ -66,4 +66,31 @@ public final class Assert {
             throw new IllegalArgumentException(message);
         }
     }
+
+    /**
+     * Checks given expression if it is false, throws  {@link IllegalArgumentException}
+     * otherwise doing nothing.
+     *
+     * @param expression an expression
+     * @param message    error message
+     */
+    public static void checkArgument(boolean expression, String message) {
+        if (!expression) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    /**
+     * Checks given expression if it is false, throws  {@link IllegalArgumentException}
+     * otherwise doing nothing.
+     *
+     * @param expression      an expression
+     * @param message         error message
+     * @param messageArgument error message parameters
+     */
+    public static void checkArgument(boolean expression, String message, Object messageArgument) {
+        if (!expression) {
+            throw new IllegalArgumentException(String.format(message, messageArgument));
+        }
+    }
 }
