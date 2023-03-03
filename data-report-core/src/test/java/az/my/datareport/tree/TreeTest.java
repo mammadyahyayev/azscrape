@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class TreeTest {
 
@@ -57,6 +56,42 @@ class TreeTest {
         tree.addNode(second);
 
         assertEquals(second, tree.getLast());
+    }
+
+    @Test
+    void testAddNode_whenNodeAddedFirstTime_returnInitialLocation() {
+        Tree tree = new Tree();
+        TempDataNode node = new TempDataNode("First node");
+        tree.addNode(node);
+
+        DataNodeLocation initialLocation = new DataNodeLocation("A", 0);
+        assertEquals(initialLocation, node.getLocation());
+        assertTrue(node.isRoot());
+    }
+
+    @Test
+    void testAddNode_whenNodesAdded_returnTheirLocations() {
+        Tree tree = new Tree();
+
+        TempDataNode first = new TempDataNode("First node");
+        TempDataNode second = new TempDataNode("Second node");
+        TempDataNode third = new TempDataNode("Third node");
+        tree.addNode(first);
+        tree.addNode(second);
+        tree.addNode(third);
+
+        DataNodeLocation firstLocation = new DataNodeLocation("A", 0);
+        DataNodeLocation secondLocation = new DataNodeLocation("A", 1);
+        DataNodeLocation thirdLocation = new DataNodeLocation("A", 2);
+
+        assertEquals(firstLocation, first.getLocation());
+        assertEquals(secondLocation, second.getLocation());
+        assertEquals(thirdLocation, third.getLocation());
+
+        assertTrue(first.isRoot());
+        assertFalse(second.isRoot());
+        assertFalse(third.isRoot());
+        assertEquals(3, tree.size());
     }
 
 }

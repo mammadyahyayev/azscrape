@@ -23,8 +23,18 @@ public class Tree {
 
         Assert.checkArgument(node.hasValue(), "node must have value in order to add it to the tree");
 
+        if (size == 0) {
+            DataNodeLocation firstLocation = DataNodeLocation.init();
+            node.setLocation(firstLocation);
+            node.setRoot(true);
+        } else {
+            DataNodeLocation lastLocation = this.getLast().getLocation();
+            node.setLocation(lastLocation.nextLocation(false));
+        }
+
         dataNodeList.add(node);
         this.size++;
+
         /*
              1. First check node value
              2. if dataNodeList is empty, then node must be the root

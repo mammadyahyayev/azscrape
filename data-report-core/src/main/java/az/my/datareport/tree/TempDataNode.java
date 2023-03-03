@@ -1,6 +1,7 @@
 package az.my.datareport.tree;
 
 import az.my.datareport.utils.Assert;
+import com.google.common.base.Objects;
 
 /**
  * A data node
@@ -13,9 +14,7 @@ public class TempDataNode {
     private TempDataNode next;
     private TempDataNode prev;
     private Object value;
-    private String level;
-    private int order;
-    private String location;
+    private DataNodeLocation location;
     private boolean isRoot;
 
     public TempDataNode() {
@@ -29,7 +28,7 @@ public class TempDataNode {
     }
 
     public TempDataNode(TempDataNode prev, Object value, TempDataNode next) {
-
+        Assert.required(value, "node value cannot be null");
     }
 
     public void getParent() {
@@ -66,16 +65,28 @@ public class TempDataNode {
 
     }
 
+    public DataNodeLocation getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(DataNodeLocation location) {
+        this.location = location;
+    }
+
+    public void setRoot(boolean root) {
+        isRoot = root;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TempDataNode that = (TempDataNode) o;
-        return order == that.order && com.google.common.base.Objects.equal(level, that.level) && com.google.common.base.Objects.equal(location, that.location);
+        return Objects.equal(location, that.location);
     }
 
     @Override
     public int hashCode() {
-        return com.google.common.base.Objects.hashCode(level, order, location);
+        return Objects.hashCode(location);
     }
 }

@@ -30,4 +30,37 @@ public final class StringUtils {
 
         return str;
     }
+
+    /**
+     * Combines two objects into String object
+     *
+     * @param str1 first object
+     * @param str2 second object
+     * @return combined String
+     */
+    public static String combine(Object str1, Object str2) {
+        if (str1 == null || str2 == null) {
+            throw new IllegalArgumentException(String.format("%s and %s cannot be null", str1, str2));
+        }
+
+        return str1 + str2.toString();
+    }
+
+    /**
+     * Gives last index of String object
+     *
+     * @param str a String object
+     * @return last index of String object
+     */
+    public static int lastIndex(String str) {
+        if (str == null) {
+            throw new IllegalArgumentException("str field cannot be null");
+        }
+
+        if (str.isEmpty() || str.isBlank()) {
+            return 0;
+        }
+
+        return str.charAt(str.length() - 1);
+    }
 }
