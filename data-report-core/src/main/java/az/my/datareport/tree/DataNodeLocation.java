@@ -5,7 +5,7 @@ import az.my.datareport.utils.StringUtils;
 import com.google.common.base.Objects;
 
 public class DataNodeLocation {
-    private static final String LETTERS = "ABCDEFGHJKLMNOPQRSTWXYZ"; //TODO: Check this correctness
+    private static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private final String location;
     private final String level;
     private final int order;
