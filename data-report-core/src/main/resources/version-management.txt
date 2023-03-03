@@ -95,12 +95,13 @@ static {
 
 [[[ Tree Implementation ]]]
 
-- Tree Methods: getParent, getLast, getFirst, ChildNode, getNext, getPrev, isRoot, HasSubNode (iterator), level
+- Tree Methods: getLast, getFirst, ChildNode, getNext, getPrev,  level
     preOrder, postOrder, post and preOrder from given location, nodes, hasParent
 - Throw NoSucElementException inside of Tree
 - Some available classes and interfaces: Abstract Tree, Tree, TreeBuilder, Node
 - Node class methods or fields: level, order, location, value, parent, iterator (pre, post),
-    height - longest path, depth, predecessor, successor
+    height - longest path, depth, predecessor, successor, getParent, isRoot, HasSubNode (iterator),
+
 
 <h1>Show error in Tree format</h1>
 If there is a problem in your code show where it causes to problem
@@ -134,6 +135,39 @@ root
 
 
  There will be 6 children for root, 2 children for child #1 and so on.
+
+Tree Builder
+
+Builder()
+    .root(new DataNode()) // think for this one, maybe no need for root() method, the first counts as root
+    .attributes()
+    .node(
+        new DataNode()
+        .node()
+        .attributes()
+    )
+    .attributes()
+    .build();
+
+node(
+    "Parent",
+    "selector",
+    attributes()
+    node("name", "selector", attributes(), subNode("name", "selector", attributes())),
+    subNode("Title", "mb-1",  attributes()),
+    subNode("Description", "mb-1",  attributes()),
+    subNode("Starts", "mb-1",  attributes()),
+)
+.build()
+
+subNodes doesn't have children
+
+// Topic: Tree Format Plugin
+Also create a plugin for this format of builder, because when you do format in IntelliJ IDEA or Eclipse,
+it will format code by default.
+
+Create a plugin for format builder classes, which will implement from class called TreeBuilder(find a good name)
+which has build method, override it, and also some annotations for useful to
 
 [[[ End of Tree Implementation ]]]
 
