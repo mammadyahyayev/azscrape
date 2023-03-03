@@ -3,6 +3,7 @@ package az.my.datareport.tree;
 import az.my.datareport.utils.Assert;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class Tree {
              3. future task: if there is prev value for example, user might go wrong, and pass a node to the list first
                 which has multiple parents. In this case, you must find the first parent of the node (use iterator)
              4. future task: as well as there will be multiple next nodes, in that case, we should consider them
+             5. After adding first element, it should be the root
          */
     }
 
@@ -41,12 +43,12 @@ public class Tree {
 
     }
 
-    public void getLast() {
-
+    public TempDataNode getFirst() {
+        return this.dataNodeList.get(0);
     }
 
-    public void getFirst() {
-
+    public TempDataNode getLast() {
+        return this.dataNodeList.get(this.size - 1);
     }
 
     public void getNext() {
@@ -65,12 +67,18 @@ public class Tree {
 
     }
 
-    public void nodes() {
-
+    /**
+     * Gives list of nodes in tree. Returned list shouldn't be
+     * modified, otherwise it will throw {@link UnsupportedOperationException}
+     *
+     * @return list of nodes in tree
+     */
+    public List<TempDataNode> nodes() {
+        return Collections.unmodifiableList(this.dataNodeList);
     }
 
     public int size() {
-        return size;
+        return this.size;
     }
 
     /**

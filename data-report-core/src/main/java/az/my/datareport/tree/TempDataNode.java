@@ -65,4 +65,17 @@ public class TempDataNode {
     public void successor() {
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TempDataNode that = (TempDataNode) o;
+        return order == that.order && com.google.common.base.Objects.equal(level, that.level) && com.google.common.base.Objects.equal(location, that.location);
+    }
+
+    @Override
+    public int hashCode() {
+        return com.google.common.base.Objects.hashCode(level, order, location);
+    }
 }
