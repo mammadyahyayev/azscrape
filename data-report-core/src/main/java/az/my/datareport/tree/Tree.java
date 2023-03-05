@@ -23,30 +23,72 @@ public class Tree {
 
         Assert.checkArgument(node.hasValue(), "node must have value in order to add it to the tree");
 
+        // find node of given node
+        // TempDataNode node = findParent(node); //TODO: method should be getAncestor inside tempDataNode
+
         if (size == 0) {
             DataNodeLocation firstLocation = DataNodeLocation.init();
             node.setLocation(firstLocation);
             node.setRoot(true);
+            dataNodeList.add(node);
+            this.size++;
         } else {
-            DataNodeLocation lastLocation = this.getLast().getLocation();
-            node.setLocation(lastLocation.nextLocation(false));
+
         }
 
-        dataNodeList.add(node);
-        this.size++;
+        if (node.hasSubNode()) {
+            DataNodeLocation lastLocation = node.getLocation();
+            String nextLevel = lastLocation.nextLevel();
+
+            for (int i = 0; i < node.subNodes().size(); i++) {
+                TempDataNode prev = i > 0 ? node.getSubNode(i - 1) : null;
+                TempDataNode curr = node.getSubNode(i);
+
+                if (i == 0) {
+                    curr.setLocation(new DataNodeLocation(nextLevel, 0));
+                    this.dataNodeList.add(curr);
+                    this.size++;
+                    continue;
+                }
+
+                curr.setLocation(new DataNodeLocation(nextLevel, prev.getLocation().nextOrder()));
+                this.dataNodeList.add(curr);
+                this.size++;
+            }
+        }
 
         /*
              1. First check node value
              2. if dataNodeList is empty, then node must be the root
              3. future task: if there is prev value for example, user might go wrong, and pass a node to the list first
-                which has multiple parents. In this case, you must find the first parent of the node (use iterator)
+                which has multiple parents. In this case, you must find the first node of the node (use iterator)
              4. future task: as well as there will be multiple next nodes, in that case, we should consider them
              5. After adding first element, it should be the root
          */
     }
 
-    public void addNode(TempDataNode node, String location) {
+    private TempDataNode findParent(TempDataNode node) {
+        if (node.getParent() == null) {
+            return node;
+        }
 
+        return findParent(node.getParent());
+    }
+
+    public void addNode(TempDataNode node, String location) {
+        Assert.required(node, "node field is required");
+        Assert.required(location, "location field is required");
+
+        DataNodeLocation nodeLocation;
+        TempDataNode lastNodeInLocation = getNodeFrom(location); //TODO: it will search every time when there are so many sub nodes
+        if (lastNodeInLocation == null) {
+            nodeLocation = new DataNodeLocation(location, 0);
+        } else {
+            nodeLocation = new DataNodeLocation(location, lastNodeInLocation.getLocation().getOrder());
+        }
+
+        node.setLocation(nodeLocation);
+        this.dataNodeList.add(node);
     }
 
     public void deleteNode(TempDataNode node) {
@@ -59,6 +101,14 @@ public class Tree {
 
     public TempDataNode getLast() {
         return this.dataNodeList.get(this.size - 1);
+    }
+
+    public TempDataNode getNodeFrom(String location) {
+        //TODO: first it will search whether there is a location or not, if given location is far from
+        // the locations which already have, then throw exception, e.g. in tree last level is B, if user
+        // trys to add node into the tree with level Z, then throw Exception
+        // msg: failed to add, last level in the tree is B, therefore next node can be ad only A, B, or C
+        return null;
     }
 
     public void getNext() {

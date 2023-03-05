@@ -3,6 +3,9 @@ package az.my.datareport.tree;
 import az.my.datareport.utils.Assert;
 import com.google.common.base.Objects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A data node
  */
@@ -11,11 +14,11 @@ import com.google.common.base.Objects;
  * in order not to break anything in application
  */
 public class TempDataNode {
-    private TempDataNode next;
-    private TempDataNode prev;
     private Object value;
     private DataNodeLocation location;
     private boolean isRoot;
+    private final List<TempDataNode> subNodes = new ArrayList<>();
+    private TempDataNode parentNode;
 
     public TempDataNode() {
 
@@ -27,12 +30,31 @@ public class TempDataNode {
         this.value = value;
     }
 
-    public TempDataNode(TempDataNode prev, Object value, TempDataNode next) {
+    public TempDataNode(TempDataNode parentNode, Object value, TempDataNode subNodes) {
         Assert.required(value, "node value cannot be null");
     }
 
-    public void getParent() {
+    public TempDataNode getParent() {
+        return parentNode;
+    }
 
+    private void setParent(TempDataNode node) {
+        this.parentNode = node;
+    }
+
+    public List<TempDataNode> subNodes() {
+        return subNodes;
+    }
+
+    public TempDataNode getSubNode(int order) {
+        return subNodes.get(order);
+    }
+
+    public void addSubNode(TempDataNode node) {
+        Assert.required(node, "node field is required");
+
+        node.setParent(this);
+        this.subNodes.add(node);
     }
 
     /**
@@ -46,7 +68,7 @@ public class TempDataNode {
     }
 
     public boolean hasSubNode() {
-        return false;
+        return this.subNodes.size() > 0;
     }
 
     public boolean hasParent() {

@@ -44,12 +44,12 @@ public class DataNodeLocation {
     }
 
     // TODO: Fix this method if need to create 2 letter combinations
-    private String nextLevel() {
+    String nextLevel() {
         char nextLetter = nextLetterAfter(this.level.charAt(0));
         return String.valueOf(nextLetter);
     }
 
-    private int nextOrder() {
+    int nextOrder() {
         return this.order + 1;
     }
 

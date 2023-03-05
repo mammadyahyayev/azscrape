@@ -94,4 +94,32 @@ class TreeTest {
         assertEquals(3, tree.size());
     }
 
+    @Test
+    void testAddNode_whenSubNodesAdd_theyShouldBeAddedIntoNewLocation() {
+        Tree tree = new Tree();
+
+        TempDataNode parent = new TempDataNode("Parent");
+        TempDataNode node1 = new TempDataNode("Node 1");
+        TempDataNode node2 = new TempDataNode("Node 2");
+        TempDataNode node3 = new TempDataNode("Node 3");
+
+        parent.addSubNode(node1);
+        parent.addSubNode(node2);
+        parent.addSubNode(node3);
+
+        tree.addNode(parent);
+
+        DataNodeLocation parentLocation = new DataNodeLocation("A", 0);
+        DataNodeLocation node1Location = new DataNodeLocation("B", 0);
+        DataNodeLocation node2Location = new DataNodeLocation("B", 1);
+        DataNodeLocation node3Location = new DataNodeLocation("B", 2);
+
+        assertTrue(parent.isRoot());
+        assertEquals(parentLocation, parent.getLocation());
+        assertEquals(node1Location, node1.getLocation());
+        assertEquals(node2Location, node2.getLocation());
+        assertEquals(node3Location, node3.getLocation());
+        assertEquals(4, tree.size());
+    }
+
 }
