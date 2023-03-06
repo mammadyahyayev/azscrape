@@ -1,22 +1,27 @@
 {
-  "exported_file_name": "Github Search",
-  "exported_file_type": "EXCEL",
-  "exported_file_type_extension": "xlsx",
+  "file_name": "Github Search",
+  "file_type": "EXCEL",
+  "file_extension": "xlsx",
   "description": "Dummy Description",
-  "data": {
-    "url": "https://github.com/search?q=java",
-    "element": {
-      "selector": ".repo-list-item",
-      "children": [
+  "data_parts": [
+    {
+      "url": "https://github.com/search?q=java",
+      "elements": [
         {
-          "name": "title",
-          "selector": ".v-align-middle"
-        },
-        {
-          "name": "description",
-          "selector": ".mb-1"
+          "name": "repository",
+          "selector": ".repo-list-item",
+          "sub_elements": [
+            {
+              "name": "title",
+              "selector": ".v-align-middle"
+            },
+            {
+              "name": "description",
+              "selector": ".mb-1"
+            }
+          ]
         }
       ]
     }
-  }
+  ]
 }
