@@ -21,8 +21,6 @@ public class Tree {
     public void addNode(TempDataNode node) {
         Assert.required(node, "dataNode is required field");
 
-        Assert.checkArgument(node.hasValue(), "node must have value in order to add it to the tree");
-
         // find node of given node
         // TempDataNode node = findParent(node); //TODO: method should be getAncestor inside tempDataNode
 
@@ -32,8 +30,6 @@ public class Tree {
             node.setRoot(true);
             dataNodeList.add(node);
             this.size++;
-        } else {
-
         }
 
         if (node.hasSubNode()) {

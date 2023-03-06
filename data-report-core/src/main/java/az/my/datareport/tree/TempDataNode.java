@@ -14,8 +14,8 @@ import java.util.List;
  * in order not to break anything in application
  */
 public class TempDataNode {
-    private Object value;
     private DataNodeLocation location;
+    private DataNodeAttribute attribute;
     private boolean isRoot;
     private final List<TempDataNode> subNodes = new ArrayList<>();
     private TempDataNode parentNode;
@@ -24,14 +24,10 @@ public class TempDataNode {
 
     }
 
-    public TempDataNode(Object value) {
-        Assert.required(value, "node value cannot be null");
+    public TempDataNode(DataNodeAttribute attribute) {
+        Assert.required(attribute, "node attribute cannot be null");
 
-        this.value = value;
-    }
-
-    public TempDataNode(TempDataNode parentNode, Object value, TempDataNode subNodes) {
-        Assert.required(value, "node value cannot be null");
+        this.attribute = attribute;
     }
 
     public TempDataNode getParent() {
@@ -75,10 +71,6 @@ public class TempDataNode {
         return false;
     }
 
-    public boolean hasValue() {
-        return this.value != null;
-    }
-
     public void predecessor() {
 
     }
@@ -93,6 +85,10 @@ public class TempDataNode {
 
     public void setLocation(DataNodeLocation location) {
         this.location = location;
+    }
+
+    public DataNodeAttribute getAttribute() {
+        return attribute;
     }
 
     public void setRoot(boolean root) {

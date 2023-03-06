@@ -184,6 +184,10 @@ which has build method, override it, and also some annotations for useful to
 
 [[[ End Cache Implementation ]]]
 
+
+NOTE: Create Boundaries for the system: for the third party libraries, later to replace them easily without breaking the code
+
+
 New Config File Design
 Config file will includes different types of parts into config file, therefore there will be parts
                     ConfigFile
