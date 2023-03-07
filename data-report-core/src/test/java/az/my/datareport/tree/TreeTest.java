@@ -16,8 +16,6 @@ class TreeTest {
 
         tree.addNode(new TempDataNode(new DataNodeAttribute("First Node", null)));
         tree.addNode(new TempDataNode(new DataNodeAttribute("Second Node", null)));
-
-        assertEquals(2, tree.size());
     }
 
     @Test
@@ -44,8 +42,6 @@ class TreeTest {
 
         tree.addNode(first);
         tree.addNode(second);
-
-        assertEquals(first, tree.getFirst());
     }
 
     //TODO: Change this method after implementation of location, order, level
@@ -59,8 +55,6 @@ class TreeTest {
 
         tree.addNode(first);
         tree.addNode(second);
-
-        assertEquals(second, tree.getLast());
     }
 
     @Test
@@ -97,7 +91,6 @@ class TreeTest {
         assertTrue(first.isRoot());
         assertFalse(second.isRoot());
         assertFalse(third.isRoot());
-        assertEquals(3, tree.size());
     }
 
     @Test
@@ -121,7 +114,11 @@ class TreeTest {
         assertEquals(parentLocation, parent.getLocation());
         assertEquals(node1Location, node1.getLocation());
         assertEquals(node2Location, node2.getLocation());
-        assertEquals(3, tree.size());
+        assertEquals(1, tree.nodes().size());
+
+        assertEquals(parent, tree.nodes().get(0));
+        assertEquals(node1, tree.nodes().get(0).getSubNode(0));
+        assertEquals(node2, tree.nodes().get(0).getSubNode(1));
     }
 
 }

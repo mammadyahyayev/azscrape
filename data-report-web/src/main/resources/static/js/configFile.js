@@ -17,14 +17,22 @@ class ConfigFile {
 
     load() {
         return {
-            "exported_file_name": this.title,
-            "exported_file_type": this.fileType,
-            "exported_file_type_extension": this.fileExtension,
+            "fileName": this.title,
+            "fileType": this.fileType,
+            "fileExtension": this.fileExtension,
             "description": this.description,
-            "data": {
-                "url": this.url,
-                "element": this.dataElement
-            }
+            "dataParts": [
+                {
+                    "url": this.url,
+                    "elements": [
+                        {
+                            "name": this.dataElement.name,
+                            "selector": this.dataElement.selector,
+                            "subElements": this.dataElement.children,
+                        }
+                    ]
+                }
+            ]
         };
     }
 }

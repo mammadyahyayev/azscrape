@@ -41,29 +41,32 @@ public class ReportFileControllerIntTest {
     @BeforeAll
     public static void setupAll() {
         json = "{\n" +
-                "  \"exported_file_name\": \"Github Search\",\n" +
-                "  \"exported_file_type\": \"EXCEL\",\n" +
-                "  \"exported_file_type_extension\": \"xlsx\",\n" +
+                "  \"file_name\": \"Github Search\",\n" +
+                "  \"file_type\": \"EXCEL\",\n" +
+                "  \"file_extension\": \"xlsx\",\n" +
                 "  \"description\": \"Dummy Description\",\n" +
-                "  \"data\": {\n" +
-                "    \"url\": \"https://github.com/search?q=java\",\n" +
-                "    \"element\": {\n" +
-                "      \"selector\": \".repo-list-item\",\n" +
-                "      \"children\": [\n" +
+                "  \"data_parts\": [\n" +
+                "    {\n" +
+                "      \"url\": \"https://github.com/search?q=java\",\n" +
+                "      \"elements\": [\n" +
                 "        {\n" +
-                "          \"name\": \"title\",\n" +
-                "          \"selector\": \".v-align-middle\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"name\": \"description\",\n" +
-                "          \"selector\": \".mb-1\"\n" +
+                "          \"name\": \"repository\",\n" +
+                "          \"selector\": \".repo-list-item\",\n" +
+                "          \"sub_elements\": [\n" +
+                "            {\n" +
+                "              \"name\": \"title\",\n" +
+                "              \"selector\": \".v-align-middle\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "              \"name\": \"description\",\n" +
+                "              \"selector\": \".mb-1\"\n" +
+                "            }\n" +
+                "          ]\n" +
                 "        }\n" +
                 "      ]\n" +
                 "    }\n" +
-                "  }\n" +
+                "  ]\n" +
                 "}";
-
-
     }
 
     @BeforeEach
@@ -77,7 +80,8 @@ public class ReportFileControllerIntTest {
 
     @Test
     public void testGenerateReportFile_whenJSONGiven_createAndRedirectToResultPage() throws Exception {
-        MvcResult mvcResult = mvc.perform(post("/reportFile/generate").content(json).contentType(MediaType.APPLICATION_JSON))
+        MvcResult mvcResult = mvc.perform(post("/reportFile/generate").content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(content().contentType(ContentType.TEXT_HTML.toString()))

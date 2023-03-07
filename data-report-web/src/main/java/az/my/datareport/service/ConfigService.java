@@ -1,38 +1,68 @@
 package az.my.datareport.service;
 
-import az.my.datareport.config.ConfigLoader;
+import az.my.datareport.controller.vm.ConfigDataVM;
+import az.my.datareport.controller.vm.ConfigFileVM;
+import az.my.datareport.controller.vm.ElementVM;
 import az.my.datareport.converter.StringToEnumConverter;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
-import az.my.datareport.tree.DataAST;
+import az.my.datareport.tree.DataNodeAttribute;
+import az.my.datareport.tree.TempDataNode;
+import az.my.datareport.tree.Tree;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ConfigService {
 
-    private final ConfigLoader loader;
+    private ConfigFileVM configFile;
 
-    public ConfigService(ConfigLoader loader) {
-        this.loader = loader;
+    public Tree getDataPart() {
+        if (configFile == null) {
+            throw new IllegalArgumentException("configFile data cannot be null");
+        }
+
+        List<ConfigDataVM> dataParts = configFile.getDataParts();
+
+        Tree tree = new Tree();
+        for (ConfigDataVM dataPart : dataParts) {
+            String url = dataPart.getUrl();
+            List<ElementVM> elements = dataPart.getElements();
+            TempDataNode node = null;
+            for (ElementVM element : elements) {
+                node = new TempDataNode(new DataNodeAttribute(element.getName(), element.getSelector()));
+                List<ElementVM> children = element.getSubElements();
+                for (ElementVM child : children) {
+                    TempDataNode subNode = new TempDataNode(new DataNodeAttribute(child.getName(), child.getSelector()));
+                    node.addSubNode(subNode);
+                }
+            }
+
+            tree.addNode(node);
+        }
+
+        return tree;
     }
 
+    public ReportFile getReportFilePart() {
+        if (configFile == null) {
+            throw new IllegalArgumentException("configFile data cannot be null");
+        }
 
-    public DataAST sendConfigStr(String json) {
-        return loader.loadConfig(json);
-    }
-
-    public ReportFile getReportFileConfiguration() {
-        ConfigLoader.TempConfig config = loader.getReportFileConfiguration();
-
-        FileType fileType = StringToEnumConverter.convert(config.getExportedFileType(), FileType.class);
-        FileExtension fileExtension = StringToEnumConverter.convert(config.getExportedFileTypeExtension(), FileExtension.class);
+        FileType fileType = StringToEnumConverter.convert(configFile.getFileType(), FileType.class);
+        FileExtension fileExtension = StringToEnumConverter.convert(configFile.getFileExtension(), FileExtension.class);
 
         return new ReportFile.Builder()
-                .filename(config.getExportedFileName())
+                .filename(configFile.getFileName())
                 .fileType(fileType)
                 .fileExtension(fileExtension)
                 .build();
+    }
+
+    public void setConfiguration(ConfigFileVM configFile) {
+        this.configFile = configFile;
     }
 
 }

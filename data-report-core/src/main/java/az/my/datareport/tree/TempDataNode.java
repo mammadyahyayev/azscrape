@@ -14,11 +14,11 @@ import java.util.List;
  * in order not to break anything in application
  */
 public class TempDataNode {
-    private DataNodeLocation location;
     private DataNodeAttribute attribute;
+    private DataNodeLocation location;
+    private TempDataNode parentNode;
     private boolean isRoot;
     private final List<TempDataNode> subNodes = new ArrayList<>();
-    private TempDataNode parentNode;
 
     public TempDataNode() {
 

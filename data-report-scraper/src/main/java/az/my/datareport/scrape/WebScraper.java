@@ -3,9 +3,8 @@ package az.my.datareport.scrape;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
-import az.my.datareport.tree.DataAST;
-import az.my.datareport.tree.DataElement;
-import az.my.datareport.tree.DataNode;
+import az.my.datareport.tree.*;
+import az.my.datareport.utils.Assert;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -23,6 +22,42 @@ public class WebScraper implements Scraper {
         page.connect();
 
         List<ReportDataParent> reportDataParentList = fetchDataFromUrl(dataNode, page);
+
+        ReportData reportData = new ReportData();
+        reportData.setReportParentElements(reportDataParentList);
+
+        page.disconnect();
+
+        return reportData;
+    }
+
+    @Override
+    public ReportData scrape(String url, Tree tree) {
+        Assert.required(url, "Web page url is required!");
+        Objects.requireNonNull(tree);
+
+        WebPage page = new WebPage(url);
+        page.connect();
+
+
+        TempDataNode node = tree.nodes().get(0);
+        List<WebElement> webElements = page.fetchWebElements(node.getAttribute().getSelector());
+
+        List<ReportDataParent> reportDataParentList = new ArrayList<>();
+
+        for (WebElement webElement : webElements) {
+            List<ReportDataElement> children = new ArrayList<>();
+            ReportDataParent parent = new ReportDataParent();
+            for (int i = 0; i < node.subNodes().size(); i++) {
+                TempDataNode subNode = node.getSubNode(i);
+                String value = page.fetchElementAsText(subNode.getAttribute().getSelector(), webElement);
+                ReportDataElement reportData = new ReportDataElement(subNode.getAttribute().getName(), value);
+                children.add(reportData);
+            }
+
+            parent.setReportDataElements(children);
+            reportDataParentList.add(parent);
+        }
 
         ReportData reportData = new ReportData();
         reportData.setReportParentElements(reportDataParentList);

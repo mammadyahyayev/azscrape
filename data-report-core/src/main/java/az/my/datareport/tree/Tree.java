@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class Tree {
     private final List<TempDataNode> dataNodeList;
-    private int size = 0;
-
 
     public Tree() {
         dataNodeList = new ArrayList<>();
@@ -24,12 +22,19 @@ public class Tree {
         // find node of given node
         // TempDataNode node = findParent(node); //TODO: method should be getAncestor inside tempDataNode
 
-        if (size == 0) {
+        if (dataNodeList.size() == 0) {
             DataNodeLocation firstLocation = DataNodeLocation.init();
             node.setLocation(firstLocation);
             node.setRoot(true);
-            dataNodeList.add(node);
-            this.size++;
+        } else {
+            /* TODO: get the last element in the dataNodeList and create a new location
+                based on previous one, with the next order and same level
+            */
+
+            // TODO: if this node has subNodes, it must check first there is a level for its subNodes.
+            //  for instance, SubNodes must be on the Level B, then it will get the next level by using its location.
+            //  then, it will search for all nodes to find the last value in the second level (level B), then will add
+            //  items into level B with the last unused order.
         }
 
         if (node.hasSubNode()) {
@@ -42,16 +47,14 @@ public class Tree {
 
                 if (i == 0) {
                     curr.setLocation(new DataNodeLocation(nextLevel, 0));
-                    this.dataNodeList.add(curr);
-                    this.size++;
                     continue;
                 }
 
                 curr.setLocation(new DataNodeLocation(nextLevel, prev.getLocation().nextOrder()));
-                this.dataNodeList.add(curr);
-                this.size++;
             }
         }
+
+        dataNodeList.add(node);
 
         /*
              1. First check node value
@@ -91,14 +94,6 @@ public class Tree {
 
     }
 
-    public TempDataNode getFirst() {
-        return this.dataNodeList.get(0);
-    }
-
-    public TempDataNode getLast() {
-        return this.dataNodeList.get(this.size - 1);
-    }
-
     public TempDataNode getNodeFrom(String location) {
         //TODO: first it will search whether there is a location or not, if given location is far from
         // the locations which already have, then throw exception, e.g. in tree last level is B, if user
@@ -131,10 +126,6 @@ public class Tree {
      */
     public List<TempDataNode> nodes() {
         return Collections.unmodifiableList(this.dataNodeList);
-    }
-
-    public int size() {
-        return this.size;
     }
 
     /**
@@ -186,4 +177,6 @@ public class Tree {
     }
 
     //TODO: Create iterator for both pre and post order
+
+    //TODO: Create getRoot() method
 }

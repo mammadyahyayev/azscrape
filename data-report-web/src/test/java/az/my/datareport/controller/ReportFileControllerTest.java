@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -51,26 +52,31 @@ class ReportFileControllerTest {
     @BeforeAll
     public static void setupAll() {
         json = "{\n" +
-                "  \"exported_file_name\": \"Github Search\",\n" +
-                "  \"exported_file_type\": \"EXCEL\",\n" +
-                "  \"exported_file_type_extension\": \"xlsx\",\n" +
+                "  \"file_name\": \"Github Search\",\n" +
+                "  \"file_type\": \"EXCEL\",\n" +
+                "  \"file_extension\": \"xlsx\",\n" +
                 "  \"description\": \"Dummy Description\",\n" +
-                "  \"data\": {\n" +
-                "    \"url\": \"https://github.com/search?q=java\",\n" +
-                "    \"element\": {\n" +
-                "      \"selector\": \".repo-list-item\",\n" +
-                "      \"children\": [\n" +
+                "  \"data_parts\": [\n" +
+                "    {\n" +
+                "      \"url\": \"https://github.com/search?q=java\",\n" +
+                "      \"elements\": [\n" +
                 "        {\n" +
-                "          \"name\": \"title\",\n" +
-                "          \"selector\": \".v-align-middle\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"name\": \"description\",\n" +
-                "          \"selector\": \".mb-1\"\n" +
+                "          \"name\": \"repository\",\n" +
+                "          \"selector\": \".repo-list-item\",\n" +
+                "          \"sub_elements\": [\n" +
+                "            {\n" +
+                "              \"name\": \"title\",\n" +
+                "              \"selector\": \".v-align-middle\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "              \"name\": \"description\",\n" +
+                "              \"selector\": \".mb-1\"\n" +
+                "            }\n" +
+                "          ]\n" +
                 "        }\n" +
                 "      ]\n" +
                 "    }\n" +
-                "  }\n" +
+                "  ]\n" +
                 "}";
     }
 
@@ -84,7 +90,9 @@ class ReportFileControllerTest {
     void testPostData_whenFileNotExported_redirectToErrorPage() throws Exception {
         when(exportService.export(Mockito.any(), Mockito.any())).thenReturn(false);
 
-        MvcResult mvcResult = mvc.perform(post("/reportFile/generate").content(json))
+        MvcResult mvcResult = mvc.perform(post("/reportFile/generate")
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         assertNotNull(mvcResult.getModelAndView());
@@ -95,7 +103,9 @@ class ReportFileControllerTest {
     void testPostData_whenFileExported_redirectToResultPage() throws Exception {
         when(exportService.export(Mockito.any(), Mockito.any())).thenReturn(true);
 
-        MvcResult mvcResult = mvc.perform(post("/reportFile/generate").content(json))
+        MvcResult mvcResult = mvc.perform(post("/reportFile/generate")
+                        .content(json)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
         assertNotNull(mvcResult.getModelAndView());
@@ -115,7 +125,7 @@ class ReportFileControllerTest {
                 .fileType(FileType.EXCEL)
                 .build();
 
-        when(configService.getReportFileConfiguration()).thenReturn(reportFile);
+        when(configService.getReportFilePart()).thenReturn(reportFile);
 
         mvc.perform(get("/reportFile/download"))
                 .andDo(print())
