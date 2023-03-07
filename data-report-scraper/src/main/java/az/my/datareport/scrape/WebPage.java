@@ -24,6 +24,7 @@ public class WebPage {
     private static final WebDriver driver;
     private final String url;
     private boolean isConnected;
+    private final boolean keepOpen;
 
     static {
         WebDriverManager.chromedriver().setup();
@@ -33,10 +34,11 @@ public class WebPage {
         driver.manage().window().maximize();
     }
 
-    public WebPage(String url) {
+    public WebPage(String url, boolean keepOpen) {
         Objects.requireNonNull(url, "Webpage url cannot be null!");
         //TODO: Check given url is valid
         this.url = url;
+        this.keepOpen = keepOpen;
     }
 
     /**
@@ -57,7 +59,7 @@ public class WebPage {
      * Close connection with web page
      */
     public void disconnect() {
-        if (isConnected) {
+        if (isConnected && !keepOpen) {
             driver.quit();
             isConnected = false;
         }
@@ -65,6 +67,7 @@ public class WebPage {
 
     /**
      * Fetch web elements and stores them in list of strings
+     *
      * @param cssSelector selector of the element
      * @return scraped elements
      */
@@ -87,6 +90,7 @@ public class WebPage {
 
     /**
      * Fetch a web element
+     *
      * @param cssSelector selector of the element
      * @return scraped element
      */

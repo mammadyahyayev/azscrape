@@ -11,14 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Collects data from Web pages
+ */
 public class WebScraper implements Scraper {
 
+    @Deprecated
     @Override
     public ReportData scrape(DataAST tree) {
         Objects.requireNonNull(tree);
 
         DataNode dataNode = tree.getDataNode();
-        WebPage page = new WebPage(dataNode.getUrl());
+        WebPage page = new WebPage(dataNode.getUrl(), false);
         page.connect();
 
         List<ReportDataParent> reportDataParentList = fetchDataFromUrl(dataNode, page);
@@ -33,10 +37,15 @@ public class WebScraper implements Scraper {
 
     @Override
     public ReportData scrape(String url, Tree tree) {
+        return scrape(url, tree, false);
+    }
+
+    @Override
+    public ReportData scrape(String url, Tree tree, boolean keepOpen) {
         Assert.required(url, "Web page url is required!");
         Objects.requireNonNull(tree);
 
-        WebPage page = new WebPage(url);
+        WebPage page = new WebPage(url, keepOpen);
         page.connect();
 
 

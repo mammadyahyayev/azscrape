@@ -1,26 +1,3 @@
-Version 1.0.1
-- Disable Selenium logging ✅
-- Write test methods for platform specific ✅
-- Change windows specific path into platform independent path ✅
-- Problem: Shifted Values ✅
-Description:
-When fetching from the website, there are some empty values for fields, empty values are ignored and row values
-are shifted above. That leads to incorrect values for rows.
-Problem happens because of the Selenium fetching, if there is no selector for it, Selenium ignore them.
-
-Solution:
-Direct fetching avoided. In order to get all elements in the list, firstly all list elements need to fetch.
-Then child elements can be obtained from the parent elements. There is a possibility that some child elements cannot be existed for
-particular parent element. Problem fixed by adding new layer called DataParent
-
-- Refactor names (replace findFirst() with get(0)) ✅
-- Change structure of Java classes and names of fields, methods ✅
-- Generate maven dependency for the project ✅
-- Configure logging in correct way ✅
-- Add clean methods to remove generated unnecessary files/folders ✅
-- Show specific exception message when user doesn't give path of the config file ✅
-- Test this application from other application ✅
-
 ********************************************
                Version 2.0.0
 ********************************************
@@ -55,17 +32,18 @@ particular parent element. Problem fixed by adding new layer called DataParent
 ********************************************
                Version 2.1.0
 ********************************************
-- Configure mvn commands available for entire project (test, check, compile and so on.) (for example, test all available test methods when mvn test executed)
-- Convert all js files into ts files
-- Change design of the website
-- Build tree model
+- Build tree model ✅
 - Insert OWASP dependency check plugin ✅
 - Change Exception messages ✅
 - Add <scope>test</scope> to mockito and junit ✅
 - Change data-report-web project main class ✅
 - Change owasp dependency check plugin phase to only install [ if it is available create issue on GitHub ] ✅
-- Check other interfaces for javadoc (especially base interfaces)
-- Create a constructor inside WebPage class, and add second parameter that indicates driver window should be close or not
+- Create a constructor inside WebPage class, and add second parameter that indicates driver window should be close or not ✅
+- Check other interfaces for javadoc (especially base interfaces) ✅
+
+- Configure mvn commands available for entire project (test, check, compile and so on.) (for example, test all available test methods when mvn test executed)
+- Convert all js files into ts files
+- Change design of the website
 
 
 ********************************************
