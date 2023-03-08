@@ -41,9 +41,18 @@
 - Create a constructor inside WebPage class, and add second parameter that indicates driver window should be close or not ✅
 - Check other interfaces for javadoc (especially base interfaces) ✅
 
-- Configure mvn commands available for entire project (test, check, compile and so on.) (for example, test all available test methods when mvn test executed)
+- Configure mvn commands available for entire project (test, check, compile and so on.)
+- Convert implementation of DataAST tree to new Tree inside DataReportApplication
+
+
+********************************************
+               Version 3.0.0
+********************************************
+- Create CLI
+- Create Custom Logging
 - Convert all js files into ts files
 - Change design of the website
+- Create a builder for Tree
 
 
 ********************************************

@@ -12,7 +12,6 @@
         <module>data-report-web</module>
         <module>data-report-core</module>
         <module>data-report-application</module>
-        <module>data-report-server</module>
         <module>data-report-exporter</module>
         <module>data-report-parser</module>
         <module>data-report-scanner</module>
