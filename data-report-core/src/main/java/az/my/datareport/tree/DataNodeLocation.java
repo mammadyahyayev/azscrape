@@ -6,12 +6,13 @@ import com.google.common.base.Objects;
 
 public class DataNodeLocation {
     private static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final char NULL_CHAR = '\u0000';
     private final String location;
     private final String level;
     private final int order;
 
     DataNodeLocation(DataNodeLocation lastLocation) {
-        Assert.required(lastLocation, "node field is required");
+        Assert.required(lastLocation, "location is required");
         Assert.required(lastLocation.getLevel(), "node level cannot be null");
         Assert.checkArgument(lastLocation.getOrder() >= 0, "node order cannot be less than 0");
 
@@ -46,6 +47,10 @@ public class DataNodeLocation {
     // TODO: Fix this method if need to create 2 letter combinations
     String nextLevel() {
         char nextLetter = nextLetterAfter(this.level.charAt(0));
+        if (nextLetter == NULL_CHAR) {
+            throw new UnsupportedOperationException();
+        }
+
         return String.valueOf(nextLetter);
     }
 
@@ -69,7 +74,7 @@ public class DataNodeLocation {
         int lastIndex = StringUtils.lastIndex(LETTERS);
 
         if (index == lastIndex) {
-            return '\n'; // TODO: return null char in here
+            return NULL_CHAR;
         }
 
         return LETTERS.charAt(index + 1);
