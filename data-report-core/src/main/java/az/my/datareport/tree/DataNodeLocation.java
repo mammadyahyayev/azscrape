@@ -59,12 +59,12 @@ public class DataNodeLocation {
     }
 
     DataNodeLocation nextLocation() {
-        return nextLocation(true);
+        return nextLocation(false);
     }
 
     DataNodeLocation nextLocation(boolean newLevel) {
         String nextLevel = newLevel ? nextLevel() : this.level;
-        int nextOrder = nextOrder();
+        int nextOrder = newLevel ? 0 : nextOrder();
         String location = StringUtils.combine(nextLevel, nextOrder);
         return new DataNodeLocation(location, nextLevel, nextOrder);
     }
