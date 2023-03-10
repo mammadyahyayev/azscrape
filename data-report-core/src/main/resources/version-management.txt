@@ -229,7 +229,22 @@ check other projects class packages
 
 References
 https://www.naukri.com/learning/articles/tree-data-structures-types-properties-and-applications/
-
 https://www.simplilearn.com/tutorials/data-structure-tutorial/trees-in-data-structure
-
 https://www.freecodecamp.org/news/all-you-need-to-know-about-tree-data-structures-bceacb85490c/
+
+
+
+
+********************************************
+      DataReport Architecture Class
+********************************************
+If this application used as a library for other applications, we need general class to collect information from user
+and create a desired result for it. For instance, user may not know, it should send request to Scanner, then scraper, then exporter, 
+therefore we must consider to create a user friendly class. 
+
+DataReport report = new DataReport() // can take DataReportConfiguration which can decide, config file type, report file type, extension, location and so on.
+ReportFile reportFile = report.GenerateWith(ConfigFile configFile)
+
+Those are enough for users to generate a desired result. 
+
+For more info, look at classes: FastReport (in C#)
