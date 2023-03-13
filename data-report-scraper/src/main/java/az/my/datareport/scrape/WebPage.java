@@ -30,6 +30,7 @@ public class WebPage {
         WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setLogLevel(ChromeDriverLogLevel.OFF);
+        chromeOptions.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
     }
