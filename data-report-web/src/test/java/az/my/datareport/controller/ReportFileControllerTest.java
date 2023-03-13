@@ -117,7 +117,7 @@ class ReportFileControllerTest {
         Path path = Path.of(FileConstants.TEMP_DIR_PATH, "file.xlsx");
 
         FileManager fileManager = new FileManager();
-        fileManager.constructFile(path.toString());
+        fileManager.createFile(path.toString());
 
         ReportFile reportFile = new ReportFile.Builder()
                 .filename("file")

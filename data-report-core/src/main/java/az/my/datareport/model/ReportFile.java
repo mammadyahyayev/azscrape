@@ -27,7 +27,7 @@ public class ReportFile {
 
     public String getFileFullName() {
         if (filename.contains(" ")) {
-            return fileManager.constructFilename(filename, fileExtension.toString());
+            return fileManager.createFilename(filename, fileExtension.toString());
         }
 
         return this.filename.toLowerCase() + "." + this.fileExtension.toString().toLowerCase();

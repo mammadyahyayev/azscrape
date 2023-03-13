@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FileManagerTest {
 
@@ -27,23 +26,37 @@ class FileManagerTest {
     }
 
     @Test
-    void testConstructDirectory_whenExistPathGiven_returnFolderWithGivenPath() {
+    void testCreateDirectory_whenExistPathGiven_returnFolderWithGivenPath() {
         Path path = Path.of("src", "test", "resources");
         File expected = new File(path.toString());
-        File actual = manager.constructDirectory(path.toString());
+        File actual = manager.createDirectory(path.toString());
         assertEquals(expected.getAbsolutePath(), actual.getAbsolutePath());
     }
 
     @Test
-    void testConstructDirectory_whenFileGiven_throwException() throws IOException {
+    void testCreateDirectory_whenFileGiven_throwException() throws IOException {
         createTestFile();
-        assertThrows(DataReportAppException.class, () -> manager.constructDirectory(TEST_FILE_PATH.toString()));
+        assertThrows(DataReportAppException.class, () -> manager.createDirectory(TEST_FILE_PATH.toString()));
+    }
+
+    @Test
+    void testCreateFileName_whenUnformattedFileNameGiven_returnFormattedName() {
+        String expected = "test__file";
+        String actual = manager.createFilename("TeSt  FILE");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testCreateFileName_whenUnformattedFileNameAndExtensionGiven_returnFileFullName() {
+        String expected = "test__file.json";
+        String actual = manager.createFilename("TeSt  FILE", "JSoN");
+        assertEquals(expected, actual);
     }
 
     @ParameterizedTest
     @MethodSource("nonExistentDirectoryPaths")
-    void testConstructDirectory_whenNonExistentPathGiven_createAndReturnFileWithGivenPath(String nonExistentPath) {
-        File actual = manager.constructDirectory(nonExistentPath);
+    void testCreateDirectory_whenNonExistentPathGiven_createAndReturnFileWithGivenPath(String nonExistentPath) {
+        File actual = manager.createDirectory(nonExistentPath);
         File expected = new File(nonExistentPath);
 
         assertEquals(expected.getAbsolutePath(), actual.getAbsolutePath());
@@ -62,25 +75,27 @@ class FileManagerTest {
     }
 
     @Test
-    void testConstructFile_whenExistPathGiven_returnFileWithGivenPath() throws IOException {
+    void testCreateFile_whenExistPathGiven_returnFileWithGivenPath() throws IOException {
         File expected = createTestFile();
-        File actual = manager.constructFile(expected.getPath());
+        File actual = manager.createFile(expected.getPath());
         assertEquals(expected.getAbsolutePath(), actual.getAbsolutePath());
+        assertNotNull(manager.getFile(expected.getAbsolutePath()));
+        assertTrue(manager.deleteFile(expected.toPath()));
     }
 
     @Test
-    void testConstructFile_whenDirectoryPathGiven_throwException() {
+    void testCreateFile_whenDirectoryPathGiven_throwException() {
         Path path = Path.of("src", "test", "resources");
-        String message = assertThrows(DataReportAppException.class, () -> manager.constructFile(path.toString())).getMessage();
+        String message = assertThrows(DataReportAppException.class, () -> manager.createFile(path.toString())).getMessage();
         String expected = "Given path [ " + path + " ] isn't file!";
         assertEquals(expected, message);
     }
 
     @Test
-    void testConstructFile_whenNonExistPathGiven_returnFileWithGivenPath() {
+    void testCreateFile_whenNonExistPathGiven_returnFileWithGivenPath() {
         Path path = Path.of("src", "test", "resources", "test.xlsx");
         File expected = new File(path.toString());
-        File file = manager.constructFile(path.toString());
+        File file = manager.createFile(path.toString());
         assertEquals(expected.getAbsolutePath(), file.getAbsolutePath());
 
         // delete test.xlsx file

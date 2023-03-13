@@ -98,13 +98,13 @@ public class ExcelExporter implements Exporter {
         Assert.required(reportFile, "ReportFile is required");
 
         FileManager fileManager = new FileManager();
-        fileManager.constructDirectory(directoryPath);
+        fileManager.createDirectory(directoryPath);
 
-        String filename = fileManager.constructFilename(reportFile.getFilename());
+        String filename = fileManager.createFilename(reportFile.getFilename());
         String extension = reportFile.getFileExtension().name().toLowerCase();
         Path filepath = Path.of(directoryPath, filename + "." + extension);
 
-        return fileManager.constructFile(filepath.toString());
+        return fileManager.createFile(filepath.toString());
     }
 
     @Override

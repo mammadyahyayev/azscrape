@@ -30,14 +30,14 @@ public class FileManager {
     }
 
     /**
-     * Construct file if there isn't an appropriate file,
+     * Creates file if there isn't an appropriate file,
      * if path or directory path is invalid, throws exception
      *
      * @param path given file path
      * @return file
      * @throws DataReportAppException when given path is invalid
      */
-    public File constructFile(String path) {
+    public File createFile(String path) {
         Assert.required(path);
 
         File file = new File(path);
@@ -59,14 +59,14 @@ public class FileManager {
     }
 
     /**
-     * Construct directory if there isn't an appropriate directory,
+     * Creates directory if there isn't an appropriate directory,
      * if path is invalid, throws exception
      *
      * @param path given directory path
      * @return Directory File
      * @throws DataReportAppException when given path is invalid
      */
-    public File constructDirectory(String path) {
+    public File createDirectory(String path) {
         Assert.required(path);
         File file = new File(path);
 
@@ -88,14 +88,14 @@ public class FileManager {
     }
 
     /**
-     * Construct filename with given string, and replaces all symbols
+     * Creates filename with given string, and replaces all symbols
      * with underscore symbol
      *
      * @param name name of the file without extension
      * @return file name with acceptable form
      * @see #FILE_NAME_DELIMITER
      */
-    public String constructFilename(String name) {
+    public String createFilename(String name) {
         Assert.required(name, "name is required field");
 
         String filename = name.trim().toLowerCase(Locale.ENGLISH);
@@ -103,18 +103,18 @@ public class FileManager {
     }
 
     /**
-     * Construct full filename with given name and extension, and replaces all symbols
+     * Creates full filename with given name and extension, and replaces all symbols
      * with underscore symbol
      *
      * @param name name of the file without extension
      * @return file name with acceptable form
-     * @see #constructFilename(String)
+     * @see #createFilename(String)
      */
-    public String constructFilename(String name, String extension) {
+    public String createFilename(String name, String extension) {
         Assert.required(name, "name is required field");
         Assert.required(extension, "extension is required field");
 
-        String filename = constructFilename(name);
+        String filename = createFilename(name);
         return filename + "." + extension.trim().toLowerCase();
     }
 

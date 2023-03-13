@@ -23,6 +23,7 @@ class WebPageTest {
         page.connect();
         List<String> strings = page.fetchElementsAsText("invalid selector");
         assertEquals(0, strings.size());
+        assertTrue(page.isConnected());
     }
 
     @Test
@@ -31,6 +32,13 @@ class WebPageTest {
         page.connect();
         List<String> strings = page.fetchElementsAsText(".repo-list-item  .v-align-middle");
         assertNotEquals(0, strings.size());
+        assertTrue(page.isConnected());
+    }
+
+    @Test
+    void testPageConnect_whenInvalidWebPageUrlGiven_throwException() {
+        WebPage page = new WebPage("INVALID URL", true);
+        assertThrows(InternetConnectionException.class, page::connect); //TODO: Convert this method after implementing URL validator and define exception for it
     }
 
 }

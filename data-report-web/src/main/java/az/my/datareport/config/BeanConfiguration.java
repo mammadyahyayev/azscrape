@@ -1,15 +1,15 @@
 package az.my.datareport.config;
 
 import az.my.datareport.exporter.ExcelExporter;
-import az.my.datareport.scrape.WebScraper;
+import az.my.datareport.scrape.WebScraper2;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class BeanConfiguration {
     @Bean
-    public WebScraper scraper() {
-        return new WebScraper();
+    public WebScraper2 scraper() {
+        return new WebScraper2();
     }
 
     @Bean

@@ -1,16 +1,14 @@
 package az.my.datareport;
 
-import az.my.datareport.config.ConfigFile;
 import az.my.datareport.config.ConfigFileException;
-import az.my.datareport.config.ConfigFileManager;
 import az.my.datareport.exporter.ExcelExporter;
 import az.my.datareport.exporter.Exporter;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.scanner.ConfigFileScanner;
 import az.my.datareport.scanner.JsonConfigFileScanner;
-import az.my.datareport.scrape.Scraper;
-import az.my.datareport.scrape.WebScraper;
+import az.my.datareport.scrape.Scraper2;
+import az.my.datareport.scrape.WebScraper2;
 import az.my.datareport.tree.DataAST;
 
 import java.io.File;
@@ -21,11 +19,11 @@ import java.io.File;
  */
 public final class DataReportApplication {
 
-    private final Scraper scraper;
+    private final Scraper2 scraper2;
     private final Exporter exporter;
 
     public DataReportApplication() {
-        scraper = new WebScraper();
+        scraper2 = new WebScraper2();
         exporter = new ExcelExporter();
     }
 
@@ -49,11 +47,12 @@ public final class DataReportApplication {
         ConfigFileScanner scanner = new JsonConfigFileScanner();
         DataAST tree = scanner.readDataConfig(configFilePath);
 
-        ConfigFileManager manager = new ConfigFileManager();
-        ConfigFile configFile = manager.getConfigFile(configFilePath);
+        //TODO: Fix error
+        /*ConfigFileManager manager = new ConfigFileManager();
+        ConfigFile configFile = manager.getConfigFile(configFilePath);*/
 
-        ReportData reportData = scraper.scrape(tree);
-        ReportFile reportFile = scanner.readFileConfig(configFile);
+        ReportData reportData = scraper2.scrape(tree);
+        ReportFile reportFile = scanner.readFileConfig(null); // Change
         exporter.export(reportFile, reportData);
     }
 
