@@ -3,7 +3,8 @@ package az.my.datareport.scrape;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
-import az.my.datareport.tree.*;
+import az.my.datareport.tree.DataNode;
+import az.my.datareport.tree.Tree;
 import az.my.datareport.utils.Assert;
 import org.openqa.selenium.WebElement;
 
@@ -15,25 +16,6 @@ import java.util.Objects;
  * Collects data from Web pages
  */
 public class WebScraper implements Scraper {
-
-    @Deprecated
-    @Override
-    public ReportData scrape(DataAST tree) {
-        Objects.requireNonNull(tree);
-
-        TempDataNode tempDataNode = tree.getDataNode();
-        WebPage page = new WebPage(tempDataNode.getUrl(), false);
-        page.connect();
-
-        List<ReportDataParent> reportDataParentList = fetchDataFromUrl(tempDataNode, page);
-
-        ReportData reportData = new ReportData();
-        reportData.setReportParentElements(reportDataParentList);
-
-        page.disconnect();
-
-        return reportData;
-    }
 
     @Override
     public ReportData scrape(String url, Tree tree) {
@@ -75,25 +57,4 @@ public class WebScraper implements Scraper {
 
         return reportData;
     }
-
-    private List<ReportDataParent> fetchDataFromUrl(TempDataNode tempDataNode, WebPage page) {
-        List<ReportDataParent> reportDataParentList = new ArrayList<>();
-
-        List<WebElement> webElements = page.fetchWebElements(tempDataNode.getElement().getSelector());
-        for (WebElement webElement : webElements) {
-            List<ReportDataElement> children = new ArrayList<>();
-            ReportDataParent parent = new ReportDataParent();
-            for (DataElement child : tempDataNode.getElement().getChildren()) {
-                String value = page.fetchElementAsText(child.getSelector(), webElement);
-                ReportDataElement reportData = new ReportDataElement(child.getName(), value);
-                children.add(reportData);
-            }
-
-            parent.setReportDataElements(children);
-            reportDataParentList.add(parent);
-        }
-
-        return reportDataParentList;
-    }
-
 }

@@ -1,7 +1,6 @@
 package az.my.datareport.scrape;
 
 import az.my.datareport.model.ReportData;
-import az.my.datareport.tree.DataAST;
 import az.my.datareport.tree.Tree;
 
 /**
@@ -10,15 +9,6 @@ import az.my.datareport.tree.Tree;
  * @see WebScraper
  */
 public interface Scraper {
-    /**
-     * Scrapes data from webpages
-     *
-     * @param tree AST for scraped data
-     * @return report data
-     */
-    @Deprecated
-    ReportData scrape(DataAST tree);
-
     /**
      * Scrapes data from webpages
      *

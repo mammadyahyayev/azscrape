@@ -9,7 +9,6 @@ import az.my.datareport.scanner.ConfigFileScanner;
 import az.my.datareport.scanner.JsonConfigFileScanner;
 import az.my.datareport.scrape.Scraper2;
 import az.my.datareport.scrape.WebScraper2;
-import az.my.datareport.tree.DataAST;
 
 import java.io.File;
 

@@ -5,7 +5,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/data-report-scanner/pom.xml" />
         <option value="$PROJECT_DIR$/data-report-parser/pom.xml" />
         <option value="$PROJECT_DIR$/data-report-scraper/pom.xml" />
       </list>

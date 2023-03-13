@@ -71,3 +71,22 @@ public interface ConfigField {
 *****************************
         ConfigField
 *****************************
+
+
+
+*****************************
+DataType & DataSelectorType
+*****************************
+
+public enum DataType {
+    TEXT, NUMBER, DECIMAL, LOGICAL, DATE, DATETIME
+}
+
+public enum DataSelectorType {
+    CLASS, ID, COMPLEX_CLASS
+}
+
+
+*****************************
+DataType & DataSelectorType
+*****************************
