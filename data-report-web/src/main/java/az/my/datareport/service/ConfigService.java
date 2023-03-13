@@ -7,8 +7,8 @@ import az.my.datareport.converter.StringToEnumConverter;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
+import az.my.datareport.tree.DataNode;
 import az.my.datareport.tree.DataNodeAttribute;
-import az.my.datareport.tree.TempDataNode;
 import az.my.datareport.tree.Tree;
 import org.springframework.stereotype.Service;
 
@@ -30,12 +30,12 @@ public class ConfigService {
         for (ConfigDataVM dataPart : dataParts) {
             String url = dataPart.getUrl();
             List<ElementVM> elements = dataPart.getElements();
-            TempDataNode node = null;
+            DataNode node = null;
             for (ElementVM element : elements) {
-                node = new TempDataNode(new DataNodeAttribute(element.getName(), element.getSelector()));
+                node = new DataNode(new DataNodeAttribute(element.getName(), element.getSelector()));
                 List<ElementVM> children = element.getSubElements();
                 for (ElementVM child : children) {
-                    TempDataNode subNode = new TempDataNode(new DataNodeAttribute(child.getName(), child.getSelector()));
+                    DataNode subNode = new DataNode(new DataNodeAttribute(child.getName(), child.getSelector()));
                     node.addSubNode(subNode);
                 }
             }

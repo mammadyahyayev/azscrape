@@ -17,8 +17,4 @@ public class BeanConfiguration {
         return new ExcelExporter();
     }
 
-    @Bean
-    public ConfigLoader configLoader() {
-        return new ConfigLoader();
-    }
 }

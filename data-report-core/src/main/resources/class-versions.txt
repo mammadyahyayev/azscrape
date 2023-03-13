@@ -1,4 +1,6 @@
-package az.my.datareport.config;
+*****************************
+        ConfigMap
+*****************************
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,3 +49,25 @@ public class ConfigMap {
     }
 
 }
+
+*****************************
+ConfigMap
+*****************************
+
+
+
+*****************************
+        ConfigField
+*****************************
+
+package az.my.datareport.config;
+
+public interface ConfigField {
+    int TITLE = 1;
+    int DESCRIPTION = 2;
+    //TODO: should list other fields (look at other projects for inspiration)
+}
+
+*****************************
+        ConfigField
+*****************************

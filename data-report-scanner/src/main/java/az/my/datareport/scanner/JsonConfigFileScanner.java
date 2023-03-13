@@ -8,7 +8,7 @@ import az.my.datareport.model.ReportFile;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
 import az.my.datareport.tree.DataAST;
-import az.my.datareport.tree.DataNode;
+import az.my.datareport.tree.TempDataNode;
 import az.my.datareport.utils.FileManager;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -116,9 +116,9 @@ public class JsonConfigFileScanner implements ConfigFileScanner {
             ObjectMapper mapper = new ObjectMapper();
 
             try {
-                DataNode dataNode = mapper.readerFor(new TypeReference<DataNode>() {
+                TempDataNode tempDataNode = mapper.readerFor(new TypeReference<TempDataNode>() {
                 }).readValue(node);
-                tree.setDataNode(dataNode);
+                tree.setDataNode(tempDataNode);
             } catch (IOException e) {
                 LOG.error("Conversion from node to POJO failed: " + e);
                 throw new RuntimeException(e);
