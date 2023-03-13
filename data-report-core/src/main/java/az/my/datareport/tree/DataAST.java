@@ -1,13 +1,13 @@
 package az.my.datareport.tree;
 
 public class DataAST {
-    private DataNode dataNode;
+    private TempDataNode tempDataNode;
 
-    public DataNode getDataNode() {
-        return dataNode;
+    public TempDataNode getDataNode() {
+        return tempDataNode;
     }
 
-    public void setDataNode(DataNode dataNode) {
-        this.dataNode = dataNode;
+    public void setDataNode(TempDataNode tempDataNode) {
+        this.tempDataNode = tempDataNode;
     }
 }

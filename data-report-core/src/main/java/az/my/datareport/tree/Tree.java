@@ -10,13 +10,13 @@ import java.util.List;
  * An abstract syntax tree (AST)
  */
 public class Tree {
-    private final List<TempDataNode> dataNodeList;
+    private final List<DataNode> dataNodeList;
 
     public Tree() {
         dataNodeList = new ArrayList<>();
     }
 
-    public void addNode(TempDataNode node) {
+    public void addNode(DataNode node) {
         Assert.required(node, "dataNode is required field");
 
         // find node of given node
@@ -42,8 +42,8 @@ public class Tree {
             String nextLevel = lastLocation.nextLevel();
 
             for (int i = 0; i < node.subNodes().size(); i++) {
-                TempDataNode prev = i > 0 ? node.getSubNode(i - 1) : null;
-                TempDataNode curr = node.getSubNode(i);
+                DataNode prev = i > 0 ? node.getSubNode(i - 1) : null;
+                DataNode curr = node.getSubNode(i);
 
                 if (i == 0) {
                     curr.setLocation(new DataNodeLocation(nextLevel, 0));
@@ -66,7 +66,7 @@ public class Tree {
          */
     }
 
-    private TempDataNode findParent(TempDataNode node) {
+    private DataNode findParent(DataNode node) {
         if (node.getParent() == null) {
             return node;
         }
@@ -74,12 +74,12 @@ public class Tree {
         return findParent(node.getParent());
     }
 
-    public void addNode(TempDataNode node, String location) {
+    public void addNode(DataNode node, String location) {
         Assert.required(node, "node field is required");
         Assert.required(location, "location field is required");
 
         DataNodeLocation nodeLocation;
-        TempDataNode lastNodeInLocation = getNodeFrom(location); //TODO: it will search every time when there are so many sub nodes
+        DataNode lastNodeInLocation = getNodeFrom(location); //TODO: it will search every time when there are so many sub nodes
         if (lastNodeInLocation == null) {
             nodeLocation = new DataNodeLocation(location, 0);
         } else {
@@ -90,32 +90,32 @@ public class Tree {
         this.dataNodeList.add(node);
     }
 
-    public void deleteNode(TempDataNode node) {
-
+    public void deleteNode(DataNode node) {
+        throw new UnsupportedOperationException();
     }
 
-    public TempDataNode getNodeFrom(String location) {
+    public DataNode getNodeFrom(String location) {
         //TODO: first it will search whether there is a location or not, if given location is far from
         // the locations which already have, then throw exception, e.g. in tree last level is B, if user
         // trys to add node into the tree with level Z, then throw Exception
         // msg: failed to add, last level in the tree is B, therefore next node can be ad only A, B, or C
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public void getNext() {
-
+        throw new UnsupportedOperationException();
     }
 
     public void getPrev() {
-
+        throw new UnsupportedOperationException();
     }
 
     public void preOrder() {
-
+        throw new UnsupportedOperationException();
     }
 
     public void postOrder() {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -124,7 +124,7 @@ public class Tree {
      *
      * @return list of nodes in tree
      */
-    public List<TempDataNode> nodes() {
+    public List<DataNode> nodes() {
         return Collections.unmodifiableList(this.dataNodeList);
     }
 
@@ -137,7 +137,7 @@ public class Tree {
      * @param level
      */
     public void nodes(String level) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -149,7 +149,7 @@ public class Tree {
      * @param level
      */
     public void nodesToBottom(String level) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -161,7 +161,7 @@ public class Tree {
      * @param level
      */
     public void nodesToUp(String level) {
-
+        throw new UnsupportedOperationException();
     }
 
     /**
@@ -174,6 +174,7 @@ public class Tree {
         //TODO: find a method for calculating
         // nodes in each level through to the bottom
         // and return int value, which is great way to compare trees
+        throw new UnsupportedOperationException();
     }
 
     //TODO: Create iterator for both pre and post order

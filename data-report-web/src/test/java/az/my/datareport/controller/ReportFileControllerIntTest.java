@@ -29,9 +29,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ReportFileControllerIntTest {
 
     private static String json;
+
     @Autowired
     public ConfigService configService;
+
     private MockMvc mvc;
+
     @Autowired
     private ScraperService scraperService;
 

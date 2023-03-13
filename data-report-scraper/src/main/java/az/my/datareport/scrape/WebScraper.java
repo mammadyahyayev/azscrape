@@ -21,11 +21,11 @@ public class WebScraper implements Scraper {
     public ReportData scrape(DataAST tree) {
         Objects.requireNonNull(tree);
 
-        DataNode dataNode = tree.getDataNode();
-        WebPage page = new WebPage(dataNode.getUrl(), false);
+        TempDataNode tempDataNode = tree.getDataNode();
+        WebPage page = new WebPage(tempDataNode.getUrl(), false);
         page.connect();
 
-        List<ReportDataParent> reportDataParentList = fetchDataFromUrl(dataNode, page);
+        List<ReportDataParent> reportDataParentList = fetchDataFromUrl(tempDataNode, page);
 
         ReportData reportData = new ReportData();
         reportData.setReportParentElements(reportDataParentList);
@@ -49,7 +49,7 @@ public class WebScraper implements Scraper {
         page.connect();
 
 
-        TempDataNode node = tree.nodes().get(0);
+        DataNode node = tree.nodes().get(0);
         List<WebElement> webElements = page.fetchWebElements(node.getAttribute().getSelector());
 
         List<ReportDataParent> reportDataParentList = new ArrayList<>();
@@ -58,7 +58,7 @@ public class WebScraper implements Scraper {
             List<ReportDataElement> children = new ArrayList<>();
             ReportDataParent parent = new ReportDataParent();
             for (int i = 0; i < node.subNodes().size(); i++) {
-                TempDataNode subNode = node.getSubNode(i);
+                DataNode subNode = node.getSubNode(i);
                 String value = page.fetchElementAsText(subNode.getAttribute().getSelector(), webElement);
                 ReportDataElement reportData = new ReportDataElement(subNode.getAttribute().getName(), value);
                 children.add(reportData);
@@ -76,14 +76,14 @@ public class WebScraper implements Scraper {
         return reportData;
     }
 
-    private List<ReportDataParent> fetchDataFromUrl(DataNode dataNode, WebPage page) {
+    private List<ReportDataParent> fetchDataFromUrl(TempDataNode tempDataNode, WebPage page) {
         List<ReportDataParent> reportDataParentList = new ArrayList<>();
 
-        List<WebElement> webElements = page.fetchWebElements(dataNode.getElement().getSelector());
+        List<WebElement> webElements = page.fetchWebElements(tempDataNode.getElement().getSelector());
         for (WebElement webElement : webElements) {
             List<ReportDataElement> children = new ArrayList<>();
             ReportDataParent parent = new ReportDataParent();
-            for (DataElement child : dataNode.getElement().getChildren()) {
+            for (DataElement child : tempDataNode.getElement().getChildren()) {
                 String value = page.fetchElementAsText(child.getSelector(), webElement);
                 ReportDataElement reportData = new ReportDataElement(child.getName(), value);
                 children.add(reportData);

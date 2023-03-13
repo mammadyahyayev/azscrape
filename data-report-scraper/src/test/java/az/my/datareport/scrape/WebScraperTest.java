@@ -1,8 +1,8 @@
 package az.my.datareport.scrape;
 
 import az.my.datareport.model.ReportData;
+import az.my.datareport.tree.DataNode;
 import az.my.datareport.tree.DataNodeAttribute;
-import az.my.datareport.tree.TempDataNode;
 import az.my.datareport.tree.Tree;
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +19,9 @@ class WebScraperTest {
     void testScrape_whenDataGivenAsTree_returnScrapedDataElements() {
         Tree tree = new Tree();
 
-        TempDataNode repoItem = new TempDataNode(new DataNodeAttribute("repoItem", ".repo-list-item"));
-        TempDataNode node1 = new TempDataNode(new DataNodeAttribute("title", ".v-align-middle"));
-        TempDataNode node2 = new TempDataNode(new DataNodeAttribute("description", ".mb-1"));
+        DataNode repoItem = new DataNode(new DataNodeAttribute("repoItem", ".repo-list-item"));
+        DataNode node1 = new DataNode(new DataNodeAttribute("title", ".v-align-middle"));
+        DataNode node2 = new DataNode(new DataNodeAttribute("description", ".mb-1"));
 
         repoItem.addSubNode(node1);
         repoItem.addSubNode(node2);

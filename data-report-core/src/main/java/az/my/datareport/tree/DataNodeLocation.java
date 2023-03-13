@@ -11,16 +11,6 @@ public class DataNodeLocation {
     private final String level;
     private final int order;
 
-    DataNodeLocation(DataNodeLocation lastLocation) {
-        Assert.required(lastLocation, "location is required");
-        Assert.required(lastLocation.getLevel(), "node level cannot be null");
-        Assert.checkArgument(lastLocation.getOrder() >= 0, "node order cannot be less than 0");
-
-        this.level = lastLocation.getLevel();
-        this.order = lastLocation.getOrder();
-        this.location = StringUtils.combine(this.level, this.order);
-    }
-
     DataNodeLocation(String level, int order) {
         Assert.required(level, "node level cannot be null");
         Assert.checkArgument(order >= 0, "node order cannot be less than 0");

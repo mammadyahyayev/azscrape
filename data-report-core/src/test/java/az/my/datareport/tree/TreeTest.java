@@ -14,21 +14,21 @@ class TreeTest {
     void testAddNode_whenNodesAdded_returnExactSizeOfTree() {
         Tree tree = new Tree();
 
-        tree.addNode(new TempDataNode(new DataNodeAttribute("First Node", null)));
-        tree.addNode(new TempDataNode(new DataNodeAttribute("Second Node", null)));
+        tree.addNode(new DataNode(new DataNodeAttribute("First Node", null)));
+        tree.addNode(new DataNode(new DataNodeAttribute("Second Node", null)));
     }
 
     @Test
     void testNodes_whenModifyingReturnedList_throwException() {
         Tree tree = new Tree();
 
-        tree.addNode(new TempDataNode(new DataNodeAttribute("First Node", null)));
-        tree.addNode(new TempDataNode(new DataNodeAttribute("Second Node", null)));
+        tree.addNode(new DataNode(new DataNodeAttribute("First Node", null)));
+        tree.addNode(new DataNode(new DataNodeAttribute("Second Node", null)));
 
-        List<TempDataNode> nodes = tree.nodes();
+        List<DataNode> nodes = tree.nodes();
 
         assertThrows(UnsupportedOperationException.class, () ->
-                nodes.add(new TempDataNode(new DataNodeAttribute("Third Node", null))));
+                nodes.add(new DataNode(new DataNodeAttribute("Third Node", null))));
     }
 
     //TODO: Change this method after implementation of location, order, level
@@ -37,8 +37,8 @@ class TreeTest {
     void testGetFirst() {
         Tree tree = new Tree();
 
-        TempDataNode first = new TempDataNode(new DataNodeAttribute("First Node", null));
-        TempDataNode second = new TempDataNode(new DataNodeAttribute("Second Node", null));
+        DataNode first = new DataNode(new DataNodeAttribute("First Node", null));
+        DataNode second = new DataNode(new DataNodeAttribute("Second Node", null));
 
         tree.addNode(first);
         tree.addNode(second);
@@ -50,8 +50,8 @@ class TreeTest {
     void testGetLast() {
         Tree tree = new Tree();
 
-        TempDataNode first = new TempDataNode(new DataNodeAttribute("First Node", null));
-        TempDataNode second = new TempDataNode(new DataNodeAttribute("Second Node", null));
+        DataNode first = new DataNode(new DataNodeAttribute("First Node", null));
+        DataNode second = new DataNode(new DataNodeAttribute("Second Node", null));
 
         tree.addNode(first);
         tree.addNode(second);
@@ -60,7 +60,7 @@ class TreeTest {
     @Test
     void testAddNode_whenNodeAddedFirstTime_returnInitialLocation() {
         Tree tree = new Tree();
-        TempDataNode node = new TempDataNode(new DataNodeAttribute("First Node", null));
+        DataNode node = new DataNode(new DataNodeAttribute("First Node", null));
         tree.addNode(node);
 
         DataNodeLocation initialLocation = new DataNodeLocation("A", 0);
@@ -73,9 +73,9 @@ class TreeTest {
     void testAddNode_whenNodesAdded_returnTheirLocations() {
         Tree tree = new Tree();
 
-        TempDataNode first = new TempDataNode(new DataNodeAttribute("First Node", null));
-        TempDataNode second = new TempDataNode(new DataNodeAttribute("Second Node", null));
-        TempDataNode third = new TempDataNode(new DataNodeAttribute("Third Node", null));
+        DataNode first = new DataNode(new DataNodeAttribute("First Node", null));
+        DataNode second = new DataNode(new DataNodeAttribute("Second Node", null));
+        DataNode third = new DataNode(new DataNodeAttribute("Third Node", null));
         tree.addNode(first);
         tree.addNode(second);
         tree.addNode(third);
@@ -97,9 +97,9 @@ class TreeTest {
     void testAddNode_whenSubNodesAdd_theyShouldBeAddedIntoNewLocation() {
         Tree tree = new Tree();
 
-        TempDataNode parent = new TempDataNode(new DataNodeAttribute("parent", ".repo-list-item"));
-        TempDataNode node1 = new TempDataNode(new DataNodeAttribute("title", ".v-align-middle"));
-        TempDataNode node2 = new TempDataNode(new DataNodeAttribute("description", ".mb-1"));
+        DataNode parent = new DataNode(new DataNodeAttribute("parent", ".repo-list-item"));
+        DataNode node1 = new DataNode(new DataNodeAttribute("title", ".v-align-middle"));
+        DataNode node2 = new DataNode(new DataNodeAttribute("description", ".mb-1"));
 
         parent.addSubNode(node1);
         parent.addSubNode(node2);
