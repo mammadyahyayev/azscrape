@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="data-report-web" />
         <module name="data-report-core" />
+        <module name="data-report-cli" />
         <module name="data-report-parser" />
         <module name="data-report-application" />
         <module name="data-report-exporter" />

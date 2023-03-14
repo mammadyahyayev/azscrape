@@ -16,6 +16,7 @@
         <module>data-report-parser</module>
         <module>data-report-scraper</module>
         <module>data-report-shared-resources</module>
+        <module>data-report-cli</module>
     </modules>
 
     <name>Data Report</name>
