@@ -1,0 +1,42 @@
+{
+  "file_name": "turbo.az",
+  "file_type": "EXCEL",
+  "file_extension": "xlsx",
+  "description": "Dummy Description",
+  "data_parts": [
+    {
+      "urls": [
+        "https://turbo.az/autos?page=1",
+        "https://turbo.az/autos?page=2",
+        "https://turbo.az/autos?page=3",
+        "https://turbo.az/autos?page=4",
+        "https://turbo.az/autos?page=5",
+        "https://turbo.az/autos?page=6",
+        "https://turbo.az/autos?page=7",
+        "https://turbo.az/autos?page=8",
+        "https://turbo.az/autos?page=9",
+        "https://turbo.az/autos?page=10"
+      ],
+      "elements": [
+        {
+          "name": "parent",
+          "selector": ".products-i__bottom",
+          "sub_elements": [
+            {
+              "name": "car",
+              "selector": ".products-i__name"
+            },
+            {
+              "name": "price",
+              "selector": ".product-price"
+            },
+            {
+              "name": "info",
+              "selector": ".products-i__attributes"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
