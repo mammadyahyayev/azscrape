@@ -11,7 +11,7 @@ public class ElementVM {
     @JsonProperty("selector")
     private String selector;
 
-    @JsonProperty("sub_elements")
+    @JsonProperty("subElements")
     private List<ElementVM> subElements;
 
     public String getName() {

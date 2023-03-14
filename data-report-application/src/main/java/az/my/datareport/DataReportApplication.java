@@ -1,16 +1,9 @@
 package az.my.datareport;
 
-import az.my.datareport.config.ConfigFileException;
 import az.my.datareport.exporter.ExcelExporter;
 import az.my.datareport.exporter.Exporter;
-import az.my.datareport.model.ReportData;
-import az.my.datareport.model.ReportFile;
-import az.my.datareport.scanner.ConfigFileScanner;
-import az.my.datareport.scanner.JsonConfigFileScanner;
-import az.my.datareport.scrape.Scraper2;
-import az.my.datareport.scrape.WebScraper2;
-
-import java.io.File;
+import az.my.datareport.scrape.Scraper;
+import az.my.datareport.scrape.WebScraper;
 
 /**
  * Entry point of the application after parsing
@@ -18,11 +11,11 @@ import java.io.File;
  */
 public final class DataReportApplication {
 
-    private final Scraper2 scraper2;
+    private final Scraper scraper;
     private final Exporter exporter;
 
     public DataReportApplication() {
-        scraper2 = new WebScraper2();
+        scraper = new WebScraper();
         exporter = new ExcelExporter();
     }
 
@@ -32,7 +25,7 @@ public final class DataReportApplication {
      * @param arguments command line arguments
      */
     public void init(String[] arguments) {
-        if (arguments == null || arguments.length == 0) {
+        /*if (arguments == null || arguments.length == 0) {
             throw new ConfigFileException("Please specify path of the config file!");
         }
 
@@ -47,12 +40,12 @@ public final class DataReportApplication {
         DataAST tree = scanner.readDataConfig(configFilePath);
 
         //TODO: Fix error
-        /*ConfigFileManager manager = new ConfigFileManager();
-        ConfigFile configFile = manager.getConfigFile(configFilePath);*/
+        *//*ConfigFileManager manager = new ConfigFileManager();
+        ConfigFile configFile = manager.getConfigFile(configFilePath);*//*
 
         ReportData reportData = scraper2.scrape(tree);
         ReportFile reportFile = scanner.readFileConfig(null); // Change
-        exporter.export(reportFile, reportData);
+        exporter.export(reportFile, reportData);*/
     }
 
 }

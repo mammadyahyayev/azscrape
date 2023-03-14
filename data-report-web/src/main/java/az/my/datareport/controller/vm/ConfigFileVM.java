@@ -8,19 +8,19 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ConfigFileVM {
 
-    @JsonProperty("file_name")
+    @JsonProperty("fileName")
     private String fileName;
 
-    @JsonProperty("file_type")
+    @JsonProperty("fileType")
     private String fileType;
 
-    @JsonProperty("file_extension")
+    @JsonProperty("fileExtension")
     private String fileExtension;
 
     @JsonProperty("description")
     private String description;
 
-    @JsonProperty("data_parts")
+    @JsonProperty("dataParts")
     private List<ConfigDataVM> dataParts;
 
 
