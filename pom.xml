@@ -79,7 +79,8 @@
     </issueManagement>
 
     <scm>
-        <developerConnection>scm:git:git@github.com:mammadyahyayev/data-report.git</developerConnection>
+        <connection>scm:git:ssh://git@github.com/mammadyahyayev/data-report.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/mammadyahyayev/data-report.git</developerConnection>
         <url>https://github.com/mammadyahyayev/data-report</url>
     </scm>
 
