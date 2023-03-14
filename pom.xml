@@ -78,6 +78,11 @@
         <url>https://github.com/mammadyahyayev/data-report/issues</url>
     </issueManagement>
 
+    <scm>
+        <developerConnection>scm:git:git@github.com:mammadyahyayev/data-report.git</developerConnection>
+        <url>https://github.com/mammadyahyayev/data-report</url>
+    </scm>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
