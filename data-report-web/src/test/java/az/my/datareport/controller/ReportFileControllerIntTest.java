@@ -44,18 +44,18 @@ public class ReportFileControllerIntTest {
     @BeforeAll
     public static void setupAll() {
         json = "{\n" +
-                "  \"file_name\": \"Github Search\",\n" +
-                "  \"file_type\": \"EXCEL\",\n" +
-                "  \"file_extension\": \"xlsx\",\n" +
+                "  \"fileName\": \"Github Search\",\n" +
+                "  \"fileType\": \"EXCEL\",\n" +
+                "  \"fileExtension\": \"xlsx\",\n" +
                 "  \"description\": \"Dummy Description\",\n" +
-                "  \"data_parts\": [\n" +
+                "  \"dataParts\": [\n" +
                 "    {\n" +
                 "      \"url\": \"https://github.com/search?q=java\",\n" +
                 "      \"elements\": [\n" +
                 "        {\n" +
                 "          \"name\": \"repository\",\n" +
                 "          \"selector\": \".repo-list-item\",\n" +
-                "          \"sub_elements\": [\n" +
+                "          \"subElements\": [\n" +
                 "            {\n" +
                 "              \"name\": \"title\",\n" +
                 "              \"selector\": \".v-align-middle\"\n" +
