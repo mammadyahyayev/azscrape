@@ -40,16 +40,22 @@
 - Change owasp dependency check plugin phase to only install [ if it is available create issue on GitHub ] ✅
 - Create a constructor inside WebPage class, and add second parameter that indicates driver window should be close or not ✅
 - Check other interfaces for javadoc (especially base interfaces) ✅
-
-- Configure mvn commands available for entire project (test, check, compile and so on.)
-- Convert implementation of DataAST tree to new Tree inside DataReportApplication
+- Configure mvn commands available for entire project (test, check, compile and so on.) ✅
+- Convert implementation of DataAST tree to new Tree inside DataReportApplication ✅
 
 
 ********************************************
                Version 3.1.0
 ********************************************
-- Create CLI
-- Create Custom Logging
+- Create CLI ✅
+- Create Custom Logging ✅
+- Create a class for Console Messages for instance
+    <code>
+    String projectName = reader.readLine("Enter project name:", 3, "Project name cannot be null or empty");
+    </code>
+    In above case, we can create ConsoleRule class that will hold try count and exception message, if the rule fails
+    there will be exception
+
 - Convert all js files into ts files
 - Change design of the website
 - Create a builder for Tree
