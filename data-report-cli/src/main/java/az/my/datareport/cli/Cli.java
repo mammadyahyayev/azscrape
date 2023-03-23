@@ -1,14 +1,17 @@
 package az.my.datareport.cli;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Cli {
     private final Logs LOG;
     private final Exit exit;
+    private final ConsoleReader reader;
 
-    public Cli(Logs logs, Exit exit) {
+    public Cli(Logs logs, Exit exit, ConsoleReader reader) {
         this.LOG = logs;
         this.exit = exit;
+        this.reader = reader;
     }
 
     public void parse(String[] args) {
@@ -29,7 +32,14 @@ public class Cli {
             printUsage();
             exit.exit(Exit.SUCCESS);
         } else if (Arrays.asList("-cp", "--create-project").contains(arg)) {
+            ProjectCreation projectCreation = new ProjectCreation(
+                    new Scanner(System.in),
+                    System.out,
+                    System.err,
+                    reader
+            );
 
+            projectCreation.start();
         }
 
         return position + 1;
