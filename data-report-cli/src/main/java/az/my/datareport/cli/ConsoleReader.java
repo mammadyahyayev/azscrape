@@ -1,17 +1,16 @@
 package az.my.datareport.cli;
 
+import az.my.datareport.utils.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintStream;
 
 public class ConsoleReader {
-    private final PrintStream stdOut;
-    private final PrintStream stdErr;
+    private final ConsolePrinter printer;
     private final BufferedReader reader;
 
-    public ConsoleReader(PrintStream stdOut, PrintStream stdErr, BufferedReader reader) {
-        this.stdOut = stdOut;
-        this.stdErr = stdErr;
+    public ConsoleReader(ConsolePrinter printer, BufferedReader reader) {
+        this.printer = printer;
         this.reader = reader;
     }
 
@@ -23,11 +22,11 @@ public class ConsoleReader {
      * @return input that given from end user
      */
     public String readLine(String message) {
-        stdOut.print(message);
+        printer.print(message);
         try {
             return reader.readLine();
         } catch (IOException e) {
-            stdErr.println("Error happened: " + e);
+            printer.printlnErr("Error happened: " + e);
             throw new RuntimeException(e);
         }
     }
@@ -48,17 +47,17 @@ public class ConsoleReader {
         int currentTry = 0;
         while (currentTry < tryCount) {
             try {
-                stdOut.print(message);
+                printer.print(message);
                 String input = reader.readLine();
-                if (input == null || input.isEmpty() || input.isBlank()) {
-                    stdErr.println(exceptionMessage);
+                if (StringUtils.isNullOrEmpty(input)) {
+                    printer.printlnErr(exceptionMessage);
                     currentTry++;
                     continue;
                 }
 
                 return input;
             } catch (IOException e) {
-                stdErr.println("Error happened: " + e);
+                printer.printlnErr("Error happened: " + e);
                 throw new RuntimeException(e);
             }
         }

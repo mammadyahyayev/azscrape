@@ -17,7 +17,7 @@ public class Main {
         Exit exit = new Exit();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        ConsoleReader consoleReader = new ConsoleReader(out, err, reader);
+        ConsoleReader consoleReader = new ConsoleReader(new ConsolePrinter(out), reader);
         Cli cli = new Cli(logs, exit, consoleReader);
         cli.parse(args);
     }

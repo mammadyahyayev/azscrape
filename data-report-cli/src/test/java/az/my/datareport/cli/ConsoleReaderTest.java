@@ -16,13 +16,15 @@ class ConsoleReaderTest {
     private PrintStream stdErr;
     private BufferedReader reader;
     private ConsoleReader consoleReader;
+    private ConsolePrinter consolePrinter;
 
     @BeforeEach
     public void setUp() {
         reader = mock(BufferedReader.class);
         stdOut = mock(PrintStream.class);
         stdErr = mock(PrintStream.class);
-        consoleReader = new ConsoleReader(stdOut, stdErr, reader);
+        consolePrinter = mock(ConsolePrinter.class);
+        consoleReader = new ConsoleReader(consolePrinter, reader);
     }
 
     @Test
@@ -64,8 +66,8 @@ class ConsoleReaderTest {
                 () -> consoleReader.readLine(message, tryCount, exMessage));
 
         assertEquals(exMessage, ex.getMessage());
-        verify(stdOut, times(tryCount)).print(message);
-        verify(stdErr, times(tryCount)).println("\n" + exMessage);
+        verify(consolePrinter, times(tryCount)).print(message);
+        verify(consolePrinter, times(tryCount)).printlnErr(exMessage);
     }
 
 }

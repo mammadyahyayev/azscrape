@@ -19,7 +19,7 @@ public final class StringUtils {
      * Replace preset {@link StringUtils#SYMBOLS} with
      * given delimiter
      *
-     * @param str       given string
+     * @param str       {@code String}
      * @param delimiter all symbols will be replaced with
      * @return formatted string
      */
@@ -34,8 +34,8 @@ public final class StringUtils {
     /**
      * Combines two objects into String object
      *
-     * @param str1 first object
-     * @param str2 second object
+     * @param str1 first {@code String}
+     * @param str2 second {@code String}
      * @return combined String
      */
     public static String combine(Object str1, Object str2) {
@@ -49,7 +49,7 @@ public final class StringUtils {
     /**
      * Gives last index of String object
      *
-     * @param str a String object
+     * @param str A {@code String}
      * @return last index of String object
      */
     public static int lastIndex(String str) {
@@ -62,5 +62,15 @@ public final class StringUtils {
         }
 
         return str.charAt(str.length() - 1);
+    }
+
+    /**
+     * Checks whether string is null, empty or blank.
+     *
+     * @param str A {@code String}
+     * @return true if string is not null or empty, otherwise false
+     */
+    public static boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty() || str.isBlank();
     }
 }
