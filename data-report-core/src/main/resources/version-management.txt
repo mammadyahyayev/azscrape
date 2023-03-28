@@ -47,19 +47,30 @@
 ********************************************
                Version 3.1.0
 ********************************************
-- Create CLI ✅
+- [Feature] Create CLI ✅
 - Create Custom Logging ✅
-- Create a class for Console Messages for instance
+- Create a class for Console Messages for instance ✅
     <code>
     String projectName = reader.readLine("Enter project name:", 3, "Project name cannot be null or empty");
     </code>
     In above case, we can create ConsoleRule class that will hold try count and exception message, if the rule fails
     there will be exception
 
-- Convert all js files into ts files
-- Change design of the website
-- Create a builder for Tree
+- [Feature] Project Creation in CLI with flag -cp or --create-project
+- [Feature] Authentication of DataReport with flag --auth
+- Replace all RuntimeExceptions with meaningful exception inside DataReportProjectConfiguration
+- Replace all Files operations with FileManager class operations
+- [Feature] Create dashboard
 
+[[[ IDEAS ]]]
+- Inside of DataReportProjectConfiguration, we need to store some values into project.properties file
+  therefore, we need easy way to do that, so create a new class called PropertiesFileManager that will
+  extend from FileManager and make FileManager as interface or find another interface name for this situation
+  and make FileManager as abstract class. Possible interface operations: createFile, deleteFile, getFilePath,
+  getFileInfo and so on.
+  PropertiesFileManager can store values, can modify values and so on.
+  CAUTION: Properties file store properties in random order, PropertiesFileManager must store properties
+  in alphabetical order, there must be a parameter to store properties with alphabetical order
 
 ********************************************
              FUTURE Versions

@@ -1,24 +1,19 @@
 package az.my.datareport.cli;
 
+import az.my.datareport.config.DataReportProjectConfiguration;
 import az.my.datareport.config.Owner;
 import az.my.datareport.config.Project;
 
-import java.io.PrintStream;
-import java.util.Scanner;
-
 public class ProjectCreation implements CreationStep<Project> {
 
-    private final Scanner scanner;
-    private final PrintStream stdOut;
-    private final PrintStream stdErr;
+    private final DataReportProjectConfiguration configuration;
     private final ConsoleReader reader;
+    private final Logs logs;
 
-    public ProjectCreation(Scanner scanner, PrintStream stdOut, PrintStream stdErr,
-                           ConsoleReader reader) {
-        this.stdOut = stdOut;
-        this.stdErr = stdErr;
-        this.scanner = scanner;
+    public ProjectCreation(DataReportProjectConfiguration configuration, ConsoleReader reader, Logs logs) {
+        this.configuration = configuration;
         this.reader = reader;
+        this.logs = logs;
     }
 
     @Override
@@ -28,20 +23,14 @@ public class ProjectCreation implements CreationStep<Project> {
         Step<Project> projectInfoStep = new ProjectInfoStep(reader);
         project = projectInfoStep.execute(project);
 
-        projectOwner(project);
+        Step<Owner> ownerStep = new ProjectOwnerStep(reader);
+        Owner owner = new Owner();
+        owner = ownerStep.execute(owner);
+        project.setOwner(owner);
 
-        stdOut.println("Project created successfully...");
+        configuration.createProject(project);
+
+        logs.info("Project created successfully...");
         return project;
-    }
-
-    private void projectOwner(Project project) {
-        stdOut.print("Please enter owner name: ");
-        String name = scanner.next();
-        if (name == null || name.isEmpty() || name.isBlank()) {
-            stdErr.println("Owner name is required field and cannot be empty");
-            projectOwner(project);
-        } else {
-            project.setOwner(new Owner(name, null));
-        }
     }
 }

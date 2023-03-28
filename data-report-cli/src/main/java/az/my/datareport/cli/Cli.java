@@ -1,15 +1,18 @@
 package az.my.datareport.cli;
 
+import az.my.datareport.config.DataReportProjectConfiguration;
+
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Cli {
-    private final Logs LOG;
+    private final DataReportProjectConfiguration configuration;
+    private final Logs logs;
     private final Exit exit;
     private final ConsoleReader reader;
 
-    public Cli(Logs logs, Exit exit, ConsoleReader reader) {
-        this.LOG = logs;
+    public Cli(DataReportProjectConfiguration configuration, Logs logs, Exit exit, ConsoleReader reader) {
+        this.configuration = configuration;
+        this.logs = logs;
         this.exit = exit;
         this.reader = reader;
     }
@@ -32,25 +35,20 @@ public class Cli {
             printUsage();
             exit.exit(Exit.SUCCESS);
         } else if (Arrays.asList("-cp", "--create-project").contains(arg)) {
-            ProjectCreation projectCreation = new ProjectCreation(
-                    new Scanner(System.in),
-                    System.out,
-                    System.err,
-                    reader
-            );
-
+            ProjectCreation projectCreation = new ProjectCreation(configuration, reader, logs);
             projectCreation.start();
+            exit.exit(Exit.SUCCESS);
         }
 
         return position + 1;
     }
 
     public void printVersion() {
-        LOG.info("Current DataReport Version 3.0.0");
-        LOG.info("Maintained by Mammad Yahya");
+        logs.info("Current DataReport Version 3.0.0");
+        logs.info("Maintained by Mammad Yahya");
     }
 
     public void printUsage() {
-        LOG.info("Here's the brief introduction");
+        logs.info("Here's the brief introduction");
     }
 }

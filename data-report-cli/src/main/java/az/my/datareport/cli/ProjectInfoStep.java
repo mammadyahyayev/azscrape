@@ -14,7 +14,7 @@ public class ProjectInfoStep implements Step<Project> {
     public Project execute(Project project) {
         String projectName = reader.readLine("Enter project name:", 3,
                 "Project name cannot be null or empty");
-        project.setName(projectName);
+        project.setName(projectName.trim());
         return project;
     }
 }

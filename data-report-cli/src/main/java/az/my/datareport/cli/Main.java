@@ -9,7 +9,8 @@ import java.io.PrintStream;
 public class Main {
     public static void main(String[] args) {
         DataReportProjectConfiguration configuration = new DataReportProjectConfiguration();
-        configuration.init();
+        configuration.createYmFolder();
+        configuration.createYmPropertiesFile();
 
         PrintStream out = System.out;
         PrintStream err = System.err;
@@ -18,7 +19,7 @@ public class Main {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ConsoleReader consoleReader = new ConsoleReader(new ConsolePrinter(out), reader);
-        Cli cli = new Cli(logs, exit, consoleReader);
+        Cli cli = new Cli(configuration, logs, exit, consoleReader);
         cli.parse(args);
     }
 }
