@@ -1,6 +1,7 @@
 package az.my.datareport.config;
 
-import org.junit.jupiter.api.AfterAll;
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DataReportProjectConfigurationTest {
@@ -16,10 +18,10 @@ class DataReportProjectConfigurationTest {
     private static final Path YM_FOLDER_PATH = Path.of(USER_HOME, ".ym");
     private static final Path YM_PROPERTIES_FILE_PATH = Path.of(YM_FOLDER_PATH.toString(), ".ym.properties");
 
-    @AfterAll
-    static void cleanUp() throws IOException {
+    @AfterEach
+    void cleanUp() throws IOException {
         Files.deleteIfExists(YM_PROPERTIES_FILE_PATH);
-        Files.deleteIfExists(YM_FOLDER_PATH);
+        FileUtils.deleteDirectory(YM_FOLDER_PATH.toFile());
     }
 
     @Test
@@ -54,6 +56,40 @@ class DataReportProjectConfigurationTest {
 
         assertTrue(ymFolder.exists());
         assertTrue(ymPropertiesFile.exists());
+    }
+
+    @Test
+    void testCreateProject() {
+        Project project = new Project();
+        project.setName("demo-project");
+        project.setOwner(new Owner("Jack", "jack@gmail.com"));
+
+        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration();
+        configuration.createProject(project);
+
+        File projectDirPath = new File(YM_FOLDER_PATH + "/" + project.getName());
+        assertTrue(projectDirPath.exists());
+        assertTrue(projectDirPath.isDirectory());
+
+        File projectPropertiesPath = new File(projectDirPath.getAbsolutePath() + "/project.properties");
+        assertTrue(projectPropertiesPath.exists());
+        assertTrue(projectPropertiesPath.isFile());
+    }
+
+    @Test
+    void testCreateExistProject() throws Exception {
+        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration();
+        configuration.createYmFolder();
+
+        String projectName = "demo-project";
+        Path projectDirPath = Path.of(YM_FOLDER_PATH.toString(), projectName);
+        Files.createDirectory(projectDirPath);
+        Files.createFile(Path.of(projectDirPath.toString(), "project.properties"));
+
+        Project project = new Project();
+        project.setName(projectName);
+        project.setOwner(new Owner("Jack", "jack@gmail.com"));
+        assertThrows(RuntimeException.class, () -> configuration.createProject(project));
     }
 
 }

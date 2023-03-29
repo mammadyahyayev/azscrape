@@ -49,6 +49,14 @@ public class DataReportProjectConfiguration {
     }
 
     public void createProject(Project project) {
+        if (!checkYmFolderExist()) {
+            createYmFolder();
+        }
+
+        if (!checkYmPropertiesFileExist()) {
+            createYmPropertiesFile();
+        }
+
         try {
             Path projectFolderPath = Path.of(YM_FOLDER_PATH.toString(), project.getName());
             Files.createDirectory(projectFolderPath);

@@ -30,7 +30,7 @@
 - Write integration test ✅
 
 ********************************************
-               Version 3.0.0
+               Version 2.1.0
 ********************************************
 - Build tree model ✅
 - Insert OWASP dependency check plugin ✅
@@ -45,7 +45,7 @@
 
 
 ********************************************
-               Version 3.1.0
+               Version 3.0.0
 ********************************************
 - [Feature] Create CLI ✅
 - Create Custom Logging ✅
@@ -56,7 +56,8 @@
     In above case, we can create ConsoleRule class that will hold try count and exception message, if the rule fails
     there will be exception
 
-- [Feature] Project Creation in CLI with flag -cp or --create-project
+- [Feature] Project Creation in CLI with flag -cp or --create-project ✅
+- Test Project Creation
 - [Feature] Authentication of DataReport with flag --auth
 - Replace all RuntimeExceptions with meaningful exception inside DataReportProjectConfiguration
 - Replace all Files operations with FileManager class operations
@@ -71,6 +72,8 @@
   PropertiesFileManager can store values, can modify values and so on.
   CAUTION: Properties file store properties in random order, PropertiesFileManager must store properties
   in alphabetical order, there must be a parameter to store properties with alphabetical order
+
+- Inside FileManagement class create method called createDirectoryIfNotExist() or createFileIfNotExist()
 
 ********************************************
              FUTURE Versions
