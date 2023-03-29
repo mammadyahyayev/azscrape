@@ -19,7 +19,7 @@ public class ConsoleReader {
      * Reads inputs from console that supplied by end user.
      *
      * @param message question for end user
-     * @return input that given from end user
+     * @return input that given from end user can be empty or null
      */
     public String readLine(String message) {
         printer.print(message);

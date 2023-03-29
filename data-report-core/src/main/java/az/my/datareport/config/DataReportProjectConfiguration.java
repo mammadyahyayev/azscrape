@@ -1,5 +1,6 @@
 package az.my.datareport.config;
 
+import az.my.datareport.utils.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,6 +58,10 @@ public class DataReportProjectConfiguration {
             createYmPropertiesFile();
         }
 
+        if (project == null) {
+            throw new IllegalArgumentException("Project cannot be null!");
+        }
+
         try {
             Path projectFolderPath = Path.of(YM_FOLDER_PATH.toString(), project.getName());
             Files.createDirectory(projectFolderPath);
@@ -66,7 +71,7 @@ public class DataReportProjectConfiguration {
             Files.createFile(propertiesFilePath);
             LOG.info("Project {} properties file created {}", project.getName(), propertiesFilePath);
 
-            storeProperties(project, propertiesFilePath);
+            storeProjectProperties(project, propertiesFilePath);
             LOG.info("Configurations stored on properties {} file", propertiesFilePath);
 
             LOG.info("Project created successfully...");
@@ -76,7 +81,7 @@ public class DataReportProjectConfiguration {
         }
     }
 
-    private void storeProperties(Project project, Path propertiesFilePath) throws IOException {
+    private void storeProjectProperties(Project project, Path propertiesFilePath) throws IOException {
         try (OutputStream outputStream = new FileOutputStream(propertiesFilePath.toFile())) {
             Properties properties = new Properties();
             properties.setProperty("project.name", project.getName());
@@ -97,4 +102,38 @@ public class DataReportProjectConfiguration {
         return file.exists();
     }
 
+    public void createOwner(Owner owner) {
+        if (!checkYmFolderExist()) {
+            createYmFolder();
+        }
+
+        if (!checkYmPropertiesFileExist()) {
+            createYmPropertiesFile();
+        }
+
+        if (owner == null) {
+            throw new IllegalArgumentException("Owner cannot be null!");
+        }
+
+        try {
+            storeOwnerProperties(owner);
+            LOG.info("Owner created successfully...");
+        } catch (IOException e) {
+            LOG.error("Failed to create owner {}", e.getMessage());
+            throw new RuntimeException(e); //TODO: Replace this exception with System exception
+        }
+    }
+
+    private void storeOwnerProperties(Owner owner) throws IOException {
+        try (OutputStream outputStream = new FileOutputStream(DataReportProjectConfiguration.YM_PROPERTIES_FILE_PATH.toFile())) {
+            Properties properties = new Properties();
+            properties.setProperty("owner.name", owner.getName());
+
+            if (!StringUtils.isNullOrEmpty(owner.getEmail())) {
+                properties.setProperty("owner.email", owner.getEmail());
+            }
+
+            properties.store(outputStream, "Global Properties");
+        }
+    }
 }

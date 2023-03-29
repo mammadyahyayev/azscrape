@@ -38,6 +38,10 @@ public class Cli {
             ProjectCreation projectCreation = new ProjectCreation(configuration, reader, logs);
             projectCreation.start();
             exit.exit(Exit.SUCCESS);
+        } else if (Arrays.asList("-a", "--auth").contains(arg)) {
+            OwnerCreation ownerCreation = new OwnerCreation(configuration, reader, logs);
+            ownerCreation.start();
+            exit.exit(Exit.SUCCESS);
         }
 
         return position + 1;
