@@ -1,14 +1,13 @@
 package az.my.datareport.config;
 
+import az.my.datareport.utils.FileManager;
 import az.my.datareport.utils.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
 
@@ -16,45 +15,41 @@ public class DataReportProjectConfiguration {
     private static final Logger LOG = LogManager.getLogger(DataReportProjectConfiguration.class);
 
     private static final String USER_HOME = System.getProperty("user.home");
-    private static final Path YM_FOLDER_PATH = Path.of(USER_HOME, ".ym");
-    private static final Path YM_PROPERTIES_FILE_PATH = Path.of(YM_FOLDER_PATH.toString(), ".ym.properties");
+    private static final Path YM_DIRECTORY_PATH = Path.of(USER_HOME, ".ym");
+    private static final Path YM_PROPERTIES_FILE_PATH = Path.of(YM_DIRECTORY_PATH.toString(), ".ym.properties");
 
-    public void createYmFolder() {
-        if (checkYmFolderExist()) {
+    private final FileManager fileManager;
+
+    public DataReportProjectConfiguration(FileManager fileManager) {
+        this.fileManager = fileManager;
+    }
+
+    public void createYmDirectory() {
+        if (fileManager.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
             return;
         }
 
-        try {
-            Files.createDirectory(YM_FOLDER_PATH);
-        } catch (IOException e) {
-            LOG.error("Failed to create .ym folder inside {}", USER_HOME);
-            throw new RuntimeException(e); //TODO: Replace this exception with System exception
-        }
+        fileManager.createDirectory(YM_DIRECTORY_PATH.toString());
     }
 
     public void createYmPropertiesFile() {
-        if (!checkYmFolderExist()) {
-            createYmFolder();
+        if (!fileManager.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
+            createYmDirectory();
         }
 
-        if (checkYmPropertiesFileExist()) {
+        if (fileManager.isFileExist(YM_PROPERTIES_FILE_PATH.toString())) {
             return;
         }
 
-        try {
-            Files.createFile(YM_PROPERTIES_FILE_PATH);
-        } catch (IOException e) {
-            LOG.error("Failed to create .ym.properties inside {}", YM_FOLDER_PATH);
-            throw new RuntimeException(e); //TODO: Replace this exception with System exception
-        }
+        fileManager.createFile(YM_PROPERTIES_FILE_PATH.toString());
     }
 
     public void createProject(Project project) {
-        if (!checkYmFolderExist()) {
-            createYmFolder();
+        if (!fileManager.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
+            createYmDirectory();
         }
 
-        if (!checkYmPropertiesFileExist()) {
+        if (fileManager.isFileExist(YM_PROPERTIES_FILE_PATH.toString())) {
             createYmPropertiesFile();
         }
 
@@ -63,12 +58,12 @@ public class DataReportProjectConfiguration {
         }
 
         try {
-            Path projectFolderPath = Path.of(YM_FOLDER_PATH.toString(), project.getName());
-            Files.createDirectory(projectFolderPath);
+            Path projectFolderPath = Path.of(YM_DIRECTORY_PATH.toString(), project.getName());
+            fileManager.createDirectory(projectFolderPath.toString());
             LOG.info("Project {} folder created {}", project.getName(), projectFolderPath);
 
             Path propertiesFilePath = Path.of(projectFolderPath.toString(), "project.properties");
-            Files.createFile(propertiesFilePath);
+            fileManager.createFile(propertiesFilePath.toString());
             LOG.info("Project {} properties file created {}", project.getName(), propertiesFilePath);
 
             storeProjectProperties(project, propertiesFilePath);
@@ -92,22 +87,12 @@ public class DataReportProjectConfiguration {
         }
     }
 
-    private boolean checkYmFolderExist() {
-        File file = new File(YM_FOLDER_PATH.toString());
-        return file.exists();
-    }
-
-    private boolean checkYmPropertiesFileExist() {
-        File file = new File(YM_PROPERTIES_FILE_PATH.toString());
-        return file.exists();
-    }
-
     public void createOwner(Owner owner) {
-        if (!checkYmFolderExist()) {
-            createYmFolder();
+        if (!fileManager.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
+            createYmDirectory();
         }
 
-        if (!checkYmPropertiesFileExist()) {
+        if (fileManager.isFileExist(YM_PROPERTIES_FILE_PATH.toString())) {
             createYmPropertiesFile();
         }
 
@@ -125,7 +110,8 @@ public class DataReportProjectConfiguration {
     }
 
     private void storeOwnerProperties(Owner owner) throws IOException {
-        try (OutputStream outputStream = new FileOutputStream(DataReportProjectConfiguration.YM_PROPERTIES_FILE_PATH.toFile())) {
+        try (OutputStream outputStream =
+                     new FileOutputStream(DataReportProjectConfiguration.YM_PROPERTIES_FILE_PATH.toFile())) {
             Properties properties = new Properties();
             properties.setProperty("owner.name", owner.getName());
 

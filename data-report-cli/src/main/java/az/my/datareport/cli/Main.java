@@ -1,6 +1,7 @@
 package az.my.datareport.cli;
 
 import az.my.datareport.config.DataReportProjectConfiguration;
+import az.my.datareport.utils.FileManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,8 +9,9 @@ import java.io.PrintStream;
 
 public class Main {
     public static void main(String[] args) {
-        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration();
-        configuration.createYmFolder();
+        FileManager fileManager = new FileManager();
+        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(fileManager);
+        configuration.createYmDirectory();
         configuration.createYmPropertiesFile();
 
         PrintStream out = System.out;

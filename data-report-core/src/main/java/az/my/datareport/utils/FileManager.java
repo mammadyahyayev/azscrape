@@ -153,4 +153,26 @@ public class FileManager {
         }
     }
 
+    /**
+     * Checks whether file exists or not
+     *
+     * @param path a path of file
+     * @return true if file exists, otherwise false
+     */
+    public boolean isFileExist(String path) {
+        File file = new File(path);
+        return file.exists();
+    }
+
+    /**
+     * Checks whether directory exists or not
+     *
+     * @param path a path of directory
+     * @return true if directory exists, otherwise false
+     */
+    public boolean isDirectoryExist(String path) {
+        File file = new File(path);
+        return file.exists();
+    }
+
 }

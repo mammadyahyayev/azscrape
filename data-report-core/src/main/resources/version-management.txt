@@ -57,10 +57,10 @@
     there will be exception
 
 - [Feature] Project Creation in CLI with flag -cp or --create-project ✅
-- Test Project Creation
-- [Feature] Authentication of DataReport with flag --auth
+- Test Project Creation ✅
+- [Feature] Authentication of DataReport with flag --auth ✅
+- Replace all Files operations with FileManager class operations ✅
 - Replace all RuntimeExceptions with meaningful exception inside DataReportProjectConfiguration
-- Replace all Files operations with FileManager class operations
 - [Feature] Create dashboard
 
 [[[ IDEAS ]]]
@@ -72,8 +72,6 @@
   PropertiesFileManager can store values, can modify values and so on.
   CAUTION: Properties file store properties in random order, PropertiesFileManager must store properties
   in alphabetical order, there must be a parameter to store properties with alphabetical order
-
-- Inside FileManagement class create method called createDirectoryIfNotExist() or createFileIfNotExist()
 
 ********************************************
              FUTURE Versions
