@@ -7,7 +7,8 @@ import az.my.datareport.model.ReportDataParent;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
-import az.my.datareport.utils.FileManager;
+import az.my.datareport.utils.AbstractFileSystem;
+import az.my.datareport.utils.DefaultFileSystem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ class ExcelExporterTest {
 
     ExcelExporter exporter;
 
-    FileManager fileManager;
+    AbstractFileSystem abstractFileSystem;
 
     @BeforeEach
     void beforeEach() {
@@ -40,7 +41,7 @@ class ExcelExporterTest {
                 .build();
 
         exporter = new ExcelExporter();
-        fileManager = new FileManager();
+        abstractFileSystem = new DefaultFileSystem();
     }
 
     @Test

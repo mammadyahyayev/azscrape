@@ -15,14 +15,14 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileManagerTest {
+class AbstractFileSystemTest {
 
     final static Path TEST_FILE_PATH = Path.of("src", "test", "resources", "test.json");
-    FileManager manager;
+    AbstractFileSystem manager;
 
     @BeforeEach
     void setup() {
-        manager = new FileManager();
+        manager = new DefaultFileSystem();
     }
 
     @Test
@@ -77,7 +77,7 @@ class FileManagerTest {
     @Test
     void testCreateFile_whenExistPathGiven_returnFileWithGivenPath() throws IOException {
         File expected = createTestFile();
-        File actual = manager.createFile(expected.getPath());
+        File actual = manager.createFileIfNotExist(expected.getPath());
         assertEquals(expected.getAbsolutePath(), actual.getAbsolutePath());
         assertNotNull(manager.getFile(expected.getAbsolutePath()));
         assertTrue(manager.deleteFile(expected.toPath()));
@@ -86,7 +86,7 @@ class FileManagerTest {
     @Test
     void testCreateFile_whenDirectoryPathGiven_throwException() {
         Path path = Path.of("src", "test", "resources");
-        String message = assertThrows(DataReportAppException.class, () -> manager.createFile(path.toString())).getMessage();
+        String message = assertThrows(DataReportAppException.class, () -> manager.createFileIfNotExist(path.toString())).getMessage();
         String expected = "Given path [ " + path + " ] isn't file!";
         assertEquals(expected, message);
     }

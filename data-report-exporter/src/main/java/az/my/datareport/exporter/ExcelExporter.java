@@ -6,8 +6,9 @@ import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
 import az.my.datareport.model.ReportFile;
+import az.my.datareport.utils.AbstractFileSystem;
 import az.my.datareport.utils.Assert;
-import az.my.datareport.utils.FileManager;
+import az.my.datareport.utils.DefaultFileSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.CellType;
@@ -97,14 +98,14 @@ public class ExcelExporter implements Exporter {
         Assert.required(directoryPath, "Directory path is required");
         Assert.required(reportFile, "ReportFile is required");
 
-        FileManager fileManager = new FileManager();
-        fileManager.createDirectory(directoryPath);
+        AbstractFileSystem abstractFileSystem = new DefaultFileSystem();
+        abstractFileSystem.createDirectory(directoryPath);
 
-        String filename = fileManager.createFilename(reportFile.getFilename());
+        String filename = abstractFileSystem.createFilename(reportFile.getFilename());
         String extension = reportFile.getFileExtension().name().toLowerCase();
         Path filepath = Path.of(directoryPath, filename + "." + extension);
 
-        return fileManager.createFile(filepath.toString());
+        return abstractFileSystem.createFile(filepath.toString());
     }
 
     @Override

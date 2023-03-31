@@ -1,6 +1,6 @@
 package az.my.datareport.config;
 
-import az.my.datareport.utils.FileManager;
+import az.my.datareport.utils.AbstractFileSystem;
 import az.my.datareport.utils.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,38 +18,38 @@ public class DataReportProjectConfiguration {
     private static final Path YM_DIRECTORY_PATH = Path.of(USER_HOME, ".ym");
     private static final Path YM_PROPERTIES_FILE_PATH = Path.of(YM_DIRECTORY_PATH.toString(), ".ym.properties");
 
-    private final FileManager fileManager;
+    private final AbstractFileSystem abstractFileSystem;
 
-    public DataReportProjectConfiguration(FileManager fileManager) {
-        this.fileManager = fileManager;
+    public DataReportProjectConfiguration(AbstractFileSystem abstractFileSystem) {
+        this.abstractFileSystem = abstractFileSystem;
     }
 
     public void createYmDirectory() {
-        if (fileManager.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
+        if (abstractFileSystem.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
             return;
         }
 
-        fileManager.createDirectory(YM_DIRECTORY_PATH.toString());
+        abstractFileSystem.createDirectory(YM_DIRECTORY_PATH.toString());
     }
 
     public void createYmPropertiesFile() {
-        if (!fileManager.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
+        if (!abstractFileSystem.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
             createYmDirectory();
         }
 
-        if (fileManager.isFileExist(YM_PROPERTIES_FILE_PATH.toString())) {
+        if (abstractFileSystem.isFileExist(YM_PROPERTIES_FILE_PATH.toString())) {
             return;
         }
 
-        fileManager.createFile(YM_PROPERTIES_FILE_PATH.toString());
+        abstractFileSystem.createFile(YM_PROPERTIES_FILE_PATH.toString());
     }
 
     public void createProject(Project project) {
-        if (!fileManager.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
+        if (!abstractFileSystem.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
             createYmDirectory();
         }
 
-        if (fileManager.isFileExist(YM_PROPERTIES_FILE_PATH.toString())) {
+        if (abstractFileSystem.isFileExist(YM_PROPERTIES_FILE_PATH.toString())) {
             createYmPropertiesFile();
         }
 
@@ -59,11 +59,11 @@ public class DataReportProjectConfiguration {
 
         try {
             Path projectFolderPath = Path.of(YM_DIRECTORY_PATH.toString(), project.getName());
-            fileManager.createDirectory(projectFolderPath.toString());
+            abstractFileSystem.createDirectory(projectFolderPath.toString());
             LOG.info("Project {} folder created {}", project.getName(), projectFolderPath);
 
             Path propertiesFilePath = Path.of(projectFolderPath.toString(), "project.properties");
-            fileManager.createFile(propertiesFilePath.toString());
+            abstractFileSystem.createFile(propertiesFilePath.toString());
             LOG.info("Project {} properties file created {}", project.getName(), propertiesFilePath);
 
             storeProjectProperties(project, propertiesFilePath);
@@ -88,11 +88,11 @@ public class DataReportProjectConfiguration {
     }
 
     public void createOwner(Owner owner) {
-        if (!fileManager.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
+        if (!abstractFileSystem.isDirectoryExist(YM_DIRECTORY_PATH.toString())) {
             createYmDirectory();
         }
 
-        if (fileManager.isFileExist(YM_PROPERTIES_FILE_PATH.toString())) {
+        if (abstractFileSystem.isFileExist(YM_PROPERTIES_FILE_PATH.toString())) {
             createYmPropertiesFile();
         }
 

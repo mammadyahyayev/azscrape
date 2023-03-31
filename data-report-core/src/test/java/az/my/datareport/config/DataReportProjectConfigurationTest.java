@@ -1,6 +1,7 @@
 package az.my.datareport.config;
 
-import az.my.datareport.utils.FileManager;
+import az.my.datareport.utils.AbstractFileSystem;
+import az.my.datareport.utils.DefaultFileSystem;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,11 +20,11 @@ class DataReportProjectConfigurationTest {
     private static final Path YM_DIRECTORY_PATH = Path.of(USER_HOME, ".ym");
     private static final Path YM_PROPERTIES_FILE_PATH = Path.of(YM_DIRECTORY_PATH.toString(), ".ym.properties");
 
-    private FileManager fileManager;
+    private AbstractFileSystem abstractFileSystem;
 
     @BeforeEach
     void setUp() {
-        fileManager = new FileManager();
+        abstractFileSystem = new DefaultFileSystem();
     }
 
     @AfterEach
@@ -34,7 +35,7 @@ class DataReportProjectConfigurationTest {
 
     @Test
     void testCreateYmFolder() {
-        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(fileManager);
+        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(abstractFileSystem);
         configuration.createYmDirectory();
 
         File ymFolder = new File(YM_DIRECTORY_PATH.toString());
@@ -43,7 +44,7 @@ class DataReportProjectConfigurationTest {
 
     @Test
     void testCreateYmPropertiesFile() {
-        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(fileManager);
+        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(abstractFileSystem);
         configuration.createYmDirectory();
         configuration.createYmPropertiesFile();
 
@@ -56,7 +57,7 @@ class DataReportProjectConfigurationTest {
 
     @Test
     void testCreateYmPropertiesWithYmFolderAutomatically() {
-        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(fileManager);
+        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(abstractFileSystem);
         configuration.createYmPropertiesFile();
 
         File ymFolder = new File(YM_DIRECTORY_PATH.toString());
@@ -72,7 +73,7 @@ class DataReportProjectConfigurationTest {
         project.setName("demo-project");
         project.setOwner(new Owner("Jack", "jack@gmail.com"));
 
-        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(fileManager);
+        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(abstractFileSystem);
         configuration.createProject(project);
 
         File projectDirPath = new File(YM_DIRECTORY_PATH + "/" + project.getName());

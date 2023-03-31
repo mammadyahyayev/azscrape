@@ -2,7 +2,8 @@ package az.my.datareport.model;
 
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
-import az.my.datareport.utils.FileManager;
+import az.my.datareport.utils.AbstractFileSystem;
+import az.my.datareport.utils.DefaultFileSystem;
 
 import java.time.LocalDateTime;
 
@@ -12,13 +13,13 @@ public class ReportFile {
     private FileExtension fileExtension;
     private final LocalDateTime createdAt = LocalDateTime.now();
 
-    private final FileManager fileManager;
+    private final AbstractFileSystem abstractFileSystem;
 
     private ReportFile(String filename, FileType filetype, FileExtension fileExtension) {
         this.filename = filename;
         this.filetype = filetype;
         this.fileExtension = fileExtension;
-        this.fileManager = new FileManager();
+        this.abstractFileSystem = new DefaultFileSystem();
     }
 
     public String getFilename() {
@@ -27,7 +28,7 @@ public class ReportFile {
 
     public String getFileFullName() {
         if (filename.contains(" ")) {
-            return fileManager.createFilename(filename, fileExtension.toString());
+            return abstractFileSystem.createFilename(filename, fileExtension.toString());
         }
 
         return this.filename.toLowerCase() + "." + this.fileExtension.toString().toLowerCase();

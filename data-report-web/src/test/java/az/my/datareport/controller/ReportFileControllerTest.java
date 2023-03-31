@@ -7,7 +7,8 @@ import az.my.datareport.model.enumeration.FileType;
 import az.my.datareport.service.ConfigService;
 import az.my.datareport.service.ExportService;
 import az.my.datareport.service.ScraperService;
-import az.my.datareport.utils.FileManager;
+import az.my.datareport.utils.AbstractFileSystem;
+import az.my.datareport.utils.DefaultFileSystem;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -116,8 +117,8 @@ class ReportFileControllerTest {
     void testDownloadFile_whenFilePathGiven_returnExportedFile() throws Exception {
         Path path = Path.of(FileConstants.TEMP_DIR_PATH, "file.xlsx");
 
-        FileManager fileManager = new FileManager();
-        fileManager.createFile(path.toString());
+        AbstractFileSystem abstractFileSystem = new DefaultFileSystem();
+        abstractFileSystem.createFile(path.toString());
 
         ReportFile reportFile = new ReportFile.Builder()
                 .filename("file")
@@ -133,7 +134,7 @@ class ReportFileControllerTest {
                 .andExpect(content().contentType("application/octet-stream"))
                 .andReturn();
 
-        assertTrue(fileManager.deleteFile(path));
+        assertTrue(abstractFileSystem.deleteFile(path));
     }
 
 

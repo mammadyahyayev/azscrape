@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Locale;
@@ -18,26 +19,43 @@ import java.util.Locale;
  * <b>Given:</b> fiLe Operation  <br/>
  * <b>Return:</b> file_operation <br/>
  */
-public class FileManager {
-    private static final Logger LOG = LogManager.getLogger(FileManager.class);
+public abstract class AbstractFileSystem implements FileSystem {
+    private static final Logger LOG = LogManager.getLogger(AbstractFileSystem.class);
 
     /**
      * Used to replace all file symbols with _ (underscore)
      */
     private static final char FILE_NAME_DELIMITER = '_';
 
-    public FileManager() {
+    public AbstractFileSystem() {
     }
 
     /**
-     * Creates file if there isn't an appropriate file,
-     * if path or directory path is invalid, throws exception
-     *
-     * @param path given file path
-     * @return file
-     * @throws DataReportAppException when given path is invalid
+     * {@inheritDoc}
      */
+    @Override
     public File createFile(String path) {
+        Assert.required(path);
+
+        File file = new File(path);
+        try {
+            if (file.exists()) {
+                throw new FileAlreadyExistsException("Given path [ " + path + " ] is already exist!");
+            }
+            file.createNewFile();
+        } catch (IOException e) {
+            LOG.error("Couldn't create file with {}", path);
+            throw new DataReportAppException("Couldn't create file with [ " + path + " ]", e);
+        }
+
+        return file;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public File createFileIfNotExist(String path) {
         Assert.required(path);
 
         File file = new File(path);
@@ -45,6 +63,7 @@ public class FileManager {
             if (file.isFile()) {
                 return file;
             }
+
             throw new DataReportAppException("Given path [ " + path + " ] isn't file!");
         }
 
@@ -119,12 +138,9 @@ public class FileManager {
     }
 
     /**
-     * Gets filepath as string, and checks file exists and available to read,
-     * then return the file as <code>File</code> object, otherwise returns <code>null</code>.
-     *
-     * @param filepath path of the file, can be absolute or relative
-     * @return <code>File</code> object
+     * {@inheritDoc}
      */
+    @Override
     public File getFile(String filepath) {
         Assert.required(filepath, "filepath is required");
 
@@ -137,11 +153,9 @@ public class FileManager {
     }
 
     /**
-     * Deletes file with given path
-     *
-     * @param filepath path of the file
-     * @return true if file deleted successfully, otherwise false
+     * {@inheritDoc}
      */
+    @Override
     public boolean deleteFile(Path filepath) {
         Assert.required(filepath, "filepath is required");
 
@@ -154,11 +168,9 @@ public class FileManager {
     }
 
     /**
-     * Checks whether file exists or not
-     *
-     * @param path a path of file
-     * @return true if file exists, otherwise false
+     * {@inheritDoc}
      */
+    @Override
     public boolean isFileExist(String path) {
         File file = new File(path);
         return file.exists();
