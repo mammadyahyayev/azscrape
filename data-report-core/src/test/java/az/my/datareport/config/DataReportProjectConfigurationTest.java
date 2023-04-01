@@ -5,14 +5,10 @@ import az.my.datareport.utils.DefaultFileSystem;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DataReportProjectConfigurationTest {
 
@@ -32,57 +28,4 @@ class DataReportProjectConfigurationTest {
         Files.deleteIfExists(YM_PROPERTIES_FILE_PATH);
         FileUtils.deleteDirectory(YM_DIRECTORY_PATH.toFile());
     }
-
-    @Test
-    void testCreateYmFolder() {
-        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(abstractFileSystem);
-        configuration.createYmDirectory();
-
-        File ymFolder = new File(YM_DIRECTORY_PATH.toString());
-        assertTrue(ymFolder.exists());
-    }
-
-    @Test
-    void testCreateYmPropertiesFile() {
-        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(abstractFileSystem);
-        configuration.createYmDirectory();
-        configuration.createYmPropertiesFile();
-
-        File ymFolder = new File(YM_DIRECTORY_PATH.toString());
-        File ymPropertiesFile = new File(YM_PROPERTIES_FILE_PATH.toString());
-
-        assertTrue(ymFolder.exists());
-        assertTrue(ymPropertiesFile.exists());
-    }
-
-    @Test
-    void testCreateYmPropertiesWithYmFolderAutomatically() {
-        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(abstractFileSystem);
-        configuration.createYmPropertiesFile();
-
-        File ymFolder = new File(YM_DIRECTORY_PATH.toString());
-        File ymPropertiesFile = new File(YM_PROPERTIES_FILE_PATH.toString());
-
-        assertTrue(ymFolder.exists());
-        assertTrue(ymPropertiesFile.exists());
-    }
-
-    @Test
-    void testCreateProject() {
-        Project project = new Project();
-        project.setName("demo-project");
-        project.setOwner(new Owner("Jack", "jack@gmail.com"));
-
-        DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(abstractFileSystem);
-        configuration.createProject(project);
-
-        File projectDirPath = new File(YM_DIRECTORY_PATH + "/" + project.getName());
-        assertTrue(projectDirPath.exists());
-        assertTrue(projectDirPath.isDirectory());
-
-        File projectPropertiesPath = new File(projectDirPath.getAbsolutePath() + "/project.properties");
-        assertTrue(projectPropertiesPath.exists());
-        assertTrue(projectPropertiesPath.isFile());
-    }
-
 }

@@ -12,8 +12,7 @@ public class Main {
     public static void main(String[] args) {
         AbstractFileSystem abstractFileSystem = new DefaultFileSystem();
         DataReportProjectConfiguration configuration = new DataReportProjectConfiguration(abstractFileSystem);
-        configuration.createYmDirectory();
-        configuration.createYmPropertiesFile();
+        configuration.initConfig();
 
         PrintStream out = System.out;
         PrintStream err = System.err;

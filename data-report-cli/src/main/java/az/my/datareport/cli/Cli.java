@@ -1,6 +1,11 @@
 package az.my.datareport.cli;
 
 import az.my.datareport.config.DataReportProjectConfiguration;
+import az.my.datareport.services.OwnerService;
+import az.my.datareport.services.OwnerServiceImpl;
+import az.my.datareport.services.ProjectService;
+import az.my.datareport.services.ProjectServiceImpl;
+import az.my.datareport.utils.PropertiesFileSystem;
 
 import java.util.Arrays;
 
@@ -35,11 +40,13 @@ public class Cli {
             printUsage();
             exit.exit(Exit.SUCCESS);
         } else if (Arrays.asList("-cp", "--create-project").contains(arg)) {
-            ProjectCreation projectCreation = new ProjectCreation(configuration, reader, logs);
+            ProjectService projectService = new ProjectServiceImpl(new PropertiesFileSystem());
+            ProjectCreation projectCreation = new ProjectCreation(projectService, reader, logs);
             projectCreation.start();
             exit.exit(Exit.SUCCESS);
         } else if (Arrays.asList("-a", "--auth").contains(arg)) {
-            OwnerCreation ownerCreation = new OwnerCreation(configuration, reader, logs);
+            OwnerService ownerService = new OwnerServiceImpl(new PropertiesFileSystem());
+            OwnerCreation ownerCreation = new OwnerCreation(ownerService, reader, logs);
             ownerCreation.start();
             exit.exit(Exit.SUCCESS);
         }

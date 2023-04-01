@@ -1,17 +1,17 @@
 package az.my.datareport.cli;
 
-import az.my.datareport.config.DataReportProjectConfiguration;
 import az.my.datareport.config.Owner;
 import az.my.datareport.config.Project;
+import az.my.datareport.services.ProjectService;
 
 public class ProjectCreation implements CreationStep<Project> {
 
-    private final DataReportProjectConfiguration configuration;
+    private final ProjectService projectService;
     private final ConsoleReader reader;
     private final Logs logs;
 
-    public ProjectCreation(DataReportProjectConfiguration configuration, ConsoleReader reader, Logs logs) {
-        this.configuration = configuration;
+    public ProjectCreation(ProjectService projectService, ConsoleReader reader, Logs logs) {
+        this.projectService = projectService;
         this.reader = reader;
         this.logs = logs;
     }
@@ -29,7 +29,7 @@ public class ProjectCreation implements CreationStep<Project> {
         owner = ownerStep.execute(owner);
         project.setOwner(owner);
 
-        configuration.createProject(project);
+        projectService.createProject(project);
 
         logs.info("Project created successfully...");
         return project;
