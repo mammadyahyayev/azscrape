@@ -51,4 +51,22 @@ public interface FileSystem {
      */
     File getFile(String path);
 
+    /**
+     * Creates directory if directory exists already,
+     * then will throw {@link java.nio.file.FileAlreadyExistsException}.
+     *
+     * @param path a path of directory
+     * @return a {@code File}
+     * @see java.nio.file.FileAlreadyExistsException
+     */
+    File createDirectory(String path);
+
+
+    /**
+     * Creates directory if not exist.
+     *
+     * @param path a path of directory
+     * @return a {@code File}
+     */
+    File createDirectoryIfNotExist(String path);
 }

@@ -78,14 +78,32 @@ public abstract class AbstractFileSystem implements FileSystem {
     }
 
     /**
-     * Creates directory if there isn't an appropriate directory,
-     * if path is invalid, throws exception
-     *
-     * @param path given directory path
-     * @return Directory File
-     * @throws DataReportAppException when given path is invalid
+     * {@inheritDoc}
      */
+    @Override
     public File createDirectory(String path) {
+        Assert.required(path);
+        File file = new File(path);
+
+        try {
+            if (file.exists()) {
+                throw new FileAlreadyExistsException("Given path [ " + path + " ] is already exist!");
+            }
+
+            file.mkdirs();
+        } catch (IOException e) {
+            LOG.error("Couldn't create directory with {}", path);
+            throw new DataReportAppException("Failed to create directory with " + path, e);
+        }
+
+        return file;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public File createDirectoryIfNotExist(String path) {
         Assert.required(path);
         File file = new File(path);
 
@@ -172,17 +190,6 @@ public abstract class AbstractFileSystem implements FileSystem {
      */
     @Override
     public boolean isFileExist(String path) {
-        File file = new File(path);
-        return file.exists();
-    }
-
-    /**
-     * Checks whether directory exists or not
-     *
-     * @param path a path of directory
-     * @return true if directory exists, otherwise false
-     */
-    public boolean isDirectoryExist(String path) {
         File file = new File(path);
         return file.exists();
     }
