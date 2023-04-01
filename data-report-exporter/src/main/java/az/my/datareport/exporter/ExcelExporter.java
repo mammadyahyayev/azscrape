@@ -7,7 +7,7 @@ import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.utils.AbstractFileSystem;
-import az.my.datareport.utils.Assert;
+import az.my.datareport.utils.Asserts;
 import az.my.datareport.utils.DefaultFileSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +34,7 @@ public class ExcelExporter implements Exporter {
     @Override
     public boolean export(ReportFile reportFile, ReportData reportData) {
         Objects.requireNonNull(reportFile);
-        Assert.required(reportFile.getFilename(), "Filename is required for report");
+        Asserts.required(reportFile.getFilename(), "Filename is required for report");
 
         File file = constructReportFile(reportFile);
 
@@ -95,8 +95,8 @@ public class ExcelExporter implements Exporter {
 
     @Override
     public File constructReportFile(final String directoryPath, final ReportFile reportFile) {
-        Assert.required(directoryPath, "Directory path is required");
-        Assert.required(reportFile, "ReportFile is required");
+        Asserts.required(directoryPath, "Directory path is required");
+        Asserts.required(reportFile, "ReportFile is required");
 
         AbstractFileSystem abstractFileSystem = new DefaultFileSystem();
         abstractFileSystem.createDirectory(directoryPath);

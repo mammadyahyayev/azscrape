@@ -60,7 +60,7 @@
 - Test Project Creation ✅
 - [Feature] Authentication of DataReport with flag --auth ✅
 - Replace all Files operations with FileManager class operations ✅
-- Replace all RuntimeExceptions with meaningful exception inside DataReportProjectConfiguration
+- Replace all RuntimeExceptions with meaningful exception inside FileSystem components
 - [Feature] Create dashboard
 
 [[[ IDEAS ]]]

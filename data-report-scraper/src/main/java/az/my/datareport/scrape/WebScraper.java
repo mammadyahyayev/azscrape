@@ -5,7 +5,7 @@ import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
 import az.my.datareport.tree.DataNode;
 import az.my.datareport.tree.Tree;
-import az.my.datareport.utils.Assert;
+import az.my.datareport.utils.Asserts;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class WebScraper implements Scraper {
 
     @Override
     public ReportData scrape(String url, Tree tree, boolean keepOpen) {
-        Assert.required(url, "Web page url is required!");
+        Asserts.required(url, "Web page url is required!");
         Objects.requireNonNull(tree);
 
         WebPage page = new WebPage(url, keepOpen);

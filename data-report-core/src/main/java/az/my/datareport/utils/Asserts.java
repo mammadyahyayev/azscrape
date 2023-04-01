@@ -4,8 +4,8 @@ package az.my.datareport.utils;
  * Utility class for assertions, intended for fail fast
  * approach
  */
-public final class Assert {
-    private Assert() {
+public final class Asserts {
+    private Asserts() {
 
     }
 

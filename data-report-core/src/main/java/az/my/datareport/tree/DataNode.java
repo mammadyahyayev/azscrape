@@ -1,6 +1,6 @@
 package az.my.datareport.tree;
 
-import az.my.datareport.utils.Assert;
+import az.my.datareport.utils.Asserts;
 import com.google.common.base.Objects;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class DataNode {
     }
 
     public DataNode(DataNodeAttribute attribute) {
-        Assert.required(attribute, "node attribute cannot be null");
+        Asserts.required(attribute, "node attribute cannot be null");
 
         this.attribute = attribute;
     }
@@ -47,7 +47,7 @@ public class DataNode {
     }
 
     public void addSubNode(DataNode node) {
-        Assert.required(node, "node field is required");
+        Asserts.required(node, "node field is required");
 
         node.setParent(this);
         this.subNodes.add(node);

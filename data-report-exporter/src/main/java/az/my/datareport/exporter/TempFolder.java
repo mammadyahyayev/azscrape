@@ -1,6 +1,6 @@
 package az.my.datareport.exporter;
 
-import az.my.datareport.utils.Assert;
+import az.my.datareport.utils.Asserts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,7 +40,7 @@ public class TempFolder {
      * @return created file path
      */
     public Path createFile(String filename) {
-        Assert.required(filename);
+        Asserts.required(filename);
 
         if (!isExist()) {
             createTempDirectory();

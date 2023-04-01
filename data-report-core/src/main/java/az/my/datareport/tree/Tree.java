@@ -1,6 +1,6 @@
 package az.my.datareport.tree;
 
-import az.my.datareport.utils.Assert;
+import az.my.datareport.utils.Asserts;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,7 @@ public class Tree {
     }
 
     public void addNode(DataNode node) {
-        Assert.required(node, "dataNode is required field");
+        Asserts.required(node, "dataNode is required field");
 
         // find node of given node
         // TempDataNode node = findParent(node); //TODO: method should be getAncestor inside tempDataNode
@@ -75,8 +75,8 @@ public class Tree {
     }
 
     public void addNode(DataNode node, String location) {
-        Assert.required(node, "node field is required");
-        Assert.required(location, "location field is required");
+        Asserts.required(node, "node field is required");
+        Asserts.required(location, "location field is required");
 
         DataNodeLocation nodeLocation;
         DataNode lastNodeInLocation = getNodeFrom(location); //TODO: it will search every time when there are so many sub nodes

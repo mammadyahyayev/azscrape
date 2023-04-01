@@ -1,6 +1,6 @@
 package az.my.datareport.config;
 
-import az.my.datareport.utils.Assert;
+import az.my.datareport.utils.Asserts;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public class Author {
     }
 
     public void removeSocialLink(String social) {
-        Assert.required(social, "Social account is required field");
+        Asserts.required(social, "Social account is required field");
         this.socialLinks.remove(social);
     }
 

@@ -35,7 +35,7 @@ public abstract class AbstractFileSystem implements FileSystem {
      */
     @Override
     public File createFile(String path) {
-        Assert.required(path);
+        Asserts.required(path);
 
         File file = new File(path);
         try {
@@ -56,7 +56,7 @@ public abstract class AbstractFileSystem implements FileSystem {
      */
     @Override
     public File createFileIfNotExist(String path) {
-        Assert.required(path);
+        Asserts.required(path);
 
         File file = new File(path);
         if (file.exists()) {
@@ -82,7 +82,7 @@ public abstract class AbstractFileSystem implements FileSystem {
      */
     @Override
     public File createDirectory(String path) {
-        Assert.required(path);
+        Asserts.required(path);
         File file = new File(path);
 
         try {
@@ -104,7 +104,7 @@ public abstract class AbstractFileSystem implements FileSystem {
      */
     @Override
     public File createDirectoryIfNotExist(String path) {
-        Assert.required(path);
+        Asserts.required(path);
         File file = new File(path);
 
         if (file.exists()) {
@@ -133,7 +133,7 @@ public abstract class AbstractFileSystem implements FileSystem {
      * @see #FILE_NAME_DELIMITER
      */
     public String createFilename(String name) {
-        Assert.required(name, "name is required field");
+        Asserts.required(name, "name is required field");
 
         String filename = name.trim().toLowerCase(Locale.ENGLISH);
         return StringUtils.replaceAllSymbols(filename, FILE_NAME_DELIMITER);
@@ -148,8 +148,8 @@ public abstract class AbstractFileSystem implements FileSystem {
      * @see #createFilename(String)
      */
     public String createFilename(String name, String extension) {
-        Assert.required(name, "name is required field");
-        Assert.required(extension, "extension is required field");
+        Asserts.required(name, "name is required field");
+        Asserts.required(extension, "extension is required field");
 
         String filename = createFilename(name);
         return filename + "." + extension.trim().toLowerCase();
@@ -160,7 +160,7 @@ public abstract class AbstractFileSystem implements FileSystem {
      */
     @Override
     public File getFile(String filepath) {
-        Assert.required(filepath, "filepath is required");
+        Asserts.required(filepath, "filepath is required");
 
         File file = new File(filepath);
         if (file.exists() && file.canRead()) {
@@ -175,7 +175,7 @@ public abstract class AbstractFileSystem implements FileSystem {
      */
     @Override
     public boolean deleteFile(Path filepath) {
-        Assert.required(filepath, "filepath is required");
+        Asserts.required(filepath, "filepath is required");
 
         try {
             return Files.deleteIfExists(filepath);

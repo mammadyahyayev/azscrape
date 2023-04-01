@@ -1,6 +1,6 @@
 package az.my.datareport.tree;
 
-import az.my.datareport.utils.Assert;
+import az.my.datareport.utils.Asserts;
 import az.my.datareport.utils.StringUtils;
 import com.google.common.base.Objects;
 
@@ -12,8 +12,8 @@ public class DataNodeLocation {
     private final int order;
 
     DataNodeLocation(String level, int order) {
-        Assert.required(level, "node level cannot be null");
-        Assert.checkArgument(order >= 0, "node order cannot be less than 0");
+        Asserts.required(level, "node level cannot be null");
+        Asserts.checkArgument(order >= 0, "node order cannot be less than 0");
 
         this.level = level;
         this.order = order;
@@ -21,9 +21,9 @@ public class DataNodeLocation {
     }
 
     DataNodeLocation(String location, String level, int order) {
-        Assert.required(location, "node location cannot be null");
-        Assert.required(level, "node level cannot be null");
-        Assert.checkArgument(order >= 0, "node order cannot be less than 0");
+        Asserts.required(location, "node location cannot be null");
+        Asserts.required(level, "node level cannot be null");
+        Asserts.checkArgument(order >= 0, "node order cannot be less than 0");
 
         this.location = location;
         this.level = level;

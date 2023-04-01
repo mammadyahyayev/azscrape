@@ -1,6 +1,6 @@
 package az.my.datareport.parser;
 
-import az.my.datareport.utils.Assert;
+import az.my.datareport.utils.Asserts;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,7 +33,7 @@ public class CommandLineParser {
                 throw new ParseException("Please define " + requiredKey + " because  it is required key!");
             } else {
                 String value = definedProperties.get(requiredKey);
-                Assert.required(value, requiredKey + " value can not be null or empty!");
+                Asserts.required(value, requiredKey + " value can not be null or empty!");
             }
         }
 

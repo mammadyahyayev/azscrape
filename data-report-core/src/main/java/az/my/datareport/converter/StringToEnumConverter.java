@@ -1,6 +1,6 @@
 package az.my.datareport.converter;
 
-import az.my.datareport.utils.Assert;
+import az.my.datareport.utils.Asserts;
 
 /**
  * Converts string to appropriate enum type
@@ -17,8 +17,8 @@ public class StringToEnumConverter {
      * @throws ConversionFailedException if given source doesn't match the given enum class type
      */
     public static <E extends Enum<E>> E convert(String str, Class<E> enumType) {
-        Assert.required(str, "String str value required for the conversion");
-        Assert.required(enumType, "Enum type required for the conversion");
+        Asserts.required(str, "String str value required for the conversion");
+        Asserts.required(enumType, "Enum type required for the conversion");
 
         E[] enumConstants = enumType.getEnumConstants();
         for (E enumConstant : enumConstants) {
