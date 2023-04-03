@@ -4,7 +4,6 @@ import az.my.datareport.config.Owner;
 import az.my.datareport.services.OwnerService;
 
 import java.text.MessageFormat;
-import java.util.Optional;
 
 public class ProjectOwnerStep implements Step<Owner> {
 
@@ -18,13 +17,13 @@ public class ProjectOwnerStep implements Step<Owner> {
 
     @Override
     public Owner execute(Owner owner) {
-        Optional<Owner> defaultOwner = ownerService.getOwner();
-        if (defaultOwner.isPresent()) {
+        Owner defaultOwner = ownerService.getOwner();
+        if (defaultOwner != null) {
             String message = MessageFormat.format("There is already a default owner '{0}', " +
-                    "If you want to accept as an owner of this project, please type (y/n): ", defaultOwner.get().getName());
+                    "If you want to accept as an owner of this project, please type (y/n): ", defaultOwner.getName());
             char choice = reader.readYesNoChoice(message, 3);
             if (choice == ConsoleReader.Choice.YES.getChoice()) {
-                return defaultOwner.get();
+                return defaultOwner;
             }
         }
 

@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.MessageFormat;
-import java.util.Optional;
 import java.util.Properties;
 
 public class OwnerServiceImpl implements OwnerService {
@@ -48,7 +47,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public Optional<Owner> getOwner() {
+    public Owner getOwner() {
         String configProperties = System.getProperty("config.properties.path");
         Properties properties = new Properties();
         try {
@@ -56,14 +55,15 @@ public class OwnerServiceImpl implements OwnerService {
 
             String ownerName = properties.getProperty("owner.name");
             String ownerEmail = properties.getProperty("owner.email");
+
             if (ownerName == null) {
-                return Optional.empty();
+                return null;
             }
 
             Owner owner = new Owner(ownerName, ownerEmail);
             owner.setDefault(true);
 
-            return Optional.of(owner);
+            return owner;
         } catch (IOException e) {
             String message = MessageFormat.format("Failed to read from file {0}", configProperties);
             LOG.error(message);

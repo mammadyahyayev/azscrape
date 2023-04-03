@@ -2,8 +2,6 @@ package az.my.datareport.services;
 
 import az.my.datareport.config.Owner;
 
-import java.util.Optional;
-
 public interface OwnerService {
     /**
      * Creates a new Owner.
@@ -15,7 +13,7 @@ public interface OwnerService {
     /**
      * Retrieves Owner from <b>.ym.properties</b> file if there is one.
      *
-     * @return owner if there is, otherwise Optional.empty()
+     * @return owner if there is, otherwise {@code null}
      */
-    Optional<Owner> getOwner();
+    Owner getOwner();
 }

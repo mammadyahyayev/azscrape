@@ -25,6 +25,7 @@ public class OwnerCreation implements CreationStep<Owner> {
         ownerService.createOwner(owner);
 
         logs.info("Owner created successfully...");
-        return null;
+
+        return owner;
     }
 }
