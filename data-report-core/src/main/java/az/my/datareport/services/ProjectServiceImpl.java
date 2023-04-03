@@ -28,13 +28,12 @@ public class ProjectServiceImpl implements ProjectService {
 
         String ymDir = System.getProperty(".ym");
         String projectDir = ymDir + File.separator + project.getName();
-        fileSystem.createDirectory(projectDir);
+        fileSystem.createDirectoryIfNotExist(projectDir);
         LOG.info("Project {} directory created with {}", project.getName(), project);
 
         String propertiesFilePath = projectDir + File.separator + "project.properties";
-        fileSystem.createFile(propertiesFilePath);
+        fileSystem.createFileIfNotExist(propertiesFilePath);
         LOG.info("Project {} properties file created with {}", project.getName(), propertiesFilePath);
-
 
         try (OutputStream outputStream = new FileOutputStream(propertiesFilePath)) {
             Properties properties = new Properties();

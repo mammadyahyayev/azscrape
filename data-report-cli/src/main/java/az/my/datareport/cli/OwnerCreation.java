@@ -19,7 +19,7 @@ public class OwnerCreation implements CreationStep<Owner> {
     public Owner start() {
         Owner owner = new Owner();
 
-        Step<Owner> ownerStep = new ProjectOwnerStep(reader);
+        Step<Owner> ownerStep = new ProjectOwnerStep(ownerService, reader);
         owner = ownerStep.execute(owner);
 
         ownerService.createOwner(owner);

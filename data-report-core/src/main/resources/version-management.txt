@@ -73,6 +73,8 @@
   CAUTION: Properties file store properties in random order, PropertiesFileManager must store properties
   in alphabetical order, there must be a parameter to store properties with alphabetical order
 
+- Create interface called InternalProperties to store .ym folder path its properties file path if necessary
+
 ********************************************
              FUTURE Versions
 ********************************************

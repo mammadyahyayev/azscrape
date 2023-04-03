@@ -21,7 +21,7 @@ public class DataReportProjectConfiguration {
     }
 
     public void initConfig() {
-        File dir = fileSystem.createDirectory(YM_DIRECTORY_PATH.toString());
+        File dir = fileSystem.createDirectoryIfNotExist(YM_DIRECTORY_PATH.toString());
         System.setProperty(".ym", dir.getAbsolutePath());
         LOG.debug(".ym directory created in {}", dir.getAbsolutePath());
 

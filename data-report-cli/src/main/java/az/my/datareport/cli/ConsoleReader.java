@@ -6,6 +6,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class ConsoleReader {
+    private static final char CHOICE_YES = 'y';
+    private static final char CHOICE_NO = 'n';
+
     private final ConsolePrinter printer;
     private final BufferedReader reader;
 
@@ -63,5 +66,44 @@ public class ConsoleReader {
         }
 
         throw new IllegalArgumentException(exceptionMessage);
+    }
+
+    public char readYesNoChoice(String message, int tryCount) {
+        int currentTry = 0;
+        while (currentTry < tryCount) {
+            try {
+                printer.print(message);
+                String input = reader.readLine();
+                if (StringUtils.isNullOrEmpty(input) || input.length() > 1) {
+                    currentTry++;
+                    continue;
+                }
+
+                if (input.toLowerCase().charAt(0) == Choice.YES.choice) {
+                    return Choice.YES.choice;
+                }
+
+                return Choice.NO.choice;
+            } catch (IOException e) {
+                printer.printlnErr("Error happened: " + e);
+                throw new RuntimeException(e);
+            }
+        }
+
+        return CHOICE_NO;
+    }
+
+    enum Choice {
+        YES('y'), NO('n');
+
+        private final char choice;
+
+        Choice(char choice) {
+            this.choice = choice;
+        }
+
+        public char getChoice() {
+            return choice;
+        }
     }
 }
