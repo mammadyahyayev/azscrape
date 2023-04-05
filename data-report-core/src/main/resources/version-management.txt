@@ -61,6 +61,8 @@
 - [Feature] Authentication of DataReport with flag --auth ✅
 - Replace all Files operations with FileManager class operations ✅
 - Replace all RuntimeExceptions with meaningful exception inside FileSystem components
+- Refactor storing properties into properties file inside services
+- Design frontend components (Home, Projects, Project)
 - [Feature] Create dashboard
 
 [[[ IDEAS ]]]
@@ -74,6 +76,13 @@
   in alphabetical order, there must be a parameter to store properties with alphabetical order
 
 - Create interface called InternalProperties to store .ym folder path its properties file path if necessary
+
+
+- [ properties.setProperty("project.owner.email", project.getOwner().getEmail()); ]
+   In above line, if owner email is null, then it will be shown empty on properties file, therefore
+   create own implementation of properties file which is kind of Decorator, PropertiesFileSystem class
+   will work with that class.
+
 
 ********************************************
              FUTURE Versions

@@ -6,9 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Properties;
 
 public class ProjectServiceImpl implements ProjectService {
@@ -35,19 +32,15 @@ public class ProjectServiceImpl implements ProjectService {
         fileSystem.createFileIfNotExist(propertiesFilePath);
         LOG.info("Project {} properties file created with {}", project.getName(), propertiesFilePath);
 
-        try (OutputStream outputStream = new FileOutputStream(propertiesFilePath)) {
-            Properties properties = new Properties();
-            properties.setProperty("project.name", project.getName());
-            properties.setProperty("project.owner", project.getOwner().getName());
-            properties.setProperty("project.createdAt", project.getCreatedAt().toString());
+        Properties properties = fileSystem.load(propertiesFilePath);
+        properties.setProperty("project.name", project.getName());
+        properties.setProperty("project.owner", project.getOwner().getName());
+        properties.setProperty("project.owner.email", project.getOwner().getEmail());
+        properties.setProperty("project.createdAt", project.getCreatedAt().toString());
+        fileSystem.store(propertiesFilePath, properties);
 
-            properties.store(outputStream, "Project Properties");
-            LOG.info("Configurations stored on properties {} file", propertiesFilePath);
+        LOG.info("Configurations stored on properties {} file", propertiesFilePath);
 
-            LOG.info("Project created successfully...");
-        } catch (IOException e) {
-            LOG.error("Failed to create project {}", e.getMessage());
-            throw new RuntimeException(e); //TODO: Replace this
-        }
+        LOG.info("Project created successfully...");
     }
 }
