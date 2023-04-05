@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@emotion/styled": "^11.10.6",
+    "@headlessui/react": "^1.7.13",
+    "@heroicons/react": "^2.0.17",
     "@types/react-router-dom": "5.3.3",
     "framer-motion": "^10.10.0",
     "react": "^17.0.2",
