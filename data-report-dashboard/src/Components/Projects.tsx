@@ -1,3 +1,4 @@
+import Navbar from "./Navbar";
 import Project from "./Project";
 
 const Projects = () => {
