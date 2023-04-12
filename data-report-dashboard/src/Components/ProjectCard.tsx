@@ -1,10 +1,11 @@
 import React from "react";
 import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 interface ProjectCardProps {
   name: string;
   description: string;
-//   creationTime: number;
+  //   creationTime: number;
 }
 
 const ProjectCard = (props: ProjectCardProps) => {
@@ -23,7 +24,9 @@ const ProjectCard = (props: ProjectCardProps) => {
       </div>
 
       <div className="flex justify-center mt-4">
-        <button className="explore-btn">Explore</button>
+        <Link className="explore-btn" to={`/projects/${props.name}`}>
+          Explore
+        </Link>
       </div>
     </div>
   );
