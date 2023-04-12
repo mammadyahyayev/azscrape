@@ -1,29 +1,39 @@
-import React from "react";
-import { DocumentMagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import Tabs from "./Tabs";
 
-interface ProjectProps {
-  name: string;
-  description: string;
-//   creationTime: number;
-}
-
-const Project = (props: ProjectProps) => {
+const Project = () => {
   return (
-    <div className="w-80 border-2 border-solid border-indigo-500 rounded-md m-3 p-4">
-      <div className="flex justify-center m-2">
-        <DocumentMagnifyingGlassIcon width={80} />
-      </div>
+    <div>
+      <Tabs />
+      <div className="px-4 md:px-8">
+        <div className="max-w-screen-xl mx-auto px-2 py-6">
+          <h1 className="text-3xl">Project Info</h1>
+          <div className="mt-6">
+            <div className="flex text-xl mt-2">
+              <p className="mr-4 text-violet-500">Project Name:</p>
+              <p>Titanic Clustering</p>
+            </div>
 
-      <div className="flex justify-center flex-col text-center">
-        <h1 className="text-2xl">{props.name}</h1>
-        <p className="mt-2 mb-2 text-slate-950 text-base">
-          {props.description}
-        </p>
-        {/* <p className="text-gray-400 text-sm">{props.creationTime}</p> */}
-      </div>
+            <div className="flex text-xl mt-2">
+              <p className="mr-4 text-violet-500">Project Owner:</p>
+              <p>Mammad Yahyayev</p>
+            </div>
 
-      <div className="flex justify-center mt-4">
-        <button className="explore-btn">Explore</button>
+            <div className="flex text-xl mt-2">
+              <p className="mr-4 text-violet-500">Creation Time:</p>
+              <p>07.04.2023 13:34</p>
+            </div>
+
+            <div className="flex flex-col text-xl mt-2">
+              <p className="mr-4 text-violet-500">Project Description:</p>
+              <p>
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque
+                aliquid consectetur adipisci quae, dolore aliquam perferendis
+                vel asperiores, amet nisi tempore fugit voluptatem praesentium
+                odio. Ab, ipsa provident. Molestias, esse.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

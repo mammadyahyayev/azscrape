@@ -1,23 +1,23 @@
 import Navbar from "./Navbar";
-import Project from "./Project";
+import ProjectCard from "./ProjectCard";
 
 const Projects = () => {
   return (
     <div className="m-4 flex flex-wrap items-center justify-center">
-      <Project
+      <ProjectCard
         name="Titanic Clustering"
         description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
           veritatis commodi, provident repellat praesentium tempore neque porro"
         // creationTime={new Date()}
       />
-      <Project
+      <ProjectCard
         name="Titanic Clustering 2"
         description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
         veritatis commodi, provident repellat praesentium tempore neque porro"
         // creationTime={new Date("22.04.2022")}
       />
 
-      <Project
+      <ProjectCard
         name="Titanic Clustering 3"
         description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
         veritatis commodi, provident repellat praesentium tempore neque porro"
