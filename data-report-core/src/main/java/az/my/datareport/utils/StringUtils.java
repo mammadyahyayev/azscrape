@@ -1,5 +1,9 @@
 package az.my.datareport.utils;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+
 /**
  * Utility for Strings
  */
@@ -38,11 +42,7 @@ public final class StringUtils {
      * @param str2 second {@code String}
      * @return combined String
      */
-    public static String combine(Object str1, Object str2) {
-        if (str1 == null || str2 == null) {
-            throw new IllegalArgumentException(String.format("%s and %s cannot be null", str1, str2));
-        }
-
+    public static String combine(@NotNull Object str1, @NotNull Object str2) {
         return str1 + str2.toString();
     }
 
@@ -52,11 +52,7 @@ public final class StringUtils {
      * @param str A {@code String}
      * @return last index of String object
      */
-    public static int lastIndex(String str) {
-        if (str == null) {
-            throw new IllegalArgumentException("str field cannot be null");
-        }
-
+    public static int lastIndex(@NotNull String str) {
         if (str.isEmpty() || str.isBlank()) {
             return 0;
         }
@@ -70,7 +66,7 @@ public final class StringUtils {
      * @param str A {@code String}
      * @return true if string is not null or empty, otherwise false
      */
-    public static boolean isNullOrEmpty(String str) {
+    public static boolean isNullOrEmpty(@Nullable String str) {
         return str == null || str.isEmpty() || str.isBlank();
     }
 }

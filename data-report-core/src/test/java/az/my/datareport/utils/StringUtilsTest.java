@@ -11,6 +11,8 @@ public class StringUtilsTest {
         String expected = "Github_Page";
         String actual = StringUtils.replaceAllSymbols("Github Page", '_');
         assertEquals(expected, actual);
+
+        StringUtils.isNullOrEmpty("null");
     }
 
 }

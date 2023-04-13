@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import {useState} from "react";
+import {Link, useLocation} from "react-router-dom";
 
 function Tabs() {
   const tabItems = [
@@ -12,7 +12,8 @@ function Tabs() {
     // "Transactions",
     // "Plans",
   ];
-  const [selectedItem, setSelectedItem] = useState(0);
+    const [selectedItem, setSelectedItem] = useState(0);
+    const location = useLocation()
 
   return (
     <div className="px-4 md:px-8">
@@ -21,17 +22,17 @@ function Tabs() {
         className="hidden max-w-screen-xl mx-auto px-2.5 items-center gap-x-3 overflow-x-auto text-sm bg-gray-50 rounded-lg sm:flex"
       >
         {tabItems.map((item, idx) => (
-          <Link to={"/projects/2/code"}>
-            <li key={idx} className="py-2">
-              <button
-                role="tab"
-                aria-selected={selectedItem == idx ? true : false}
-                aria-controls={`tabpanel-${idx + 1}`}
-                className={`py-2.5 px-4 rounded-lg duration-150 hover:text-indigo-600 hover:bg-white active:bg-white/50 font-medium ${
-                  selectedItem == idx
-                    ? "bg-white text-indigo-600 shadow-sm"
-                    : "text-gray-500"
-                }`}
+            <Link to={location.pathname + "/code"}>
+                <li key={idx} className="py-2">
+                    <button
+                        role="tab"
+                        aria-selected={selectedItem == idx ? true : false}
+                        aria-controls={`tabpanel-${idx + 1}`}
+                        className={`py-2.5 px-4 rounded-lg duration-150 hover:text-indigo-600 hover:bg-white active:bg-white/50 font-medium ${
+                            selectedItem == idx
+                                ? "bg-white text-indigo-600 shadow-sm"
+                                : "text-gray-500"
+                        }`}
                 onClick={() => setSelectedItem(idx)}
               >
                 {item}
