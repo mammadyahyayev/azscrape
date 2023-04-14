@@ -3,8 +3,8 @@ package az.my.datareport.scrape;
 import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportDataElement;
 import az.my.datareport.model.ReportDataParent;
+import az.my.datareport.tree.AbstractTree;
 import az.my.datareport.tree.DataNode;
-import az.my.datareport.tree.Tree;
 import az.my.datareport.utils.Asserts;
 import org.openqa.selenium.WebElement;
 
@@ -18,20 +18,20 @@ import java.util.Objects;
 public class WebScraper implements Scraper {
 
     @Override
-    public ReportData scrape(String url, Tree tree) {
-        return scrape(url, tree, false);
+    public ReportData scrape(String url, AbstractTree abstractTree) {
+        return scrape(url, abstractTree, false);
     }
 
     @Override
-    public ReportData scrape(String url, Tree tree, boolean keepOpen) {
+    public ReportData scrape(String url, AbstractTree abstractTree, boolean keepOpen) {
         Asserts.required(url, "Web page url is required!");
-        Objects.requireNonNull(tree);
+        Objects.requireNonNull(abstractTree);
 
         WebPage page = new WebPage(url, keepOpen);
         page.connect();
 
 
-        DataNode node = tree.nodes().get(0);
+        DataNode node = abstractTree.nodes().get(0);
         List<WebElement> webElements = page.fetchWebElements(node.getAttribute().getSelector());
 
         List<ReportDataParent> reportDataParentList = new ArrayList<>();

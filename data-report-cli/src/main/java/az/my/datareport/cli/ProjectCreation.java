@@ -6,7 +6,7 @@ import az.my.datareport.services.OwnerServiceImpl;
 import az.my.datareport.services.ProjectService;
 import az.my.datareport.utils.PropertiesFileSystem;
 
-public class ProjectCreation implements CreationStep<Project> {
+public class ProjectCreation implements Creation {
 
     private final ProjectService projectService;
     private final ConsoleReader reader;
@@ -19,7 +19,7 @@ public class ProjectCreation implements CreationStep<Project> {
     }
 
     @Override
-    public Project start() {
+    public void create() {
         Project project = new Project();
 
         Step<Project> projectInfoStep = new ProjectInfoStep(reader);
@@ -33,6 +33,5 @@ public class ProjectCreation implements CreationStep<Project> {
         projectService.createProject(project);
 
         logs.info("Project created successfully...");
-        return project;
     }
 }

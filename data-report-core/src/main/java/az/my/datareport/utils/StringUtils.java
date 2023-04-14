@@ -27,7 +27,7 @@ public final class StringUtils {
      * @param delimiter all symbols will be replaced with
      * @return formatted string
      */
-    public static String replaceAllSymbols(String str, char delimiter) {
+    public static String replaceAllSymbols(@NotNull String str, char delimiter) {
         for (char symbol : SYMBOLS) {
             str = str.replace(symbol, delimiter);
         }

@@ -7,9 +7,9 @@ import az.my.datareport.converter.StringToEnumConverter;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
+import az.my.datareport.tree.AbstractTree;
 import az.my.datareport.tree.DataNode;
 import az.my.datareport.tree.DataNodeAttribute;
-import az.my.datareport.tree.Tree;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,14 +19,14 @@ public class ConfigService {
 
     private ConfigFileVM configFile;
 
-    public Tree getDataPart() {
+    public AbstractTree getDataPart() {
         if (configFile == null) {
             throw new IllegalArgumentException("configFile data cannot be null");
         }
 
         List<ConfigDataVM> dataParts = configFile.getDataParts();
 
-        Tree tree = new Tree();
+        AbstractTree abstractTree = new AbstractTree();
         for (ConfigDataVM dataPart : dataParts) {
             String url = dataPart.getUrl();
             List<ElementVM> elements = dataPart.getElements();
@@ -40,10 +40,10 @@ public class ConfigService {
                 }
             }
 
-            tree.addNode(node);
+            abstractTree.addNode(node);
         }
 
-        return tree;
+        return abstractTree;
     }
 
     public ReportFile getReportFilePart() {

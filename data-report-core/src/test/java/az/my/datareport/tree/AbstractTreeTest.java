@@ -7,25 +7,25 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TreeTest {
+class AbstractTreeTest {
 
     @Disabled("Doesn't support multiple root values for now")
     @Test
     void testAddNode_whenNodesAdded_returnExactSizeOfTree() {
-        Tree tree = new Tree();
+        AbstractTree abstractTree = new AbstractTree();
 
-        tree.addNode(new DataNode(new DataNodeAttribute("First Node", null)));
-        tree.addNode(new DataNode(new DataNodeAttribute("Second Node", null)));
+        abstractTree.addNode(new DataNode(new DataNodeAttribute("First Node", null)));
+        abstractTree.addNode(new DataNode(new DataNodeAttribute("Second Node", null)));
     }
 
     @Test
     void testNodes_whenModifyingReturnedList_throwException() {
-        Tree tree = new Tree();
+        AbstractTree abstractTree = new AbstractTree();
 
-        tree.addNode(new DataNode(new DataNodeAttribute("First Node", null)));
-        tree.addNode(new DataNode(new DataNodeAttribute("Second Node", null)));
+        abstractTree.addNode(new DataNode(new DataNodeAttribute("First Node", null)));
+        abstractTree.addNode(new DataNode(new DataNodeAttribute("Second Node", null)));
 
-        List<DataNode> nodes = tree.nodes();
+        List<DataNode> nodes = abstractTree.nodes();
 
         assertThrows(UnsupportedOperationException.class, () ->
                 nodes.add(new DataNode(new DataNodeAttribute("Third Node", null))));
@@ -35,33 +35,33 @@ class TreeTest {
     @Disabled("Doesn't support multiple root values for now")
     @Test
     void testGetFirst() {
-        Tree tree = new Tree();
+        AbstractTree abstractTree = new AbstractTree();
 
         DataNode first = new DataNode(new DataNodeAttribute("First Node", null));
         DataNode second = new DataNode(new DataNodeAttribute("Second Node", null));
 
-        tree.addNode(first);
-        tree.addNode(second);
+        abstractTree.addNode(first);
+        abstractTree.addNode(second);
     }
 
     //TODO: Change this method after implementation of location, order, level
     @Disabled("Doesn't support multiple root values for now")
     @Test
     void testGetLast() {
-        Tree tree = new Tree();
+        AbstractTree abstractTree = new AbstractTree();
 
         DataNode first = new DataNode(new DataNodeAttribute("First Node", null));
         DataNode second = new DataNode(new DataNodeAttribute("Second Node", null));
 
-        tree.addNode(first);
-        tree.addNode(second);
+        abstractTree.addNode(first);
+        abstractTree.addNode(second);
     }
 
     @Test
     void testAddNode_whenNodeAddedFirstTime_returnInitialLocation() {
-        Tree tree = new Tree();
+        AbstractTree abstractTree = new AbstractTree();
         DataNode node = new DataNode(new DataNodeAttribute("First Node", null));
-        tree.addNode(node);
+        abstractTree.addNode(node);
 
         DataNodeLocation initialLocation = new DataNodeLocation("A", 0);
         assertEquals(initialLocation, node.getLocation());
@@ -71,14 +71,14 @@ class TreeTest {
     @Disabled("Doesn't support multiple root values for now")
     @Test
     void testAddNode_whenNodesAdded_returnTheirLocations() {
-        Tree tree = new Tree();
+        AbstractTree abstractTree = new AbstractTree();
 
         DataNode first = new DataNode(new DataNodeAttribute("First Node", null));
         DataNode second = new DataNode(new DataNodeAttribute("Second Node", null));
         DataNode third = new DataNode(new DataNodeAttribute("Third Node", null));
-        tree.addNode(first);
-        tree.addNode(second);
-        tree.addNode(third);
+        abstractTree.addNode(first);
+        abstractTree.addNode(second);
+        abstractTree.addNode(third);
 
         DataNodeLocation firstLocation = new DataNodeLocation("A", 0);
         DataNodeLocation secondLocation = new DataNodeLocation("A", 1);
@@ -95,7 +95,7 @@ class TreeTest {
 
     @Test
     void testAddNode_whenSubNodesAdd_theyShouldBeAddedIntoNewLocation() {
-        Tree tree = new Tree();
+        AbstractTree abstractTree = new AbstractTree();
 
         DataNode parent = new DataNode(new DataNodeAttribute("parent", ".repo-list-item"));
         DataNode node1 = new DataNode(new DataNodeAttribute("title", ".v-align-middle"));
@@ -104,7 +104,7 @@ class TreeTest {
         parent.addSubNode(node1);
         parent.addSubNode(node2);
 
-        tree.addNode(parent);
+        abstractTree.addNode(parent);
 
         DataNodeLocation parentLocation = new DataNodeLocation("A", 0);
         DataNodeLocation node1Location = new DataNodeLocation("B", 0);
@@ -114,11 +114,11 @@ class TreeTest {
         assertEquals(parentLocation, parent.getLocation());
         assertEquals(node1Location, node1.getLocation());
         assertEquals(node2Location, node2.getLocation());
-        assertEquals(1, tree.nodes().size());
+        assertEquals(1, abstractTree.nodes().size());
 
-        assertEquals(parent, tree.nodes().get(0));
-        assertEquals(node1, tree.nodes().get(0).getSubNode(0));
-        assertEquals(node2, tree.nodes().get(0).getSubNode(1));
+        assertEquals(parent, abstractTree.nodes().get(0));
+        assertEquals(node1, abstractTree.nodes().get(0).getSubNode(0));
+        assertEquals(node2, abstractTree.nodes().get(0).getSubNode(1));
     }
 
 }

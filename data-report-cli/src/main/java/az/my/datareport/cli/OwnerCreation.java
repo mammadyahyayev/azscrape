@@ -3,7 +3,7 @@ package az.my.datareport.cli;
 import az.my.datareport.config.Owner;
 import az.my.datareport.services.OwnerService;
 
-public class OwnerCreation implements CreationStep<Owner> {
+public class OwnerCreation implements Creation {
 
     private final OwnerService ownerService;
     private final ConsoleReader reader;
@@ -16,7 +16,7 @@ public class OwnerCreation implements CreationStep<Owner> {
     }
 
     @Override
-    public Owner start() {
+    public void create() {
         Owner owner = new Owner();
 
         Step<Owner> ownerStep = new ProjectOwnerStep(ownerService, reader);
@@ -25,7 +25,5 @@ public class OwnerCreation implements CreationStep<Owner> {
         ownerService.createOwner(owner);
 
         logs.info("Owner created successfully...");
-
-        return owner;
     }
 }

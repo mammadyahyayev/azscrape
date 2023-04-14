@@ -32,7 +32,7 @@
 ********************************************
                Version 2.1.0
 ********************************************
-- Build tree model ✅
+- Build abstractTree model ✅
 - Insert OWASP dependency check plugin ✅
 - Change Exception messages ✅
 - Add <scope>test</scope> to mockito and junit ✅
@@ -41,7 +41,7 @@
 - Create a constructor inside WebPage class, and add second parameter that indicates driver window should be close or not ✅
 - Check other interfaces for javadoc (especially base interfaces) ✅
 - Configure mvn commands available for entire project (test, check, compile and so on.) ✅
-- Convert implementation of DataAST tree to new Tree inside DataReportApplication ✅
+- Convert implementation of DataAST abstractTree to new Tree inside DataReportApplication ✅
 
 
 ********************************************
@@ -239,7 +239,7 @@ Some arguments
 - Test following conditions
     - Check calling other dependencies main method from the demo application
     - Observe other codes
-- Write Recursive methods for scraping and abstract syntax tree
+- Write Recursive methods for scraping and abstract syntax abstractTree
 - Write shell scripts to execute plugins or define maven profiles
 
 Next Versions Ideas
@@ -257,9 +257,9 @@ Write some shell scripts for testing, pmd, javadoc and so on.
 check other projects class packages
 
 References
-https://www.naukri.com/learning/articles/tree-data-structures-types-properties-and-applications/
+https://www.naukri.com/learning/articles/abstractTree-data-structures-types-properties-and-applications/
 https://www.simplilearn.com/tutorials/data-structure-tutorial/trees-in-data-structure
-https://www.freecodecamp.org/news/all-you-need-to-know-about-tree-data-structures-bceacb85490c/
+https://www.freecodecamp.org/news/all-you-need-to-know-about-abstractTree-data-structures-bceacb85490c/
 
 
 

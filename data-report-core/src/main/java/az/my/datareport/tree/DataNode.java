@@ -9,10 +9,6 @@ import java.util.List;
 /**
  * A data node
  */
-/* Name is temporary, it should be DataNode after
- * fully implementation of Tree, for now name is TempDataNode
- * in order not to break anything in application
- */
 public class DataNode {
     private final List<DataNode> subNodes = new ArrayList<>();
     private DataNodeAttribute attribute;
@@ -57,7 +53,7 @@ public class DataNode {
      * Indicates node is in the first place of the {@code tree}
      *
      * @return true if node is root node in the tree, otherwise false
-     * @see Tree
+     * @see AbstractTree
      */
     public boolean isRoot() {
         return isRoot;

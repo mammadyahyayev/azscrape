@@ -8,7 +8,7 @@ import az.my.datareport.model.ReportFile;
 import az.my.datareport.service.ConfigService;
 import az.my.datareport.service.ExportService;
 import az.my.datareport.service.ScraperService;
-import az.my.datareport.tree.Tree;
+import az.my.datareport.tree.AbstractTree;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -52,9 +52,9 @@ public class ReportFileController {
     public ModelAndView generateReportFile(@RequestBody ConfigFileVM configFileVM, HttpServletResponse response) {
         try {
             configService.setConfiguration(configFileVM);
-            Tree tree = configService.getDataPart();
+            AbstractTree abstractTree = configService.getDataPart();
             ReportFile reportFile = configService.getReportFilePart();
-            ReportData reportData = scraperService.getScrapedData(configFileVM.getDataParts().get(0).getUrl(), tree);
+            ReportData reportData = scraperService.getScrapedData(configFileVM.getDataParts().get(0).getUrl(), abstractTree);
             boolean isExported = exportService.export(reportFile, reportData);
 
             response.setContentType(String.valueOf(ContentType.TEXT_HTML));

@@ -2,7 +2,7 @@ package az.my.datareport.service;
 
 import az.my.datareport.model.ReportData;
 import az.my.datareport.scrape.WebScraper;
-import az.my.datareport.tree.Tree;
+import az.my.datareport.tree.AbstractTree;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +14,7 @@ public class ScraperService {
         this.scraper = scraper;
     }
 
-    public ReportData getScrapedData(String url, Tree tree) {
-        return scraper.scrape(url, tree);
+    public ReportData getScrapedData(String url, AbstractTree abstractTree) {
+        return scraper.scrape(url, abstractTree);
     }
 }

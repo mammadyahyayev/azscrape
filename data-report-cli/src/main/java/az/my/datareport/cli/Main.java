@@ -21,7 +21,7 @@ public class Main {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         ConsoleReader consoleReader = new ConsoleReader(new ConsolePrinter(out), reader);
-        Cli cli = new Cli(configuration, logs, exit, consoleReader);
+        Cli cli = new Cli(logs, exit, consoleReader);
         cli.parse(args);
     }
 }
