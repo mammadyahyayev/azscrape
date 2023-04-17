@@ -1,16 +1,16 @@
 {
-  "file_name": "Github Search",
-  "file_type": "EXCEL",
-  "file_extension": "xlsx",
+  "fileName": "Github Search",
+  "fileType": "EXCEL",
+  "fileExtension": "xlsx",
   "description": "Dummy Description",
-  "data_parts": [
+  "dataParts": [
     {
       "url": "https://github.com/search?q=java",
       "elements": [
         {
           "name": "repository",
           "selector": ".repo-list-item",
-          "sub_elements": [
+          "subElements": [
             {
               "name": "title",
               "selector": ".v-align-middle"
