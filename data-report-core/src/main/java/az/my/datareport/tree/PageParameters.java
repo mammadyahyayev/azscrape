@@ -45,8 +45,8 @@ public class PageParameters {
         return delayBetweenPages;
     }
 
-    public void setDelayBetweenPages(int delayBetweenPages) {
-        this.delayBetweenPages = delayBetweenPages;
+    public void setDelayBetweenPages(int delayInMs) {
+        this.delayBetweenPages = delayInMs;
     }
 
 //endregion
