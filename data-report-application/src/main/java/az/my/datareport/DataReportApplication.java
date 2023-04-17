@@ -3,7 +3,6 @@ package az.my.datareport;
 import az.my.datareport.exporter.ExcelExporter;
 import az.my.datareport.exporter.Exporter;
 import az.my.datareport.scrape.Scraper;
-import az.my.datareport.scrape.WebScraper;
 
 /**
  * Entry point of the application after parsing
@@ -15,7 +14,7 @@ public final class DataReportApplication {
     private final Exporter exporter;
 
     public DataReportApplication() {
-        scraper = new WebScraper();
+        scraper = null;
         exporter = new ExcelExporter();
     }
 
