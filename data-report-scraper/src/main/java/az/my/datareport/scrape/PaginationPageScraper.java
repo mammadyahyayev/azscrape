@@ -23,7 +23,7 @@ public class PaginationPageScraper implements Scraper {
 
         var pageParameters = paginationTree.getPageParameters();
         for (int i = pageParameters.getMinPage(); i < pageParameters.getMaxPage(); i++) {
-            String url = pageParameters.getPageUrl() + "&p=" + i; //TODO: Change this
+            String url = pageParameters.buildPageUrl(i);
 
             WebPage page = new WebPage(url, true);
             page.connectWithDelay(pageParameters.getDelayBetweenPages());

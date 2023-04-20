@@ -20,7 +20,9 @@ class PaginationTreeTest {
         pageParameters.setMinPage(0);
         pageParameters.setMaxPage(0);
         pageParameters.setDelayBetweenPages(10000);
-        pageParameters.setQueryParam("?q=java&type=Repositories");
+        pageParameters.addQueryParameter(new QueryParameter("q", "java", false));
+        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories", false));
+        pageParameters.addQueryParameter(new QueryParameter("p", "0", true));
     }
 
     @Test

@@ -1,11 +1,27 @@
 package az.my.datareport.tree;
 
+import az.my.datareport.utils.Asserts;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class PageParameters {
     private String pageUrl;
-    private String queryParam;
+    private final List<QueryParameter> queryParameters;
     private int minPage;
     private int maxPage;
     private int delayBetweenPages;
+
+    public PageParameters() {
+        this.queryParameters = new ArrayList<>();
+    }
+
+    public void addQueryParameter(QueryParameter queryParameter) {
+        Asserts.required(queryParameter, "queryParam cannot be null!");
+
+        queryParameters.add(queryParameter);
+    }
 
     //region Getters & Setters
 
@@ -15,14 +31,6 @@ public class PageParameters {
 
     public void setPageUrl(String pageUrl) {
         this.pageUrl = pageUrl;
-    }
-
-    public String getQueryParam() {
-        return queryParam;
-    }
-
-    public void setQueryParam(String queryParam) {
-        this.queryParam = queryParam;
     }
 
     public int getMinPage() {
@@ -49,5 +57,29 @@ public class PageParameters {
         this.delayBetweenPages = delayInMs;
     }
 
-//endregion
+    //endregion
+
+    public String buildPageUrl(int pageNumber) {
+        String url = this.pageUrl;
+        if (queryParameters.size() == 0) {
+            char end = url.charAt(url.length() - 1);
+            if (end == '/') {
+                return url + pageNumber;
+            }
+
+            return url + "/" + pageNumber;
+        }
+
+        String queryParam = queryParameters.stream().map(param -> {
+                    if (param.isPageParameter()) {
+                        return param.getKey() + "=" + pageNumber;
+                    }
+                    return param.getKey() + "=" + param.getValue();
+                })
+                .collect(Collectors.joining("&"));
+        url += "?" + queryParam;
+
+        return url;
+    }
+
 }

@@ -10,10 +10,12 @@ class PaginationPageScraperTest {
     @Test
     void testPaginationPageScraper() {
         PageParameters pageParameters = new PageParameters();
-        pageParameters.setPageUrl("https://github.com/search?q=java&type=Repositories");
+        pageParameters.setPageUrl("https://github.com/search");
         pageParameters.setMinPage(0);
         pageParameters.setMaxPage(10);
-        pageParameters.setQueryParam("p");
+        pageParameters.addQueryParameter(new QueryParameter("q", "java", false));
+        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories", false));
+        pageParameters.addQueryParameter(new QueryParameter("p", "0", true));
         pageParameters.setDelayBetweenPages(10000);
 
         PaginationTree tree = new PaginationTree(pageParameters);
