@@ -1,9 +1,7 @@
 package az.my.datareport.scrape;
 
-import az.my.datareport.model.ReportData;
+import az.my.datareport.tree.ReportDataTable;
 import az.my.datareport.tree.Tree;
-
-import java.util.List;
 
 /**
  * Collects data from given source
@@ -17,5 +15,5 @@ public interface Scraper {
      * @param tree AST for scraped data
      * @return list of report datas
      */
-    List<ReportData> scrape(Tree tree);
+    ReportDataTable scrape(Tree tree);
 }

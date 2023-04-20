@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PaginationTree implements Tree {
+public class PaginationTree implements Tree<DataNode> {
     private final PageParameters pageParameters;
     private final List<DataNode> dataNodeList;
 

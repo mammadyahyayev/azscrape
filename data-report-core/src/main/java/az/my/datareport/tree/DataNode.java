@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * A data node
  */
-public class DataNode {
+public class DataNode implements Node {
     private final List<DataNode> subNodes = new ArrayList<>();
     private DataNodeAttribute attribute;
     private DataNodeLocation location;
@@ -87,8 +87,12 @@ public class DataNode {
         this.location = location;
     }
 
-    public DataNodeAttribute getAttribute() {
-        return attribute;
+    public String getAttributeSelector() {
+        return attribute.getSelector();
+    }
+
+    public String getAttributeName() {
+        return attribute.getName();
     }
 
     @Override

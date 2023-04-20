@@ -1,13 +1,7 @@
 package az.my.datareport.scrape;
 
-import az.my.datareport.model.ReportData;
-import az.my.datareport.tree.DataNode;
-import az.my.datareport.tree.DataNodeAttribute;
-import az.my.datareport.tree.PageParameters;
-import az.my.datareport.tree.PaginationTree;
+import az.my.datareport.tree.*;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,9 +28,9 @@ class PaginationPageScraperTest {
         tree.addNode(repoItem);
 
         Scraper scraper = new PaginationPageScraper();
-        List<ReportData> reportDataList = scraper.scrape(tree);
+        ReportDataTable table = scraper.scrape(tree);
 
-        assertTrue(reportDataList.size() > 1);
+        assertTrue(table.rows().size() > 0);
     }
 
 }
