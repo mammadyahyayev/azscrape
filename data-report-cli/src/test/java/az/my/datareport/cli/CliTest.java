@@ -13,7 +13,7 @@ class CliTest {
         Logs logs = mock(Logs.class);
         Exit exit = mock(Exit.class);
         ConsoleReader reader = mock(ConsoleReader.class);
-        Cli cli = new Cli(null, logs, exit, reader); // TODO: Fix
+        Cli cli = new Cli(logs, exit, reader);
 
         // when
         cli.parse(new String[]{"-v"});

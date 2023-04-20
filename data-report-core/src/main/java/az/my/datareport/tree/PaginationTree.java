@@ -57,4 +57,14 @@ public class PaginationTree implements Tree {
         return Collections.unmodifiableList(this.dataNodeList);
     }
 
+    /**
+     * Returns PageParameters object which keeps page related
+     * properties.
+     *
+     * @return a {@code PageParameters} object
+     * @see PageParameters
+     */
+    public PageParameters getPageParameters() {
+        return pageParameters;
+    }
 }

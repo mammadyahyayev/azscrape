@@ -57,6 +57,21 @@ public class WebPage {
     }
 
     /**
+     * Connects to a web page with delay. It is useful
+     * when connecting multiple Web page at the same session.
+     *
+     * @param delayInMs delay in milliseconds
+     */
+    public void connectWithDelay(int delayInMs) {
+        try {
+            Thread.sleep(delayInMs);
+            connect();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Close connection with web page
      */
     public void disconnect() {
