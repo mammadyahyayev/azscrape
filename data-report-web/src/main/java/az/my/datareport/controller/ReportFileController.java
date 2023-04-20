@@ -3,12 +3,12 @@ package az.my.datareport.controller;
 import az.my.datareport.DataReportAppException;
 import az.my.datareport.constant.FileConstants;
 import az.my.datareport.controller.vm.ConfigFileVM;
-import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.service.ConfigService;
 import az.my.datareport.service.ExportService;
 import az.my.datareport.service.ScraperService;
 import az.my.datareport.tree.AbstractTree;
+import az.my.datareport.tree.ReportDataTable;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -54,8 +54,8 @@ public class ReportFileController {
             configService.setConfiguration(configFileVM);
             AbstractTree abstractTree = configService.getDataPart();
             ReportFile reportFile = configService.getReportFilePart();
-            ReportData reportData = scraperService.getScrapedData(configFileVM.getDataParts().get(0).getUrl(), abstractTree);
-            boolean isExported = exportService.export(reportFile, reportData);
+            ReportDataTable reportDataTable = scraperService.getScrapedData(abstractTree);
+            boolean isExported = exportService.export(reportFile, reportDataTable);
 
             response.setContentType(String.valueOf(ContentType.TEXT_HTML));
             if (!isExported) {

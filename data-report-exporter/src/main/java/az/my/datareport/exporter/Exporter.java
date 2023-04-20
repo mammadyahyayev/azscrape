@@ -1,7 +1,7 @@
 package az.my.datareport.exporter;
 
-import az.my.datareport.model.ReportData;
 import az.my.datareport.model.ReportFile;
+import az.my.datareport.tree.ReportDataTable;
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ public interface Exporter {
      * @param reportFile exported file
      * @param reportData class contains scraped data
      */
-    boolean export(ReportFile reportFile, ReportData reportData);
+    boolean export(ReportFile reportFile, ReportDataTable reportData);
 
     /**
      * Constructs ReportFile that is going to being used to store

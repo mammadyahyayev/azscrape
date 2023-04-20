@@ -2,10 +2,9 @@ package az.my.datareport.exporter;
 
 import az.my.datareport.DataReportAppException;
 import az.my.datareport.constant.FileConstants;
-import az.my.datareport.model.ReportData;
-import az.my.datareport.model.ReportDataElement;
-import az.my.datareport.model.ReportDataParent;
+import az.my.datareport.model.Column;
 import az.my.datareport.model.ReportFile;
+import az.my.datareport.tree.ReportDataTable;
 import az.my.datareport.utils.AbstractFileSystem;
 import az.my.datareport.utils.Asserts;
 import az.my.datareport.utils.DefaultFileSystem;
@@ -32,7 +31,7 @@ public class ExcelExporter implements Exporter {
     private static final Logger LOG = LogManager.getLogger(ExcelExporter.class);
 
     @Override
-    public boolean export(ReportFile reportFile, ReportData reportData) {
+    public boolean export(ReportFile reportFile, ReportDataTable reportData) {
         Objects.requireNonNull(reportFile);
         Asserts.required(reportFile.getFilename(), "Filename is required for report");
 
@@ -54,29 +53,30 @@ public class ExcelExporter implements Exporter {
         return true;
     }
 
-    private void createHeaders(Sheet sheet, ReportData reportData) {
+    private void createHeaders(Sheet sheet, ReportDataTable reportDataTable) {
         Row headerRow = sheet.createRow(0);
-        List<ReportDataParent> reportParentElements = reportData.getReportParentElements();
+        List<az.my.datareport.model.Row> rows = reportDataTable.rows();
 
-        ReportDataParent first = reportParentElements.get(0);
-        if (first != null && first.getReportDataElements().size() > 0) {
-            int column = 0;
-            for (ReportDataElement element : first.getReportDataElements()) {
-                headerRow.createCell(column++, CellType.STRING).setCellValue(element.getName());
+        az.my.datareport.model.Row first = rows.get(0);
+        if (first != null) {
+            int columnIndex = 0;
+            for (Column column : first.columns()) {
+                headerRow.createCell(columnIndex++, CellType.STRING).setCellValue(column.getName());
             }
         }
     }
 
-    private void createValues(Sheet sheet, ReportData reportData) {
-        List<ReportDataParent> parentElements = reportData.getReportParentElements();
-        int row = 0;
-        for (ReportDataParent parentElement : parentElements) {
-            int column = 0;
-            for (ReportDataElement element : parentElement.getReportDataElements()) {
-                Row valueRow = createOrGetRow(sheet, row);
-                valueRow.createCell(column++, CellType.STRING).setCellValue(element.getValue());
+    private void createValues(Sheet sheet, ReportDataTable reportData) {
+        List<az.my.datareport.model.Row> rows = reportData.rows();
+        int rowIndex = 0;
+
+        for (az.my.datareport.model.Row row : rows) {
+            int columnIndex = 0;
+            for (Column column : row.columns()) {
+                Row valueRow = createOrGetRow(sheet, rowIndex);
+                valueRow.createCell(columnIndex++, CellType.STRING).setCellValue(column.getValue());
             }
-            row++;
+            rowIndex++;
         }
     }
 
@@ -99,13 +99,13 @@ public class ExcelExporter implements Exporter {
         Asserts.required(reportFile, "ReportFile is required");
 
         AbstractFileSystem abstractFileSystem = new DefaultFileSystem();
-        abstractFileSystem.createDirectory(directoryPath);
+        abstractFileSystem.createDirectoryIfNotExist(directoryPath);
 
         String filename = abstractFileSystem.createFilename(reportFile.getFilename());
         String extension = reportFile.getFileExtension().name().toLowerCase();
         Path filepath = Path.of(directoryPath, filename + "." + extension);
 
-        return abstractFileSystem.createFile(filepath.toString());
+        return abstractFileSystem.createFileIfNotExist(filepath.toString());
     }
 
     @Override

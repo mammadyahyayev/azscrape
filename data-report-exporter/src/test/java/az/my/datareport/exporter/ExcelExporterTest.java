@@ -1,12 +1,12 @@
 package az.my.datareport.exporter;
 
 import az.my.datareport.constant.FileConstants;
-import az.my.datareport.model.ReportData;
-import az.my.datareport.model.ReportDataElement;
-import az.my.datareport.model.ReportDataParent;
+import az.my.datareport.model.Column;
 import az.my.datareport.model.ReportFile;
+import az.my.datareport.model.Row;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
+import az.my.datareport.tree.ReportDataTable;
 import az.my.datareport.utils.AbstractFileSystem;
 import az.my.datareport.utils.DefaultFileSystem;
 import org.junit.jupiter.api.BeforeEach;
@@ -85,39 +85,41 @@ class ExcelExporterTest {
         //given
         Path path = Path.of(FileConstants.TEMP_DIR_PATH, "github_search.xlsx");
 
-        ReportData reportData = new ReportData();
+        ReportDataTable reportDataTable = new ReportDataTable();
 
-        ReportDataParent parent = new ReportDataParent();
-        ReportDataElement titleJava9 = new ReportDataElement("title", "Java9");
-        ReportDataElement descJava9 = new ReportDataElement("description", "Desc Java9");
-        parent.setReportDataElements(List.of(titleJava9, descJava9));
+        Row row1 = new Row();
+        Column titleJava9 = new Column("title", "Java9");
+        Column descJava9 = new Column("description", "Desc Java9");
+        row1.addColumns(List.of(titleJava9, descJava9));
 
-        ReportDataParent parent2 = new ReportDataParent();
-        ReportDataElement titleJava8 = new ReportDataElement("title", "Java8");
-        ReportDataElement descJava8 = new ReportDataElement("description", "Desc Java8");
-        parent2.setReportDataElements(List.of(titleJava8, descJava8));
+        Row row2 = new Row();
 
-        ReportDataParent parent3 = new ReportDataParent();
-        ReportDataElement titleJava7 = new ReportDataElement("title", "Java7");
-        ReportDataElement descJava7 = new ReportDataElement("description", "");
-        parent3.setReportDataElements(List.of(titleJava7, descJava7));
+        Column titleJava8 = new Column("title", "Java8");
+        Column descJava8 = new Column("description", "Desc Java8");
+        row2.addColumns(List.of(titleJava8, descJava8));
 
-        ReportDataParent parent4 = new ReportDataParent();
-        ReportDataElement titleJava6 = new ReportDataElement("title", "");
-        ReportDataElement descJava6 = new ReportDataElement("description", "Desc Java6");
-        parent4.setReportDataElements(List.of(titleJava6, descJava6));
+        Row row3 = new Row();
+        Column titleJava7 = new Column("title", "Java7");
+        Column descJava7 = new Column("description", "");
+        row3.addColumns(List.of(titleJava7, descJava7));
 
-        reportData.setReportParentElements(List.of(parent, parent2, parent3, parent4));
+        Row row4 = new Row();
+        Column titleJava6 = new Column("title", "");
+        Column descJava6 = new Column("description", "Desc Java6");
+        row4.addColumns(List.of(titleJava6, descJava6));
+
+        reportDataTable.addAll(List.of(row1, row2, row3, row4));
 
         //when
         File expectedFile = new File(path.toString());
         ExcelExporter mock = mock(ExcelExporter.class);
         Mockito.when(mock.constructReportFile(reportFile)).thenReturn(expectedFile);
-        exporter.export(reportFile, reportData);
+        exporter.export(reportFile, reportDataTable);
 
         //then
         File file = new File(path.toString());
         assertTrue(file.exists());
+        System.out.println(path);
     }
 
     private void deleteFile(String filePath) {
