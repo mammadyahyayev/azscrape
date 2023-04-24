@@ -4,25 +4,18 @@
   "fileExtension": "xlsx",
   "description": "Dummy Description",
   "pageParameters": {
-    "url": "https://github.com/search",
+    "url": "https://github.com/search?p={pageNum}",
     "minPage": 0,
     "maxPage": 20,
     "delayBetweenPages": 10000,
     "queryParams": [
       {
         "key": "q",
-        "value": "java",
-        "isPageParam": false
+        "value": "java"
       },
       {
         "key": "type",
-        "value": "Repository",
-        "isPageParam": false
-      },
-      {
-        "key": "p",
-        "value": 0,
-        "isPageParam": true
+        "value": "Repository"
       }
     ]
   },
