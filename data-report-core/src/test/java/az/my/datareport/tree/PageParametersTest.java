@@ -2,6 +2,7 @@ package az.my.datareport.tree;
 
 import org.junit.jupiter.api.Test;
 
+import static java.lang.String.format;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -9,64 +10,87 @@ class PageParametersTest {
 
     @Test
     void testWithoutPageSpecifier() {
-        PageParameters pageParameters = new PageParameters();
-        pageParameters.setPageUrl("https://www.example.com/products?page");
+        String url = "https://www.example.com/products?page";
         var illegalArgumentException = assertThrows(
-                IllegalArgumentException.class, pageParameters::build
+                IllegalArgumentException.class,
+                () -> new PageParameters.Builder()
+                        .url(url)
+                        .build()
         );
 
+        int begin = url.indexOf('{');
+        int end = url.indexOf("}");
+
         assertEquals(
-                "Page specifier isn't configured correctly!, begin=-1, end=-1",
+                format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end),
                 illegalArgumentException.getMessage()
         );
     }
 
     @Test
     void testWithoutEndingWrapperPageSpecifier() {
-        var pageParameters = new PageParameters();
-        pageParameters.setPageUrl("https://www.example.com/products?page={");
+        String url = "https://www.example.com/products?page={";
         var illegalArgumentException = assertThrows(
-                IllegalArgumentException.class, pageParameters::build
+                IllegalArgumentException.class,
+                () -> new PageParameters.Builder()
+                        .url(url)
+                        .build()
         );
 
+        int begin = url.indexOf('{');
+        int end = url.indexOf("}");
+
         assertEquals(
-                "Page specifier isn't configured correctly!, begin=38, end=-1",
+                format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end),
                 illegalArgumentException.getMessage()
         );
     }
 
     @Test
     void testWithoutBeginningWrapperPageSpecifier() {
-        var pageParameters = new PageParameters();
-        pageParameters.setPageUrl("https://www.example.com/products?page=}");
+        String url = "https://www.example.com/products?page=}";
+
         var illegalArgumentException = assertThrows(
-                IllegalArgumentException.class, pageParameters::build
+                IllegalArgumentException.class,
+                () -> new PageParameters.Builder()
+                        .url(url)
+                        .build()
         );
 
+        int begin = url.indexOf('{');
+        int end = url.indexOf("}");
+
         assertEquals(
-                "Page specifier isn't configured correctly!, begin=-1, end=38",
+                format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end),
                 illegalArgumentException.getMessage()
         );
     }
 
     @Test
     void testWithoutPageSpecifierKey() {
-        var pageParameters = new PageParameters();
-        pageParameters.setPageUrl("https://www.example.com/products?page={}");
+        String url = "https://www.example.com/products?page={}";
         var illegalArgumentException = assertThrows(
-                IllegalArgumentException.class, pageParameters::build
+                IllegalArgumentException.class,
+                () -> new PageParameters.Builder()
+                        .url(url)
+                        .build()
         );
 
+        int begin = url.indexOf('{');
+        int pageKey = url.indexOf("pageNum");
+        int end = url.indexOf("}");
+
         assertEquals(
-                "Page specifier is in wrong place!, begin=38, pageKey=-1, end=39",
+                format("Page specifier is in wrong place!, begin=%d, pageKey=%d, end=%d", begin, pageKey, end),
                 illegalArgumentException.getMessage()
         );
     }
 
     @Test
     void testQueryParamSpecifierGiven() {
-        PageParameters pageParameters = new PageParameters();
-        pageParameters.setPageUrl("https://www.example.com/products?page={pageNum}");
+        var pageParameters = new PageParameters.Builder()
+                .url("https://www.example.com/products?page={pageNum}")
+                .build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 
@@ -75,11 +99,11 @@ class PageParametersTest {
 
     @Test
     void testQueryParamSpecifierGivenWithQueryParameters() {
-        PageParameters pageParameters = new PageParameters();
-        pageParameters.addQueryParameter(new QueryParameter("q", "java"));
-        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories"));
-        pageParameters.setPageUrl("https://www.example.com/products?page={pageNum}");
-        pageParameters.build();
+        var pageParameters = new PageParameters.Builder()
+                .url("https://www.example.com/products?page={pageNum}")
+                .queryParam("q", "java")
+                .queryParam("type", "Repositories")
+                .build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 
@@ -88,9 +112,9 @@ class PageParametersTest {
 
     @Test
     void testHashFragmentSpecifierGiven() {
-        PageParameters pageParameters = new PageParameters();
-        pageParameters.setPageUrl("https://www.example.com/products#page={pageNum}");
-        pageParameters.build();
+        var pageParameters = new PageParameters.Builder()
+                .url("https://www.example.com/products#page={pageNum}")
+                .build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 
@@ -99,11 +123,11 @@ class PageParametersTest {
 
     @Test
     void testHashFragmentSpecifierGivenWithQueryParameters() {
-        PageParameters pageParameters = new PageParameters();
-        pageParameters.addQueryParameter(new QueryParameter("q", "java"));
-        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories"));
-        pageParameters.setPageUrl("https://www.example.com/products#page={pageNum}");
-        pageParameters.build();
+        var pageParameters = new PageParameters.Builder()
+                .url("https://www.example.com/products#page={pageNum}")
+                .queryParam("q", "java")
+                .queryParam("type", "Repositories")
+                .build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 
@@ -112,9 +136,9 @@ class PageParametersTest {
 
     @Test
     void testUrlPathSpecifierGiven() {
-        PageParameters pageParameters = new PageParameters();
-        pageParameters.setPageUrl("https://www.example.com/{pageNum}");
-        pageParameters.build();
+        var pageParameters = new PageParameters.Builder()
+                .url("https://www.example.com/{pageNum}")
+                .build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 
@@ -123,11 +147,11 @@ class PageParametersTest {
 
     @Test
     void testUrlPathSpecifierGivenWithQueryParameters() {
-        PageParameters pageParameters = new PageParameters();
-        pageParameters.addQueryParameter(new QueryParameter("q", "java"));
-        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories"));
-        pageParameters.setPageUrl("https://www.example.com/{pageNum}");
-        pageParameters.build();
+        var pageParameters = new PageParameters.Builder()
+                .url("https://www.example.com/{pageNum}")
+                .queryParam("q", "java")
+                .queryParam("type", "Repositories")
+                .build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 

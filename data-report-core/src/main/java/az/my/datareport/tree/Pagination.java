@@ -1,11 +1,5 @@
 package az.my.datareport.tree;
 
-import az.my.datareport.utils.Asserts;
-import org.jetbrains.annotations.Unmodifiable;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 public class Pagination {
@@ -27,6 +21,7 @@ public class Pagination {
     public PageParameters getPageParameters() {
         return pageParameters;
     }
+
     public DataTree<DataNode> getRoot() {
         return root;
     }

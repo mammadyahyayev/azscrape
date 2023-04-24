@@ -1,6 +1,7 @@
 package az.my.datareport.tree;
 
 import az.my.datareport.utils.Asserts;
+import az.my.datareport.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,15 @@ public class PageParameters {
         this.queryParameters = new ArrayList<>();
     }
 
+    private PageParameters(Builder builder) {
+        this.pageUrl = builder.pageUrl;
+        this.queryParameters = builder.queryParameters;
+        this.minPage = builder.minPage;
+        this.maxPage = builder.maxPage;
+        this.delayBetweenPages = builder.delayBetweenPages;
+        buildPageUrl();
+    }
+
     public void addQueryParameter(QueryParameter queryParameter) {
         Asserts.required(queryParameter, "queryParam cannot be null!");
 
@@ -28,33 +38,19 @@ public class PageParameters {
     }
 
     //region Getters & Setters
-
-    public void setPageUrl(String pageUrl) {
-        this.pageUrl = pageUrl;
+    public String getPageUrl(int pageNumber) {
+        return this.pageUrl.replace("{pageNum}", String.valueOf(pageNumber));
     }
 
     public int getMinPage() {
         return minPage;
     }
-
-    public void setMinPage(int minPage) {
-        this.minPage = minPage;
-    }
-
     public int getMaxPage() {
         return maxPage;
     }
 
-    public void setMaxPage(int maxPage) {
-        this.maxPage = maxPage;
-    }
-
     public int getDelayBetweenPages() {
         return delayBetweenPages;
-    }
-
-    public void setDelayBetweenPages(int delayInMs) {
-        this.delayBetweenPages = delayInMs;
     }
 
     //endregion
@@ -88,15 +84,62 @@ public class PageParameters {
         this.pageUrl = url;
     }
 
-    public String getPageUrl(int pageNumber) {
-        return this.pageUrl.replace("{pageNum}", String.valueOf(pageNumber));
+    public static class Builder {
+        private String pageUrl;
+        private final List<QueryParameter> queryParameters;
+        private int minPage;
+        private int maxPage;
+        private int delayBetweenPages;
+
+        {
+            queryParameters = new ArrayList<>();
+        }
+
+        public Builder url(String url) {
+            this.pageUrl = url;
+            return this;
+        }
+
+        public Builder pageRange(int minPage, int maxPage) {
+            if (minPage < 0 || maxPage < 0 || minPage > maxPage) {
+                throw new IllegalArgumentException(
+                        format("Range must be greater or equal than 0 and minPage (%d) must be less than maxPage (%d)",
+                                minPage, maxPage)
+                );
+            }
+
+            this.minPage = minPage;
+            this.maxPage = maxPage;
+            return this;
+        }
+
+        public Builder delayBetweenPages(int delayInMs) {
+            if (delayInMs < 0) {
+                delayInMs = 0;
+            }
+
+            this.delayBetweenPages = delayInMs;
+            return this;
+        }
+
+        public Builder queryParam(String key, String value) {
+            if (StringUtils.isNullOrEmpty(key) || StringUtils.isNullOrEmpty(value)) {
+                throw new IllegalArgumentException(
+                        format("key (%s) and value (%s) cannot be null or empty", key, value)
+                );
+            }
+
+            queryParameters.add(new QueryParameter(key, value));
+
+            return this;
+        }
+
+        public PageParameters build() {
+            return new PageParameters(this);
+        }
     }
 
-    public void build() {
-        buildPageUrl();
-    }
-
-    enum PageSpecifierType {
+    private enum PageSpecifierType {
         NOT_SET, QUERY_PARAM, URL_PATH, HASH_FRAGMENT
     }
 

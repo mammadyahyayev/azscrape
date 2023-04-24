@@ -9,14 +9,13 @@ class PaginationPageScraperTest {
 
     @Test
     void testPaginationPageScraper() {
-        PageParameters pageParameters = new PageParameters();
-        pageParameters.setPageUrl("https://github.com/search?p={pageNum}");
-        pageParameters.setMinPage(0);
-        pageParameters.setMaxPage(3);
-        pageParameters.addQueryParameter(new QueryParameter("q", "java"));
-        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories"));
-        pageParameters.setDelayBetweenPages(10000);
-        pageParameters.build();
+        var pageParameters = new PageParameters.Builder()
+                .url("https://github.com/search?p={pageNum}")
+                .pageRange(0, 3)
+                .queryParam("q", "java")
+                .queryParam("type", "Repositories")
+                .delayBetweenPages(10000)
+                .build();
 
 
         DataTree<DataNode> repoItem = new DataTree<>(new DataNode("repoItem", ".repo-list-item"));
