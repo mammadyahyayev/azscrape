@@ -1,6 +1,5 @@
 package az.my.datareport.tree;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,9 +10,10 @@ class PageParametersTest {
     @Test
     void testWithoutPageSpecifier() {
         PageParameters pageParameters = new PageParameters();
+        pageParameters.setPageUrl("https://www.example.com/products?page");
         var illegalArgumentException = assertThrows(
-                IllegalArgumentException.class,
-                () -> pageParameters.setPageUrl("https://www.example.com/products?page"));
+                IllegalArgumentException.class, pageParameters::build
+        );
 
         assertEquals(
                 "Page specifier isn't configured correctly!, begin=-1, end=-1",
@@ -24,8 +24,9 @@ class PageParametersTest {
     @Test
     void testWithoutEndingWrapperPageSpecifier() {
         var pageParameters = new PageParameters();
-        var illegalArgumentException = assertThrows(IllegalArgumentException.class,
-                () -> pageParameters.setPageUrl("https://www.example.com/products?page={")
+        pageParameters.setPageUrl("https://www.example.com/products?page={");
+        var illegalArgumentException = assertThrows(
+                IllegalArgumentException.class, pageParameters::build
         );
 
         assertEquals(
@@ -37,9 +38,9 @@ class PageParametersTest {
     @Test
     void testWithoutBeginningWrapperPageSpecifier() {
         var pageParameters = new PageParameters();
+        pageParameters.setPageUrl("https://www.example.com/products?page=}");
         var illegalArgumentException = assertThrows(
-                IllegalArgumentException.class,
-                () -> pageParameters.setPageUrl("https://www.example.com/products?page=}")
+                IllegalArgumentException.class, pageParameters::build
         );
 
         assertEquals(
@@ -51,9 +52,9 @@ class PageParametersTest {
     @Test
     void testWithoutPageSpecifierKey() {
         var pageParameters = new PageParameters();
+        pageParameters.setPageUrl("https://www.example.com/products?page={}");
         var illegalArgumentException = assertThrows(
-                IllegalArgumentException.class,
-                () -> pageParameters.setPageUrl("https://www.example.com/products?page={}")
+                IllegalArgumentException.class, pageParameters::build
         );
 
         assertEquals(
@@ -75,10 +76,10 @@ class PageParametersTest {
     @Test
     void testQueryParamSpecifierGivenWithQueryParameters() {
         PageParameters pageParameters = new PageParameters();
-        pageParameters.addQueryParameter(new QueryParameter("q", "java", false));
-        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories", false));
-
+        pageParameters.addQueryParameter(new QueryParameter("q", "java"));
+        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories"));
         pageParameters.setPageUrl("https://www.example.com/products?page={pageNum}");
+        pageParameters.build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 
@@ -89,6 +90,7 @@ class PageParametersTest {
     void testHashFragmentSpecifierGiven() {
         PageParameters pageParameters = new PageParameters();
         pageParameters.setPageUrl("https://www.example.com/products#page={pageNum}");
+        pageParameters.build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 
@@ -98,10 +100,10 @@ class PageParametersTest {
     @Test
     void testHashFragmentSpecifierGivenWithQueryParameters() {
         PageParameters pageParameters = new PageParameters();
-        pageParameters.addQueryParameter(new QueryParameter("q", "java", false));
-        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories", false));
-
+        pageParameters.addQueryParameter(new QueryParameter("q", "java"));
+        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories"));
         pageParameters.setPageUrl("https://www.example.com/products#page={pageNum}");
+        pageParameters.build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 
@@ -112,6 +114,7 @@ class PageParametersTest {
     void testUrlPathSpecifierGiven() {
         PageParameters pageParameters = new PageParameters();
         pageParameters.setPageUrl("https://www.example.com/{pageNum}");
+        pageParameters.build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 
@@ -121,10 +124,10 @@ class PageParametersTest {
     @Test
     void testUrlPathSpecifierGivenWithQueryParameters() {
         PageParameters pageParameters = new PageParameters();
-        pageParameters.addQueryParameter(new QueryParameter("q", "java", false));
-        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories", false));
-
+        pageParameters.addQueryParameter(new QueryParameter("q", "java"));
+        pageParameters.addQueryParameter(new QueryParameter("type", "Repositories"));
         pageParameters.setPageUrl("https://www.example.com/{pageNum}");
+        pageParameters.build();
 
         String pageUrl = pageParameters.getPageUrl(4);
 

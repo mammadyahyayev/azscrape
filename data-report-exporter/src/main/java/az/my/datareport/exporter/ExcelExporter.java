@@ -2,7 +2,8 @@ package az.my.datareport.exporter;
 
 import az.my.datareport.DataReportAppException;
 import az.my.datareport.constant.FileConstants;
-import az.my.datareport.model.Column;
+import az.my.datareport.model.DataColumn;
+import az.my.datareport.model.DataRow;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.tree.ReportDataTable;
 import az.my.datareport.utils.AbstractFileSystem;
@@ -55,26 +56,26 @@ public class ExcelExporter implements Exporter {
 
     private void createHeaders(Sheet sheet, ReportDataTable reportDataTable) {
         Row headerRow = sheet.createRow(0);
-        List<az.my.datareport.model.Row> rows = reportDataTable.rows();
+        List<DataRow> dataRows = reportDataTable.rows();
 
-        az.my.datareport.model.Row first = rows.get(0);
+        DataRow first = dataRows.get(0);
         if (first != null) {
             int columnIndex = 0;
-            for (Column column : first.columns()) {
-                headerRow.createCell(columnIndex++, CellType.STRING).setCellValue(column.getName());
+            for (DataColumn dataColumn : first.columns()) {
+                headerRow.createCell(columnIndex++, CellType.STRING).setCellValue(dataColumn.getName());
             }
         }
     }
 
     private void createValues(Sheet sheet, ReportDataTable reportData) {
-        List<az.my.datareport.model.Row> rows = reportData.rows();
+        List<DataRow> dataRows = reportData.rows();
         int rowIndex = 0;
 
-        for (az.my.datareport.model.Row row : rows) {
+        for (DataRow dataRow : dataRows) {
             int columnIndex = 0;
-            for (Column column : row.columns()) {
+            for (DataColumn dataColumn : dataRow.columns()) {
                 Row valueRow = createOrGetRow(sheet, rowIndex);
-                valueRow.createCell(columnIndex++, CellType.STRING).setCellValue(column.getValue());
+                valueRow.createCell(columnIndex++, CellType.STRING).setCellValue(dataColumn.getValue());
             }
             rowIndex++;
         }

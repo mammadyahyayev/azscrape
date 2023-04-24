@@ -1,7 +1,7 @@
 package az.my.datareport.scrape;
 
-import az.my.datareport.model.Column;
-import az.my.datareport.model.Row;
+import az.my.datareport.model.DataColumn;
+import az.my.datareport.model.DataRow;
 import az.my.datareport.tree.*;
 import org.openqa.selenium.WebElement;
 
@@ -20,32 +20,32 @@ public class PaginationPageScraper implements Scraper<Pagination> {
             WebPage page = new WebPage(url, true);
             page.connectWithDelay(pageParameters.getDelayBetweenPages());
 
-            List<Row> rows = fetchWebElements(page, pagination.getRoot());
-            reportDataTable.addAll(rows);
+            List<DataRow> dataRows = fetchWebElements(page, pagination.getRoot());
+            reportDataTable.addAll(dataRows);
         }
 
         return reportDataTable;
     }
 
-    private List<Row> fetchWebElements(WebPage page, DataTree<DataNode> root) {
-        List<Row> rows = new ArrayList<>();
+    private List<DataRow> fetchWebElements(WebPage page, DataTree<DataNode> root) {
+        List<DataRow> dataRows = new ArrayList<>();
 
         List<WebElement> webElements = page.fetchWebElements(root.value().getSelector());
 
         for (WebElement webElement : webElements) {
-            List<Column> columns = new ArrayList<>();
+            List<DataColumn> dataColumns = new ArrayList<>();
 
             for (DataTree<DataNode> node : root.nodes()) {
                 String value = page.fetchElementAsText(node.value().getSelector(), webElement);
-                var column = new Column(node.value().getName(), value);
-                columns.add(column);
+                var column = new DataColumn(node.value().getName(), value);
+                dataColumns.add(column);
             }
 
-            Row row = new Row();
-            row.addColumns(columns);
-            rows.add(row);
+            DataRow dataRow = new DataRow();
+            dataRow.addColumns(dataColumns);
+            dataRows.add(dataRow);
         }
 
-        return rows;
+        return dataRows;
     }
 }

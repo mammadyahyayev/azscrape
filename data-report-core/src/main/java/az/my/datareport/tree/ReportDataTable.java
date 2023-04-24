@@ -1,27 +1,27 @@
 package az.my.datareport.tree;
 
-import az.my.datareport.model.Row;
+import az.my.datareport.model.DataRow;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ReportDataTable {
-    private final List<Row> rows;
+    private final List<DataRow> dataRows;
 
     public ReportDataTable() {
-        this.rows = new ArrayList<>();
+        this.dataRows = new ArrayList<>();
     }
 
-    public void addAll(List<Row> rowsCollection) {
+    public void addAll(List<DataRow> rowsCollection) {
         if (rowsCollection == null || rowsCollection.isEmpty()) {
             return;
         }
 
-        rows.addAll(rowsCollection);
+        dataRows.addAll(rowsCollection);
     }
 
-    public List<Row> rows() {
-        return Collections.unmodifiableList(rows);
+    public List<DataRow> rows() {
+        return Collections.unmodifiableList(dataRows);
     }
 }

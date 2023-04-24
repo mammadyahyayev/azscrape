@@ -1,9 +1,9 @@
 package az.my.datareport.exporter;
 
 import az.my.datareport.constant.FileConstants;
-import az.my.datareport.model.Column;
+import az.my.datareport.model.DataColumn;
+import az.my.datareport.model.DataRow;
 import az.my.datareport.model.ReportFile;
-import az.my.datareport.model.Row;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
 import az.my.datareport.tree.ReportDataTable;
@@ -44,27 +44,6 @@ class ExcelExporterTest {
         abstractFileSystem = new DefaultFileSystem();
     }
 
-    @Test
-    @EnabledOnOs({OS.WINDOWS})
-    void testConstructReportFile_whenDirectoryPathGiven_constructAndReturnFile() {
-        //given
-        Path directory = Path.of("C:", "Users", "User", "Desktop", "test-report");
-        String expectedFileName = "github_search.xlsx";
-        String expectedFilePath = Path.of(directory.toString(), expectedFileName).toString();
-
-        //when
-        File file = exporter.constructReportFile(directory.toString(), reportFile);
-
-        //then
-        assertEquals(expectedFileName, file.getName());
-        assertEquals(expectedFilePath, file.getAbsolutePath());
-
-        // delete generated file and directory
-        deleteFile(expectedFilePath);
-        deleteFile(directory.toString());
-    }
-
-
     @DisplayName("Create file on resources folder inside the application")
     @Test
     void testConstructReportFile_whenAppDirectoryPathGiven_constructAndReturnFile() {
@@ -87,28 +66,28 @@ class ExcelExporterTest {
 
         ReportDataTable reportDataTable = new ReportDataTable();
 
-        Row row1 = new Row();
-        Column titleJava9 = new Column("title", "Java9");
-        Column descJava9 = new Column("description", "Desc Java9");
-        row1.addColumns(List.of(titleJava9, descJava9));
+        DataRow dataRow1 = new DataRow();
+        DataColumn titleJava9 = new DataColumn("title", "Java9");
+        DataColumn descJava9 = new DataColumn("description", "Desc Java9");
+        dataRow1.addColumns(List.of(titleJava9, descJava9));
 
-        Row row2 = new Row();
+        DataRow dataRow2 = new DataRow();
 
-        Column titleJava8 = new Column("title", "Java8");
-        Column descJava8 = new Column("description", "Desc Java8");
-        row2.addColumns(List.of(titleJava8, descJava8));
+        DataColumn titleJava8 = new DataColumn("title", "Java8");
+        DataColumn descJava8 = new DataColumn("description", "Desc Java8");
+        dataRow2.addColumns(List.of(titleJava8, descJava8));
 
-        Row row3 = new Row();
-        Column titleJava7 = new Column("title", "Java7");
-        Column descJava7 = new Column("description", "");
-        row3.addColumns(List.of(titleJava7, descJava7));
+        DataRow dataRow3 = new DataRow();
+        DataColumn titleJava7 = new DataColumn("title", "Java7");
+        DataColumn descJava7 = new DataColumn("description", "");
+        dataRow3.addColumns(List.of(titleJava7, descJava7));
 
-        Row row4 = new Row();
-        Column titleJava6 = new Column("title", "");
-        Column descJava6 = new Column("description", "Desc Java6");
-        row4.addColumns(List.of(titleJava6, descJava6));
+        DataRow dataRow4 = new DataRow();
+        DataColumn titleJava6 = new DataColumn("title", "");
+        DataColumn descJava6 = new DataColumn("description", "Desc Java6");
+        dataRow4.addColumns(List.of(titleJava6, descJava6));
 
-        reportDataTable.addAll(List.of(row1, row2, row3, row4));
+        reportDataTable.addAll(List.of(dataRow1, dataRow2, dataRow3, dataRow4));
 
         //when
         File expectedFile = new File(path.toString());

@@ -32,10 +32,10 @@
     <button class="btn btn-danger">Click me</button>
 </a>-->
 
-<div class="row-cols-3 d-flex align-content-start justify-content-center mt-5 p-3 gap-2">
+<div class="dataRow-cols-3 d-flex align-content-start justify-content-center mt-5 p-3 gap-2">
     <div class="border border-2 border-light-subtle bg-white shadow-lg p-3">
         <h1>File properties</h1>
-        <div class="mt-5 d-flex flex-column">
+        <div class="mt-5 d-flex flex-dataColumn">
             <label class="fs-5 mb-2">
                 Title
                 <input aria-describedby="title" class="form-control" id="title"
@@ -43,15 +43,15 @@
             </label>
         </div>
 
-        <div class="mt-4 d-flex flex-column">
+        <div class="mt-4 d-flex flex-dataColumn">
             <label class="fs-5 mb-2">
                 Description
                 <textarea aria-describedby="description" class="form-control" id="description"
-                          placeholder="Enter description" rows="3"></textarea>
+                          placeholder="Enter description" dataRows="3"></textarea>
             </label>
         </div>
 
-        <div class="mt-4 d-flex flex-column">
+        <div class="mt-4 d-flex flex-dataColumn">
             <label class="fs-5 mb-2">
                 File Type
                 <select class="form-control" id="fileType">
@@ -61,7 +61,7 @@
             </label>
         </div>
 
-        <div class="mt-4 d-flex flex-column">
+        <div class="mt-4 d-flex flex-dataColumn">
             <label class="fs-5 mb-2">
                 File Extension
                 <select class="form-control" id="fileExtension">
@@ -73,7 +73,7 @@
     </div>
     <div class="border border-2 border-light-subtle bg-white shadow-lg p-3" id="data-prop-section">
         <h1>Data Properties</h1>
-        <div class="mt-4 d-flex flex-column">
+        <div class="mt-4 d-flex flex-dataColumn">
             <label class="fs-5 mb-2">
                 Name
                 <input aria-describedby="name" class="form-control" id="data-element-name" name="name of data element"
@@ -81,7 +81,7 @@
             </label>
         </div>
 
-        <div class="mt-4 d-flex flex-column">
+        <div class="mt-4 d-flex flex-dataColumn">
             <label class="fs-5 mb-2">
                 CSS Selector
                 <input aria-describedby="selector" class="form-control" id="data-element-selector"
@@ -95,7 +95,7 @@
             <label class="form-check-label" for="has-parent">Element has parent?</label>
         </div>
 
-        <div class="mt-4 d-flex flex-column d-none" id="parent-selection">
+        <div class="mt-4 d-flex flex-dataColumn d-none" id="parent-selection">
             <label class="fs-5 mb-2">
                 Parent
                 <select class="form-control" name="file extension">
@@ -109,7 +109,7 @@
     </div>
     <div class="border border-2 border-light-subtle bg-white shadow-lg p-3" style="max-height: 650px;">
         <h1>Data Elements</h1>
-        <div class="mt-2 d-flex flex-column">
+        <div class="mt-2 d-flex flex-dataColumn">
             <label class="fs-5 mb-2">
                 URL
                 <input aria-describedby="URL" class="form-control" id="url" name="url of page"

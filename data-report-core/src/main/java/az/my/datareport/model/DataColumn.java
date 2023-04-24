@@ -1,10 +1,10 @@
 package az.my.datareport.model;
 
-public class Column {
+public class DataColumn {
     private final String name;
     private final String value;
 
-    public Column(String name, String value) {
+    public DataColumn(String name, String value) {
         this.name = name;
         this.value = value;
     }

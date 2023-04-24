@@ -56,6 +56,7 @@
         <maven.release.plugin.version>3.0.0-M7</maven.release.plugin.version>
         <maven.flatten.plugin.version>1.3.0</maven.flatten.plugin.version>
         <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
+        <maven.assembly.plugin.version>3.4.2</maven.assembly.plugin.version>
         <owasp.dependecy.plugin.version>8.1.0</owasp.dependecy.plugin.version>
 
 
@@ -229,7 +230,9 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven.assembly.plugin.version}</version>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
                     <archive>
@@ -334,17 +337,6 @@
 
     <reporting>
         <plugins>
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven.javadoc.plugin.version}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <quiet>true</quiet>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <doclint>none</doclint>
-                </configuration>
-            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
