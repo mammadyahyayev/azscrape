@@ -24,8 +24,8 @@ public class AbstractTree {
 
         if (dataNodeList.size() == 0) {
             DataNodeLocation firstLocation = DataNodeLocation.init();
-            node.setLocation(firstLocation);
-            node.setRoot(true);
+            //node.setLocation(firstLocation);
+            //node.setRoot(true);
         } else {
             /* TODO: get the last element in the dataNodeList and create a new location
                 based on previous one, with the next order and same level
@@ -37,22 +37,22 @@ public class AbstractTree {
             //  items into level B with the last unused order.
         }
 
-        if (node.hasSubNode()) {
-            DataNodeLocation lastLocation = node.getLocation();
-            String nextLevel = lastLocation.nextLevel();
-
-            for (int i = 0; i < node.subNodes().size(); i++) {
-                DataNode prev = i > 0 ? node.getSubNode(i - 1) : null;
-                DataNode curr = node.getSubNode(i);
-
-                if (i == 0) {
-                    curr.setLocation(new DataNodeLocation(nextLevel, 0));
-                    continue;
-                }
-
-                curr.setLocation(new DataNodeLocation(nextLevel, prev.getLocation().nextOrder()));
-            }
-        }
+//        if (node.hasSubNode()) {
+//            DataNodeLocation lastLocation = node.getLocation();
+//            String nextLevel = lastLocation.nextLevel();
+//
+//            for (int i = 0; i < node.subNodes().size(); i++) {
+//                DataNode prev = i > 0 ? node.getSubNode(i - 1) : null;
+//                DataNode curr = node.getSubNode(i);
+//
+//                if (i == 0) {
+//                    curr.setLocation(new DataNodeLocation(nextLevel, 0));
+//                    continue;
+//                }
+//
+//                curr.setLocation(new DataNodeLocation(nextLevel, prev.getLocation().nextOrder()));
+//            }
+//        }
 
         dataNodeList.add(node);
 
@@ -67,11 +67,11 @@ public class AbstractTree {
     }
 
     private DataNode findParent(DataNode node) {
-        if (node.getParent() == null) {
+       /* if (node.getParent() == null) {
             return node;
-        }
+        }*/
 
-        return findParent(node.getParent());
+        return null;
     }
 
     public void addNode(DataNode node, String location) {
@@ -83,10 +83,10 @@ public class AbstractTree {
         if (lastNodeInLocation == null) {
             nodeLocation = new DataNodeLocation(location, 0);
         } else {
-            nodeLocation = new DataNodeLocation(location, lastNodeInLocation.getLocation().getOrder());
+            //nodeLocation = new DataNodeLocation(location, lastNodeInLocation.getLocation().getOrder());
         }
 
-        node.setLocation(nodeLocation);
+        //node.setLocation(nodeLocation);
         this.dataNodeList.add(node);
     }
 

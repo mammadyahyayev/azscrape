@@ -8,12 +8,12 @@ import az.my.datareport.tree.Tree;
  *
  * @see PaginationPageScraper
  */
-public interface Scraper {
+public interface Scraper<T> {
     /**
      * Scrapes data from webpages
      *
-     * @param tree AST for scraped data
-     * @return list of report datas
+     * @param type scraping type
+     * @return list of report data
      */
-    ReportDataTable scrape(Tree tree);
+    ReportDataTable scrape(T type);
 }

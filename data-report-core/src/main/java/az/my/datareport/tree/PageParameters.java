@@ -30,7 +30,7 @@ public class PageParameters {
     //region Getters & Setters
 
     public void setPageUrl(String pageUrl) {
-        buildPageUrl(pageUrl);
+        this.pageUrl = pageUrl;
     }
 
     public int getMinPage() {
@@ -59,7 +59,8 @@ public class PageParameters {
 
     //endregion
 
-    private void buildPageUrl(String url) {
+    private void buildPageUrl() {
+        String url = this.pageUrl;
         String queryParams = queryParameters.stream().map(param -> param.getKey() + "=" + param.getValue())
                 .collect(Collectors.joining("&"));
 
@@ -89,6 +90,10 @@ public class PageParameters {
 
     public String getPageUrl(int pageNumber) {
         return this.pageUrl.replace("{pageNum}", String.valueOf(pageNumber));
+    }
+
+    public void build() {
+        buildPageUrl();
     }
 
     enum PageSpecifierType {

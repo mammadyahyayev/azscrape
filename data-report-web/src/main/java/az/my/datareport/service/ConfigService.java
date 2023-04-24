@@ -9,7 +9,6 @@ import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
 import az.my.datareport.tree.AbstractTree;
 import az.my.datareport.tree.DataNode;
-import az.my.datareport.tree.DataNodeAttribute;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,11 +31,11 @@ public class ConfigService {
             List<ElementVM> elements = dataPart.getElements();
             DataNode node = null;
             for (ElementVM element : elements) {
-                node = new DataNode(new DataNodeAttribute(element.getName(), element.getSelector()));
+                node = new DataNode(element.getName(), element.getSelector());
                 List<ElementVM> children = element.getSubElements();
                 for (ElementVM child : children) {
-                    DataNode subNode = new DataNode(new DataNodeAttribute(child.getName(), child.getSelector()));
-                    node.addSubNode(subNode);
+                    DataNode subNode = new DataNode(child.getName(), child.getSelector());
+                    //node.addSubNode(subNode);
                 }
             }
 

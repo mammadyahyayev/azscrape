@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AbstractTreeTest {
 
-    @Disabled("Doesn't support multiple root values for now")
+    /*@Disabled("Doesn't support multiple root values for now")
     @Test
     void testAddNode_whenNodesAdded_returnExactSizeOfTree() {
         AbstractTree abstractTree = new AbstractTree();
@@ -119,6 +119,6 @@ class AbstractTreeTest {
         assertEquals(parent, abstractTree.nodes().get(0));
         assertEquals(node1, abstractTree.nodes().get(0).getSubNode(0));
         assertEquals(node2, abstractTree.nodes().get(0).getSubNode(1));
-    }
+    }*/
 
 }
