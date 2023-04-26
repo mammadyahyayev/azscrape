@@ -9,11 +9,13 @@ import az.my.datareport.scrape.Scraper;
 import az.my.datareport.tree.*;
 import org.junit.jupiter.api.Test;
 
+import static az.my.datareport.tree.PageParameters.PAGE_SPECIFIER;
+
 class DataReportApplicationTest {
     @Test
     void testExporting() {
         var pageParameters = new PageParameters.Builder()
-                .url("https://bina.az/baki/alqi-satqi/menziller/yeni-tikili/1-otaqli?page={pageNum}")
+                .url("https://bina.az/baki/alqi-satqi/menziller/yeni-tikili/1-otaqli?page=" + PAGE_SPECIFIER)
                 .pageRange(1, 34)
                 .delayBetweenPages(6000)
                 .build();
@@ -42,7 +44,7 @@ class DataReportApplicationTest {
         ExcelExporter excelExporter = new ExcelExporter();
 
         ReportFile reportFile = new ReportFile.Builder()
-                .filename("1 otaqli ev binaaz")
+                .filename("one_room_apartment")
                 .fileType(FileType.EXCEL)
                 .fileExtension(FileExtension.XLSX)
                 .build();

@@ -1,6 +1,5 @@
 package az.my.datareport.tree;
 
-import az.my.datareport.utils.Asserts;
 import az.my.datareport.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -11,16 +10,15 @@ import java.util.stream.Collectors;
 import static java.lang.String.format;
 
 public class PageParameters {
-    private String pageUrl;
-    private final List<QueryParameter> queryParameters;
-    private int minPage;
-    private int maxPage;
-    private int delayBetweenPages;
-    private PageSpecifier pageSpecifier;
+    public static final String PAGE_SPECIFIER = "{pageNum}";
+    private static final String QUERY_PARAM_SEPARATOR = "&";
 
-    public PageParameters() {
-        this.queryParameters = new ArrayList<>();
-    }
+    private String pageUrl;
+    private final int minPage;
+    private final int maxPage;
+    private final int delayBetweenPages;
+    private final List<QueryParameter> queryParameters;
+    private PageSpecifier pageSpecifier;
 
     private PageParameters(Builder builder) {
         this.pageUrl = builder.pageUrl;
@@ -31,20 +29,15 @@ public class PageParameters {
         buildPageUrl();
     }
 
-    public void addQueryParameter(QueryParameter queryParameter) {
-        Asserts.required(queryParameter, "queryParam cannot be null!");
-
-        queryParameters.add(queryParameter);
-    }
-
     //region Getters & Setters
     public String getPageUrl(int pageNumber) {
-        return this.pageUrl.replace("{pageNum}", String.valueOf(pageNumber));
+        return this.pageUrl.replace(PAGE_SPECIFIER, String.valueOf(pageNumber));
     }
 
     public int getMinPage() {
         return minPage;
     }
+
     public int getMaxPage() {
         return maxPage;
     }
@@ -58,7 +51,7 @@ public class PageParameters {
     private void buildPageUrl() {
         String url = this.pageUrl;
         String queryParams = queryParameters.stream().map(param -> param.getKey() + "=" + param.getValue())
-                .collect(Collectors.joining("&"));
+                .collect(Collectors.joining(QUERY_PARAM_SEPARATOR));
 
         if (pageSpecifier == null || pageSpecifier.type == PageSpecifierType.NOT_SET) {
             var pageSpecifierDetection = new PageSpecifierDetection(url);
@@ -67,7 +60,7 @@ public class PageParameters {
 
         if (pageSpecifier.type == PageSpecifierType.QUERY_PARAM) {
             if (queryParameters.size() > 0)
-                url += "&" + queryParams;
+                url += QUERY_PARAM_SEPARATOR + queryParams;
 
         } else if (pageSpecifier.type == PageSpecifierType.HASH_FRAGMENT) {
             String fragmentPart = url.substring(pageSpecifier.begin, pageSpecifier.end + 1);
