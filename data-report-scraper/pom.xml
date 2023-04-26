@@ -17,7 +17,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!--dependency versions-->
-        <selenium.java.version>4.5.0</selenium.java.version>
+        <selenium.java.version>4.8.0</selenium.java.version>
         <webdrivermanager.version>5.3.0</webdrivermanager.version>
     </properties>
 
