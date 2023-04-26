@@ -12,7 +12,7 @@
 
     <properties>
         <spring.boot.version>2.7.3</spring.boot.version>
-        <spring.boot.thymeleaf.version>2.6.7</spring.boot.thymeleaf.version>
+        <spring.boot.thymeleaf.version>3.0.6</spring.boot.thymeleaf.version>
 
         <hamcrest.version>2.2</hamcrest.version>
         <jsonpath.version>2.5.0</jsonpath.version>
