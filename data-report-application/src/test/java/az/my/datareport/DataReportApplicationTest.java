@@ -51,4 +51,38 @@ class DataReportApplicationTest {
 
         excelExporter.export(reportFile, table);
     }
+
+    @Test
+    void testContactHome() {
+        var pageParameters = new PageParameters.Builder()
+                .url("https://kontakt.az/telefonlar/mobil-telefonlar/page/" + PAGE_SPECIFIER)
+                .pageRange(1, 5)
+                .delayBetweenPages(3000)
+                .build();
+
+
+        DataTree<DataNode> repoItem = new DataTree<>(new DataNode("repoItem", ".cart-item"));
+        DataTree<DataNode> phone = new DataTree<>(new DataNode("name", ".cart-body-top .name > a", true));
+        DataTree<DataNode> price = new DataTree<>(new DataNode("price", ".cart-footer > p .nprice"));
+        DataTree<DataNode> currency = new DataTree<>(new DataNode("currency", ".cart-footer > p .nprice + small"));
+
+        repoItem.addSubNode(phone);
+        repoItem.addSubNode(price);
+        repoItem.addSubNode(currency);
+
+        Pagination tree = new Pagination(pageParameters, repoItem);
+
+        Scraper<Pagination> scraper = new PaginationPageScraper();
+        ReportDataTable table = scraper.scrape(tree);
+
+        ExcelExporter excelExporter = new ExcelExporter();
+
+        ReportFile reportFile = new ReportFile.Builder()
+                .filename("smartphones")
+                .fileType(FileType.EXCEL)
+                .fileExtension(FileExtension.XLSX)
+                .build();
+
+        excelExporter.export(reportFile, table);
+    }
 }

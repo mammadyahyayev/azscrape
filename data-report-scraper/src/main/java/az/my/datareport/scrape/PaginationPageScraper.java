@@ -2,7 +2,11 @@ package az.my.datareport.scrape;
 
 import az.my.datareport.model.DataColumn;
 import az.my.datareport.model.DataRow;
-import az.my.datareport.tree.*;
+import az.my.datareport.tree.DataNode;
+import az.my.datareport.tree.DataTree;
+import az.my.datareport.tree.Pagination;
+import az.my.datareport.tree.ReportDataTable;
+import az.my.datareport.utils.StringUtils;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -35,15 +39,23 @@ public class PaginationPageScraper implements Scraper<Pagination> {
         for (WebElement webElement : webElements) {
             List<DataColumn> dataColumns = new ArrayList<>();
 
+            boolean canOmit = false;
             for (DataTree<DataNode> node : root.nodes()) {
                 String value = page.fetchElementAsText(node.value().getSelector(), webElement);
+                if (node.value().isKeyColumn() && StringUtils.isNullOrEmpty(value)) {
+                    canOmit = true;
+                    break;
+                }
+
                 var column = new DataColumn(node.value().getName(), value);
                 dataColumns.add(column);
             }
 
-            DataRow dataRow = new DataRow();
-            dataRow.addColumns(dataColumns);
-            dataRows.add(dataRow);
+            if (!canOmit) {
+                DataRow dataRow = new DataRow();
+                dataRow.addColumns(dataColumns);
+                dataRows.add(dataRow);
+            }
         }
 
         return dataRows;
