@@ -43,7 +43,7 @@
 
         <jetbrains.annotations.version>24.0.0</jetbrains.annotations.version>
 
-        <maven.jar.plugin.version>3.2.2</maven.jar.plugin.version>
+        <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
         <maven.dependency.plugin.version>3.5.0</maven.dependency.plugin.version>
         <maven.surefire.plugin.version>3.0.0-M7</maven.surefire.plugin.version>
         <maven.pmd.plugin.version>3.20.0</maven.pmd.plugin.version>
