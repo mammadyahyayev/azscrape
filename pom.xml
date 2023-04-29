@@ -53,7 +53,7 @@
         <maven.exec.plugin.version>3.1.0</maven.exec.plugin.version>
         <maven.checkstyle.plugin.version>3.1.2</maven.checkstyle.plugin.version>
         <maven.jacoco.plugin.version>0.8.8</maven.jacoco.plugin.version>
-        <maven.release.plugin.version>3.0.0-M7</maven.release.plugin.version>
+        <maven.release.plugin.version>3.0.0</maven.release.plugin.version>
         <maven.flatten.plugin.version>1.4.1</maven.flatten.plugin.version>
         <maven.clean.plugin.version>3.1.0</maven.clean.plugin.version>
         <maven.assembly.plugin.version>3.4.2</maven.assembly.plugin.version>
