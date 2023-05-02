@@ -1,10 +1,11 @@
-package az.my.datareport.scrape;
+package az.my.datareport.scrape.templates.pagination;
 
 import az.my.datareport.model.DataColumn;
 import az.my.datareport.model.DataRow;
+import az.my.datareport.scrape.Scraper;
+import az.my.datareport.scrape.WebPage;
 import az.my.datareport.tree.DataNode;
 import az.my.datareport.tree.DataTree;
-import az.my.datareport.tree.Pagination;
 import az.my.datareport.tree.ReportDataTable;
 import az.my.datareport.utils.StringUtils;
 import org.openqa.selenium.WebElement;

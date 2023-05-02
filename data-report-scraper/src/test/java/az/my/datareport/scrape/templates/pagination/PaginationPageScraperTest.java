@@ -1,6 +1,9 @@
-package az.my.datareport.scrape;
+package az.my.datareport.scrape.templates.pagination;
 
-import az.my.datareport.tree.*;
+import az.my.datareport.scrape.Scraper;
+import az.my.datareport.tree.DataNode;
+import az.my.datareport.tree.DataTree;
+import az.my.datareport.tree.ReportDataTable;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

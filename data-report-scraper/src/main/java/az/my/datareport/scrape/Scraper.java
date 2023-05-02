@@ -1,7 +1,7 @@
 package az.my.datareport.scrape;
 
+import az.my.datareport.scrape.templates.pagination.PaginationPageScraper;
 import az.my.datareport.tree.ReportDataTable;
-import az.my.datareport.tree.Tree;
 
 /**
  * Collects data from given source

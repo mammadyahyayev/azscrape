@@ -4,12 +4,16 @@ import az.my.datareport.exporter.ExcelExporter;
 import az.my.datareport.model.ReportFile;
 import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
-import az.my.datareport.scrape.PaginationPageScraper;
 import az.my.datareport.scrape.Scraper;
-import az.my.datareport.tree.*;
+import az.my.datareport.scrape.templates.pagination.PageParameters;
+import az.my.datareport.scrape.templates.pagination.Pagination;
+import az.my.datareport.scrape.templates.pagination.PaginationPageScraper;
+import az.my.datareport.tree.DataNode;
+import az.my.datareport.tree.DataTree;
+import az.my.datareport.tree.ReportDataTable;
 import org.junit.jupiter.api.Test;
 
-import static az.my.datareport.tree.PageParameters.PAGE_SPECIFIER;
+import static az.my.datareport.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
 
 class DataReportApplicationTest {
     @Test

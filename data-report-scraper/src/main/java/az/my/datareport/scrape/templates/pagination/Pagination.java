@@ -1,4 +1,7 @@
-package az.my.datareport.tree;
+package az.my.datareport.scrape.templates.pagination;
+
+import az.my.datareport.tree.DataNode;
+import az.my.datareport.tree.DataTree;
 
 import java.util.Objects;
 
