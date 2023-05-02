@@ -4,19 +4,23 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 /**
- * A webpage
+ * A Web Page
  */
 public class WebPage {
     private static final Logger LOG = LogManager.getLogger(WebPage.class);
@@ -155,5 +159,42 @@ public class WebPage {
      */
     public boolean isConnected() {
         return isConnected;
+    }
+
+    /**
+     * Scrolls Web Page vertically by given amount.
+     *
+     * @param amount {@code deltaY} amount,
+     *               Refer to <a href="https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent/deltaY">deltaY</a>
+     */
+    public void scrollTo(long amount) {
+        new Actions(driver)
+                .scrollByAmount(0, (int) amount)
+                .perform();
+    }
+
+    public void scrollToEnd() {
+        if (!isConnected) {
+            return;
+        }
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        long amount = (long) js.executeScript("return document.body.offsetHeight");
+
+        js.executeScript(format("window.scrollBy(0, %d)", amount));
+    }
+
+    public long scrollPosition() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        return (long) js.executeScript("return window.scrollY || window.pageYOffset;");
+    }
+
+    public long height() {
+        if (!isConnected) {
+            return 0;
+        }
+
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        return (long) js.executeScript("return document.body.scrollHeight");
     }
 }

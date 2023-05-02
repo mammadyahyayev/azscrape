@@ -1,5 +1,6 @@
 package az.my.datareport.scrape.templates.pagination;
 
+import az.my.datareport.scrape.templates.QueryParameter;
 import az.my.datareport.utils.StringUtils;
 
 import java.util.ArrayList;

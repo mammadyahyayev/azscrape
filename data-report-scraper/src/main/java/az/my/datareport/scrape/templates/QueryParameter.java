@@ -1,4 +1,4 @@
-package az.my.datareport.scrape.templates.pagination;
+package az.my.datareport.scrape.templates;
 
 import java.util.Objects;
 
