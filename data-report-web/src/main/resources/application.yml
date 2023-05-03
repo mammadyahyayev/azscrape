@@ -8,10 +8,6 @@ server:
     max-swallow-size: -1
 
 spring:
-  web:
-    resources:
-      static-locations: classpath:/templates/, classpath:/static/
-
   servlet:
     multipart:
       max-file-size: 5MB
