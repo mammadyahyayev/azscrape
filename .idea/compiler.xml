@@ -12,13 +12,13 @@
         <module name="data-report-parser" />
         <module name="data-report-application" />
         <module name="data-report-exporter" />
-        <module name="data-report-shared-resources" />
         <module name="data-report-scraper" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="data-report-scanner" target="11" />
       <module name="data-report-server" target="11" />
+      <module name="data-report-shared-resources" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
