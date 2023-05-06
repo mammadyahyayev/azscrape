@@ -124,4 +124,38 @@ class DataReportApplicationTest {
         excelExporter.export(reportFile, table);
 
     }
+
+    @Test
+    void testTurboAzWithPaginationTemplate() {
+        var pageParameters = new PageParameters.Builder()
+                .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
+                .pageRange(1, 416)
+                .delayBetweenPages(3000)
+                .build();
+
+
+        var repoItem = new DataTree<>(new DataNode("wrapper", ".products-i"));
+        var car = new DataTree<>(new DataNode("car", ".products-i__name", true));
+        var price = new DataTree<>(new DataNode("price", ".products-i__price .product-price"));
+        var details = new DataTree<>(new DataNode("details", ".products-i__attributes"));
+
+        repoItem.addSubNode(car);
+        repoItem.addSubNode(price);
+        repoItem.addSubNode(details);
+
+        Pagination tree = new Pagination(pageParameters, repoItem);
+
+        Scraper<Pagination> scraper = new PaginationPageScraper();
+        ReportDataTable table = scraper.scrape(tree);
+
+        ExcelExporter excelExporter = new ExcelExporter();
+
+        ReportFile reportFile = new ReportFile.Builder()
+                .filename("turbo_az")
+                .fileType(FileType.EXCEL)
+                .fileExtension(FileExtension.XLSX)
+                .build();
+
+        excelExporter.export(reportFile, table);
+    }
 }

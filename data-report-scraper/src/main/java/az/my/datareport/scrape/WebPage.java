@@ -10,7 +10,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,17 +161,8 @@ public class WebPage {
     }
 
     /**
-     * Scrolls Web Page vertically by given amount.
-     *
-     * @param amount {@code deltaY} amount,
-     *               Refer to <a href="https://developer.mozilla.org/en-US/docs/Web/API/WheelEvent/deltaY">deltaY</a>
+     * Scrolls to the end of Web Page
      */
-    public void scrollTo(long amount) {
-        new Actions(driver)
-                .scrollByAmount(0, (int) amount)
-                .perform();
-    }
-
     public void scrollToEnd() {
         if (!isConnected) {
             return;
@@ -184,11 +174,12 @@ public class WebPage {
         js.executeScript(format("window.scrollBy(0, %d)", amount));
     }
 
-    public long scrollPosition() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        return (long) js.executeScript("return window.scrollY || window.pageYOffset;");
-    }
-
+    /**
+     * Returns height of the Web Page scroll from beginning
+     * to end.
+     *
+     * @return scroll height
+     */
     public long height() {
         if (!isConnected) {
             return 0;

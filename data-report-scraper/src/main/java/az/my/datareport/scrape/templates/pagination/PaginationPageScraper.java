@@ -19,7 +19,7 @@ public class PaginationPageScraper implements Scraper<Pagination> {
         ReportDataTable reportDataTable = new ReportDataTable();
 
         var pageParameters = pagination.getPageParameters();
-        for (int i = pageParameters.getMinPage(); i < pageParameters.getMaxPage(); i++) {
+        for (int i = pageParameters.getMinPage(); i <= pageParameters.getMaxPage(); i++) {
             String url = pageParameters.getPageUrl(i);
 
             WebPage page = new WebPage(url, true);
