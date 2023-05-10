@@ -7,13 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="data-report-core" />
-        <module name="data-report-cli" />
         <module name="data-report-application" />
         <module name="data-report-exporter" />
         <module name="data-report-scraper" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="data-report-cli" target="11" />
       <module name="data-report-parser" target="11" />
       <module name="data-report-scanner" target="11" />
       <module name="data-report-server" target="11" />
