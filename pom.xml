@@ -11,7 +11,6 @@
         <module>data-report-core</module>
         <module>data-report-application</module>
         <module>data-report-exporter</module>
-        <module>data-report-parser</module>
         <module>data-report-scraper</module>
         <module>data-report-cli</module>
     </modules>
