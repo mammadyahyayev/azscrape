@@ -13,6 +13,7 @@
       <set>
         <option value="$PROJECT_DIR$/data-report-server/pom.xml" />
         <option value="$PROJECT_DIR$/data-report-shared-resources/pom.xml" />
+        <option value="$PROJECT_DIR$/data-report-web/pom.xml" />
       </set>
     </option>
   </component>

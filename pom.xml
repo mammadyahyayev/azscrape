@@ -8,7 +8,6 @@
     <packaging>pom</packaging>
     <version>3.0.0-SNAPSHOT</version>
     <modules>
-        <module>data-report-web</module>
         <module>data-report-core</module>
         <module>data-report-application</module>
         <module>data-report-exporter</module>
