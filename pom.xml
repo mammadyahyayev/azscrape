@@ -33,6 +33,8 @@
 
         <junit.jupiter.version>5.9.0</junit.jupiter.version>
         <mockito.core.version>4.8.0</mockito.core.version>
+        <assertj.version>3.24.2</assertj.version>
+        <hamcrest.version>2.2</hamcrest.version>
 
         <log4j.api.version>2.19.0</log4j.api.version>
         <log4j.core.version>2.19.0</log4j.core.version>
@@ -123,6 +125,21 @@
                 <version>${jetbrains.annotations.version}</version>
                 <scope>compile</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+                <version>${hamcrest.version}</version>
+                <scope>test</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
