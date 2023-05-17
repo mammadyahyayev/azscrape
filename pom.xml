@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>az.caspian</groupId>
-    <artifactId>data-report</artifactId>
+    <artifactId>azscrape</artifactId>
     <packaging>pom</packaging>
     <version>3.0.0-SNAPSHOT</version>
     <modules>
