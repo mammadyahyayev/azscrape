@@ -14,12 +14,12 @@
         <module>scrape</module>
     </modules>
 
-    <name>Data Report</name>
-    <url>https://github.com/mammadyahyayev/data-report</url>
+    <name>azscrape</name>
+    <url>https://github.com/mammadyahyayev/azscrape</url>
     <inceptionYear>2022</inceptionYear>
     <description>
-        Data Report scrape data from the webpages and store them into different
-        files.
+        AZScrape scrapes data from web pages, then export the data into desired file format such as csv,
+        excel, json and so on.
     </description>
 
     <properties>
