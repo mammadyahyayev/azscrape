@@ -7,7 +7,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>data-report-scraper</artifactId>
+    <artifactId>scrape</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>data-report-core</artifactId>
+            <artifactId>core</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>

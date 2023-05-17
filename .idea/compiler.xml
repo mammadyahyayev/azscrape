@@ -6,10 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="data-report-core" />
-        <module name="data-report-application" />
-        <module name="data-report-exporter" />
-        <module name="data-report-scraper" />
+        <module name="app" />
+        <module name="core" />
+        <module name="scrape" />
+        <module name="export" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
