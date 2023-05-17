@@ -1,15 +1,11 @@
 package az.caspian.scrape;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverLogLevel;
-import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +20,17 @@ import static java.lang.String.format;
 public class WebPage {
     private static final Logger LOG = LogManager.getLogger(WebPage.class);
 
-    private static final WebDriver driver;
+    private static WebDriver driver;
     private final String url;
     private boolean isConnected;
     private final boolean keepOpen;
 
-    static {
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.setLogLevel(ChromeDriverLogLevel.OFF);
-        chromeOptions.addArguments("--remote-allow-origins=*");
-        driver = new ChromeDriver(chromeOptions);
-        driver.manage().window().maximize();
+    WebPage(String url, WebDriver driver) {
+        this.url = url;
+        this.driver = driver;
+
+        this.keepOpen = false;
+        this.isConnected = true;
     }
 
     public WebPage(String url, boolean keepOpen) {
