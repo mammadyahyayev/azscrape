@@ -5,11 +5,11 @@ import az.my.datareport.tree.DataTree;
 
 import java.util.Objects;
 
-public class Pagination {
+public class PaginationTemplate {
     private final PageParameters pageParameters;
     private final DataTree<DataNode> root;
 
-    public Pagination(PageParameters pageParameters, DataTree<DataNode> root) {
+    public PaginationTemplate(PageParameters pageParameters, DataTree<DataNode> root) {
         this.pageParameters = Objects.requireNonNull(pageParameters);
         this.root = Objects.requireNonNull(root);
     }

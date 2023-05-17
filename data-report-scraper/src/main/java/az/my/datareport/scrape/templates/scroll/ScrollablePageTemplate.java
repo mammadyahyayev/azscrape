@@ -5,11 +5,11 @@ import az.my.datareport.tree.DataTree;
 
 import java.util.Objects;
 
-public class ScrollablePage {
+public class ScrollablePageTemplate {
     private final ScrollablePageParameters pageParameters;
     private final DataTree<DataNode> root;
 
-    public ScrollablePage(ScrollablePageParameters pageParameters, DataTree<DataNode> root) {
+    public ScrollablePageTemplate(ScrollablePageParameters pageParameters, DataTree<DataNode> root) {
         this.pageParameters = Objects.requireNonNull(pageParameters);
         this.root = Objects.requireNonNull(root);
     }

@@ -6,11 +6,11 @@ import az.my.datareport.model.enumeration.FileExtension;
 import az.my.datareport.model.enumeration.FileType;
 import az.my.datareport.scrape.Scraper;
 import az.my.datareport.scrape.templates.pagination.PageParameters;
-import az.my.datareport.scrape.templates.pagination.Pagination;
 import az.my.datareport.scrape.templates.pagination.PaginationPageScraper;
-import az.my.datareport.scrape.templates.scroll.ScrollablePage;
+import az.my.datareport.scrape.templates.pagination.PaginationTemplate;
 import az.my.datareport.scrape.templates.scroll.ScrollablePageParameters;
 import az.my.datareport.scrape.templates.scroll.ScrollablePageScraper;
+import az.my.datareport.scrape.templates.scroll.ScrollablePageTemplate;
 import az.my.datareport.tree.DataNode;
 import az.my.datareport.tree.DataTree;
 import az.my.datareport.tree.ReportDataTable;
@@ -43,9 +43,9 @@ class DataReportApplicationTest {
         repoItem.addSubNode(area);
         repoItem.addSubNode(floor);
 
-        Pagination tree = new Pagination(pageParameters, repoItem);
+        PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
 
-        Scraper<Pagination> scraper = new PaginationPageScraper();
+        Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
         ReportDataTable table = scraper.scrape(tree);
 
         ExcelExporter excelExporter = new ExcelExporter();
@@ -77,9 +77,9 @@ class DataReportApplicationTest {
         repoItem.addSubNode(price);
         repoItem.addSubNode(currency);
 
-        Pagination tree = new Pagination(pageParameters, repoItem);
+        PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
 
-        Scraper<Pagination> scraper = new PaginationPageScraper();
+        Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
         ReportDataTable table = scraper.scrape(tree);
 
         ExcelExporter excelExporter = new ExcelExporter();
@@ -108,9 +108,9 @@ class DataReportApplicationTest {
         repoItem.addSubNode(price);
         repoItem.addSubNode(details);
 
-        var tree = new ScrollablePage(pageParameters, repoItem);
+        var tree = new ScrollablePageTemplate(pageParameters, repoItem);
 
-        Scraper<ScrollablePage> scraper = new ScrollablePageScraper();
+        Scraper<ScrollablePageTemplate> scraper = new ScrollablePageScraper();
         ReportDataTable table = scraper.scrape(tree);
 
         var excelExporter = new ExcelExporter();
@@ -143,9 +143,9 @@ class DataReportApplicationTest {
         repoItem.addSubNode(price);
         repoItem.addSubNode(details);
 
-        Pagination tree = new Pagination(pageParameters, repoItem);
+        PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
 
-        Scraper<Pagination> scraper = new PaginationPageScraper();
+        Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
         ReportDataTable table = scraper.scrape(tree);
 
         ExcelExporter excelExporter = new ExcelExporter();

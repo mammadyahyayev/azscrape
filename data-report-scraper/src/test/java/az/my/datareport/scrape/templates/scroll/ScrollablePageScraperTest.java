@@ -25,9 +25,9 @@ class ScrollablePageScraperTest {
         repoItem.addSubNode(price);
         repoItem.addSubNode(details);
 
-        ScrollablePage tree = new ScrollablePage(pageParameters, repoItem);
+        ScrollablePageTemplate tree = new ScrollablePageTemplate(pageParameters, repoItem);
 
-        Scraper<ScrollablePage> scraper = new ScrollablePageScraper();
+        Scraper<ScrollablePageTemplate> scraper = new ScrollablePageScraper();
         ReportDataTable table = scraper.scrape(tree);
 
         assertTrue(table.rows().size() > 0);

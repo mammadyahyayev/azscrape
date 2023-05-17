@@ -13,12 +13,12 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScrollablePageScraper implements Scraper<ScrollablePage> {
+public class ScrollablePageScraper implements Scraper<ScrollablePageTemplate> {
 
-    public ReportDataTable scrape(ScrollablePage scrollablePage) {
+    public ReportDataTable scrape(ScrollablePageTemplate scrollablePageTemplate) {
         ReportDataTable reportDataTable = new ReportDataTable();
 
-        ScrollablePageParameters pageParameters = scrollablePage.getPageParameters();
+        ScrollablePageParameters pageParameters = scrollablePageTemplate.getPageParameters();
 
         WebPage webPage = new WebPage(pageParameters.getUrl(), true);
         webPage.connect();
@@ -27,7 +27,7 @@ public class ScrollablePageScraper implements Scraper<ScrollablePage> {
         long currentHeight = webPage.height();
 
         while (currentHeight != previousHeight) {
-            List<DataRow> dataRows = fetchWebElements(webPage, scrollablePage.getRoot());
+            List<DataRow> dataRows = fetchWebElements(webPage, scrollablePageTemplate.getRoot());
             reportDataTable.addAll(dataRows);
 
             try {

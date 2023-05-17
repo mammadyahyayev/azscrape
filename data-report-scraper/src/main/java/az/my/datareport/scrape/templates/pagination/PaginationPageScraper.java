@@ -13,19 +13,19 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaginationPageScraper implements Scraper<Pagination> {
+public class PaginationPageScraper implements Scraper<PaginationTemplate> {
 
-    public ReportDataTable scrape(Pagination pagination) {
+    public ReportDataTable scrape(PaginationTemplate paginationTemplate) {
         ReportDataTable reportDataTable = new ReportDataTable();
 
-        var pageParameters = pagination.getPageParameters();
+        var pageParameters = paginationTemplate.getPageParameters();
         for (int i = pageParameters.getMinPage(); i <= pageParameters.getMaxPage(); i++) {
             String url = pageParameters.getPageUrl(i);
 
             WebPage page = new WebPage(url, true);
             page.connectWithDelay(pageParameters.getDelayBetweenPages());
 
-            List<DataRow> dataRows = fetchWebElements(page, pagination.getRoot());
+            List<DataRow> dataRows = fetchWebElements(page, paginationTemplate.getRoot());
             reportDataTable.addAll(dataRows);
         }
 

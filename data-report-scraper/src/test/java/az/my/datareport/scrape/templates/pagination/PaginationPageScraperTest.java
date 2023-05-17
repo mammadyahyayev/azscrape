@@ -28,9 +28,9 @@ class PaginationPageScraperTest {
         repoItem.addSubNode(title);
         repoItem.addSubNode(description);
 
-        Pagination tree = new Pagination(pageParameters, repoItem);
+        PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
 
-        Scraper<Pagination> scraper = new PaginationPageScraper();
+        Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
         ReportDataTable table = scraper.scrape(tree);
 
         assertTrue(table.rows().size() > 0);
