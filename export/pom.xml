@@ -12,7 +12,7 @@
 
     <properties>
         <apache.poi.version>5.2.2</apache.poi.version>
-        <apache.poi.ooxml.version>5.2.2</apache.poi.ooxml.version>
+        <apache.poi.ooxml.version>5.2.3</apache.poi.ooxml.version>
     </properties>
 
     <dependencies>
