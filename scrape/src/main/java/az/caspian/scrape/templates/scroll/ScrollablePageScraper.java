@@ -1,6 +1,7 @@
 package az.caspian.scrape.templates.scroll;
 
 import az.caspian.scrape.Scraper;
+import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
@@ -20,8 +21,10 @@ public class ScrollablePageScraper implements Scraper<ScrollablePageTemplate> {
 
         ScrollablePageParameters pageParameters = scrollablePageTemplate.getPageParameters();
 
-        WebPage webPage = new WebPage(pageParameters.getUrl(), true);
-        webPage.connect();
+        WebBrowser browser = new WebBrowser();
+        browser.open();
+
+        WebPage webPage = browser.goTo(pageParameters.getUrl());
 
         long previousHeight = 0;
         long currentHeight = webPage.height();
@@ -40,6 +43,8 @@ public class ScrollablePageScraper implements Scraper<ScrollablePageTemplate> {
             previousHeight = currentHeight;
             currentHeight = webPage.height();
         }
+
+        browser.close();
 
         return reportDataTable;
     }

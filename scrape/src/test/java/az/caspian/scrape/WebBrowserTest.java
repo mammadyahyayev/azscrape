@@ -4,14 +4,15 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WebBrowserTest {
     private static WebBrowser browser;
 
     @BeforeAll
     static void setUp() {
-        browser = new WebBrowser(true);
+        browser = new WebBrowser();
     }
 
     @Test
@@ -22,8 +23,6 @@ class WebBrowserTest {
 
         assertFalse(browser.isOpen());
     }
-
-    // TODO: Create a rule to test when internet isn't available
 
     @Test
     void testConnectToWebPage() {

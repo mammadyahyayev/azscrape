@@ -12,24 +12,19 @@ import org.openqa.selenium.chrome.ChromeOptions;
 public class WebBrowser {
     private static final Logger LOG = LogManager.getLogger(WebPage.class);
 
-    private static final WebDriver driver;
+    static final WebDriver DRIVER;
     private boolean isOpen;
-    private final boolean keepOpen;
 
     static {
         WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setLogLevel(ChromeDriverLogLevel.OFF);
         chromeOptions.addArguments("--remote-allow-origins=*");
-        driver = new ChromeDriver(chromeOptions);
+        DRIVER = new ChromeDriver(chromeOptions);
     }
 
     public WebBrowser() {
-        this.keepOpen = false;
-    }
 
-    public WebBrowser(boolean keepOpen) {
-        this.keepOpen = keepOpen;
     }
 
     /**
@@ -37,7 +32,7 @@ public class WebBrowser {
      */
     public void open() {
         try {
-            driver.manage().window().maximize();
+            DRIVER.manage().window().maximize();
             isOpen = true;
         } catch (Exception e) {
             close();
@@ -51,7 +46,7 @@ public class WebBrowser {
      */
     public void close() {
         if (isOpen) {
-            driver.quit();
+            DRIVER.quit();
             isOpen = false;
         }
     }
@@ -69,22 +64,28 @@ public class WebBrowser {
         return goTo(url, 0);
     }
 
-    public WebPage goTo(final String url, int delayInMs) {
+    /**
+     * Connects to a web page with delay. It is useful
+     * when connecting multiple Web page at the same session.
+     *
+     * @param delayInMillis delay in milliseconds
+     */
+    public WebPage goTo(final String url, int delayInMillis) {
         // TODO: Check url is valid
         Asserts.required(url, "url cannot be null or empty");
-        if (delayInMs < 0) {
-            delayInMs = 0;
+        if (delayInMillis < 0) {
+            delayInMillis = 0;
         }
 
         try {
-            Thread.sleep(delayInMs);
-            driver.get(url);
+            Thread.sleep(delayInMillis);
+            DRIVER.get(url);
         } catch (Exception e) {
             LOG.error("Failed to connect to web page ", e);
             close();
             throw new InternetConnectionException("Failed to connect to webpage, check your internet connection!", e);
         }
 
-        return new WebPage(url, driver);
+        return new WebPage(url);
     }
 }
