@@ -1,14 +1,14 @@
 package az.caspian.scrape.templates.pagination;
 
-import az.caspian.scrape.Scraper;
-import az.caspian.scrape.WebBrowser;
-import az.caspian.scrape.WebPage;
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.ReportDataTable;
 import az.caspian.core.utils.StringUtils;
+import az.caspian.scrape.Scraper;
+import az.caspian.scrape.WebBrowser;
+import az.caspian.scrape.WebPage;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -19,20 +19,19 @@ public class PaginationPageScraper implements Scraper<PaginationTemplate> {
     public ReportDataTable scrape(PaginationTemplate paginationTemplate) {
         ReportDataTable reportDataTable = new ReportDataTable();
 
-        WebBrowser browser = new WebBrowser();
-        browser.open();
+        try (WebBrowser browser = new WebBrowser()) {
+            browser.open();
 
-        var pageParameters = paginationTemplate.getPageParameters();
-        for (int i = pageParameters.getMinPage(); i <= pageParameters.getMaxPage(); i++) {
-            String url = pageParameters.getPageUrl(i);
+            var pageParameters = paginationTemplate.getPageParameters();
+            for (int i = pageParameters.getMinPage(); i <= pageParameters.getMaxPage(); i++) {
+                String url = pageParameters.getPageUrl(i);
 
-            WebPage page = browser.goTo(url, pageParameters.getDelayBetweenPages());
+                WebPage page = browser.goTo(url, pageParameters.getDelayBetweenPages());
 
-            List<DataRow> dataRows = fetchWebElements(page, paginationTemplate.getRoot());
-            reportDataTable.addAll(dataRows);
+                List<DataRow> dataRows = fetchWebElements(page, paginationTemplate.getRoot());
+                reportDataTable.addAll(dataRows);
+            }
         }
-
-        browser.close();
 
         return reportDataTable;
     }

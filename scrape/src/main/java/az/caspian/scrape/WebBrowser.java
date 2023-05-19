@@ -9,7 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-public class WebBrowser {
+public class WebBrowser implements AutoCloseable {
     private static final Logger LOG = LogManager.getLogger(WebPage.class);
 
     static final WebDriver DRIVER;
@@ -44,6 +44,7 @@ public class WebBrowser {
     /**
      * Closes Web Browser
      */
+    @Override
     public void close() {
         if (isOpen) {
             DRIVER.quit();

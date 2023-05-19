@@ -43,6 +43,16 @@ class WebBrowserTest {
         assertTrue(page.isConnected());
     }
 
+    @Test
+    void testWebBrowserAutoCloseable() {
+        WebBrowser autoCloseableBrowser = new WebBrowser();
+        try(autoCloseableBrowser) {
+            autoCloseableBrowser.open();
+        }
+
+        assertFalse(autoCloseableBrowser.isOpen());
+    }
+
     @AfterAll
     static void teardown() {
         if (browser.isOpen())

@@ -1,14 +1,14 @@
 package az.caspian.scrape.templates.scroll;
 
-import az.caspian.scrape.Scraper;
-import az.caspian.scrape.WebBrowser;
-import az.caspian.scrape.WebPage;
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.ReportDataTable;
 import az.caspian.core.utils.StringUtils;
+import az.caspian.scrape.Scraper;
+import az.caspian.scrape.WebBrowser;
+import az.caspian.scrape.WebPage;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -21,30 +21,29 @@ public class ScrollablePageScraper implements Scraper<ScrollablePageTemplate> {
 
         ScrollablePageParameters pageParameters = scrollablePageTemplate.getPageParameters();
 
-        WebBrowser browser = new WebBrowser();
-        browser.open();
+        try (WebBrowser browser = new WebBrowser()) {
+            browser.open();
 
-        WebPage webPage = browser.goTo(pageParameters.getUrl());
+            WebPage webPage = browser.goTo(pageParameters.getUrl());
 
-        long previousHeight = 0;
-        long currentHeight = webPage.height();
+            long previousHeight = 0;
+            long currentHeight = webPage.height();
 
-        while (currentHeight != previousHeight) {
-            List<DataRow> dataRows = fetchWebElements(webPage, scrollablePageTemplate.getRoot());
-            reportDataTable.addAll(dataRows);
+            while (currentHeight != previousHeight) {
+                List<DataRow> dataRows = fetchWebElements(webPage, scrollablePageTemplate.getRoot());
+                reportDataTable.addAll(dataRows);
 
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+                webPage.scrollToEnd();
+                previousHeight = currentHeight;
+                currentHeight = webPage.height();
             }
-
-            webPage.scrollToEnd();
-            previousHeight = currentHeight;
-            currentHeight = webPage.height();
         }
-
-        browser.close();
 
         return reportDataTable;
     }
