@@ -2,10 +2,11 @@ package az.caspian.scrape.templates.pagination;
 
 import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
+import az.caspian.scrape.templates.ScrapeTemplate;
 
 import java.util.Objects;
 
-public class PaginationTemplate {
+public class PaginationTemplate implements ScrapeTemplate  {
     private final PageParameters pageParameters;
     private final DataTree<DataNode> root;
 
@@ -27,5 +28,15 @@ public class PaginationTemplate {
 
     public DataTree<DataNode> getRoot() {
         return root;
+    }
+
+    @Override
+    public String name() {
+        return "Pagination Template";
+    }
+
+    @Override
+    public boolean supportParallelExecution() {
+        return true;
     }
 }

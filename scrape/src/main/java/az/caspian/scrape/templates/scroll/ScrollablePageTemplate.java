@@ -2,10 +2,11 @@ package az.caspian.scrape.templates.scroll;
 
 import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
+import az.caspian.scrape.templates.ScrapeTemplate;
 
 import java.util.Objects;
 
-public class ScrollablePageTemplate {
+public class ScrollablePageTemplate implements ScrapeTemplate {
     private final ScrollablePageParameters pageParameters;
     private final DataTree<DataNode> root;
 
@@ -27,5 +28,15 @@ public class ScrollablePageTemplate {
 
     public DataTree<DataNode> getRoot() {
         return root;
+    }
+
+    @Override
+    public String name() {
+        return "Scrollable Page Template";
+    }
+
+    @Override
+    public boolean supportParallelExecution() {
+        return false;
     }
 }
