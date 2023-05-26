@@ -12,6 +12,7 @@ import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
 import org.openqa.selenium.WebElement;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,8 @@ public class PaginationPageScraper implements Scraper<PaginationTemplate> {
 
     private ScrapeErrorCallback callback;
 
-    public PaginationPageScraper() {}
+    public PaginationPageScraper() {
+    }
 
     public PaginationPageScraper(ScrapeErrorCallback callback) {
         this.callback = callback;
@@ -28,12 +30,14 @@ public class PaginationPageScraper implements Scraper<PaginationTemplate> {
     public ReportDataTable scrape(PaginationTemplate paginationTemplate) {
         ReportDataTable reportDataTable = new ReportDataTable();
 
+        String url = null;
+        int current = 0;
         try (WebBrowser browser = new WebBrowser()) {
             browser.open();
 
             var pageParameters = paginationTemplate.getPageParameters();
-            for (int i = pageParameters.getMinPage(); i <= pageParameters.getMaxPage(); i++) {
-                String url = pageParameters.getPageUrl(i);
+            for (current = pageParameters.getMinPage(); current <= pageParameters.getMaxPage(); current++) {
+                url = pageParameters.getPageUrl(current);
 
                 WebPage page = browser.goTo(url, pageParameters.getDelayBetweenPages());
 
@@ -41,8 +45,11 @@ public class PaginationPageScraper implements Scraper<PaginationTemplate> {
                 reportDataTable.addAll(dataRows);
             }
         } catch (Exception e) {
-            callback.handle(e.getMessage(), reportDataTable);
-            throw new RuntimeException("Failed to scrape data from Web page: " + e.getMessage(), e);
+            String message = MessageFormat.format(
+                    "Failed to scrape data from {0} in page {1}, Exception: {2}", url, current, e.getMessage()
+            );
+            callback.handle(message, reportDataTable);
+            throw new RuntimeException(message, e);
         }
 
         return reportDataTable;

@@ -58,6 +58,8 @@ public class ExcelExporter implements Exporter {
         Row headerRow = sheet.createRow(0);
         List<DataRow> dataRows = reportDataTable.rows();
 
+        if(dataRows.size() == 0) return;
+
         DataRow first = dataRows.get(0);
         if (first != null) {
             int columnIndex = 0;

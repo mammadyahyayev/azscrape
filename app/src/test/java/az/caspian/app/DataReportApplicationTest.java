@@ -5,6 +5,7 @@ import az.caspian.core.model.enumeration.FileExtension;
 import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.model.ReportFile;
 import az.caspian.scrape.Scraper;
+import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 import az.caspian.scrape.templates.pagination.PaginationTemplate;
@@ -158,4 +159,43 @@ class DataReportApplicationTest {
 
         excelExporter.export(reportFile, table);
     }
+
+    @Test
+    void testCallbackCalledWhenInternetConnectionGone() {
+        var pageParameters = new PageParameters.Builder()
+                .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
+                .pageRange(1, 416)
+                .delayBetweenPages(3000)
+                .build();
+
+
+        var repoItem = new DataTree<>(new DataNode("wrapper", ".products-i"));
+        var car = new DataTree<>(new DataNode("car", ".products-i__name", true));
+        var price = new DataTree<>(new DataNode("price", ".products-i__price .product-price"));
+        var details = new DataTree<>(new DataNode("details", ".products-i__attributes"));
+
+        repoItem.addSubNode(car);
+        repoItem.addSubNode(price);
+        repoItem.addSubNode(details);
+
+        PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
+
+        Scraper<PaginationTemplate> scraper = new PaginationPageScraper(this::callback);
+        scraper.scrape(tree);
+    }
+
+    void callback(String message, ReportDataTable data) {
+        System.out.println(message);
+        ExcelExporter excelExporter = new ExcelExporter();
+
+        ReportFile reportFile = new ReportFile.Builder()
+                .filename("turbo_az_with_callback")
+                .fileType(FileType.EXCEL)
+                .fileExtension(FileExtension.XLSX)
+                .build();
+
+        excelExporter.export(reportFile, data);
+    }
+
+    // TODO: 2509 - bina.az https://bina.az/alqi-satqi?page=2509
 }
