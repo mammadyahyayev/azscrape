@@ -1,5 +1,6 @@
 package az.caspian.scrape;
 
+import az.caspian.scrape.templates.ScrapeTemplate;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 import az.caspian.core.tree.ReportDataTable;
 
@@ -8,7 +9,7 @@ import az.caspian.core.tree.ReportDataTable;
  *
  * @see PaginationPageScraper
  */
-public interface Scraper<T> {
+public interface Scraper<T extends ScrapeTemplate> {
     /**
      * Scrapes data from webpages
      *

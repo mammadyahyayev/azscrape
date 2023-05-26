@@ -9,12 +9,21 @@ import az.caspian.core.utils.StringUtils;
 import az.caspian.scrape.Scraper;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
+import az.caspian.scrape.templates.ScrapeErrorCallback;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PaginationPageScraper implements Scraper<PaginationTemplate> {
+
+    private ScrapeErrorCallback callback;
+
+    public PaginationPageScraper() {}
+
+    public PaginationPageScraper(ScrapeErrorCallback callback) {
+        this.callback = callback;
+    }
 
     public ReportDataTable scrape(PaginationTemplate paginationTemplate) {
         ReportDataTable reportDataTable = new ReportDataTable();
@@ -31,6 +40,9 @@ public class PaginationPageScraper implements Scraper<PaginationTemplate> {
                 List<DataRow> dataRows = fetchWebElements(page, paginationTemplate.getRoot());
                 reportDataTable.addAll(dataRows);
             }
+        } catch (Exception e) {
+            callback.handle(e.getMessage(), reportDataTable);
+            throw new RuntimeException("Failed to scrape data from Web page: " + e.getMessage(), e);
         }
 
         return reportDataTable;
