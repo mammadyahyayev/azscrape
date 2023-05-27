@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>az.my.datareport</groupId>
-    <artifactId>data-report</artifactId>
+    <groupId>az.caspian</groupId>
+    <artifactId>azscrape</artifactId>
     <packaging>pom</packaging>
     <version>3.0.0-SNAPSHOT</version>
     <modules>
@@ -14,12 +14,12 @@
         <module>scrape</module>
     </modules>
 
-    <name>Data Report</name>
-    <url>https://github.com/mammadyahyayev/data-report</url>
+    <name>azscrape</name>
+    <url>https://github.com/mammadyahyayev/azscrape</url>
     <inceptionYear>2022</inceptionYear>
     <description>
-        Data Report scrape data from the webpages and store them into different
-        files.
+        AZScrape scrapes data from web pages, then export the data into desired file format such as csv,
+        excel, json and so on.
     </description>
 
     <properties>
@@ -36,16 +36,16 @@
         <assertj.version>3.24.2</assertj.version>
         <hamcrest.version>2.2</hamcrest.version>
 
-        <log4j.api.version>2.19.0</log4j.api.version>
-        <log4j.core.version>2.19.0</log4j.core.version>
+        <log4j.api.version>2.20.0</log4j.api.version>
+        <log4j.core.version>2.20.0</log4j.core.version>
 
-        <jetbrains.annotations.version>24.0.0</jetbrains.annotations.version>
+        <jetbrains.annotations.version>24.0.1</jetbrains.annotations.version>
 
         <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
         <maven.dependency.plugin.version>3.5.0</maven.dependency.plugin.version>
         <maven.surefire.plugin.version>3.0.0</maven.surefire.plugin.version>
         <maven.pmd.plugin.version>3.20.0</maven.pmd.plugin.version>
-        <maven.javadoc.plugin.version>3.3.0</maven.javadoc.plugin.version>
+        <maven.javadoc.plugin.version>3.5.0</maven.javadoc.plugin.version>
         <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
         <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
         <maven.exec.plugin.version>3.1.0</maven.exec.plugin.version>
@@ -172,6 +172,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
+                <configuration>
+                    <excludedGroups>long.lasting.test</excludedGroups>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
