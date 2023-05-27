@@ -6,19 +6,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="data-report-web" />
-        <module name="data-report-core" />
-        <module name="data-report-cli" />
-        <module name="data-report-parser" />
-        <module name="data-report-application" />
-        <module name="data-report-exporter" />
-        <module name="data-report-shared-resources" />
-        <module name="data-report-scraper" />
+        <module name="app" />
+        <module name="core" />
+        <module name="scrape" />
+        <module name="export" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="data-report-cli" target="11" />
+      <module name="data-report-parser" target="11" />
       <module name="data-report-scanner" target="11" />
       <module name="data-report-server" target="11" />
+      <module name="data-report-shared-resources" target="11" />
+      <module name="data-report-web" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
