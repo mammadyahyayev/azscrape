@@ -1,9 +1,11 @@
 package az.caspian.scrape.templates.scroll;
 
+import az.caspian.core.constant.TestConstants;
 import az.caspian.scrape.templates.Scraper;
 import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.ReportDataTable;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -11,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ScrollablePageScraperTest {
 
     @Test
+    @Tag(TestConstants.LONG_LASTING_TEST)
     void testPaginationPageScraper() {
         var pageParameters = new ScrollablePageParameters.Builder()
                 .url("https://turbo.az/")

@@ -1,5 +1,6 @@
 package az.caspian.app;
 
+import az.caspian.core.constant.TestConstants;
 import az.caspian.core.model.ReportFile;
 import az.caspian.core.model.enumeration.FileExtension;
 import az.caspian.core.model.enumeration.FileType;
@@ -14,6 +15,7 @@ import az.caspian.scrape.templates.pagination.PaginationTemplate;
 import az.caspian.scrape.templates.scroll.ScrollablePageParameters;
 import az.caspian.scrape.templates.scroll.ScrollablePageScraper;
 import az.caspian.scrape.templates.scroll.ScrollablePageTemplate;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
@@ -21,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DataReportApplicationTest {
     @Test
+    @Tag(TestConstants.LONG_LASTING_TEST)
     void testExporting() {
         var pageParameters = new PageParameters.Builder()
                 .url("https://bina.az/baki/alqi-satqi/menziller/yeni-tikili/1-otaqli?page=" + PAGE_SPECIFIER)
@@ -61,6 +64,7 @@ class DataReportApplicationTest {
     }
 
     @Test
+    @Tag(TestConstants.LONG_LASTING_TEST)
     void testContactHome() {
         var pageParameters = new PageParameters.Builder()
                 .url("https://kontakt.az/telefonlar/mobil-telefonlar/page/" + PAGE_SPECIFIER)
@@ -95,6 +99,7 @@ class DataReportApplicationTest {
     }
 
     @Test
+    @Tag(TestConstants.LONG_LASTING_TEST)
     void testScrollablePageTurboAz() {
         var pageParameters = new ScrollablePageParameters.Builder()
                 .url("https://turbo.az/")
@@ -127,6 +132,7 @@ class DataReportApplicationTest {
     }
 
     @Test
+    @Tag(TestConstants.LONG_LASTING_TEST)
     void testTurboAzWithPaginationTemplate() {
         var pageParameters = new PageParameters.Builder()
                 .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
@@ -161,6 +167,7 @@ class DataReportApplicationTest {
     }
 
     @Test
+    @Tag(TestConstants.LONG_LASTING_TEST)
     void testCallbackCalledWhenInternetConnectionGone() {
         var pageParameters = new PageParameters.Builder()
                 .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)

@@ -1,10 +1,12 @@
 package az.caspian.scrape.templates.pagination;
 
 import az.caspian.core.tree.DataNode;
+import az.caspian.core.constant.TestConstants;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.ReportDataTable;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.Scraper;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -18,6 +20,7 @@ import static org.mockito.Mockito.*;
 class PaginationPageScraperTest {
 
     @Test
+    @Tag(TestConstants.LONG_LASTING_TEST)
     void testPaginationPageScraper() {
         var pageParameters = new PageParameters.Builder()
                 .url("https://github.com/search?p={pageNum}")
