@@ -1,20 +1,14 @@
 package az.caspian.scrape.templates.scroll;
 
-import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
-import az.caspian.core.tree.DataNode;
-import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.ReportDataTable;
-import az.caspian.core.utils.StringUtils;
-import az.caspian.scrape.Scraper;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
-import org.openqa.selenium.WebElement;
+import az.caspian.scrape.templates.AbstractScrapeTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ScrollablePageScraper implements Scraper<ScrollablePageTemplate> {
+public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePageTemplate> {
 
     public ReportDataTable scrape(ScrollablePageTemplate scrollablePageTemplate) {
         ReportDataTable reportDataTable = new ReportDataTable();
@@ -47,36 +41,4 @@ public class ScrollablePageScraper implements Scraper<ScrollablePageTemplate> {
 
         return reportDataTable;
     }
-
-    private List<DataRow> fetchWebElements(WebPage page, DataTree<DataNode> root) {
-        List<DataRow> dataRows = new ArrayList<>();
-
-        List<WebElement> webElements = page.fetchWebElements(root.value().getSelector());
-
-        for (WebElement webElement : webElements) {
-            List<DataColumn> dataColumns = new ArrayList<>();
-
-            boolean canOmit = false;
-            for (DataTree<DataNode> node : root.nodes()) {
-                String value = page.fetchElementAsText(node.value().getSelector(), webElement);
-                if (node.value().isKeyColumn() && StringUtils.isNullOrEmpty(value)) {
-                    canOmit = true;
-                    break;
-                }
-
-                var column = new DataColumn(node.value().getName(), value);
-                dataColumns.add(column);
-            }
-
-            if (!canOmit) {
-                DataRow dataRow = new DataRow();
-                dataRow.addColumns(dataColumns);
-                dataRows.add(dataRow);
-            }
-        }
-
-        return dataRows;
-    }
-
-
 }

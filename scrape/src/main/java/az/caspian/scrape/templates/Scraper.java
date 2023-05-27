@@ -1,4 +1,4 @@
-package az.caspian.scrape;
+package az.caspian.scrape.templates;
 
 import az.caspian.scrape.templates.ScrapeTemplate;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;

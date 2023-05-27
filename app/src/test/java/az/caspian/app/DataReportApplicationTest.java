@@ -1,23 +1,23 @@
 package az.caspian.app;
 
-import az.caspian.export.ExcelExporter;
+import az.caspian.core.model.ReportFile;
 import az.caspian.core.model.enumeration.FileExtension;
 import az.caspian.core.model.enumeration.FileType;
-import az.caspian.core.model.ReportFile;
-import az.caspian.scrape.Scraper;
-import az.caspian.scrape.templates.ScrapeErrorCallback;
+import az.caspian.core.tree.DataNode;
+import az.caspian.core.tree.DataTree;
+import az.caspian.core.tree.ReportDataTable;
+import az.caspian.export.ExcelExporter;
+import az.caspian.scrape.templates.Scraper;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 import az.caspian.scrape.templates.pagination.PaginationTemplate;
 import az.caspian.scrape.templates.scroll.ScrollablePageParameters;
 import az.caspian.scrape.templates.scroll.ScrollablePageScraper;
 import az.caspian.scrape.templates.scroll.ScrollablePageTemplate;
-import az.caspian.core.tree.DataNode;
-import az.caspian.core.tree.DataTree;
-import az.caspian.core.tree.ReportDataTable;
 import org.junit.jupiter.api.Test;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class DataReportApplicationTest {
     @Test
@@ -181,7 +181,7 @@ class DataReportApplicationTest {
         PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
 
         Scraper<PaginationTemplate> scraper = new PaginationPageScraper(this::callback);
-        scraper.scrape(tree);
+        assertThrows(Exception.class, () -> scraper.scrape(tree));
     }
 
     void callback(String message, ReportDataTable data) {

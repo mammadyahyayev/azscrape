@@ -1,6 +1,6 @@
 package az.caspian.scrape.templates.scroll;
 
-import az.caspian.scrape.Scraper;
+import az.caspian.scrape.templates.Scraper;
 import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.ReportDataTable;

@@ -10,7 +10,7 @@ class PageParametersTest {
 
     @Test
     void testWithoutPageSpecifier() {
-        String url = "https://www.example.com/products?page";
+        var url = "https://www.example.com/products?page";
         var illegalArgumentException = assertThrows(
                 IllegalArgumentException.class,
                 () -> new PageParameters.Builder()
@@ -29,7 +29,7 @@ class PageParametersTest {
 
     @Test
     void testWithoutEndingWrapperPageSpecifier() {
-        String url = "https://www.example.com/products?page={";
+        var url = "https://www.example.com/products?page={";
         var illegalArgumentException = assertThrows(
                 IllegalArgumentException.class,
                 () -> new PageParameters.Builder()
@@ -48,7 +48,7 @@ class PageParametersTest {
 
     @Test
     void testWithoutBeginningWrapperPageSpecifier() {
-        String url = "https://www.example.com/products?page=}";
+        var url = "https://www.example.com/products?page=}";
 
         var illegalArgumentException = assertThrows(
                 IllegalArgumentException.class,
@@ -68,7 +68,7 @@ class PageParametersTest {
 
     @Test
     void testWithoutPageSpecifierKey() {
-        String url = "https://www.example.com/products?page={}";
+        var url = "https://www.example.com/products?page={}";
         var illegalArgumentException = assertThrows(
                 IllegalArgumentException.class,
                 () -> new PageParameters.Builder()
@@ -92,7 +92,7 @@ class PageParametersTest {
                 .url("https://www.example.com/products?page={pageNum}")
                 .build();
 
-        String pageUrl = pageParameters.getPageUrl(4);
+        var pageUrl = pageParameters.getPageUrl(4);
 
         assertEquals("https://www.example.com/products?page=4", pageUrl);
     }
@@ -105,7 +105,7 @@ class PageParametersTest {
                 .queryParam("type", "Repositories")
                 .build();
 
-        String pageUrl = pageParameters.getPageUrl(4);
+        var pageUrl = pageParameters.getPageUrl(4);
 
         assertEquals("https://www.example.com/products?page=4&q=java&type=Repositories", pageUrl);
     }
@@ -116,7 +116,7 @@ class PageParametersTest {
                 .url("https://www.example.com/products#page={pageNum}")
                 .build();
 
-        String pageUrl = pageParameters.getPageUrl(4);
+        var pageUrl = pageParameters.getPageUrl(4);
 
         assertEquals("https://www.example.com/products#page=4", pageUrl);
     }
@@ -129,7 +129,7 @@ class PageParametersTest {
                 .queryParam("type", "Repositories")
                 .build();
 
-        String pageUrl = pageParameters.getPageUrl(4);
+        var pageUrl = pageParameters.getPageUrl(4);
 
         assertEquals("https://www.example.com/products?q=java&type=Repositories#page=4", pageUrl);
     }
@@ -140,7 +140,7 @@ class PageParametersTest {
                 .url("https://www.example.com/{pageNum}")
                 .build();
 
-        String pageUrl = pageParameters.getPageUrl(4);
+        var pageUrl = pageParameters.getPageUrl(4);
 
         assertEquals("https://www.example.com/4", pageUrl);
     }
@@ -153,7 +153,7 @@ class PageParametersTest {
                 .queryParam("type", "Repositories")
                 .build();
 
-        String pageUrl = pageParameters.getPageUrl(4);
+        var pageUrl = pageParameters.getPageUrl(4);
 
         assertEquals("https://www.example.com/4?q=java&type=Repositories", pageUrl);
     }

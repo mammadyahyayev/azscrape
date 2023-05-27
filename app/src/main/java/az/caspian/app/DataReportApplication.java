@@ -2,7 +2,7 @@ package az.caspian.app;
 
 import az.caspian.export.ExcelExporter;
 import az.caspian.export.Exporter;
-import az.caspian.scrape.Scraper;
+import az.caspian.scrape.templates.Scraper;
 
 /**
  * Entry point of the application after parsing
