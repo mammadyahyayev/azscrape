@@ -80,10 +80,10 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:git:ssh://git@github.com/mammadyahyayev/data-report.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/mammadyahyayev/data-report.git</developerConnection>
-        <url>https://github.com/mammadyahyayev/data-report</url>
-        <tag>v2.1.0</tag>
+        <connection>scm:git:ssh://git@github.com:mammadyahyayev/azscrape.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:mammadyahyayev/azscrape.git</developerConnection>
+        <url>https://github.com/mammadyahyayev/azscrape</url>
+        <tag>v3.0.0-SNAPSHOT</tag>
     </scm>
 
     <dependencyManagement>
