@@ -1,11 +1,11 @@
 package az.caspian.export;
 
-import az.caspian.core.model.enumeration.FileExtension;
-import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.constant.FileConstants;
 import az.caspian.core.model.DataColumn;
+import az.caspian.core.model.DataFile;
 import az.caspian.core.model.DataRow;
-import az.caspian.core.model.ReportFile;
+import az.caspian.core.model.enumeration.FileExtension;
+import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.tree.ReportDataTable;
 import az.caspian.core.utils.AbstractFileSystem;
 import az.caspian.core.utils.DefaultFileSystem;
@@ -18,13 +18,14 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 class ExcelExporterTest {
 
-    ReportFile reportFile;
+    DataFile dataFile;
 
     ExcelExporter exporter;
 
@@ -32,7 +33,7 @@ class ExcelExporterTest {
 
     @BeforeEach
     void beforeEach() {
-        reportFile = new ReportFile.Builder()
+        dataFile = new DataFile.Builder()
                 .filename("GitHub SearcH")
                 .fileType(FileType.EXCEL)
                 .fileExtension(FileExtension.XLSX)
@@ -50,7 +51,7 @@ class ExcelExporterTest {
         Path expectedFilePath = Path.of(FileConstants.TEMP_DIR_PATH, expectedFileName);
 
         // when
-        File file = exporter.constructReportFile(reportFile);
+        File file = exporter.constructReportFile(dataFile);
 
         // then
         assertEquals(expectedFileName, file.getName());
@@ -90,8 +91,8 @@ class ExcelExporterTest {
         //when
         File expectedFile = new File(path.toString());
         ExcelExporter mock = mock(ExcelExporter.class);
-        Mockito.when(mock.constructReportFile(reportFile)).thenReturn(expectedFile);
-        exporter.export(reportFile, reportDataTable);
+        Mockito.when(mock.constructReportFile(dataFile)).thenReturn(expectedFile);
+        exporter.export(dataFile, reportDataTable);
 
         //then
         File file = new File(path.toString());

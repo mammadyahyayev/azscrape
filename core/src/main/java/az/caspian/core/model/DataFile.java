@@ -5,20 +5,23 @@ import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.utils.AbstractFileSystem;
 import az.caspian.core.utils.DefaultFileSystem;
 
+import java.io.File;
 import java.time.LocalDateTime;
 
-public class ReportFile {
+public class DataFile {
     private final String filename;
     private final FileType filetype;
     private FileExtension fileExtension;
+    private String storeAt;
     private final LocalDateTime createdAt = LocalDateTime.now();
 
     private final AbstractFileSystem abstractFileSystem;
 
-    private ReportFile(String filename, FileType filetype, FileExtension fileExtension) {
+    private DataFile(String filename, FileType filetype, FileExtension fileExtension, String storeAt) {
         this.filename = filename;
         this.filetype = filetype;
         this.fileExtension = fileExtension;
+        this.storeAt = storeAt;
         this.abstractFileSystem = new DefaultFileSystem();
     }
 
@@ -34,29 +37,30 @@ public class ReportFile {
         return this.filename.toLowerCase() + "." + this.fileExtension.toString().toLowerCase();
     }
 
-    public FileType getFiletype() {
-        return filetype;
-    }
-
     public FileExtension getFileExtension() {
         return fileExtension;
     }
 
-    public void setFileExtension(FileExtension extension) {
-        this.fileExtension = extension;
+    public String getFileAbsolutePath() {
+        return this.storeAt + File.separator + this.getFileFullName();
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public void setStoreAt(String storeAt) {
+        this.storeAt = storeAt;
+    }
+
+    public String getStoreAt() {
+        return storeAt;
     }
 
     public static class Builder {
         private String filename;
         private FileType filetype;
         private FileExtension fileExtension;
+        private String storeAt;
 
-        public ReportFile build() {
-            return new ReportFile(filename, filetype, fileExtension);
+        public DataFile build() {
+            return new DataFile(filename, filetype, fileExtension, storeAt);
         }
 
         public Builder filename(String filename) {
@@ -71,6 +75,11 @@ public class ReportFile {
 
         public Builder fileExtension(FileExtension extension) {
             this.fileExtension = extension;
+            return this;
+        }
+
+        public Builder storeAt(String path) {
+            this.storeAt = path;
             return this;
         }
     }

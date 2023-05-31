@@ -3,8 +3,8 @@ package az.caspian.export;
 import az.caspian.core.DataReportAppException;
 import az.caspian.core.constant.FileConstants;
 import az.caspian.core.model.DataColumn;
+import az.caspian.core.model.DataFile;
 import az.caspian.core.model.DataRow;
-import az.caspian.core.model.ReportFile;
 import az.caspian.core.tree.ReportDataTable;
 import az.caspian.core.utils.AbstractFileSystem;
 import az.caspian.core.utils.Asserts;
@@ -32,11 +32,11 @@ public class ExcelExporter implements Exporter {
     private static final Logger LOG = LogManager.getLogger(ExcelExporter.class);
 
     @Override
-    public boolean export(ReportFile reportFile, ReportDataTable reportData) {
-        Objects.requireNonNull(reportFile);
-        Asserts.required(reportFile.getFilename(), "Filename is required for report");
+    public boolean export(DataFile dataFile, ReportDataTable reportData) {
+        Objects.requireNonNull(dataFile);
+        Asserts.required(dataFile.getFilename(), "Filename is required for report");
 
-        File file = constructReportFile(reportFile);
+        File file = constructReportFile(dataFile);
 
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("data");
@@ -58,7 +58,7 @@ public class ExcelExporter implements Exporter {
         Row headerRow = sheet.createRow(0);
         List<DataRow> dataRows = reportDataTable.rows();
 
-        if(dataRows.size() == 0) return;
+        if (dataRows.size() == 0) return;
 
         DataRow first = dataRows.get(0);
         if (first != null) {
@@ -97,25 +97,25 @@ public class ExcelExporter implements Exporter {
     }
 
     @Override
-    public File constructReportFile(final String directoryPath, final ReportFile reportFile) {
+    public File constructReportFile(final String directoryPath, final DataFile dataFile) {
         Asserts.required(directoryPath, "Directory path is required");
-        Asserts.required(reportFile, "ReportFile is required");
+        Asserts.required(dataFile, "ReportFile is required");
 
         AbstractFileSystem abstractFileSystem = new DefaultFileSystem();
         abstractFileSystem.createDirectoryIfNotExist(directoryPath);
 
-        String filename = abstractFileSystem.createFilename(reportFile.getFilename());
-        String extension = reportFile.getFileExtension().name().toLowerCase();
+        String filename = abstractFileSystem.createFilename(dataFile.getFilename());
+        String extension = dataFile.getFileExtension().name().toLowerCase();
         Path filepath = Path.of(directoryPath, filename + "." + extension);
 
         return abstractFileSystem.createFileIfNotExist(filepath.toString());
     }
 
     @Override
-    public File constructReportFile(ReportFile reportFile) {
-        String directory = FileConstants.TEMP_DIR_PATH;
+    public File constructReportFile(DataFile dataFile) {
+        String directory = dataFile.getStoreAt() != null ? dataFile.getStoreAt() : FileConstants.TEMP_DIR_PATH;
         LOG.info("Constructed path for report file [ " + directory + " ]");
-        return constructReportFile(directory, reportFile);
+        return constructReportFile(directory, dataFile);
     }
 
 }

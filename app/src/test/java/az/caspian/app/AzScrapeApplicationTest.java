@@ -1,7 +1,7 @@
 package az.caspian.app;
 
 import az.caspian.core.constant.TestConstants;
-import az.caspian.core.model.ReportFile;
+import az.caspian.core.model.DataFile;
 import az.caspian.core.model.enumeration.FileExtension;
 import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.tree.DataNode;
@@ -18,7 +18,10 @@ import az.caspian.scrape.templates.scroll.ScrollablePageTemplate;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
+
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AzScrapeApplicationTest {
@@ -54,13 +57,13 @@ class AzScrapeApplicationTest {
 
         ExcelExporter excelExporter = new ExcelExporter();
 
-        ReportFile reportFile = new ReportFile.Builder()
+        DataFile dataFile = new DataFile.Builder()
                 .filename("one_room_apartment")
                 .fileType(FileType.EXCEL)
                 .fileExtension(FileExtension.XLSX)
                 .build();
 
-        excelExporter.export(reportFile, table);
+        excelExporter.export(dataFile, table);
     }
 
     @Test
@@ -89,13 +92,15 @@ class AzScrapeApplicationTest {
 
         ExcelExporter excelExporter = new ExcelExporter();
 
-        ReportFile reportFile = new ReportFile.Builder()
+        DataFile dataFile = new DataFile.Builder()
                 .filename("smartphones")
                 .fileType(FileType.EXCEL)
                 .fileExtension(FileExtension.XLSX)
+                .storeAt(System.getProperty("user.home") + File.separator + "export-file")
                 .build();
 
-        excelExporter.export(reportFile, table);
+        excelExporter.export(dataFile, table);
+        assertNotNull(dataFile.getFileAbsolutePath());
     }
 
     @Test
@@ -121,7 +126,7 @@ class AzScrapeApplicationTest {
 
         var excelExporter = new ExcelExporter();
 
-        var reportFile = new ReportFile.Builder()
+        var reportFile = new DataFile.Builder()
                 .filename("turbo_az")
                 .fileType(FileType.EXCEL)
                 .fileExtension(FileExtension.XLSX)
@@ -156,13 +161,13 @@ class AzScrapeApplicationTest {
 
         ExcelExporter excelExporter = new ExcelExporter();
 
-        ReportFile reportFile = new ReportFile.Builder()
+        DataFile dataFile = new DataFile.Builder()
                 .filename("turbo_az")
                 .fileType(FileType.EXCEL)
                 .fileExtension(FileExtension.XLSX)
                 .build();
 
-        excelExporter.export(reportFile, table);
+        excelExporter.export(dataFile, table);
     }
 
     @Test
@@ -194,13 +199,13 @@ class AzScrapeApplicationTest {
         System.out.println(message);
         ExcelExporter excelExporter = new ExcelExporter();
 
-        ReportFile reportFile = new ReportFile.Builder()
+        DataFile dataFile = new DataFile.Builder()
                 .filename("turbo_az_with_callback")
                 .fileType(FileType.EXCEL)
                 .fileExtension(FileExtension.XLSX)
                 .build();
 
-        excelExporter.export(reportFile, data);
+        excelExporter.export(dataFile, data);
     }
 
     // TODO: 2509 - bina.az https://bina.az/alqi-satqi?page=2509
