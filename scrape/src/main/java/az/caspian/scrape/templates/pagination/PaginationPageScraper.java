@@ -42,7 +42,10 @@ public class PaginationPageScraper extends AbstractScrapeTemplate<PaginationTemp
             String message = MessageFormat.format(
                     "Failed to scrape data from {0} in page {1}, Exception: {2}", url, current, e.getMessage()
             );
-            callback.handle(message, reportDataTable);
+
+            if (callback != null)
+                callback.handle(message, reportDataTable);
+
             throw new RuntimeException(message, e);
         }
 

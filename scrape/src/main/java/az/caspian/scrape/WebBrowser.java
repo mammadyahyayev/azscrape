@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverLogLevel;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class WebBrowser implements AutoCloseable {
     private static final Logger LOG = LogManager.getLogger(WebPage.class);
@@ -20,6 +21,9 @@ public class WebBrowser implements AutoCloseable {
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setLogLevel(ChromeDriverLogLevel.OFF);
         chromeOptions.addArguments("--remote-allow-origins=*");
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
+        chromeOptions.merge(capabilities);
         DRIVER = new ChromeDriver(chromeOptions);
     }
 
@@ -36,7 +40,7 @@ public class WebBrowser implements AutoCloseable {
             isOpen = true;
         } catch (Exception e) {
             close();
-            throw new InternetConnectionException("Failed to connect to webpage, check your internet connection!", e);
+            throw new WebBrowserException("Failed to connect to webpage, check your internet connection!", e);
         }
     }
 
@@ -84,7 +88,7 @@ public class WebBrowser implements AutoCloseable {
         } catch (Exception e) {
             LOG.error("Failed to connect to web page ", e);
             close();
-            throw new InternetConnectionException("Failed to connect to webpage, check your internet connection!", e);
+            throw new WebBrowserException("Failed to connect to webpage", e);
         }
 
         return new WebPage(url);
