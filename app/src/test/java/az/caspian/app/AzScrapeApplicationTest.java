@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class DataReportApplicationTest {
+class AzScrapeApplicationTest {
     @Test
     @Tag(TestConstants.LONG_LASTING_TEST)
     void testExporting() {
@@ -128,7 +128,6 @@ class DataReportApplicationTest {
                 .build();
 
         excelExporter.export(reportFile, table);
-
     }
 
     @Test
