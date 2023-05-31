@@ -113,9 +113,12 @@ public class ExcelExporter implements Exporter {
 
     @Override
     public File constructReportFile(DataFile dataFile) {
-        String directory = dataFile.getStoreAt() != null ? dataFile.getStoreAt() : FileConstants.TEMP_DIR_PATH;
-        LOG.info("Constructed path for report file [ " + directory + " ]");
-        return constructReportFile(directory, dataFile);
+        if (dataFile.getStoreAt() == null) {
+            dataFile.setStoreAt(FileConstants.TEMP_DIR_PATH);
+        }
+
+        LOG.info("Constructed path for report file [ " + dataFile.getStoreAt() + " ]");
+        return constructReportFile(dataFile.getStoreAt(), dataFile);
     }
 
 }
