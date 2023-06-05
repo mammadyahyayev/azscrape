@@ -12,6 +12,8 @@ import az.caspian.scrape.templates.Scraper;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 import az.caspian.scrape.templates.pagination.PaginationTemplate;
+import az.caspian.scrape.templates.pagination.item.PaginationItemPageScraper;
+import az.caspian.scrape.templates.pagination.item.PaginationItemTemplate;
 import az.caspian.scrape.templates.scroll.ScrollablePageParameters;
 import az.caspian.scrape.templates.scroll.ScrollablePageScraper;
 import az.caspian.scrape.templates.scroll.ScrollablePageTemplate;
@@ -206,6 +208,60 @@ class AzScrapeApplicationTest {
                 .build();
 
         excelExporter.export(dataFile, data);
+    }
+
+    @Test
+    @Tag(TestConstants.LONG_LASTING_TEST)
+    void testPaginationItemVisitor() {
+        var pageParameters = new PageParameters.Builder()
+                .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
+                .pageNum(1)
+                .delayBetweenPages(3000)
+                .build();
+
+
+        var repoItem = new DataTree<>(new DataNode("wrapper", ".products-i"));
+        var car = new DataTree<>(new DataNode("car", ".products-i__name", true));
+        var price = new DataTree<>(new DataNode("price", ".products-i__price .product-price"));
+
+        var linkToDetailsPageNode = new DataNode("link", ".products-i__link");
+        linkToDetailsPageNode.setLink(true);
+
+        var linkToDetailsPage = new DataTree<>(linkToDetailsPageNode);
+
+        var detailsRootNode = new DataNode("details-root", ".product-content");
+        detailsRootNode.setRoot(true);
+
+        var detailsRoot = new DataTree<>(detailsRootNode);
+
+        var statistics = new DataTree<>(new DataNode("statistics", ".product-statistics__i-text"));
+        var properties = new DataTree<>(new DataNode("properties", ".product-properties__i"));
+        var description = new DataTree<>(new DataNode("description", ".product-description__content"));
+        var advertisementId = new DataTree<>(new DataNode("advertisement number", ".product-actions__id"));
+
+        repoItem.addSubNode(linkToDetailsPage);
+        repoItem.addSubNode(car);
+        repoItem.addSubNode(price);
+        repoItem.addSubNode(detailsRoot);
+        detailsRoot.addSubNode(statistics);
+        detailsRoot.addSubNode(properties);
+        detailsRoot.addSubNode(description);
+        detailsRoot.addSubNode(advertisementId);
+
+        PaginationItemTemplate tree = new PaginationItemTemplate(pageParameters, repoItem);
+
+        Scraper<PaginationItemTemplate> scraper = new PaginationItemPageScraper(this::callback);
+        ReportDataTable table = scraper.scrape(tree);
+
+        var excelExporter = new ExcelExporter();
+
+        DataFile dataFile = new DataFile.Builder()
+                .filename("turbo_az_element_visitor")
+                .fileType(FileType.EXCEL)
+                .fileExtension(FileExtension.XLSX)
+                .build();
+
+        excelExporter.export(dataFile, table);
     }
 
     // TODO: 2509 - bina.az https://bina.az/alqi-satqi?page=2509
