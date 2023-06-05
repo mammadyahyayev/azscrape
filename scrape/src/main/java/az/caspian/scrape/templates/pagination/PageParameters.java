@@ -1,7 +1,7 @@
 package az.caspian.scrape.templates.pagination;
 
-import az.caspian.scrape.templates.QueryParameter;
 import az.caspian.core.utils.StringUtils;
+import az.caspian.scrape.templates.QueryParameter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +91,18 @@ public class PageParameters {
 
         public Builder url(String url) {
             this.pageUrl = url;
+            return this;
+        }
+
+        public Builder pageNum(int page) {
+            if (page < 0) {
+                throw new IllegalArgumentException(
+                        format("Page cannot be less than 0, page (%d)", page)
+                );
+            }
+
+            this.minPage = page;
+            this.maxPage = page;
             return this;
         }
 

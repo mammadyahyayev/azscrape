@@ -36,17 +36,18 @@ public class WebPage {
      * @param cssSelector selector of the element
      * @return scraped elements
      */
-    public List<String> fetchElementsAsText(String cssSelector) {
-        List<String> elements = new ArrayList<>();
+    public String fetchElementsAsText(String cssSelector, WebElement webElement) {
+        String text;
         try {
-            elements = WebBrowser.DRIVER.findElements(By.cssSelector(cssSelector))
+            text = webElement.findElements(By.cssSelector(cssSelector))
                     .stream()
-                    .map(WebElement::getText).collect(Collectors.toList());
+                    .map(WebElement::getText).collect(Collectors.joining("\n"));
         } catch (Exception e) {
             LOG.error("Unknown error happened");
+            text = "";
         }
 
-        return elements;
+        return text;
     }
 
     /**
