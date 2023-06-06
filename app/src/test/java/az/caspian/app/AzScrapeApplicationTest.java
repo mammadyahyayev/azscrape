@@ -224,13 +224,18 @@ class AzScrapeApplicationTest {
         var car = new DataTree<>(new DataNode("car", ".products-i__name", true));
         var price = new DataTree<>(new DataNode("price", ".products-i__price .product-price"));
 
-        var linkToDetailsPageNode = new DataNode("link", ".products-i__link");
-        linkToDetailsPageNode.setLink(true);
+        var linkToDetailsPageNode = new DataNode.Builder()
+                .name("link")
+                .selector(".products-i__link")
+                .isLink(true)
+                .build();
 
         var linkToDetailsPage = new DataTree<>(linkToDetailsPageNode);
 
-        var detailsRootNode = new DataNode("details-root", ".product-content");
-        detailsRootNode.setRoot(true);
+        var detailsRootNode = new DataNode.Builder().name("details-root")
+                .selector(".product-content")
+                .isRoot(true)
+                .build();
 
         var detailsRoot = new DataTree<>(detailsRootNode);
 

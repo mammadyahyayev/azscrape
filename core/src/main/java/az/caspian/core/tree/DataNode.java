@@ -4,11 +4,15 @@ package az.caspian.core.tree;
  * A data node
  */
 public class DataNode {
-    private final String name;
-    private final String selector; //TODO: Replace this with custom class (e.g. DataNodeSelector)
-    private final boolean isKeyColumn;
+    private String name;
+    private String selector; //TODO: Replace this with custom class (e.g. DataNodeSelector)
+    private boolean isKeyColumn;
     private boolean isRoot;
     private boolean isLink;
+
+    public DataNode() {
+
+    }
 
     public DataNode(String name, String selector) {
         this.name = name;
@@ -48,5 +52,46 @@ public class DataNode {
 
     public boolean isLink() {
         return isLink;
+    }
+
+
+    public static class Builder {
+        private String name;
+        private String selector;
+        private boolean isKeyColumn;
+        private boolean isRoot;
+        private boolean isLink;
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder selector(String selector) {
+            this.selector = selector;
+            return this;
+        }
+
+        public Builder isKeyColumn(boolean isKeyColumn) {
+            this.isKeyColumn = isKeyColumn;
+            return this;
+        }
+
+        public Builder isRoot(boolean isRoot) {
+            this.isRoot = isRoot;
+            return this;
+        }
+
+        public Builder isLink(boolean isLink) {
+            this.isLink = isLink;
+            return this;
+        }
+
+        public DataNode build() {
+            DataNode node = new DataNode(this.name, this.selector, this.isKeyColumn);
+            node.setLink(this.isLink);
+            node.setRoot(this.isRoot);
+            return node;
+        }
     }
 }

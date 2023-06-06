@@ -3,6 +3,7 @@ Tasks of Version: 3.0.0
 - Trim DataNode Selectors
 - Simplify Process of PaginationItemPageScraper
 - Create User-Friendly and Readable DataNode collecting process
+- Check URL is valid
 
 
 ********************************************
