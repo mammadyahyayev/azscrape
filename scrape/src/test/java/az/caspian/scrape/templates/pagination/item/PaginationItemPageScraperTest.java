@@ -1,10 +1,12 @@
 package az.caspian.scrape.templates.pagination.item;
 
+import az.caspian.core.constant.TestConstants;
 import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.ReportDataTable;
 import az.caspian.scrape.templates.Scraper;
 import az.caspian.scrape.templates.pagination.PageParameters;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
@@ -13,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class PaginationItemPageScraperTest {
 
     @Test
+    @Tag(TestConstants.LONG_LASTING_TEST)
     void testPaginationItemPageScraper() {
         var pageParameters = new PageParameters.Builder()
                 .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
