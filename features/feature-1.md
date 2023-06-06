@@ -13,32 +13,29 @@ API will be easy.
 ## Desired Result
 
 ```java
-root(
-    element(
-        config(
-           name(),
-           selector(),
-           isLink()
-        ),
-        filter()
-        action()
-    ),
-    children(
-       element(name(), selector()),
-       element(name(), selector()),
-       element(name(), selector()),
-       element(name(), selector()),
-       element(name(), selector()),
-       element(name(), selector()),
-    )
-)
+ DataNode node = new DataNode.Builder()
+        .name("product")
+        .selector(".product__i")
+        .children(
+            new Element()
+                  .name("name")
+                  .selector(".product__name")
+                  .action(ActionOp.trimValue()),
+            new Element()
+                  .name("category")
+                  .selector(".product__category")
+                  .action(ActionOp.convertNameTo(NamingStyle.UPPERCASE)),
+            new Element()
+                  .name("owner")
+                  .selector(".product__owner")
+                  .action(el -> el.getName().toLowerCase())
+        )
+        .build();
 ```
 
 ### Some of Notes
-- element method will take default methods such as name and selector to simplify element creation process for nodes
-  that requires only name and selector.
-- filter and action methods will be implemented in upcoming features.
-- each element method has children method.
+- Each Element can be declared with chaining and with constructor if it requires only simple construction.
+- Each Element has also children.
 - name method will take parameters to do some operations in it. For instance, user can decide to specify name in
   syntax like: 'demo name' but he wants to name to be exported as like this: 'demo_name' or 'Demo Name' or 'demo-name'
   in order to do this, name method can take enum (NamingStyle) as second parameter after name given.

@@ -6,6 +6,7 @@ import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.ReportDataTable;
 import az.caspian.scrape.templates.Scraper;
 import az.caspian.scrape.templates.pagination.PageParameters;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -58,5 +59,28 @@ class PaginationItemPageScraperTest {
         ReportDataTable table = scraper.scrape(tree);
 
         assertNotNull(table);
+    }
+
+    @Test
+    @Disabled
+    void test() {
+//        DataNode node = new DataNode.Builder()
+//                .name("")
+//                .selector("")
+//                .children(
+//                        new Element()
+//                                .name("")
+//                                .selector("")
+//                                .filter(FilterOp.trimValue()),
+//                        new Element()
+//                                .name("")
+//                                .selector("")
+//                                .filter(FilterOp.convertNameTo(NamingStyle.UPPERCASE)),
+//                        new Element()
+//                                .name("")
+//                                .selector("")
+//                                .filter(el -> el.getName().toLowerCase())
+//                )
+//                .build();
     }
 }

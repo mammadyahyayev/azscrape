@@ -54,7 +54,6 @@ public class DataNode {
         return isLink;
     }
 
-
     public static class Builder {
         private String name;
         private String selector;
