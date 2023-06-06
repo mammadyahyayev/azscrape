@@ -4,7 +4,7 @@
 **Release:** 3.0.0\
 **Status:** In Progress\
 **Created:** _06-06-2023 12:00_\
-**Updated:** _06-06-2023 12:00_\
+**Updated:** _06-06-2023 12:08_
 
 This upcoming feature will be high in demand, because it is easy to read and use. That will replace large setters and 
 getters with fluent chain style. This feature is also beneficial for upcoming features, because adding new methods into
@@ -47,8 +47,7 @@ root(
 name("products count", NamingStyle.MERGE_UNDERSCORE) // result -> products_count
 name("products count", NamingStyle.CAPITAL_CASE) // result -> Products Count
 ```
-**Future feature: maybe user wants to specify multiple style or create its own custom style.**
-
+  **IDEA: maybe user wants to specify multiple style or create its own custom style.**
 
 - selector method will do the same as name method does, it will take selector as the first parameter, and will take
   selector type as enum for the second parameter.
