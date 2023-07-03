@@ -35,7 +35,7 @@ public class PaginationPageScraper extends AbstractScrapeTemplate<PaginationTemp
 
                 WebPage page = browser.goTo(url, pageParameters.getDelayBetweenPages());
 
-                List<DataRow> dataRows = fetchWebElements(page, paginationTemplate.getRoot());
+                List<DataRow> dataRows = fetchWebElements(page, paginationTemplate.getTree());
                 reportDataTable.addAll(dataRows);
             }
         } catch (Exception e) {

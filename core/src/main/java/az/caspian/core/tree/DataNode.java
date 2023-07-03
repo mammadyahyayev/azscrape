@@ -7,8 +7,10 @@ public class DataNode {
     private String name;
     private String selector; //TODO: Replace this with custom class (e.g. DataNodeSelector)
     private boolean isKeyColumn;
-    private boolean isRoot;
-    private boolean isLink;
+    private boolean isParent;
+    private boolean isLink; // TODO: Create separate node: DataLinkNode (if necessary)
+    private boolean isKeyValuePair; //TODO: Create separate class: DataKeyValuePairNode
+    private DataNodeLocation location;
 
     public DataNode() {
 
@@ -38,12 +40,12 @@ public class DataNode {
         return isKeyColumn;
     }
 
-    public void setRoot(boolean root) {
-        isRoot = root;
+    public void setParent(boolean parent) {
+        isParent = parent;
     }
 
-    public boolean isRoot() {
-        return isRoot;
+    public boolean isParent() {
+        return isParent;
     }
 
     public void setLink(boolean link) {
@@ -54,43 +56,19 @@ public class DataNode {
         return isLink;
     }
 
-    public static class Builder {
-        private String name;
-        private String selector;
-        private boolean isKeyColumn;
-        private boolean isRoot;
-        private boolean isLink;
+    public void setLocation(DataNodeLocation location) {
+        this.location = location;
+    }
 
-        public Builder name(String name) {
-            this.name = name;
-            return this;
-        }
+    public DataNodeLocation getLocation() {
+        return location;
+    }
 
-        public Builder selector(String selector) {
-            this.selector = selector;
-            return this;
-        }
+    public boolean isKeyValuePair() {
+        return isKeyValuePair;
+    }
 
-        public Builder isKeyColumn(boolean isKeyColumn) {
-            this.isKeyColumn = isKeyColumn;
-            return this;
-        }
-
-        public Builder isRoot(boolean isRoot) {
-            this.isRoot = isRoot;
-            return this;
-        }
-
-        public Builder isLink(boolean isLink) {
-            this.isLink = isLink;
-            return this;
-        }
-
-        public DataNode build() {
-            DataNode node = new DataNode(this.name, this.selector, this.isKeyColumn);
-            node.setLink(this.isLink);
-            node.setRoot(this.isRoot);
-            return node;
-        }
+    public void setKeyValuePair(boolean keyValuePair) {
+        isKeyValuePair = keyValuePair;
     }
 }

@@ -8,8 +8,8 @@ import az.caspian.scrape.templates.pagination.PaginationTemplate;
 
 public class PaginationItemTemplate extends PaginationTemplate implements ScrapeTemplate {
 
-    public PaginationItemTemplate(PageParameters pageParameters, DataTree<DataNode> root) {
-        super(pageParameters, root);
+    public PaginationItemTemplate(PageParameters pageParameters, DataTree<DataNode> tree) {
+        super(pageParameters, tree);
     }
 
     @Override

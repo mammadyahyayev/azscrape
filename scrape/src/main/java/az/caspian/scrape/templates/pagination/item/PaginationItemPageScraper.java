@@ -9,13 +9,12 @@ import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class PaginationItemPageScraper extends AbstractScrapeTemplate<PaginationItemTemplate> {
 
@@ -42,34 +41,19 @@ public class PaginationItemPageScraper extends AbstractScrapeTemplate<Pagination
 
                 WebPage page = browser.goTo(url, pageParameters.getDelayBetweenPages());
 
-                DataTree<DataNode> root = template.getRoot();
-                List<WebElement> elements = page.fetchWebElements(root.value().getSelector());
-
+                DataTree<DataNode> tree = template.getTree();
+                List<WebElement> elements = page.fetchWebElements(tree.getRoot().getSelector());
                 for (WebElement element : elements) {
-                    WebElement link = element.findElement(By.cssSelector(
-                            root.nodes().stream()
-                                    .map(DataTree::value)
-                                    .filter(DataNode::isLink)
-                                    .findFirst()
-                                    .orElseThrow()
-                                    .getSelector()
-                    ));
-                    if (isClickable(link)) {
-                        String urlOfSubPage = link.getAttribute("href");
+                    List<DataRow> dataRows = new ArrayList<>();
+                    String urlOfSubPage = element.getAttribute("href");
+                    WebPage webPage = browser.goTo(urlOfSubPage);
 
-                        WebPage webPage = browser.goTo(urlOfSubPage);
+                    DataRow dataRow = collectPageData(tree, webPage);
+                    dataRows.add(dataRow);
 
-                        List<DataRow> dataRows = fetchWebElements(webPage,
-                                root.nodes().stream()
-                                        .filter(node -> node.value().isRoot())
-                                        .findFirst()
-                                        .orElseThrow()
-                        );
+                    browser.backToPrevPage();
 
-                        reportDataTable.addAll(dataRows);
-
-                        browser.backToPrevPage();
-                    }
+                    reportDataTable.addAll(dataRows);
                 }
             }
         } catch (Exception e) {
@@ -86,39 +70,27 @@ public class PaginationItemPageScraper extends AbstractScrapeTemplate<Pagination
         return reportDataTable;
     }
 
-    private boolean isClickable(WebElement element) {
-        return Objects.equals(element.getAriaRole(), "link") ||
-                Objects.equals(element.getTagName(), "a");
-    }
-
-    protected List<DataRow> fetchWebElements(WebPage page, DataTree<DataNode> root) {
-        List<DataRow> dataRows = new ArrayList<>();
-
-        List<WebElement> webElements = page.fetchWebElements(root.value().getSelector());
-
-        for (WebElement webElement : webElements) {
-            List<DataColumn> dataColumns = new ArrayList<>();
-
-            boolean canOmit = false;
-            for (DataTree<DataNode> node : root.nodes()) {
-                String value = page.fetchElementsAsText(node.value().getSelector(), webElement);
-                if (node.value().isKeyColumn()) {
-                    canOmit = true;
-                    break;
-                }
-
-                var column = new DataColumn(node.value().getName(), value);
-                dataColumns.add(column);
-            }
-
-            if (!canOmit) {
-                DataRow dataRow = new DataRow();
-                dataRow.addColumns(dataColumns);
-                dataRows.add(dataRow);
+    private DataRow collectPageData(DataTree<DataNode> tree, WebPage page) {
+        List<DataColumn> dataColumns = new ArrayList<>();
+        List<DataNode> children = tree.getChildren(tree.getRoot());
+        for (DataNode node : children) {
+            if (!node.isParent()) {
+                WebElement element = page.fetchWebElement(node.getSelector());
+                String value = element.getText();
+                dataColumns.add(new DataColumn(node.getName(), value));
+            } else if (node.isKeyValuePair()) {
+                String value = page.fetchWebElements(node.getSelector()).stream()
+                        .map(WebElement::getText)
+                        .collect(Collectors.joining());
+                dataColumns.add(new DataColumn(node.getName(), value));
             }
         }
 
-        return dataRows;
-    }
+        dataColumns.add(new DataColumn("link", page.getUrl()));
 
+        var dataRow = new DataRow();
+        dataRow.addColumns(dataColumns);
+
+        return dataRow;
+    }
 }

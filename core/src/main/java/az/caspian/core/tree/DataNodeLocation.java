@@ -30,7 +30,7 @@ public class DataNodeLocation {
         this.order = order;
     }
 
-    static DataNodeLocation init() {
+    static DataNodeLocation first() {
         return new DataNodeLocation(String.valueOf(LETTERS.charAt(0)), 0);
     }
 
@@ -76,6 +76,29 @@ public class DataNodeLocation {
 
     public String getLevel() {
         return level;
+    }
+
+    public boolean isAfter(DataNodeLocation location) {
+        if(java.util.Objects.equals(this.level, location.level)) {
+            return this.order > location.order;
+        }
+
+        return compareLevel(this.level, location.level) > 0;
+    }
+
+    public boolean isBefore(DataNodeLocation location) {
+        if(java.util.Objects.equals(this.level, location.level)) {
+            return this.order < location.order;
+        }
+
+        return compareLevel(this.level, location.level) < 0;
+    }
+
+    // TODO: Change method implementation for two letters levels, e.g. AB, BC
+    public static int compareLevel(String firstLevel, String secondLevel) {
+        char first = firstLevel.charAt(0);
+        char second = secondLevel.charAt(0);
+        return Character.compare(first, second);
     }
 
     @Override

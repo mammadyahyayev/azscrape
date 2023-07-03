@@ -16,4 +16,12 @@ public class DataColumn {
     public String getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "DataColumn{" +
+                "name='" + name + '\'' +
+                ", value='" + value + '\'' +
+                '}';
+    }
 }

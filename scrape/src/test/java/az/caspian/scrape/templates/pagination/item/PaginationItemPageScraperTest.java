@@ -1,9 +1,7 @@
 package az.caspian.scrape.templates.pagination.item;
 
 import az.caspian.core.constant.TestConstants;
-import az.caspian.core.tree.DataNode;
-import az.caspian.core.tree.DataTree;
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.*;
 import az.caspian.scrape.templates.Scraper;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import org.junit.jupiter.api.Disabled;
@@ -27,7 +25,7 @@ class PaginationItemPageScraperTest {
 
         var repoItem = new DataTree<>(new DataNode("wrapper", ".products-i"));
         var car = new DataTree<>(new DataNode("car", ".products-i__name", true));
-        var price = new DataTree<>(new DataNode("price", ".products-i__price .product-price"));
+        var price = new DataTree<>(new DataNode("price", ".product-price .product-price__i"));
 
         var linkToDetailsPageNode = new DataNode("link", ".products-i__link");
         linkToDetailsPageNode.setLink(true);
@@ -35,7 +33,7 @@ class PaginationItemPageScraperTest {
         var linkToDetailsPage = new DataTree<>(linkToDetailsPageNode);
 
         var detailsRootNode = new DataNode("details-root", ".product-content");
-        detailsRootNode.setRoot(true);
+        detailsRootNode.setParent(true);
 
         var detailsRoot = new DataTree<>(detailsRootNode);
 
@@ -62,25 +60,41 @@ class PaginationItemPageScraperTest {
     }
 
     @Test
-    @Disabled
+    @Tag(TestConstants.LONG_LASTING_TEST)
     void test() {
-//        DataNode node = new DataNode.Builder()
-//                .name("")
-//                .selector("")
-//                .children(
-//                        new Element()
-//                                .name("")
-//                                .selector("")
-//                                .filter(FilterOp.trimValue()),
-//                        new Element()
-//                                .name("")
-//                                .selector("")
-//                                .filter(FilterOp.convertNameTo(NamingStyle.UPPERCASE)),
-//                        new Element()
-//                                .name("")
-//                                .selector("")
-//                                .filter(el -> el.getName().toLowerCase())
-//                )
-//                .build();
+        var pageParameters = new PageParameters.Builder()
+                .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
+                .pageNum(1)
+                .delayBetweenPages(3000)
+                .build();
+
+        var link = new DataNode("link", ".products-i__link");
+        link.setLink(true);
+
+        DataTree<DataNode> tree = new DataTree<>(link);
+
+        var carNode = new DataNode("car", ".product-title", true);
+        var price = new DataNode("price", ".product-price > div:first-child");
+        var advertisementId = new DataNode("advertisement number", ".product-actions__id");
+        var description = new DataNode("description", ".product-description__content");
+        var updateTime = new DataNode("update time",".product-statistics__i:first-child");
+        var viewCount = new DataNode("view count",".product-statistics__i:last-child");
+        var properties = new DataNode("properties", ".product-properties");
+        properties.setKeyValuePair(true);
+
+        tree.addChild(carNode, link);
+        tree.addChild(price, link);
+        tree.addChild(advertisementId, link);
+        tree.addChild(description, link);
+        tree.addChild(updateTime, link);
+        tree.addChild(viewCount, link);
+        tree.addChild(properties, link);
+
+        PaginationItemTemplate template = new PaginationItemTemplate(pageParameters, tree);
+
+        PaginationItemPageScraper scraper = new PaginationItemPageScraper();
+        ReportDataTable table = scraper.scrape(template);
+
+        assertNotNull(table);
     }
 }

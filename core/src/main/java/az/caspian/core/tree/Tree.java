@@ -2,6 +2,15 @@ package az.caspian.core.tree;
 
 import java.util.List;
 
-public interface Tree<NODE> {
+/**
+ * A Tree
+ *
+ * @param <N> A node
+ */
+public interface Tree<N> {
+    void addChild(N child, N parent);
 
+    N getRoot();
+
+    List<N> getChildren(N parent);
 }

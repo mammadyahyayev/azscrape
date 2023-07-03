@@ -68,6 +68,18 @@ public class WebPage {
         return text;
     }
 
+    public String fetchElementAsText(String cssSelector) {
+        String text;
+        try {
+            text = WebBrowser.DRIVER.findElement(By.cssSelector(cssSelector)).getText();
+        } catch (Exception e) {
+            LOG.error("Unknown error happened: " + e);
+            text = "";
+        }
+
+        return text;
+    }
+
     /**
      * Fetch web elements and stores them in list of strings
      *
@@ -86,6 +98,16 @@ public class WebPage {
         return elements;
     }
 
+    public WebElement fetchWebElement(String cssSelector) {
+        WebElement element = null;
+        try {
+            element = WebBrowser.DRIVER.findElement(By.cssSelector(cssSelector));
+        } catch (Exception e) {
+            LOG.error("Unknown error happened: " + e);
+        }
+
+        return element;
+    }
 
     /**
      * Scrolls to the end of Web Page
@@ -115,5 +137,9 @@ public class WebPage {
      */
     public boolean isConnected() {
         return isConnected;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }
