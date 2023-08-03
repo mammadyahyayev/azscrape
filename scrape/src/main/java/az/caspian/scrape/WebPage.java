@@ -58,9 +58,15 @@ public class WebPage {
      * @return scraped element
      */
     public String fetchElementAsText(String cssSelector, WebElement webElement) {
-        String text;
+        if (webElement == null) {
+            return "";
+        }
+
+        String text = "";
         try {
-            text = webElement.findElement(By.cssSelector(cssSelector)).getText();
+            WebElement element = webElement.findElement(By.cssSelector(cssSelector));
+            if (element != null)
+                text = element.getText();
         } catch (Exception e) {
             LOG.error("Unknown error happened: " + e);
             text = "";

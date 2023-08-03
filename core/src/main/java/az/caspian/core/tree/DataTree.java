@@ -18,7 +18,7 @@ public class DataTree<N extends Node> implements Tree<N> {
         this.subNodes = new ArrayList<>();
         this.nodes = new HashMap<>();
 
-        //node.setLocation(DataNodeLocation.first());
+        node.setLocation(DataNodeLocation.first());
     }
 
     public void addSubNode(DataTree<N> node) {

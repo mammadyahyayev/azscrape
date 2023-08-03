@@ -2,10 +2,7 @@ package az.caspian.scrape.templates.pagination.item;
 
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
-import az.caspian.core.tree.DataNode;
-import az.caspian.core.tree.DataTree;
-import az.caspian.core.tree.Node;
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.*;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
@@ -75,12 +72,17 @@ public class PaginationItemPageScraper extends AbstractScrapeTemplate<Pagination
         List<Node> children = tree.getChildren(tree.getRoot());
 
         for (Node node : children) {
-            if (!node.isParent()) {
+            if (node instanceof DataNode) {
                 page.fetchWebElement(node.getSelector())
                         .ifPresent(element -> dataColumns.add(new DataColumn(node.getName(), element.getText())));
-            } else if (node.isKeyValuePair()) {
-                List<WebElement> keyValuePairs = page.fetchWebElements(node.getSelector());
-                keyValuePairs.forEach(kv -> dataColumns.add(new DataColumn(node.getName(), kv.getText())));
+            } else if (node instanceof KeyValueDataNode) {
+                KeyValueDataNode keyValueNode = (KeyValueDataNode) node;
+                List<WebElement> keyValuePairs = page.fetchWebElements(keyValueNode.getParent());
+                keyValuePairs.forEach(kv -> {
+                    String column = page.fetchElementAsText(keyValueNode.getKey(), kv);
+                    String value = page.fetchElementAsText(keyValueNode.getValue(), kv);
+                    dataColumns.add(new DataColumn(column, value));
+                });
             }
         }
 

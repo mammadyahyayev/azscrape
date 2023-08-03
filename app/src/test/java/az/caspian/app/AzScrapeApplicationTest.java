@@ -4,14 +4,14 @@ import az.caspian.core.constant.TestConstants;
 import az.caspian.core.model.DataFile;
 import az.caspian.core.model.enumeration.FileExtension;
 import az.caspian.core.model.enumeration.FileType;
-import az.caspian.core.tree.DataTree;
-import az.caspian.core.tree.Node;
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.*;
 import az.caspian.export.ExcelExporter;
 import az.caspian.scrape.templates.Scraper;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 import az.caspian.scrape.templates.pagination.PaginationTemplate;
+import az.caspian.scrape.templates.pagination.item.PaginationItemPageScraper;
+import az.caspian.scrape.templates.pagination.item.PaginationItemTemplate;
 import az.caspian.scrape.templates.scroll.ScrollablePageParameters;
 import az.caspian.scrape.templates.scroll.ScrollablePageScraper;
 import az.caspian.scrape.templates.scroll.ScrollablePageTemplate;
@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.nio.file.Path;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -206,6 +207,56 @@ class AzScrapeApplicationTest {
                 .build();
 
         excelExporter.export(dataFile, data);
+    }
+
+    @Test
+    @Tag(TestConstants.LONG_LASTING_TEST)
+    void testPaginationItemVisitorTemplate() {
+        var pageParameters = new PageParameters.Builder()
+                .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
+                .pageNum(1)
+                .delayBetweenPages(3000)
+                .build();
+
+        var link = new DataNode("link", ".products-i__link");
+        link.setLink(true);
+
+        DataTree<Node> tree = new DataTree<>(link);
+
+        var carNode = new DataNode("car", ".product-title", true);
+        var price = new DataNode("price", ".product-price > div:first-child");
+        var advertisementId = new DataNode("advertisement number", ".product-actions__id");
+        var description = new DataNode("description", ".product-description__content");
+        var updateTime = new DataNode("update time", ".product-statistics__i:first-child");
+        var viewCount = new DataNode("view count", ".product-statistics__i:last-child");
+        var properties = new KeyValueDataNode(".product-properties__i",
+                ".product-properties__i-name",
+                ".product-properties__i-value"
+        );
+
+        tree.addChild(carNode, link);
+        tree.addChild(price, link);
+        tree.addChild(advertisementId, link);
+        tree.addChild(description, link);
+        tree.addChild(updateTime, link);
+        tree.addChild(viewCount, link);
+        tree.addChild(properties, link);
+
+        PaginationItemTemplate template = new PaginationItemTemplate(pageParameters, tree);
+
+        PaginationItemPageScraper scraper = new PaginationItemPageScraper(this::callback);
+        ReportDataTable table = scraper.scrape(template);
+
+        ExcelExporter excelExporter = new ExcelExporter();
+
+        DataFile dataFile = new DataFile.Builder()
+                .filename("turbo_az")
+                .storeAt(Path.of("C:/Users/User/Desktop").toString())
+                .fileType(FileType.EXCEL)
+                .fileExtension(FileExtension.XLSX)
+                .build();
+
+        excelExporter.export(dataFile, table);
     }
 
 

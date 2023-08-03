@@ -38,12 +38,9 @@ class PaginationItemPageScraperTest {
         var description = new DataNode("description", ".product-description__content");
         var updateTime = new DataNode("update time", ".product-statistics__i:first-child");
         var viewCount = new DataNode("view count", ".product-statistics__i:last-child");
-        var properties = new DataNode("properties", ".product-properties");
-        properties.setKeyValuePair(true);
-
-        var properties2 = new KeyValueDataNode(".product-properties__i",
-                "product-properties__i-name",
-                "product-properties__i-value"
+        var properties = new KeyValueDataNode(".product-properties__i",
+                ".product-properties__i-name",
+                ".product-properties__i-value"
         );
 
         tree.addChild(carNode, link);
@@ -60,18 +57,5 @@ class PaginationItemPageScraperTest {
         ReportDataTable table = scraper.scrape(template);
 
         assertNotNull(table);
-    }
-
-    @Test
-    void name() {
-        try (WebBrowser browser = new WebBrowser()) {
-            WebPage webPage = browser.goTo("https://turbo.az/autos/7365435-man-tgx-18-440");
-            List<WebElement> webElements = webPage.fetchWebElements(".product-properties__i");
-            for (WebElement webElement : webElements) {
-                String column = webElement.findElement(By.className("product-properties__i-name")).getText();
-                String value = webElement.findElement(By.className("product-properties__i-value")).getText();
-                System.out.println(MessageFormat.format("Column : {0}, Value: {1}", column, value));
-            }
-        }
     }
 }
