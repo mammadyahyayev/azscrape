@@ -1,9 +1,6 @@
 package az.caspian.core.tree;
 
-/**
- * A data node
- */
-public class DataNode extends Node {
+public class Node {
     private String name;
     private String selector; //TODO: Replace this with custom class (e.g. DataNodeSelector)
     private boolean isKeyColumn;
@@ -12,17 +9,17 @@ public class DataNode extends Node {
     private boolean isKeyValuePair; //TODO: Create separate class: DataKeyValuePairNode
     private DataNodeLocation location;
 
-    public DataNode() {
+    public Node() {
 
     }
 
-    public DataNode(String name, String selector) {
+    public Node(String name, String selector) {
         this.name = name;
         this.selector = selector;
         this.isKeyColumn = false;
     }
 
-    public DataNode(String name, String selector, boolean isKeyColumn) {
+    public Node(String name, String selector, boolean isKeyColumn) {
         this.name = name;
         this.selector = selector;
         this.isKeyColumn = isKeyColumn;

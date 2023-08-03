@@ -4,6 +4,7 @@ import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
+import az.caspian.core.tree.Node;
 import az.caspian.core.tree.ReportDataTable;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
@@ -14,7 +15,6 @@ import org.openqa.selenium.WebElement;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PaginationItemPageScraper extends AbstractScrapeTemplate<PaginationItemTemplate> {
 
@@ -41,7 +41,7 @@ public class PaginationItemPageScraper extends AbstractScrapeTemplate<Pagination
 
                 WebPage page = browser.goTo(url, pageParameters.getDelayBetweenPages());
 
-                DataTree<DataNode> tree = template.getTree();
+                DataTree<Node> tree = template.getTree();
                 List<WebElement> elements = page.fetchWebElements(tree.getRoot().getSelector());
                 for (WebElement element : elements) {
                     List<DataRow> dataRows = new ArrayList<>();
@@ -70,19 +70,17 @@ public class PaginationItemPageScraper extends AbstractScrapeTemplate<Pagination
         return reportDataTable;
     }
 
-    private DataRow collectPageData(DataTree<DataNode> tree, WebPage page) {
+    private DataRow collectPageData(DataTree<Node> tree, WebPage page) {
         List<DataColumn> dataColumns = new ArrayList<>();
-        List<DataNode> children = tree.getChildren(tree.getRoot());
-        for (DataNode node : children) {
+        List<Node> children = tree.getChildren(tree.getRoot());
+
+        for (Node node : children) {
             if (!node.isParent()) {
-                WebElement element = page.fetchWebElement(node.getSelector());
-                String value = element.getText();
-                dataColumns.add(new DataColumn(node.getName(), value));
+                page.fetchWebElement(node.getSelector())
+                        .ifPresent(element -> dataColumns.add(new DataColumn(node.getName(), element.getText())));
             } else if (node.isKeyValuePair()) {
-                String value = page.fetchWebElements(node.getSelector()).stream()
-                        .map(WebElement::getText)
-                        .collect(Collectors.joining());
-                dataColumns.add(new DataColumn(node.getName(), value));
+                List<WebElement> keyValuePairs = page.fetchWebElements(node.getSelector());
+                keyValuePairs.forEach(kv -> dataColumns.add(new DataColumn(node.getName(), kv.getText())));
             }
         }
 

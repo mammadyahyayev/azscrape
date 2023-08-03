@@ -3,7 +3,7 @@ package az.caspian.core.tree;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class DataTree<N extends DataNode> implements Tree<N> {
+public class DataTree<N extends Node> implements Tree<N> {
     private final N node;
     private DataTree<N> parent;
     private final List<DataTree<N>> subNodes;
@@ -18,7 +18,7 @@ public class DataTree<N extends DataNode> implements Tree<N> {
         this.subNodes = new ArrayList<>();
         this.nodes = new HashMap<>();
 
-        node.setLocation(DataNodeLocation.first());
+        //node.setLocation(DataNodeLocation.first());
     }
 
     public void addSubNode(DataTree<N> node) {

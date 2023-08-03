@@ -1,6 +1,7 @@
 package az.caspian.scrape.templates.scroll;
 
 import az.caspian.core.constant.TestConstants;
+import az.caspian.core.tree.Node;
 import az.caspian.scrape.templates.Scraper;
 import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
@@ -19,10 +20,10 @@ class ScrollablePageScraperTest {
                 .url("https://turbo.az/")
                 .build();
 
-        var repoItem = new DataTree<>(new DataNode("wrapper", ".products-i"));
-        var car = new DataTree<>(new DataNode("car", ".products-i__name"));
-        var price = new DataTree<>(new DataNode("price", ".products-i__price .product-price"));
-        var details = new DataTree<>(new DataNode("details", ".products-i__attributes"));
+        var repoItem = new DataTree<>(new Node("wrapper", ".products-i"));
+        var car = new DataTree<>(new Node("car", ".products-i__name"));
+        var price = new DataTree<>(new Node("price", ".products-i__price .product-price"));
+        var details = new DataTree<>(new Node("details", ".products-i__attributes"));
 
         repoItem.addSubNode(car);
         repoItem.addSubNode(price);

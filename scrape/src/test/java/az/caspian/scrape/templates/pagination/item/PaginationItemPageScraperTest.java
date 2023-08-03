@@ -2,11 +2,16 @@ package az.caspian.scrape.templates.pagination.item;
 
 import az.caspian.core.constant.TestConstants;
 import az.caspian.core.tree.*;
-import az.caspian.scrape.templates.Scraper;
+import az.caspian.scrape.WebBrowser;
+import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.pagination.PageParameters;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import java.text.MessageFormat;
+import java.util.List;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -22,65 +27,24 @@ class PaginationItemPageScraperTest {
                 .delayBetweenPages(3000)
                 .build();
 
-
-        var repoItem = new DataTree<>(new DataNode("wrapper", ".products-i"));
-        var car = new DataTree<>(new DataNode("car", ".products-i__name", true));
-        var price = new DataTree<>(new DataNode("price", ".product-price .product-price__i"));
-
-        var linkToDetailsPageNode = new DataNode("link", ".products-i__link");
-        linkToDetailsPageNode.setLink(true);
-
-        var linkToDetailsPage = new DataTree<>(linkToDetailsPageNode);
-
-        var detailsRootNode = new DataNode("details-root", ".product-content");
-        detailsRootNode.setParent(true);
-
-        var detailsRoot = new DataTree<>(detailsRootNode);
-
-        var statistics = new DataTree<>(new DataNode("statistics", ".product-statistics__i-text"));
-        var properties = new DataTree<>(new DataNode("properties", ".product-properties__i"));
-        var description = new DataTree<>(new DataNode("description", ".product-description__content"));
-        var advertisementId = new DataTree<>(new DataNode("advertisement number", ".product-actions__id"));
-
-        repoItem.addSubNode(linkToDetailsPage);
-        repoItem.addSubNode(car);
-        repoItem.addSubNode(price);
-        repoItem.addSubNode(detailsRoot);
-        detailsRoot.addSubNode(statistics);
-        detailsRoot.addSubNode(properties);
-        detailsRoot.addSubNode(description);
-        detailsRoot.addSubNode(advertisementId);
-
-        PaginationItemTemplate tree = new PaginationItemTemplate(pageParameters, repoItem);
-
-        Scraper<PaginationItemTemplate> scraper = new PaginationItemPageScraper();
-        ReportDataTable table = scraper.scrape(tree);
-
-        assertNotNull(table);
-    }
-
-    @Test
-    @Tag(TestConstants.LONG_LASTING_TEST)
-    void test() {
-        var pageParameters = new PageParameters.Builder()
-                .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
-                .pageNum(1)
-                .delayBetweenPages(3000)
-                .build();
-
         var link = new DataNode("link", ".products-i__link");
         link.setLink(true);
 
-        DataTree<DataNode> tree = new DataTree<>(link);
+        DataTree<Node> tree = new DataTree<>(link);
 
         var carNode = new DataNode("car", ".product-title", true);
         var price = new DataNode("price", ".product-price > div:first-child");
         var advertisementId = new DataNode("advertisement number", ".product-actions__id");
         var description = new DataNode("description", ".product-description__content");
-        var updateTime = new DataNode("update time",".product-statistics__i:first-child");
-        var viewCount = new DataNode("view count",".product-statistics__i:last-child");
+        var updateTime = new DataNode("update time", ".product-statistics__i:first-child");
+        var viewCount = new DataNode("view count", ".product-statistics__i:last-child");
         var properties = new DataNode("properties", ".product-properties");
         properties.setKeyValuePair(true);
+
+        var properties2 = new KeyValueDataNode(".product-properties__i",
+                "product-properties__i-name",
+                "product-properties__i-value"
+        );
 
         tree.addChild(carNode, link);
         tree.addChild(price, link);
@@ -96,5 +60,18 @@ class PaginationItemPageScraperTest {
         ReportDataTable table = scraper.scrape(template);
 
         assertNotNull(table);
+    }
+
+    @Test
+    void name() {
+        try (WebBrowser browser = new WebBrowser()) {
+            WebPage webPage = browser.goTo("https://turbo.az/autos/7365435-man-tgx-18-440");
+            List<WebElement> webElements = webPage.fetchWebElements(".product-properties__i");
+            for (WebElement webElement : webElements) {
+                String column = webElement.findElement(By.className("product-properties__i-name")).getText();
+                String value = webElement.findElement(By.className("product-properties__i-value")).getText();
+                System.out.println(MessageFormat.format("Column : {0}, Value: {1}", column, value));
+            }
+        }
     }
 }

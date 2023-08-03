@@ -1,16 +1,16 @@
 package az.caspian.scrape.templates.scroll;
 
-import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
+import az.caspian.core.tree.Node;
 import az.caspian.scrape.templates.ScrapeTemplate;
 
 import java.util.Objects;
 
 public class ScrollablePageTemplate implements ScrapeTemplate {
     private final ScrollablePageParameters pageParameters;
-    private final DataTree<DataNode> root;
+    private final DataTree<Node> root;
 
-    public ScrollablePageTemplate(ScrollablePageParameters pageParameters, DataTree<DataNode> root) {
+    public ScrollablePageTemplate(ScrollablePageParameters pageParameters, DataTree<Node> root) {
         this.pageParameters = Objects.requireNonNull(pageParameters);
         this.root = Objects.requireNonNull(root);
     }
@@ -26,7 +26,7 @@ public class ScrollablePageTemplate implements ScrapeTemplate {
         return pageParameters;
     }
 
-    public DataTree<DataNode> getRoot() {
+    public DataTree<Node> getRoot() {
         return root;
     }
 

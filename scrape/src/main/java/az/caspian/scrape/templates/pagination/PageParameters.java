@@ -90,6 +90,10 @@ public class PageParameters {
         }
 
         public Builder url(String url) {
+            if (StringUtils.isNullOrEmpty(url)) {
+                throw new IllegalArgumentException("url cannot be null or empty");
+            }
+
             this.pageUrl = url;
             return this;
         }

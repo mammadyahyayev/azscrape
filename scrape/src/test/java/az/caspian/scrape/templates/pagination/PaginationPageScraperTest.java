@@ -1,8 +1,9 @@
 package az.caspian.scrape.templates.pagination;
 
-import az.caspian.core.tree.DataNode;
 import az.caspian.core.constant.TestConstants;
+import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
+import az.caspian.core.tree.Node;
 import az.caspian.core.tree.ReportDataTable;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.Scraper;
@@ -31,9 +32,9 @@ class PaginationPageScraperTest {
                 .build();
 
 
-        DataTree<DataNode> repoItem = new DataTree<>(new DataNode("repoItem", ".repo-list-item"));
-        DataTree<DataNode> title = new DataTree<>(new DataNode("title", ".v-align-middle"));
-        DataTree<DataNode> description = new DataTree<>(new DataNode("description", ".mb-1"));
+        DataTree<Node> repoItem = new DataTree<>(new DataNode("repoItem", ".repo-list-item"));
+        DataTree<Node> title = new DataTree<>(new DataNode("title", ".v-align-middle"));
+        DataTree<Node> description = new DataTree<>(new DataNode("description", ".mb-1"));
 
         repoItem.addSubNode(title);
         repoItem.addSubNode(description);

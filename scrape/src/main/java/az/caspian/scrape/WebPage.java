@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -98,15 +99,16 @@ public class WebPage {
         return elements;
     }
 
-    public WebElement fetchWebElement(String cssSelector) {
-        WebElement element = null;
+    public Optional<WebElement> fetchWebElement(String cssSelector) {
+        WebElement element;
         try {
             element = WebBrowser.DRIVER.findElement(By.cssSelector(cssSelector));
+            return Optional.of(element);
         } catch (Exception e) {
             LOG.error("Unknown error happened: " + e);
         }
 
-        return element;
+        return Optional.empty();
     }
 
     /**
