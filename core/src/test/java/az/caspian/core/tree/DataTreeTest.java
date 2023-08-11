@@ -7,6 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DataTreeTest {
 
+    private final DataTree<DataNode> TEST_NODE = new DataTree<>(new DataNode("test", "test"));
+
     @Test
     void testAddChildNode() {
         var root = new DataTree<>(new DataNode("Parent", ".repo-list-item"));
@@ -21,7 +23,8 @@ class DataTreeTest {
         assertEquals(root, descNode.parent());
 
         assertEquals(2, root.nodes().size());
-        assertThrows(UnsupportedOperationException.class, () -> root.nodes().add(new DataTree<>(null)));
+
+        assertThrows(UnsupportedOperationException.class, () -> root.nodes().add(TEST_NODE));
     }
 
     @Test
@@ -45,7 +48,7 @@ class DataTreeTest {
         assertEquals(1, titleNode.nodes().size());
 
         assertEquals(2, root.nodes().size());
-        assertThrows(UnsupportedOperationException.class, () -> root.nodes().add(new DataTree<>(null)));
+        assertThrows(UnsupportedOperationException.class, () -> root.nodes().add(TEST_NODE));
     }
 
     @Test
