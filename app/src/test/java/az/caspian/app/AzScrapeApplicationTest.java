@@ -10,8 +10,8 @@ import az.caspian.scrape.templates.Scraper;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 import az.caspian.scrape.templates.pagination.PaginationTemplate;
-import az.caspian.scrape.templates.pagination.item.PaginationItemPageScraper;
-import az.caspian.scrape.templates.pagination.item.PaginationItemTemplate;
+import az.caspian.scrape.templates.pagination.item.PaginationItemVisitorScraper;
+import az.caspian.scrape.templates.pagination.item.PaginationItemVisitorTemplate;
 import az.caspian.scrape.templates.scroll.ScrollablePageParameters;
 import az.caspian.scrape.templates.scroll.ScrollablePageScraper;
 import az.caspian.scrape.templates.scroll.ScrollablePageTemplate;
@@ -242,9 +242,9 @@ class AzScrapeApplicationTest {
         tree.addChild(viewCount, link);
         tree.addChild(properties, link);
 
-        PaginationItemTemplate template = new PaginationItemTemplate(pageParameters, tree);
+        PaginationItemVisitorTemplate template = new PaginationItemVisitorTemplate(pageParameters, tree);
 
-        PaginationItemPageScraper scraper = new PaginationItemPageScraper(this::callback);
+        PaginationItemVisitorScraper scraper = new PaginationItemVisitorScraper(this::callback);
         ReportDataTable table = scraper.scrape(template);
 
         ExcelExporter excelExporter = new ExcelExporter();

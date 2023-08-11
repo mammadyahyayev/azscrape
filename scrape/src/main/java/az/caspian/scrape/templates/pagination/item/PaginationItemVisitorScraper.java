@@ -13,18 +13,18 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaginationItemPageScraper extends AbstractScrapeTemplate<PaginationItemTemplate> {
+public class PaginationItemVisitorScraper extends AbstractScrapeTemplate<PaginationItemVisitorTemplate> {
 
     private ScrapeErrorCallback callback;
 
-    public PaginationItemPageScraper() {
+    public PaginationItemVisitorScraper() {
     }
 
-    public PaginationItemPageScraper(ScrapeErrorCallback callback) {
+    public PaginationItemVisitorScraper(ScrapeErrorCallback callback) {
         this.callback = callback;
     }
 
-    public ReportDataTable scrape(PaginationItemTemplate template) {
+    public ReportDataTable scrape(PaginationItemVisitorTemplate template) {
         ReportDataTable reportDataTable = new ReportDataTable();
 
         String url = null;
@@ -43,7 +43,7 @@ public class PaginationItemPageScraper extends AbstractScrapeTemplate<Pagination
                 for (WebElement element : elements) {
                     List<DataRow> dataRows = new ArrayList<>();
                     String urlOfSubPage = element.getAttribute("href");
-                    WebPage webPage = browser.goTo(urlOfSubPage);
+                    WebPage webPage = browser.goTo(urlOfSubPage, pageParameters.getDelayBetweenPages());
 
                     DataRow dataRow = collectPageData(tree, webPage);
                     dataRows.add(dataRow);

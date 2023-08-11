@@ -2,21 +2,14 @@ package az.caspian.scrape.templates.pagination.item;
 
 import az.caspian.core.constant.TestConstants;
 import az.caspian.core.tree.*;
-import az.caspian.scrape.WebBrowser;
-import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
-import java.text.MessageFormat;
-import java.util.List;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class PaginationItemPageScraperTest {
+class PaginationItemVisitorScraperTest {
 
     @Test
     @Tag(TestConstants.LONG_LASTING_TEST)
@@ -51,9 +44,9 @@ class PaginationItemPageScraperTest {
         tree.addChild(viewCount, link);
         tree.addChild(properties, link);
 
-        PaginationItemTemplate template = new PaginationItemTemplate(pageParameters, tree);
+        PaginationItemVisitorTemplate template = new PaginationItemVisitorTemplate(pageParameters, tree);
 
-        PaginationItemPageScraper scraper = new PaginationItemPageScraper();
+        PaginationItemVisitorScraper scraper = new PaginationItemVisitorScraper();
         ReportDataTable table = scraper.scrape(template);
 
         assertNotNull(table);

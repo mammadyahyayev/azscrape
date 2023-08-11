@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class PaginationItemTemplateTest {
+class PaginationItemVisitorTemplateTest {
 
     @Test
     void throwExceptionWhenRootElementIsNotLink() {
@@ -17,7 +17,7 @@ class PaginationItemTemplateTest {
                 .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
                 .build();
 
-        assertThrows(IllegalStateException.class, () -> new PaginationItemTemplate(
+        assertThrows(IllegalStateException.class, () -> new PaginationItemVisitorTemplate(
                 pageParameters, new DataTree<>(node)
         ));
     }
