@@ -225,7 +225,7 @@
                 <version>${maven.checkstyle.plugin.version}</version>
                 <configuration>
                     <enableRulesSummary>false</enableRulesSummary>
-                    <configLocation>data-report-core/src/main/resources/checkstyle.xml</configLocation>
+                    <configLocation>core/src/main/resources/checkstyle.xml</configLocation>
                 </configuration>
             </plugin>
         </plugins>

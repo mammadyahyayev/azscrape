@@ -100,10 +100,4 @@ class ExcelExporterTest {
         System.out.println(path);
     }
 
-    private void deleteFile(String filePath) {
-        File file = new File(filePath);
-        if (file.exists() || file.isDirectory()) {
-            file.delete();
-        }
-    }
 }

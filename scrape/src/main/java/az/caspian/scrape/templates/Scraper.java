@@ -1,8 +1,7 @@
 package az.caspian.scrape.templates;
 
-import az.caspian.scrape.templates.ScrapeTemplate;
-import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 import az.caspian.core.tree.ReportDataTable;
+import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 
 /**
  * Collects data from given source
