@@ -5,6 +5,12 @@ public class KeyValueDataNode extends Node {
     private final String key;
     private final String value;
 
+    public KeyValueDataNode(String keySelector, String valueSelector) {
+        this.parent = "";
+        this.key = keySelector;
+        this.value = valueSelector;
+    }
+
     public KeyValueDataNode(String parent, String key, String value) {
         this.parent = parent;
         this.key = key;
