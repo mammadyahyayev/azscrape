@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Exports report data into Excel file
@@ -40,8 +42,7 @@ public class ExcelExporter implements Exporter {
 
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("data");
-            createHeaders(sheet, reportData);
-            createValues(sheet, reportData);
+            writeDataToSheet(sheet, reportData);
             FileOutputStream outputStream = new FileOutputStream(file);
             workbook.write(outputStream);
             outputStream.close();
@@ -54,38 +55,43 @@ public class ExcelExporter implements Exporter {
         return true;
     }
 
-    private void createHeaders(Sheet sheet, ReportDataTable reportDataTable) {
+    private void writeDataToSheet(Sheet sheet, ReportDataTable reportDataTable) {
         Row headerRow = sheet.createRow(0);
         List<DataRow> dataRows = reportDataTable.rows();
 
-        if (dataRows.size() == 0) return;
+        if (dataRows.isEmpty()) return;
 
-        DataRow first = dataRows.get(0);
-        if (first != null) {
-            int columnIndex = 0;
-            for (DataColumn dataColumn : first.columns()) {
-                headerRow.createCell(columnIndex++, CellType.STRING).setCellValue(dataColumn.getName());
-            }
-        }
-    }
+        Set<String> columns = dataRows.stream().flatMap(row -> row.columns().stream())
+                .collect(Collectors.groupingBy(DataColumn::getName))
+                .keySet();
 
-    private void createValues(Sheet sheet, ReportDataTable reportData) {
-        List<DataRow> dataRows = reportData.rows();
         int rowIndex = 0;
-
         for (DataRow dataRow : dataRows) {
             int columnIndex = 0;
-            for (DataColumn dataColumn : dataRow.columns()) {
+            for (String column : columns) {
+                if (rowIndex == 0) {
+                    headerRow.createCell(columnIndex, CellType.STRING).setCellValue(column);
+                }
+
+                String value = dataRow.columns().stream()
+                        .filter(c -> c.getName().equals(column))
+                        .findFirst()
+                        .map(DataColumn::getValue)
+                        .orElse("");
+
                 Row valueRow = createOrGetRow(sheet, rowIndex);
-                valueRow.createCell(columnIndex++, CellType.STRING).setCellValue(dataColumn.getValue());
+                valueRow.createCell(columnIndex, CellType.STRING).setCellValue(value);
+
+                columnIndex += 1;
             }
+
             rowIndex++;
         }
     }
 
     /**
      * @param sheet  sheet of the Excel file
-     * @param rowNum Zero based row number, first row number is 0
+     * @param rowNum Zero-based row number, first row number is 0
      * @return row if it exists, or create
      */
     private Row createOrGetRow(Sheet sheet, int rowNum) {

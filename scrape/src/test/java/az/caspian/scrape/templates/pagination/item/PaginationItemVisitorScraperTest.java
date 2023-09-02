@@ -1,10 +1,15 @@
 package az.caspian.scrape.templates.pagination.item;
 
 import az.caspian.core.constant.TestConstants;
+import az.caspian.core.model.DataColumn;
 import az.caspian.core.tree.*;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

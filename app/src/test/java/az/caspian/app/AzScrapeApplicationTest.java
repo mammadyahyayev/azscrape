@@ -31,7 +31,7 @@ class AzScrapeApplicationTest {
     void testExporting() {
         var pageParameters = new PageParameters.Builder()
                 .url("https://bina.az/baki/alqi-satqi/menziller/yeni-tikili/1-otaqli?page=" + PAGE_SPECIFIER)
-                .pageRange(1, 34)
+                .pageRange(1, 3)
                 .delayBetweenPages(6000)
                 .build();
 
@@ -62,6 +62,7 @@ class AzScrapeApplicationTest {
                 .filename("one_room_apartment")
                 .fileType(FileType.EXCEL)
                 .fileExtension(FileExtension.XLSX)
+                .storeAt(Path.of("C:/Users/User/Desktop").toString())
                 .build();
 
         excelExporter.export(dataFile, table);
@@ -244,7 +245,7 @@ class AzScrapeApplicationTest {
 
         PaginationItemVisitorTemplate template = new PaginationItemVisitorTemplate(pageParameters, tree);
 
-        PaginationItemVisitorScraper scraper = new PaginationItemVisitorScraper(this::callback);
+        PaginationItemVisitorScraper scraper = new PaginationItemVisitorScraper();
         ReportDataTable table = scraper.scrape(template);
 
         ExcelExporter excelExporter = new ExcelExporter();
