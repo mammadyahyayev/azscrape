@@ -8,9 +8,13 @@ import java.util.List;
  * @param <N> A node
  */
 public interface Tree<N> {
-    void addChild(N child, N parent);
+    enum NodeType {
+        DATA, PARENT, KEY_VALUE, LINK
+    }
+
+    void addNode(N node);
 
     N getRoot();
 
-    List<N> getChildren(N parent);
+    List<N> nodes();
 }

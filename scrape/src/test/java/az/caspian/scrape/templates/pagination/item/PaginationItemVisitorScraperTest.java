@@ -1,15 +1,10 @@
 package az.caspian.scrape.templates.pagination.item;
 
 import az.caspian.core.constant.TestConstants;
-import az.caspian.core.model.DataColumn;
 import az.caspian.core.tree.*;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,29 +20,29 @@ class PaginationItemVisitorScraperTest {
                 .delayBetweenPages(3000)
                 .build();
 
-        var link = new DataNode("link", ".products-i__link");
-        link.setLink(true);
-
-        DataTree<Node> tree = new DataTree<>(link);
-
-        var carNode = new DataNode("car", ".product-title", true);
+        var linkNode = new LinkNode("link", ".products-i__link");
+        var carNode = new DataNode("car", ".product-title");
         var price = new DataNode("price", ".product-price > div:first-child");
         var advertisementId = new DataNode("advertisement number", ".product-actions__id");
         var description = new DataNode("description", ".product-description__content");
         var updateTime = new DataNode("update time", ".product-statistics__i:first-child");
         var viewCount = new DataNode("view count", ".product-statistics__i:last-child");
-        var properties = new KeyValueDataNode(".product-properties__i",
+
+        var properties = new ParentNode("key value wrapper", ".product-properties__i");
+        var propertiesKeyValue = new KeyValueDataNode(
                 ".product-properties__i-name",
                 ".product-properties__i-value"
         );
+        properties.addChild(propertiesKeyValue);
 
-        tree.addChild(carNode, link);
-        tree.addChild(price, link);
-        tree.addChild(advertisementId, link);
-        tree.addChild(description, link);
-        tree.addChild(updateTime, link);
-        tree.addChild(viewCount, link);
-        tree.addChild(properties, link);
+        DataTree<Node> tree = new DataTree<>(linkNode);
+        tree.addNode(carNode);
+        tree.addNode(price);
+        tree.addNode(advertisementId);
+        tree.addNode(description);
+        tree.addNode(updateTime);
+        tree.addNode(viewCount);
+        tree.addNode(properties);
 
         PaginationItemVisitorTemplate template = new PaginationItemVisitorTemplate(pageParameters, tree);
 

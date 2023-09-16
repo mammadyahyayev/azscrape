@@ -1,15 +1,15 @@
 package az.caspian.scrape.templates.scroll;
 
 import az.caspian.core.constant.TestConstants;
-import az.caspian.core.tree.Node;
-import az.caspian.scrape.templates.Scraper;
 import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
+import az.caspian.core.tree.Node;
 import az.caspian.core.tree.ReportDataTable;
+import az.caspian.scrape.templates.Scraper;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class ScrollablePageScraperTest {
 
@@ -20,21 +20,22 @@ class ScrollablePageScraperTest {
                 .url("https://turbo.az/")
                 .build();
 
-        var repoItem = new DataTree<>(new Node("wrapper", ".products-i"));
-        var car = new DataTree<>(new Node("car", ".products-i__name"));
-        var price = new DataTree<>(new Node("price", ".products-i__price .product-price"));
-        var details = new DataTree<>(new Node("details", ".products-i__attributes"));
+        var repoItem = new DataNode("wrapper", ".products-i");
+        var car = new DataNode("car", ".products-i__name");
+        var price = new DataNode("price", ".products-i__price .product-price");
+        var details = new DataNode("details", ".products-i__attributes");
 
-        repoItem.addSubNode(car);
-        repoItem.addSubNode(price);
-        repoItem.addSubNode(details);
+        DataTree<Node> tree = new DataTree<>(repoItem);
+        tree.addNode(car);
+        tree.addNode(price);
+        tree.addNode(details);
 
-        ScrollablePageTemplate tree = new ScrollablePageTemplate(pageParameters, repoItem);
+        ScrollablePageTemplate template = new ScrollablePageTemplate(pageParameters, tree);
 
         Scraper<ScrollablePageTemplate> scraper = new ScrollablePageScraper();
-        ReportDataTable table = scraper.scrape(tree);
+        ReportDataTable table = scraper.scrape(template);
 
-        assertTrue(table.rows().size() > 0);
+        assertFalse(table.rows().isEmpty());
     }
 
 

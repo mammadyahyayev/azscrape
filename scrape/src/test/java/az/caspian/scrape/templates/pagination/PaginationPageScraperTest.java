@@ -33,17 +33,18 @@ class PaginationPageScraperTest {
                 .build();
 
 
-        DataTree<Node> repoItem = new DataTree<>(new DataNode("repoItem", ".repo-list-item"));
-        DataTree<Node> title = new DataTree<>(new DataNode("title", ".v-align-middle"));
-        DataTree<Node> description = new DataTree<>(new DataNode("description", ".mb-1"));
+        var repoItem = new DataNode("repoItem", ".repo-list-item");
+        var title = new DataNode("title", ".v-align-middle");
+        var description = new DataNode("description", ".mb-1");
 
-        repoItem.addSubNode(title);
-        repoItem.addSubNode(description);
+        DataTree<Node> tree = new DataTree<>(repoItem);
+        tree.addNode(title);
+        tree.addNode(description);
 
-        PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
+        PaginationTemplate template = new PaginationTemplate(pageParameters, tree);
 
         Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
-        scraper.scrape(tree);
+        scraper.scrape(template);
     }
 
     @Test

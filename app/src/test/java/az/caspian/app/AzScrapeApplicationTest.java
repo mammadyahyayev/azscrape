@@ -35,26 +35,26 @@ class AzScrapeApplicationTest {
                 .delayBetweenPages(6000)
                 .build();
 
+        var listNode = new ListNode("repoItem", ".items-i");
+        var location = new DataNode("location", ".card_params .location");
+        var price = new DataNode("price", ".card_params .price-val");
+        var currency = new DataNode("currency", ".card_params .price-cur");
+        var roomCount = new DataNode("room count", ".card_params .name > li:nth-child(1)");
+        var area = new DataNode("area", ".card_params .name > li:nth-child(2)");
+        var floor = new DataNode("floor", ".card_params .name > li:nth-child(3)");
 
-        var repoItem = new DataTree<>(new Node("repoItem", ".items-i"));
-        var location = new DataTree<>(new Node("location", ".card_params .location"));
-        var price = new DataTree<>(new Node("price", ".card_params .price-val"));
-        var currency = new DataTree<>(new Node("currency", ".card_params .price-cur"));
-        var roomCount = new DataTree<>(new Node("room count", ".card_params .name > li:nth-child(1)"));
-        var area = new DataTree<>(new Node("area", ".card_params .name > li:nth-child(2)"));
-        var floor = new DataTree<>(new Node("floor", ".card_params .name > li:nth-child(3)"));
+        DataTree<Node> tree = new DataTree<>(listNode);
+        tree.addNode(location);
+        tree.addNode(price);
+        tree.addNode(currency);
+        tree.addNode(roomCount);
+        tree.addNode(area);
+        tree.addNode(floor);
 
-        repoItem.addSubNode(location);
-        repoItem.addSubNode(price);
-        repoItem.addSubNode(currency);
-        repoItem.addSubNode(roomCount);
-        repoItem.addSubNode(area);
-        repoItem.addSubNode(floor);
-
-        PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
+        PaginationTemplate paginationTemplate = new PaginationTemplate(pageParameters, tree);
 
         Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
-        ReportDataTable table = scraper.scrape(tree);
+        ReportDataTable table = scraper.scrape(paginationTemplate);
 
         ExcelExporter excelExporter = new ExcelExporter();
 
@@ -78,19 +78,20 @@ class AzScrapeApplicationTest {
                 .build();
 
 
-        var repoItem = new DataTree<>(new Node("repoItem", ".cart-item"));
-        var phone = new DataTree<>(new Node("name", ".cart-body-top .name > a", true));
-        var price = new DataTree<>(new Node("price", ".cart-footer > p .nprice"));
-        var currency = new DataTree<>(new Node("currency", ".cart-footer > p .nprice + small"));
+        var listNode = new ListNode("repoItem", ".cart-item");
+        var phone = new DataNode("name", ".cart-body-top .name > a");
+        var price = new DataNode("price", ".cart-footer > p .nprice");
+        var currency = new DataNode("currency", ".cart-footer > p .nprice + small");
 
-        repoItem.addSubNode(phone);
-        repoItem.addSubNode(price);
-        repoItem.addSubNode(currency);
+        DataTree<Node> tree = new DataTree<>(listNode);
+        tree.addNode(phone);
+        tree.addNode(price);
+        tree.addNode(currency);
 
-        PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
+        PaginationTemplate paginationTemplate = new PaginationTemplate(pageParameters, tree);
 
         Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
-        ReportDataTable table = scraper.scrape(tree);
+        ReportDataTable table = scraper.scrape(paginationTemplate);
 
         ExcelExporter excelExporter = new ExcelExporter();
 
@@ -112,19 +113,20 @@ class AzScrapeApplicationTest {
                 .url("https://turbo.az/")
                 .build();
 
-        var repoItem = new DataTree<>(new Node("wrapper", ".products-i"));
-        var car = new DataTree<>(new Node("car", ".products-i__name", true));
-        var price = new DataTree<>(new Node("price", ".products-i__price .product-price"));
-        var details = new DataTree<>(new Node("details", ".products-i__attributes"));
+        var listNode = new ListNode("wrapper", ".products-i");
+        var car = new DataNode("car", ".products-i__name");
+        var price = new DataNode("price", ".products-i__price .product-price");
+        var details = new DataNode("details", ".products-i__attributes");
 
-        repoItem.addSubNode(car);
-        repoItem.addSubNode(price);
-        repoItem.addSubNode(details);
+        DataTree<Node> tree = new DataTree<>(listNode);
+        tree.addNode(car);
+        tree.addNode(price);
+        tree.addNode(details);
 
-        var tree = new ScrollablePageTemplate(pageParameters, repoItem);
+        var template = new ScrollablePageTemplate(pageParameters, tree);
 
         Scraper<ScrollablePageTemplate> scraper = new ScrollablePageScraper();
-        ReportDataTable table = scraper.scrape(tree);
+        ReportDataTable table = scraper.scrape(template);
 
         var excelExporter = new ExcelExporter();
 
@@ -147,19 +149,20 @@ class AzScrapeApplicationTest {
                 .build();
 
 
-        var repoItem = new DataTree<>(new Node("wrapper", ".products-i"));
-        var car = new DataTree<>(new Node("car", ".products-i__name", true));
-        var price = new DataTree<>(new Node("price", ".products-i__price .product-price"));
-        var details = new DataTree<>(new Node("details", ".products-i__attributes"));
+        var listNode = new ListNode("wrapper", ".products-i");
+        var car = new DataNode("car", ".products-i__name");
+        var price = new DataNode("price", ".products-i__price .product-price");
+        var details = new DataNode("details", ".products-i__attributes");
 
-        repoItem.addSubNode(car);
-        repoItem.addSubNode(price);
-        repoItem.addSubNode(details);
+        DataTree<Node> tree = new DataTree<>(listNode);
+        tree.addNode(car);
+        tree.addNode(price);
+        tree.addNode(details);
 
-        PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
+        PaginationTemplate template = new PaginationTemplate(pageParameters, tree);
 
         Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
-        ReportDataTable table = scraper.scrape(tree);
+        ReportDataTable table = scraper.scrape(template);
 
         ExcelExporter excelExporter = new ExcelExporter();
 
@@ -182,19 +185,20 @@ class AzScrapeApplicationTest {
                 .build();
 
 
-        var repoItem = new DataTree<>(new Node("wrapper", ".products-i"));
-        var car = new DataTree<>(new Node("car", ".products-i__name", true));
-        var price = new DataTree<>(new Node("price", ".products-i__price .product-price"));
-        var details = new DataTree<>(new Node("details", ".products-i__attributes"));
+        var listNode = new ListNode("listNode", ".products-i");
+        var car = new DataNode("car", ".products-i__name");
+        var price = new DataNode("price", ".products-i__price .product-price");
+        var details = new DataNode("details", ".products-i__attributes");
 
-        repoItem.addSubNode(car);
-        repoItem.addSubNode(price);
-        repoItem.addSubNode(details);
+        DataTree<Node> tree = new DataTree<>(listNode);
+        tree.addNode(car);
+        tree.addNode(price);
+        tree.addNode(details);
 
-        PaginationTemplate tree = new PaginationTemplate(pageParameters, repoItem);
+        PaginationTemplate template = new PaginationTemplate(pageParameters, tree);
 
         Scraper<PaginationTemplate> scraper = new PaginationPageScraper(this::callback);
-        assertThrows(Exception.class, () -> scraper.scrape(tree));
+        assertThrows(Exception.class, () -> scraper.scrape(template));
     }
 
     void callback(String message, ReportDataTable data) {
@@ -219,12 +223,8 @@ class AzScrapeApplicationTest {
                 .delayBetweenPages(3000)
                 .build();
 
-        var link = new DataNode("link", ".products-i__link");
-        link.setLink(true);
-
-        DataTree<Node> tree = new DataTree<>(link);
-
-        var carNode = new DataNode("car", ".product-title", true);
+        var link = new LinkNode("link", ".products-i__link");
+        var carNode = new DataNode("car", ".product-title");
         var price = new DataNode("price", ".product-price > div:first-child");
         var advertisementId = new DataNode("advertisement number", ".product-actions__id");
         var description = new DataNode("description", ".product-description__content");
@@ -235,13 +235,14 @@ class AzScrapeApplicationTest {
                 ".product-properties__i-value"
         );
 
-        tree.addChild(carNode, link);
-        tree.addChild(price, link);
-        tree.addChild(advertisementId, link);
-        tree.addChild(description, link);
-        tree.addChild(updateTime, link);
-        tree.addChild(viewCount, link);
-        tree.addChild(properties, link);
+        DataTree<Node> tree = new DataTree<>(link);
+        tree.addNode(carNode);
+        tree.addNode(price);
+        tree.addNode(advertisementId);
+        tree.addNode(description);
+        tree.addNode(updateTime);
+        tree.addNode(viewCount);
+        tree.addNode(properties);
 
         PaginationItemVisitorTemplate template = new PaginationItemVisitorTemplate(pageParameters, tree);
 
@@ -259,7 +260,6 @@ class AzScrapeApplicationTest {
 
         excelExporter.export(dataFile, table);
     }
-
 
     // TODO: 2509 - bina.az https://bina.az/alqi-satqi?page=2509
 }

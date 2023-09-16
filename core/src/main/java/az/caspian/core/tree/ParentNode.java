@@ -9,9 +9,6 @@ import java.util.List;
 public class ParentNode extends Node {
     private final List<Node> children = new ArrayList<>();
 
-    public ParentNode() {
-    }
-
     public ParentNode(String name, String selector) {
         super(name, selector);
     }

@@ -3,6 +3,7 @@ package az.caspian.scrape.templates.pagination.item;
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.*;
+import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
@@ -16,8 +17,10 @@ import java.util.List;
 public class PaginationItemVisitorScraper extends AbstractScrapeTemplate<PaginationItemVisitorTemplate> {
 
     private ScrapeErrorCallback callback;
+    private ScrapedDataCollector collector;
 
     public PaginationItemVisitorScraper() {
+        collector = new ScrapedDataCollector();
     }
 
     public PaginationItemVisitorScraper(ScrapeErrorCallback callback) {
@@ -69,20 +72,19 @@ public class PaginationItemVisitorScraper extends AbstractScrapeTemplate<Paginat
 
     private DataRow collectPageData(DataTree<Node> tree, WebPage page) {
         List<DataColumn> dataColumns = new ArrayList<>();
-        List<Node> children = tree.getChildren(tree.getRoot());
 
-        for (Node node : children) {
-            if (node instanceof DataNode) {
-                page.fetchWebElement(node.getSelector())
-                        .ifPresent(element -> dataColumns.add(new DataColumn(node.getName(), element.getText())));
-            } else if (node instanceof KeyValueDataNode) {
-                KeyValueDataNode keyValueNode = (KeyValueDataNode) node;
-                List<WebElement> keyValuePairs = page.fetchWebElements(keyValueNode.getParent());
-                keyValuePairs.forEach(kv -> {
-                    String column = page.fetchElementAsText(keyValueNode.getKey(), kv);
-                    String value = page.fetchElementAsText(keyValueNode.getValue(), kv);
-                    dataColumns.add(new DataColumn(column, value));
-                });
+        for (Node node : tree.nodes()) {
+            if (node.isDataNode()) {
+                DataNode dataNode = (DataNode) node;
+                collector.collect(dataNode, page).ifPresent(dataColumns::add);
+            } else if (node.isParentNode()) {
+                ParentNode parentNode = (ParentNode) node;
+                List<DataColumn> columns = collector.collect(parentNode, page);
+                dataColumns.addAll(columns);
+            } else if (node.isListNode()) {
+                ListNode listNode = (ListNode) node;
+                List<DataColumn> columns = collector.collect(listNode, page);
+                dataColumns.addAll(columns);
             }
         }
 

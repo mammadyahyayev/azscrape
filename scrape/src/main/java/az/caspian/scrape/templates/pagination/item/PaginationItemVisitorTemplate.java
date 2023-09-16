@@ -12,8 +12,8 @@ public class PaginationItemVisitorTemplate extends PaginationTemplate implements
         super(pageParameters, tree);
 
         Node root = tree.getRoot();
-        if (!root.isLink()) {
-            throw new IllegalStateException("Root element of '" + name() + "' must be link!");
+        if (!root.isLinkNode()) {
+            throw new IllegalStateException("Root element of '" + name() + "' must be LinkNode!");
         }
     }
 
