@@ -38,3 +38,41 @@ To create an application that scrapes data from websites using a Java backend an
    - Consider distributing the package through a package manager or version control repository.
 
 By creating a Python wrapper around your Java application, you can provide a user-friendly interface for Python developers to configure and interact with the web scraping functionality without needing to delve into Java specifics.
+
+---
+
+Each page can have different parameters therefore create separate class that will extend from PageParameters
+Then add that PageParameter (getPageParamrter) into scraper interface
+
+Restrict access to those classes only allow to use PageParameters and build those parameters with factory class and builder classes
+
+---
+
+DataNode creation
+
+```java
+var parentNode = new ParentNode().Builder()
+     name()
+     selector()
+     children(
+          new DataNode(),
+          new ListNode(),
+          new KeyValueNode()
+     ).build()
+```
+---
+
+Create AddChildren method that will accepts both varargs and list of child nodes
+
+---
+
+Create ScrollablePageParameters and add followings
+ScrollAmount
+DelayBetweenScrolls
+
+---
+Remove root from DataTree and change error messages
+
+The template first element must be list node
+---
+
