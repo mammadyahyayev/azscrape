@@ -73,6 +73,24 @@ DelayBetweenScrolls
 ---
 Remove root from DataTree and change error messages
 
+---
+
+DataCollector
+JsonDataCollector
+
+
+There will be void methods
+
+Void collect(node, page, table)
+
+Table has multiple mrthods inside addRow
+AddColumn
+
+So it will have some conventions, whenever new node appeared on the application
+
+Make it default implementation in interface
+
+
 The template first element must be list node
 ---
 
