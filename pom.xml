@@ -30,7 +30,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <jackson.databind.version>2.15.2</jackson.databind.version>
-        <commons.io.version>2.13.0</commons.io.version>
+        <commons.io.version>2.14.0</commons.io.version>
 
         <junit.jupiter.version>5.10.0</junit.jupiter.version>
         <mockito.core.version>5.5.0</mockito.core.version>
