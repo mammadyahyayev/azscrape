@@ -1,98 +1,74 @@
 package az.caspian.scrape.templates.pagination.item;
 
-import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
-import az.caspian.core.tree.*;
+import az.caspian.core.tree.DataTree;
+import az.caspian.core.tree.ListNode;
+import az.caspian.core.tree.Node;
+import az.caspian.core.tree.ReportDataTable;
 import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
-import org.openqa.selenium.WebElement;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import org.openqa.selenium.WebElement;
 
-public class PaginationItemVisitorScraper extends AbstractScrapeTemplate<PaginationItemVisitorTemplate> {
+public class PaginationItemVisitorScraper
+    extends AbstractScrapeTemplate<PaginationItemVisitorTemplate> {
 
-    private ScrapeErrorCallback callback;
-    private ScrapedDataCollector collector;
+  private ScrapeErrorCallback callback;
+  private final ScrapedDataCollector collector = new ScrapedDataCollector();
 
-    public PaginationItemVisitorScraper() {
-        collector = new ScrapedDataCollector();
-    }
+  public PaginationItemVisitorScraper() {}
 
-    public PaginationItemVisitorScraper(ScrapeErrorCallback callback) {
-        this.callback = callback;
-    }
+  public PaginationItemVisitorScraper(ScrapeErrorCallback callback) {
+    this.callback = callback;
+  }
 
-    public ReportDataTable scrape(PaginationItemVisitorTemplate template) {
-        ReportDataTable reportDataTable = new ReportDataTable();
+  public ReportDataTable scrape() {
+    return null;
+  }
 
-        String url = null;
-        int current = 0;
-        try (WebBrowser browser = new WebBrowser()) {
-            browser.open();
+  @Override
+  public ReportDataTable scrape(PaginationItemVisitorTemplate template) {
+    ReportDataTable reportDataTable = new ReportDataTable();
 
-            var pageParameters = template.getPageParameters();
-            for (current = pageParameters.getMinPage(); current <= pageParameters.getMaxPage(); current++) {
-                url = pageParameters.getPageUrl(current);
+    String url = null;
+    int current = 0;
+    try (var browser = new WebBrowser()) {
+      browser.open();
 
-                WebPage page = browser.goTo(url, pageParameters.getDelayBetweenPages());
+      var pageParameters = template.getPageParameters();
+      List<DataRow> dataRows = new ArrayList<>();
+      for (current = pageParameters.startPage(); current <= pageParameters.endPage(); current++) {
+        url = pageParameters.getPageUrl(current);
 
-                DataTree<Node> tree = template.getTree();
-                List<WebElement> elements = page.fetchWebElements(tree.getRoot().getSelector());
-                for (WebElement element : elements) {
-                    List<DataRow> dataRows = new ArrayList<>();
-                    String urlOfSubPage = element.getAttribute("href");
-                    WebPage webPage = browser.goTo(urlOfSubPage, pageParameters.getDelayBetweenPages());
-
-                    DataRow dataRow = collectPageData(tree, webPage);
-                    dataRows.add(dataRow);
-
-                    browser.backToPrevPage();
-
-                    reportDataTable.addAll(dataRows);
-                }
-            }
-        } catch (Exception e) {
-            String message = MessageFormat.format(
-                    "Failed to scrape data from {0} in page {1}, Exception: {2}", url, current, e.getMessage()
-            );
-
-            if (callback != null)
-                callback.handle(message, reportDataTable);
-
-            throw new RuntimeException(message, e);
+        WebPage page = browser.goTo(url, pageParameters.getDelayBetweenPages());
+        DataTree<Node> tree = template.getTree();
+        var rootNode = (ListNode) tree.nodes().get(0);
+        List<WebElement> elements = page.fetchWebElements(rootNode.getSelector());
+        for (WebElement element : elements) {
+          String urlOfSubPage = element.getAttribute("href");
+          WebPage webPage = browser.goTo(urlOfSubPage, pageParameters.getDelayBetweenPages());
+          DataRow dataRow = collector.collect(rootNode.getChildren(), webPage);
+          dataRows.add(dataRow);
+          browser.backToPrevPage();
         }
+      }
+      reportDataTable.addAll(dataRows);
+    } catch (Exception e) {
+      String message =
+          MessageFormat.format(
+              "Failed to scrape data from {0} in page {1}, Exception: {2}",
+              url, current, e.getMessage());
 
-        return reportDataTable;
+      if (callback != null) callback.handle(message, reportDataTable);
+
+      throw new RuntimeException(message, e);
     }
 
-    private DataRow collectPageData(DataTree<Node> tree, WebPage page) {
-        List<DataColumn> dataColumns = new ArrayList<>();
-
-        for (Node node : tree.nodes()) {
-            if (node.isDataNode()) {
-                DataNode dataNode = (DataNode) node;
-                collector.collect(dataNode, page).ifPresent(dataColumns::add);
-            } else if (node.isParentNode()) {
-                ParentNode parentNode = (ParentNode) node;
-                List<DataColumn> columns = collector.collect(parentNode, page);
-                dataColumns.addAll(columns);
-            } else if (node.isListNode()) {
-                ListNode listNode = (ListNode) node;
-                List<DataColumn> columns = collector.collect(listNode, page);
-                dataColumns.addAll(columns);
-            }
-        }
-
-        dataColumns.add(new DataColumn("link", page.getUrl()));
-
-        var dataRow = new DataRow();
-        dataRow.addColumns(dataColumns);
-
-        return dataRow;
-    }
+    return reportDataTable;
+  }
 }

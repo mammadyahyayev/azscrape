@@ -1,70 +1,95 @@
 package az.caspian.scrape;
 
 import az.caspian.core.model.DataColumn;
-import az.caspian.core.tree.DataNode;
-import az.caspian.core.tree.KeyValueDataNode;
-import az.caspian.core.tree.Node;
-import az.caspian.core.tree.ParentNode;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
+import az.caspian.core.model.DataRow;
+import az.caspian.core.tree.*;
+import az.caspian.core.utils.Asserts;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
 
 public class ScrapedDataCollector {
 
-    public Optional<DataColumn> collect(DataNode dataNode, WebPage page) {
-        if (dataNode == null) {
-            throw new IllegalArgumentException("DataNode can't be null!");
-        }
-
-        if (page == null) {
-            throw new IllegalArgumentException("WebPage can't be null");
-        }
-
-        Optional<WebElement> webElement = page.fetchWebElement(dataNode.getSelector());
-        return webElement.map(element -> new DataColumn(dataNode.getName(), element.getText()));
+  public DataRow collect(List<Node> nodes, WebPage page) {
+    var row = new DataRow();
+    List<DataColumn> columns = new ArrayList<>();
+    for (Node node : nodes) {
+      if (node.isDataNode()) {
+        var dataNode = (DataNode) node;
+        Optional<DataColumn> dataColumn = collect(dataNode, page);
+        dataColumn.ifPresent(columns::add);
+      } else if (node.isKeyValueNode()) {
+        var keyValueNode = (KeyValueDataNode) node;
+        String column = page.fetchElementAsText(keyValueNode.getKeySelector());
+        String value = page.fetchElementAsText(keyValueNode.getValueSelector());
+        columns.add(new DataColumn(column, value));
+      } else if (node.isListNode()) {
+        var listNode = (ListNode) node;
+        columns.addAll(collect(listNode, page));
+      }
     }
 
-    public Optional<DataColumn> collect(DataNode dataNode, WebElement webElement) {
-        if (dataNode == null) {
-            throw new IllegalArgumentException("DataNode can't be null!");
+    row.addColumns(columns);
+    return row;
+  }
+
+  public DataRow collect(List<Node> nodes, WebElement element) {
+    var row = new DataRow();
+    List<DataColumn> columns = new ArrayList<>();
+    for (Node node : nodes) {
+      if (node.isDataNode()) {
+        var dataNode = (DataNode) node;
+        Optional<DataColumn> dataColumn = collect(dataNode, element);
+        dataColumn.ifPresent(columns::add);
+      } else if (node.isKeyValueNode()) {
+        var keyValueNode = (KeyValueDataNode) node;
+        try {
+          String column =
+              element.findElement(By.cssSelector(keyValueNode.getKeySelector())).getText();
+          String value =
+              element.findElement(By.cssSelector(keyValueNode.getValueSelector())).getText();
+          columns.add(new DataColumn(column, value));
+        } catch (NoSuchElementException e) {
+          // ignore this exception
         }
-
-        if (webElement == null) {
-            throw new IllegalArgumentException("WebElement can't be null");
-        }
-
-        WebElement element = webElement.findElement(By.cssSelector(dataNode.getSelector()));
-        if (element == null) return Optional.empty();
-
-        return Optional.of(new DataColumn(dataNode.getName(), element.getText()));
+      }
     }
 
-    // TODO: This method belongs to ListNode, in ParentNode we don't need to get all the elements
-    //  ListNode is an array in json, however ParentNode is object in json
-    // TODO: Consider to rename ParentNode to ObjectNode to make it easy to understand.
-    public List<DataColumn> collect(ParentNode parentNode, WebPage page) {
-        List<DataColumn> columns = new ArrayList<>();
-        List<WebElement> webElements = page.fetchWebElements(parentNode.getSelector());
-        for (Node child : parentNode.getChildren()) {
-            for (WebElement webElement : webElements) {
-                if (child.isDataNode()) {
-                    WebElement element = webElement.findElement(By.cssSelector(child.getSelector()));
-                    if (element == null) continue;
-                    columns.add(new DataColumn(child.getName(), element.getText()));
-                } else if (child.isKeyValueNode()) {
-                    KeyValueDataNode keyValueNode = (KeyValueDataNode) child;
-                    String column = page.fetchElementAsText(keyValueNode.getKey(), webElement);
-                    String value = page.fetchElementAsText(keyValueNode.getValue(), webElement);
-                    columns.add(new DataColumn(column, value));
-                }
-            }
-        }
+    row.addColumns(columns);
+    return row;
+  }
 
-        return columns;
+  public Optional<DataColumn> collect(DataNode dataNode, WebPage page) {
+    Asserts.notNull(dataNode, "DataNode can't be null!");
+    Asserts.notNull(page, "WebPage can't be null");
+
+    Optional<WebElement> webElement = page.fetchWebElement(dataNode.getSelector());
+    return webElement.map(element -> new DataColumn(dataNode.getName(), element.getText()));
+  }
+
+  public Optional<DataColumn> collect(DataNode dataNode, WebElement webElement) {
+    Asserts.notNull(dataNode, "DataNode can't be null!");
+    Asserts.notNull(webElement, "WebElement can't be null");
+
+    try {
+      var element = webElement.findElement(By.cssSelector(dataNode.getSelector()));
+      if (element == null) return Optional.empty();
+      return Optional.of(new DataColumn(dataNode.getName(), element.getText()));
+    } catch (NoSuchElementException ex) {
+      // ignore this exception
     }
+    return Optional.empty();
+  }
 
-
+  public List<DataColumn> collect(ListNode listNode, WebPage page) {
+    List<DataColumn> columns = new ArrayList<>();
+    List<WebElement> webElements = page.fetchWebElements(listNode.getSelector());
+    for (WebElement webElement : webElements) {
+      columns.addAll(collect(listNode.getChildren(), webElement).columns());
+    }
+    return columns;
+  }
 }

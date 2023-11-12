@@ -11,9 +11,9 @@ public class PaginationItemVisitorTemplate extends PaginationTemplate implements
     public PaginationItemVisitorTemplate(PageParameters pageParameters, DataTree<Node> tree) {
         super(pageParameters, tree);
 
-        Node root = tree.getRoot();
-        if (!root.isLinkNode()) {
-            throw new IllegalStateException("Root element of '" + name() + "' must be LinkNode!");
+        Node root = tree.nodes().get(0);
+        if (!root.isListNode()) {
+            throw new IllegalStateException("Root element of '" + name() + "' must be ListNode!");
         }
     }
 

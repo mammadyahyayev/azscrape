@@ -1,10 +1,7 @@
 package az.caspian.scrape.templates.pagination;
 
 import az.caspian.core.constant.TestConstants;
-import az.caspian.core.tree.DataNode;
-import az.caspian.core.tree.DataTree;
-import az.caspian.core.tree.Node;
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.*;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.Scraper;
 import org.junit.jupiter.api.Tag;
@@ -33,13 +30,15 @@ class PaginationPageScraperTest {
                 .build();
 
 
-        var repoItem = new DataNode("repoItem", ".repo-list-item");
-        var title = new DataNode("title", ".v-align-middle");
-        var description = new DataNode("description", ".mb-1");
+        var repoItem = new ListNode("repoItem", ".Box-sc-g0xbh4-0 .bItZsX");
+        var title = new DataNode("title", ".search-title");
+        var description = new DataNode("description", ".Text-sc-17v1xeu-0");
 
-        DataTree<Node> tree = new DataTree<>(repoItem);
-        tree.addNode(title);
-        tree.addNode(description);
+        repoItem.addChild(title);
+        repoItem.addChild(description);
+
+        DataTree<Node> tree = new DataTree<>();
+        tree.addNode(repoItem);
 
         PaginationTemplate template = new PaginationTemplate(pageParameters, tree);
 
@@ -62,5 +61,4 @@ class PaginationPageScraperTest {
         verify(mockCallback).handle(exceptionMessageCaptor.capture(), any(ReportDataTable.class));
         assertEquals(runtimeException.getMessage(), exceptionMessageCaptor.getValue());
     }
-
 }
