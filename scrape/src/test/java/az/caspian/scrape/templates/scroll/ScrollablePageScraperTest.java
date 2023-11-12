@@ -1,10 +1,7 @@
 package az.caspian.scrape.templates.scroll;
 
 import az.caspian.core.constant.TestConstants;
-import az.caspian.core.tree.DataNode;
-import az.caspian.core.tree.DataTree;
-import az.caspian.core.tree.Node;
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.*;
 import az.caspian.scrape.templates.Scraper;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -20,15 +17,17 @@ class ScrollablePageScraperTest {
                 .url("https://turbo.az/")
                 .build();
 
-        var repoItem = new DataNode("wrapper", ".products-i");
+        var listNode = new ListNode("wrapper", ".products-i");
         var car = new DataNode("car", ".products-i__name");
         var price = new DataNode("price", ".products-i__price .product-price");
         var details = new DataNode("details", ".products-i__attributes");
 
-        DataTree<Node> tree = new DataTree<>(repoItem);
-        tree.addNode(car);
-        tree.addNode(price);
-        tree.addNode(details);
+        listNode.addChild(car);
+        listNode.addChild(price);
+        listNode.addChild(details);
+
+        DataTree<Node> tree = new DataTree<>();
+        tree.addNode(listNode);
 
         ScrollablePageTemplate template = new ScrollablePageTemplate(pageParameters, tree);
 

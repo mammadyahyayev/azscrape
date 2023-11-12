@@ -1,6 +1,5 @@
 package az.caspian.scrape.templates.pagination;
 
-import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.Node;
 import az.caspian.scrape.templates.ScrapeTemplate;
@@ -16,13 +15,6 @@ public class PaginationTemplate implements ScrapeTemplate {
         this.tree = Objects.requireNonNull(tree);
     }
 
-    /**
-     * Returns PageParameters object which keeps page related
-     * properties.
-     *
-     * @return a {@code PageParameters} object
-     * @see PageParameters
-     */
     public PageParameters getPageParameters() {
         return pageParameters;
     }

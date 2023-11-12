@@ -15,8 +15,8 @@ public class PageParameters {
     private static final String QUERY_PARAM_SEPARATOR = "&";
 
     private String pageUrl;
-    private final int minPage;
-    private final int maxPage;
+    private final int startPage;
+    private final int endPage;
     private final int delayBetweenPages;
     private final List<QueryParameter> queryParameters;
     private PageSpecifier pageSpecifier;
@@ -24,8 +24,8 @@ public class PageParameters {
     private PageParameters(Builder builder) {
         this.pageUrl = builder.pageUrl;
         this.queryParameters = builder.queryParameters;
-        this.minPage = builder.minPage;
-        this.maxPage = builder.maxPage;
+        this.startPage = builder.startPage;
+        this.endPage = builder.endPage;
         this.delayBetweenPages = builder.delayBetweenPages;
         buildPageUrl();
     }
@@ -35,12 +35,12 @@ public class PageParameters {
         return this.pageUrl.replace(PAGE_SPECIFIER, String.valueOf(pageNumber));
     }
 
-    public int getMinPage() {
-        return minPage;
+    public int startPage() {
+        return startPage;
     }
 
-    public int getMaxPage() {
-        return maxPage;
+    public int endPage() {
+        return endPage;
     }
 
     public int getDelayBetweenPages() {
@@ -81,8 +81,8 @@ public class PageParameters {
     public static class Builder {
         private String pageUrl;
         private final List<QueryParameter> queryParameters;
-        private int minPage;
-        private int maxPage;
+        private int startPage;
+        private int endPage;
         private int delayBetweenPages;
 
         {
@@ -105,8 +105,8 @@ public class PageParameters {
                 );
             }
 
-            this.minPage = page;
-            this.maxPage = page;
+            this.startPage = page;
+            this.endPage = page;
             return this;
         }
 
@@ -118,8 +118,8 @@ public class PageParameters {
                 );
             }
 
-            this.minPage = minPage;
-            this.maxPage = maxPage;
+            this.startPage = minPage;
+            this.endPage = maxPage;
             return this;
         }
 

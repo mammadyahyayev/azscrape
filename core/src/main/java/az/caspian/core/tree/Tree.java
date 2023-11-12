@@ -14,7 +14,5 @@ public interface Tree<N> {
 
     void addNode(N node);
 
-    N getRoot();
-
     List<N> nodes();
 }

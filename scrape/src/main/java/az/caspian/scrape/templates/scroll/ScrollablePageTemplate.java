@@ -8,26 +8,19 @@ import java.util.Objects;
 
 public class ScrollablePageTemplate implements ScrapeTemplate {
     private final ScrollablePageParameters pageParameters;
-    private final DataTree<Node> root;
+    private final DataTree<Node> tree;
 
-    public ScrollablePageTemplate(ScrollablePageParameters pageParameters, DataTree<Node> root) {
+    public ScrollablePageTemplate(ScrollablePageParameters pageParameters, DataTree<Node> tree) {
         this.pageParameters = Objects.requireNonNull(pageParameters);
-        this.root = Objects.requireNonNull(root);
+        this.tree = Objects.requireNonNull(tree);
     }
 
-    /**
-     * Returns ScrollablePageParameters object which keeps page related
-     * properties.
-     *
-     * @return a {@code ScrollablePageParameters} object
-     * @see ScrollablePageParameters
-     */
     public ScrollablePageParameters getPageParameters() {
         return pageParameters;
     }
 
-    public DataTree<Node> getRoot() {
-        return root;
+    public DataTree<Node> getTree() {
+        return tree;
     }
 
     @Override
