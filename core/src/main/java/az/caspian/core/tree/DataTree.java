@@ -6,14 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class DataTree<N extends Node> implements Tree<N> {
-    private N root;
     private final List<N> nodes = new ArrayList<>();
 
     public DataTree() {
-    }
-
-    public DataTree(N node) {
-        this.root = node;
     }
 
     @Override
@@ -42,10 +37,5 @@ public class DataTree<N extends Node> implements Tree<N> {
         }
 
         nodes.add(node);
-    }
-
-    @Override
-    public N getRoot() {
-        return this.root;
     }
 }
