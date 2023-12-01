@@ -1,6 +1,6 @@
 /**
- * Package used to store Abstract Syntax Tree elements, these elements
- * used pretty often to hold parsed, scanned data.
+ * Package used to store Abstract Syntax Tree elements. These elements are used pretty often to hold
+ * parsed, scraped data.
  *
  * @author Mammad Yahyayev
  * @since 1.0.0

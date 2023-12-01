@@ -1,5 +1,5 @@
 /**
- * Enum types of the project
+ * Enums of AZScrape.
  *
  * @author Mammad Yahyayev
  * @since 1.0.0

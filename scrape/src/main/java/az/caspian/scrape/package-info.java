@@ -1,5 +1,5 @@
 /**
- * Scrape the data from the given Webpage
+ * Covers base classes and interfaces that will be used in the scraping process.
  *
  * @author Mammad Yahyayev
  * @since 1.0.0
