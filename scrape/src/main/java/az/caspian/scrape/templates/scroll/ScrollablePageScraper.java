@@ -1,18 +1,19 @@
 package az.caspian.scrape.templates.scroll;
 
 import az.caspian.core.model.DataRow;
-import az.caspian.core.tree.ListNode;
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.*;
 import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
-import org.openqa.selenium.WebElement;
-
+import az.caspian.scrape.templates.TemplateException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import org.openqa.selenium.WebElement;
 
 public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePageTemplate> {
 
@@ -26,6 +27,10 @@ public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePage
   }
 
   public ReportDataTable scrape(ScrollablePageTemplate scrollablePageTemplate) {
+    if (true) {
+      return scrapeImproved(scrollablePageTemplate);
+    }
+
     ReportDataTable reportDataTable = new ReportDataTable();
 
     ScrollablePageParameters pageParameters = scrollablePageTemplate.getPageParameters();
@@ -42,17 +47,23 @@ public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePage
       while (currentHeight != previousHeight) {
         int tryCount = 0;
 
-        var rootNode = (ListNode) scrollablePageTemplate.getTree().nodes().get(0);
-        List<WebElement> webElements = webPage.fetchWebElements(rootNode.getSelector());
-        for (WebElement webElement : webElements) {
-          DataRow row = collector.collect(rootNode.getChildren(), webElement);
-          dataRows.add(row);
-        }
-        reportDataTable.addAll(dataRows);
+        scrollablePageTemplate
+            .getTree()
+            .findNode(Tree.NodeType.LIST)
+            .ifPresent(
+                (node) -> {
+                  var listNode = (ListNode) node;
+                  List<WebElement> webElements = webPage.fetchWebElements(listNode.getSelector());
+                  for (WebElement webElement : webElements) {
+                    DataRow row = collector.collect(listNode.getChildren(), webElement);
+                    dataRows.add(row);
+                  }
+                  reportDataTable.addAll(dataRows);
+                });
         try {
-          while (tryCount < 30) { // TODO: create new element to detect scroll react to end or not
+          while (tryCount < 10) { // TODO: create new element to detect scroll react to end or not
             webPage.scroll(200);
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             tryCount++;
           }
 
@@ -65,6 +76,57 @@ public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePage
         previousHeight = currentHeight;
         currentHeight = webPage.height();
       }
+    } catch (Exception e) {
+      String message =
+          MessageFormat.format(
+              "Failed to scrape data from {0}, Exception: {1}",
+              pageParameters.getUrl(), e.getMessage());
+
+      if (callback != null) callback.handle(message, reportDataTable);
+
+      throw new RuntimeException(message, e);
+    }
+
+    return reportDataTable;
+  }
+
+  public ReportDataTable scrapeImproved(final ScrollablePageTemplate template) {
+    ReportDataTable reportDataTable = new ReportDataTable();
+    ScrollablePageParameters pageParameters = template.getPageParameters();
+
+    try (WebBrowser browser = new WebBrowser()) {
+      browser.open();
+
+      WebPage webPage = browser.goTo(pageParameters.getUrl());
+      DataTree<Node> tree = template.getTree();
+      Optional<Node> node = tree.findNode(Tree.NodeType.LIST);
+      if (node.isEmpty()) {
+        throw new TemplateException("The first node of " + template.name() + " must be ListNode.");
+      }
+      List<DataRow> dataRows = new ArrayList<>();
+
+      var listNode = (ListNode) node.get();
+
+      long currentHeight = 0;
+      long pageHeight = webPage.height();
+      while (currentHeight <= pageHeight) {
+        int scrollCount = 0;
+        while (scrollCount != 5) {
+          webPage.scroll(200);
+          scrollCount++;
+        }
+
+        Thread.sleep(2000);
+
+        pageHeight = webPage.height();
+        currentHeight += 5 * 200;
+      }
+      var webElements = new HashSet<>(webPage.fetchWebElements(listNode.getSelector()));
+      for (WebElement webElement : webElements) {
+        DataRow row = collector.collect(listNode.getChildren(), webElement);
+        dataRows.add(row);
+      }
+      reportDataTable.addAll(dataRows);
     } catch (Exception e) {
       String message =
           MessageFormat.format(

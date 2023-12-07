@@ -117,12 +117,11 @@ class AzScrapeApplicationTest {
   @Test
   @Tag(TestConstants.LONG_LASTING_TEST)
   void testScrollablePageTurboAz() {
-    var pageParameters = new ScrollablePageParameters.Builder().url("https://turbo.az/").build();
+    var pageParameters = new ScrollablePageParameters.Builder()
+            .url("https://turbo.az/")
+            .build();
 
-    var products = new ParentNode("products", ".products");
     var listNode = new ListNode("wrapper", ".products-i");
-    products.addChild(listNode);
-
     var car = new DataNode("car", ".products-i__name");
     var price = new DataNode("price", ".products-i__price .product-price");
     var details = new DataNode("details", ".products-i__attributes");
@@ -131,7 +130,7 @@ class AzScrapeApplicationTest {
     listNode.addChild(details);
 
     DataTree<Node> tree = new DataTree<>();
-    tree.addNode(products);
+    tree.addNode(listNode);
 
     var template = new ScrollablePageTemplate(pageParameters, tree);
 

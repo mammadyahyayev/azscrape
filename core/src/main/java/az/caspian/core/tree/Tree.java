@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface Tree<N> {
     enum NodeType {
-        DATA, PARENT, KEY_VALUE, LINK
+        DATA, PARENT, KEY_VALUE, LINK, LIST
     }
 
     void addNode(N node);
