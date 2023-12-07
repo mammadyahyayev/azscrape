@@ -10,7 +10,6 @@ import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.TemplateException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import org.openqa.selenium.WebElement;
@@ -26,71 +25,7 @@ public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePage
     this.callback = callback;
   }
 
-  public ReportDataTable scrape(ScrollablePageTemplate scrollablePageTemplate) {
-    if (true) {
-      return scrapeImproved(scrollablePageTemplate);
-    }
-
-    ReportDataTable reportDataTable = new ReportDataTable();
-
-    ScrollablePageParameters pageParameters = scrollablePageTemplate.getPageParameters();
-
-    try (WebBrowser browser = new WebBrowser()) {
-      browser.open();
-
-      WebPage webPage = browser.goTo(pageParameters.getUrl());
-
-      long previousHeight = 0;
-      long currentHeight = webPage.height();
-
-      List<DataRow> dataRows = new ArrayList<>();
-      while (currentHeight != previousHeight) {
-        int tryCount = 0;
-
-        scrollablePageTemplate
-            .getTree()
-            .findNode(Tree.NodeType.LIST)
-            .ifPresent(
-                (node) -> {
-                  var listNode = (ListNode) node;
-                  List<WebElement> webElements = webPage.fetchWebElements(listNode.getSelector());
-                  for (WebElement webElement : webElements) {
-                    DataRow row = collector.collect(listNode.getChildren(), webElement);
-                    dataRows.add(row);
-                  }
-                  reportDataTable.addAll(dataRows);
-                });
-        try {
-          while (tryCount < 10) { // TODO: create new element to detect scroll react to end or not
-            webPage.scroll(200);
-            Thread.sleep(1000);
-            tryCount++;
-          }
-
-          Thread.sleep(5000);
-          webPage.scrollToEnd();
-        } catch (InterruptedException e) {
-          throw new RuntimeException(e);
-        }
-
-        previousHeight = currentHeight;
-        currentHeight = webPage.height();
-      }
-    } catch (Exception e) {
-      String message =
-          MessageFormat.format(
-              "Failed to scrape data from {0}, Exception: {1}",
-              pageParameters.getUrl(), e.getMessage());
-
-      if (callback != null) callback.handle(message, reportDataTable);
-
-      throw new RuntimeException(message, e);
-    }
-
-    return reportDataTable;
-  }
-
-  public ReportDataTable scrapeImproved(final ScrollablePageTemplate template) {
+  public ReportDataTable scrape(final ScrollablePageTemplate template) {
     ReportDataTable reportDataTable = new ReportDataTable();
     ScrollablePageParameters pageParameters = template.getPageParameters();
 
@@ -121,7 +56,8 @@ public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePage
         pageHeight = webPage.height();
         currentHeight += 5 * 200;
       }
-      var webElements = new HashSet<>(webPage.fetchWebElements(listNode.getSelector()));
+
+      List<WebElement> webElements = webPage.fetchWebElements(listNode.getSelector());
       for (WebElement webElement : webElements) {
         DataRow row = collector.collect(listNode.getChildren(), webElement);
         dataRows.add(row);
