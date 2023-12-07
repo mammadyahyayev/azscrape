@@ -19,17 +19,14 @@ public class ScrapedDataCollector {
     var row = new DataRow();
     List<DataColumn> columns = new ArrayList<>();
     for (Node node : nodes) {
-      if (node.isDataNode()) {
-        var dataNode = (DataNode) node;
+      if (node instanceof DataNode dataNode) {
         Optional<DataColumn> dataColumn = collect(dataNode, page);
         dataColumn.ifPresent(columns::add);
-      } else if (node.isKeyValueNode()) {
-        var keyValueNode = (KeyValueDataNode) node;
+      } else if (node instanceof KeyValueDataNode keyValueNode) {
         String column = page.fetchElementAsText(keyValueNode.getKeySelector());
         String value = page.fetchElementAsText(keyValueNode.getValueSelector());
         columns.add(new DataColumn(column, value));
-      } else if (node.isListNode()) {
-        var listNode = (ListNode) node;
+      } else if (node instanceof ListNode listNode) {
         columns.addAll(collect(listNode, page));
       }
     }
@@ -44,12 +41,10 @@ public class ScrapedDataCollector {
     var row = new DataRow();
     List<DataColumn> columns = new ArrayList<>();
     for (Node node : nodes) {
-      if (node.isDataNode()) {
-        var dataNode = (DataNode) node;
+      if (node instanceof DataNode dataNode) {
         Optional<DataColumn> dataColumn = collect(dataNode, element);
         dataColumn.ifPresent(columns::add);
-      } else if (node.isKeyValueNode()) {
-        var keyValueNode = (KeyValueDataNode) node;
+      } else if (node instanceof KeyValueDataNode keyValueNode) {
         String column = htmlElement.getElement(keyValueNode.getKeySelector());
         String value = htmlElement.getElement(keyValueNode.getValueSelector());
         if (column == null) continue;

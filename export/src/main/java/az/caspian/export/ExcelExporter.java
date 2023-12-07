@@ -62,7 +62,7 @@ public class ExcelExporter implements Exporter {
         if (dataRows.isEmpty()) return;
 
         Set<String> columns = dataRows.stream().flatMap(row -> row.columns().stream())
-                .collect(Collectors.groupingBy(DataColumn::getName))
+                .collect(Collectors.groupingBy(DataColumn::name))
                 .keySet();
 
         int rowIndex = 0;
@@ -74,9 +74,9 @@ public class ExcelExporter implements Exporter {
                 }
 
                 String value = dataRow.columns().stream()
-                        .filter(c -> c.getName().equals(column))
+                        .filter(c -> c.name().equals(column))
                         .findFirst()
-                        .map(DataColumn::getValue)
+                        .map(DataColumn::value)
                         .orElse("");
 
                 Row valueRow = createOrGetRow(sheet, rowIndex);
