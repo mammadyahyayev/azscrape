@@ -1,7 +1,7 @@
 package az.caspian.export;
 
 import az.caspian.core.model.DataFile;
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.DataTable;
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ public interface Exporter {
      * @param dataFile exported file
      * @param reportData class contains scraped data
      */
-    boolean export(DataFile dataFile, ReportDataTable reportData);
+    boolean export(DataFile dataFile, DataTable reportData);
 
     /**
      * Constructs ReportFile that is going to being used to store

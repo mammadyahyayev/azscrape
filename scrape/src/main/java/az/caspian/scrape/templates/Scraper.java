@@ -1,6 +1,6 @@
 package az.caspian.scrape.templates;
 
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.DataTable;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 
 /**
@@ -15,5 +15,5 @@ public interface Scraper<T extends ScrapeTemplate> {
      * @param type scraping type
      * @return list of report data
      */
-    ReportDataTable scrape(T type);
+    DataTable scrape(T type);
 }

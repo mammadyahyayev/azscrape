@@ -5,7 +5,7 @@ import az.caspian.core.constant.FileConstants;
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataFile;
 import az.caspian.core.model.DataRow;
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.DataTable;
 import az.caspian.core.utils.AbstractFileSystem;
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.DefaultFileSystem;
@@ -34,7 +34,7 @@ public class ExcelExporter implements Exporter {
     private static final Logger LOG = LogManager.getLogger(ExcelExporter.class);
 
     @Override
-    public boolean export(DataFile dataFile, ReportDataTable reportData) {
+    public boolean export(DataFile dataFile, DataTable reportData) {
         Objects.requireNonNull(dataFile);
         Asserts.required(dataFile.getFilename(), "Filename is required for report");
 
@@ -55,9 +55,9 @@ public class ExcelExporter implements Exporter {
         return true;
     }
 
-    private void writeDataToSheet(Sheet sheet, ReportDataTable reportDataTable) {
+    private void writeDataToSheet(Sheet sheet, DataTable dataTable) {
         Row headerRow = sheet.createRow(0);
-        List<DataRow> dataRows = reportDataTable.rows();
+        List<DataRow> dataRows = dataTable.rows();
 
         if (dataRows.isEmpty()) return;
 

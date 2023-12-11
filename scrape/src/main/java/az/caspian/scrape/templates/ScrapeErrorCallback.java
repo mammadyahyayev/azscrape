@@ -1,6 +1,6 @@
 package az.caspian.scrape.templates;
 
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.DataTable;
 
 /**
  * Callback is used whenever error happens while scraping data. This is
@@ -9,6 +9,6 @@ import az.caspian.core.tree.ReportDataTable;
  */
 public interface ScrapeErrorCallback {
 
-    void handle(String reason, ReportDataTable data);
+    void handle(String reason, DataTable data);
 
 }

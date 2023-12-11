@@ -30,7 +30,7 @@ class ScrollablePageScraperTest {
     ScrollablePageTemplate template = new ScrollablePageTemplate(pageParameters, tree);
 
     Scraper<ScrollablePageTemplate> scraper = new ScrollablePageScraper();
-    ReportDataTable table = scraper.scrape(template);
+    DataTable table = scraper.scrape(template);
 
     assertFalse(table.rows().isEmpty());
   }

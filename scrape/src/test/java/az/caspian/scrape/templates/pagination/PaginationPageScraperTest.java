@@ -60,7 +60,7 @@ class PaginationPageScraperTest {
 
     var runtimeException =
         assertThrows(RuntimeException.class, () -> scraper.scrape(mockPaginationTemplate));
-    verify(mockCallback).handle(exceptionMessageCaptor.capture(), any(ReportDataTable.class));
+    verify(mockCallback).handle(exceptionMessageCaptor.capture(), any(DataTable.class));
     assertEquals(runtimeException.getMessage(), exceptionMessageCaptor.getValue());
   }
 }

@@ -25,8 +25,8 @@ public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePage
     this.callback = callback;
   }
 
-  public ReportDataTable scrape(final ScrollablePageTemplate template) {
-    ReportDataTable reportDataTable = new ReportDataTable();
+  public DataTable scrape(final ScrollablePageTemplate template) {
+    DataTable dataTable = new DataTable();
     ScrollablePageParameters pageParameters = template.getPageParameters();
 
     try (WebBrowser browser = new WebBrowser()) {
@@ -62,18 +62,18 @@ public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePage
         DataRow row = collector.collect(listNode.getChildren(), webElement);
         dataRows.add(row);
       }
-      reportDataTable.addAll(dataRows);
+      dataTable.addAll(dataRows);
     } catch (Exception e) {
       String message =
           MessageFormat.format(
               "Failed to scrape data from {0}, Exception: {1}",
               pageParameters.getUrl(), e.getMessage());
 
-      if (callback != null) callback.handle(message, reportDataTable);
+      if (callback != null) callback.handle(message, dataTable);
 
       throw new RuntimeException(message, e);
     }
 
-    return reportDataTable;
+    return dataTable;
   }
 }

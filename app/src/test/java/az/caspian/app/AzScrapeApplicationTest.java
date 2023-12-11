@@ -58,7 +58,7 @@ class AzScrapeApplicationTest {
     PaginationTemplate paginationTemplate = new PaginationTemplate(pageParameters, tree);
 
     Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
-    ReportDataTable table = scraper.scrape(paginationTemplate);
+    DataTable table = scraper.scrape(paginationTemplate);
 
     ExcelExporter excelExporter = new ExcelExporter();
 
@@ -98,7 +98,7 @@ class AzScrapeApplicationTest {
     PaginationTemplate paginationTemplate = new PaginationTemplate(pageParameters, tree);
 
     Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
-    ReportDataTable table = scraper.scrape(paginationTemplate);
+    DataTable table = scraper.scrape(paginationTemplate);
 
     ExcelExporter excelExporter = new ExcelExporter();
 
@@ -135,7 +135,7 @@ class AzScrapeApplicationTest {
     var template = new ScrollablePageTemplate(pageParameters, tree);
 
     Scraper<ScrollablePageTemplate> scraper = new ScrollablePageScraper();
-    ReportDataTable table = scraper.scrape(template);
+    DataTable table = scraper.scrape(template);
 
     var excelExporter = new ExcelExporter();
 
@@ -175,7 +175,7 @@ class AzScrapeApplicationTest {
     PaginationTemplate template = new PaginationTemplate(pageParameters, tree);
 
     Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
-    ReportDataTable table = scraper.scrape(template);
+    DataTable table = scraper.scrape(template);
 
     ExcelExporter excelExporter = new ExcelExporter();
 
@@ -217,7 +217,7 @@ class AzScrapeApplicationTest {
     assertThrows(Exception.class, () -> scraper.scrape(template));
   }
 
-  void callback(String message, ReportDataTable data) {
+  void callback(String message, DataTable data) {
     System.out.println(message);
     ExcelExporter excelExporter = new ExcelExporter();
 
@@ -269,7 +269,7 @@ class AzScrapeApplicationTest {
         new PaginationItemVisitorTemplate(pageParameters, tree);
 
     PaginationItemVisitorScraper scraper = new PaginationItemVisitorScraper();
-    ReportDataTable table = scraper.scrape(template);
+    DataTable table = scraper.scrape(template);
 
     ExcelExporter excelExporter = new ExcelExporter();
 

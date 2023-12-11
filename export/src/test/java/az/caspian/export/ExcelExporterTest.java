@@ -6,7 +6,7 @@ import az.caspian.core.model.DataFile;
 import az.caspian.core.model.DataRow;
 import az.caspian.core.model.enumeration.FileExtension;
 import az.caspian.core.model.enumeration.FileType;
-import az.caspian.core.tree.ReportDataTable;
+import az.caspian.core.tree.DataTable;
 import az.caspian.core.utils.AbstractFileSystem;
 import az.caspian.core.utils.DefaultFileSystem;
 import org.junit.jupiter.api.BeforeEach;
@@ -61,7 +61,7 @@ class ExcelExporterTest {
     // given
     Path path = Path.of(FileConstants.TEMP_DIR_PATH, "github_search.xlsx");
 
-    ReportDataTable reportDataTable = new ReportDataTable();
+    DataTable dataTable = new DataTable();
 
     DataRow dataRow1 = new DataRow();
     DataColumn titleJava9 = new DataColumn("title", "Java9");
@@ -84,13 +84,13 @@ class ExcelExporterTest {
     DataColumn descJava6 = new DataColumn("description", "Desc Java6");
     dataRow4.addColumns(List.of(titleJava6, descJava6));
 
-    reportDataTable.addAll(List.of(dataRow1, dataRow2, dataRow3, dataRow4));
+    dataTable.addAll(List.of(dataRow1, dataRow2, dataRow3, dataRow4));
 
     // when
     File expectedFile = new File(path.toString());
     ExcelExporter mock = mock(ExcelExporter.class);
     Mockito.when(mock.constructReportFile(dataFile)).thenReturn(expectedFile);
-    exporter.export(dataFile, reportDataTable);
+    exporter.export(dataFile, dataTable);
 
     // then
     File file = new File(path.toString());

@@ -49,7 +49,7 @@ class PaginationItemVisitorScraperTest {
         new PaginationItemVisitorTemplate(pageParameters, tree);
 
     PaginationItemVisitorScraper scraper = new PaginationItemVisitorScraper();
-    ReportDataTable table = scraper.scrape(template);
+    DataTable table = scraper.scrape(template);
 
     assertNotNull(table);
   }

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ReportDataTable {
+public class DataTable {
     private final List<DataRow> dataRows;
 
-    public ReportDataTable() {
+    public DataTable() {
         this.dataRows = new ArrayList<>();
     }
 
