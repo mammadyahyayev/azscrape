@@ -4,84 +4,112 @@ import az.caspian.core.model.enumeration.FileExtension;
 import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.utils.AbstractFileSystem;
 import az.caspian.core.utils.DefaultFileSystem;
-
+import az.caspian.core.utils.StringUtils;
 import java.io.File;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 
 public class DataFile {
-    private final String filename;
-    private final FileType filetype;
+  private final String filename;
+  private final FileType filetype;
+  private final FileExtension fileExtension;
+  private String storeAt;
+  private final LocalDateTime createdAt = LocalDateTime.now();
+  private final Charset charset;
+
+  private final AbstractFileSystem abstractFileSystem;
+
+  private DataFile(
+      String filename,
+      FileType filetype,
+      FileExtension fileExtension,
+      String storeAt,
+      Charset charset) {
+    this.filename = filename;
+    this.filetype = filetype;
+    this.fileExtension = fileExtension;
+    this.storeAt = storeAt;
+    this.abstractFileSystem = new DefaultFileSystem();
+    this.charset = charset != null ? charset : Charset.defaultCharset();
+  }
+
+  public String getFilename() {
+    return filename;
+  }
+
+  public String getFileFullName() {
+    return this.filename.toLowerCase() + "." + this.fileExtension.toString().toLowerCase();
+  }
+
+  public FileExtension getFileExtension() {
+    return switch (filetype) {
+      case CSV -> FileExtension.CSV;
+      case EXCEL -> FileExtension.XLSX;
+    };
+  }
+
+  public String getFileAbsolutePath() {
+    return this.storeAt + File.separator + this.getFileFullName();
+  }
+
+  public void setStoreAt(String storeAt) {
+    this.storeAt = storeAt;
+  }
+
+  public String getStoreAt() {
+    return storeAt;
+  }
+
+  public FileType getFiletype() {
+    return filetype;
+  }
+
+  public Charset getCharset() {
+    return charset;
+  }
+
+  public static class Builder {
+    private String filename;
+    private FileType filetype;
     private FileExtension fileExtension;
     private String storeAt;
-    private final LocalDateTime createdAt = LocalDateTime.now();
+    private Charset charset;
 
-    private final AbstractFileSystem abstractFileSystem;
-
-    private DataFile(String filename, FileType filetype, FileExtension fileExtension, String storeAt) {
-        this.filename = filename;
-        this.filetype = filetype;
-        this.fileExtension = fileExtension;
-        this.storeAt = storeAt;
-        this.abstractFileSystem = new DefaultFileSystem();
+    public DataFile build() {
+      return new DataFile(filename, filetype, fileExtension, storeAt, charset);
     }
 
-    public String getFilename() {
-        return filename;
+    public Builder filename(String filename) {
+      if (StringUtils.isNullOrEmpty(filename)) {
+        throw new IllegalArgumentException("filename cannot be null or empty!");
+      }
+      this.filename = filename;
+      return this;
     }
 
-    public String getFileFullName() {
-        if (filename.contains(" ")) {
-            return abstractFileSystem.createFilename(filename, fileExtension.toString());
-        }
-
-        return this.filename.toLowerCase() + "." + this.fileExtension.toString().toLowerCase();
+    public Builder fileType(FileType filetype) {
+      this.filetype = filetype;
+      return this;
     }
 
-    public FileExtension getFileExtension() {
-        return fileExtension;
+    /**
+     * @deprecated use {@link #fileType(FileType)} method, the extension will be created
+     *     automatically.
+     */
+    @Deprecated(since = "3.0.0", forRemoval = true)
+    public Builder fileExtension(FileExtension extension) {
+      this.fileExtension = extension;
+      return this;
     }
 
-    public String getFileAbsolutePath() {
-        return this.storeAt + File.separator + this.getFileFullName();
+    public Builder charset(Charset charset) {
+      this.charset = charset;
+      return this;
     }
 
-    public void setStoreAt(String storeAt) {
-        this.storeAt = storeAt;
+    public Builder storeAt(String path) {
+      this.storeAt = path;
+      return this;
     }
-
-    public String getStoreAt() {
-        return storeAt;
-    }
-
-    public static class Builder {
-        private String filename;
-        private FileType filetype;
-        private FileExtension fileExtension;
-        private String storeAt;
-
-        public DataFile build() {
-            return new DataFile(filename, filetype, fileExtension, storeAt);
-        }
-
-        public Builder filename(String filename) {
-            this.filename = filename;
-            return this;
-        }
-
-        public Builder fileType(FileType filetype) {
-            this.filetype = filetype;
-            return this;
-        }
-
-        public Builder fileExtension(FileExtension extension) {
-            this.fileExtension = extension;
-            return this;
-        }
-
-        public Builder storeAt(String path) {
-            this.storeAt = path;
-            return this;
-        }
-    }
-
+  }
 }
