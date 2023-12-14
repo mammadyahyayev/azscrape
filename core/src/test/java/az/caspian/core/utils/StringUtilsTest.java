@@ -1,8 +1,8 @@
 package az.caspian.core.utils;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 public class StringUtilsTest {
 
@@ -11,7 +11,10 @@ public class StringUtilsTest {
     String expected = "Github_Page";
     String actual = StringUtils.replaceAllSymbols("Github Page", '_');
     assertEquals(expected, actual);
+  }
 
-    StringUtils.isNullOrEmpty("null");
+  @Test
+  void testIsNullOrEmpty_returnTrueWhenStrContainsWhiteSpaces() {
+    assertTrue(StringUtils.isNullOrEmpty("      "));
   }
 }
