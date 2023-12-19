@@ -1,10 +1,10 @@
 package az.caspian.scrape.templates.pagination.item;
 
 import az.caspian.core.model.DataRow;
+import az.caspian.core.tree.DataTable;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.ListNode;
 import az.caspian.core.tree.Node;
-import az.caspian.core.tree.DataTable;
 import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
@@ -50,7 +50,8 @@ public class PaginationItemVisitorScraper
         var rootNode = (ListNode) tree.nodes().get(0);
         List<WebElement> elements = page.fetchWebElements(rootNode.getSelector());
         for (WebElement element : elements) {
-          String urlOfSubPage = element.getAttribute("href");
+          String urlOfSubPage = safeGetAttribute(element, "href");
+          if(urlOfSubPage == null) continue;
           WebPage webPage = browser.goTo(urlOfSubPage, pageParameters.getDelayBetweenPages());
           DataRow dataRow = collector.collect(rootNode.getChildren(), webPage);
           dataRows.add(dataRow);
@@ -70,5 +71,19 @@ public class PaginationItemVisitorScraper
     }
 
     return dataTable;
+  }
+
+  private String safeGetAttribute(final WebElement element, final String attributeType) {
+    String attribute = null;
+
+    try {
+      attribute = element.getAttribute(attributeType);
+    } catch (Exception e) {
+      // Ignore: It is highly possible to get Exception in pages.
+      //TODO: Log it
+      return attribute;
+    }
+
+    return attribute;
   }
 }
