@@ -1,45 +1,85 @@
 package az.caspian.export;
 
+import az.caspian.core.DataReportAppException;
+import az.caspian.core.model.DataColumn;
+import az.caspian.core.model.DataRow;
+import az.caspian.core.tree.DataTable;
+import az.caspian.core.utils.StringUtils;
+
 import java.io.Closeable;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.Writer;
+import java.util.Set;
 
 public class CsvWriter implements Closeable {
-  private final OutputStream outputStream;
+  private final Writer writer;
   private static final char DEFAULT_CSV_DELIMITER = ',';
   private final char delimiter;
 
-  public CsvWriter(OutputStream outputStream) {
-    this.outputStream = outputStream;
+  private int cursorInRow = 0;
+
+  public CsvWriter(Writer writer) {
+    this.writer = writer;
     this.delimiter = DEFAULT_CSV_DELIMITER;
   }
 
-  public CsvWriter(OutputStream outputStream, char delimiter) {
-    this.outputStream = outputStream;
+  public CsvWriter(Writer writer, char delimiter) {
+    this.writer = writer;
     this.delimiter = delimiter;
   }
 
-  public void writeRow(String row) {
-    int lastChar = row.length() - 1;
-    if (row.charAt(lastChar) == this.delimiter) {
-      row = row.substring(0, lastChar);
-    }
+  public void writeData(DataTable data) {
+    Set<String> columnNames = data.getColumnNames();
+    columnNames.forEach(this::writeColumn);
 
-    try {
-      outputStream.write(row.getBytes());
-      outputStream.write('\n');
-    } catch (IOException ex) {
-      // TODO: ignore for now
+    this.writeNewLine();
+
+    for (DataRow row : data.rows()) {
+      for (String columnName : columnNames) {
+        row.columns().stream()
+            .filter(col -> col.name().equals(columnName))
+            .findFirst()
+            .map(DataColumn::value)
+            .ifPresentOrElse(this::writeColumn, () -> this.writeColumn(" "));
+      }
+
+      this.writeNewLine();
     }
+  }
+
+  public void writeColumn(String column) {
+    try {
+      if (cursorInRow != 0) writer.write(delimiter);
+      if (!StringUtils.isNullOrEmpty(column)) writer.write(quote(column));
+      cursorInRow++;
+    } catch (IOException ex) {
+      throw new DataReportAppException("Failed to write to csv file", ex);
+    }
+  }
+
+  public void writeNewLine() {
+    try {
+      writer.write('\n');
+      this.cursorInRow = 0;
+    } catch (IOException ex) {
+      throw new DataReportAppException("Failed to write to csv file", ex);
+    }
+  }
+
+  public char delimiter() {
+    return this.delimiter;
+  }
+
+  private String quote(String text) {
+    return "\"" + text + "\"";
   }
 
   @Override
   public void close() {
     try {
-      this.outputStream.close();
+      this.writer.close();
     } catch (IOException ex) {
-      // TODO: Ignore for now
-      throw new RuntimeException(ex);
+      throw new DataReportAppException("Failed to close output stream", ex);
     }
   }
 }

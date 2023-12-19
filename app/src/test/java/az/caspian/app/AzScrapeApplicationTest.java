@@ -9,7 +9,9 @@ import az.caspian.core.model.DataFile;
 import az.caspian.core.model.enumeration.FileExtension;
 import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.tree.*;
+import az.caspian.export.CsvExporter;
 import az.caspian.export.ExcelExporter;
+import az.caspian.export.Exporter;
 import az.caspian.scrape.templates.Scraper;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;
@@ -66,7 +68,6 @@ class AzScrapeApplicationTest {
         new DataFile.Builder()
             .filename("one_room_apartment")
             .fileType(FileType.EXCEL)
-            .fileExtension(FileExtension.XLSX)
             .storeAt(Path.of("C:/Users/User/Desktop").toString())
             .build();
 
@@ -106,7 +107,6 @@ class AzScrapeApplicationTest {
         new DataFile.Builder()
             .filename("smartphones")
             .fileType(FileType.EXCEL)
-            .fileExtension(FileExtension.XLSX)
             .storeAt(System.getProperty("user.home") + File.separator + "export-file")
             .build();
 
@@ -144,7 +144,6 @@ class AzScrapeApplicationTest {
             .filename("turbo_az")
             .storeAt(Path.of("C:/Users/User/Desktop").toString())
             .fileType(FileType.EXCEL)
-            .fileExtension(FileExtension.XLSX)
             .build();
 
     excelExporter.export(reportFile, table);
@@ -183,7 +182,6 @@ class AzScrapeApplicationTest {
         new DataFile.Builder()
             .filename("turbo_az")
             .fileType(FileType.EXCEL)
-            .fileExtension(FileExtension.XLSX)
             .build();
 
     excelExporter.export(dataFile, table);
@@ -225,7 +223,6 @@ class AzScrapeApplicationTest {
         new DataFile.Builder()
             .filename("turbo_az_with_callback")
             .fileType(FileType.EXCEL)
-            .fileExtension(FileExtension.XLSX)
             .build();
 
     excelExporter.export(dataFile, data);
@@ -278,8 +275,61 @@ class AzScrapeApplicationTest {
             .filename("turbo_az")
             .storeAt(Path.of("C:/Users/User/Desktop").toString())
             .fileType(FileType.EXCEL)
-            .fileExtension(FileExtension.XLSX)
             .build();
+
+    excelExporter.export(dataFile, table);
+  }
+
+  @Test
+  @Tag(TestConstants.LONG_LASTING_TEST)
+  void testPaginationItemVisitorTemplateWithExportToCsv() {
+    var pageParameters =
+            new PageParameters.Builder()
+                    .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
+                    .pageNum(1)
+                    .delayBetweenPages(3000)
+                    .build();
+
+    var link = new ListNode("link", ".products-i__link");
+    var carNode = new DataNode("car", ".product-title");
+    var price = new DataNode("price", ".product-price > div:first-child");
+    var advertisementId = new DataNode("advertisement number", ".product-actions__id");
+    var description = new DataNode("description", ".product-description__content");
+    var updateTime = new DataNode("update time", ".product-statistics__i:first-child");
+    var viewCount = new DataNode("view count", ".product-statistics__i:last-child");
+
+    var propertyWrapper = new ListNode("wrapper", ".product-properties__i");
+    var properties =
+            new KeyValueDataNode(".product-properties__i-name", ".product-properties__i-value");
+    propertyWrapper.addChild(properties);
+
+    link.addChild(carNode);
+    link.addChild(price);
+    link.addChild(advertisementId);
+    link.addChild(description);
+    link.addChild(updateTime);
+    link.addChild(viewCount);
+    link.addChild(propertyWrapper);
+
+    DataTree<Node> tree = new DataTree<>();
+    tree.addNode(link);
+
+    PaginationItemVisitorTemplate template =
+            new PaginationItemVisitorTemplate(pageParameters, tree);
+
+    PaginationItemVisitorScraper scraper = new PaginationItemVisitorScraper();
+    DataTable table = scraper.scrape(template);
+
+    Exporter excelExporter = new CsvExporter();
+
+    //TODO: We can create multiple DataFileFormat such as CsvDataFile, ExcelDataFile. Each file will has own
+    // parameters. And Builder will return exact fileFormat with its own parameters, after fileType()
+    DataFile dataFile =
+            new DataFile.Builder()
+                    .filename("turbo_az")
+                    .storeAt(Path.of("C:/Users/User/Desktop").toString())
+                    .fileType(FileType.CSV)
+                    .build();
 
     excelExporter.export(dataFile, table);
   }

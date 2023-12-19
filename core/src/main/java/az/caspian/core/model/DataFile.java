@@ -17,8 +17,6 @@ public class DataFile {
   private final LocalDateTime createdAt = LocalDateTime.now();
   private final Charset charset;
 
-  private final AbstractFileSystem abstractFileSystem;
-
   private DataFile(
       String filename,
       FileType filetype,
@@ -29,7 +27,6 @@ public class DataFile {
     this.filetype = filetype;
     this.fileExtension = fileExtension;
     this.storeAt = storeAt;
-    this.abstractFileSystem = new DefaultFileSystem();
     this.charset = charset != null ? charset : Charset.defaultCharset();
   }
 

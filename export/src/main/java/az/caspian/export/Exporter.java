@@ -3,36 +3,14 @@ package az.caspian.export;
 import az.caspian.core.model.DataFile;
 import az.caspian.core.tree.DataTable;
 
-import java.io.File;
-
-/**
- * Exports report files
- */
+/** Exports report files */
 public interface Exporter {
 
-    /**
-     * Exports scraped data into appropriate file
-     *
-     * @param dataFile exported file
-     * @param reportData class contains scraped data
-     */
-    boolean export(DataFile dataFile, DataTable reportData);
-
-    /**
-     * Constructs ReportFile that is going to being used to store
-     * scraped data
-     *
-     * @param directory  given directory path, can be absolute or relative
-     * @param dataFile exported file
-     * @return constructed output file for export
-     */
-    File constructReportFile(String directory, DataFile dataFile);
-
-    /**
-     * Constructs ReportFile in project resource folder
-     *
-     * @param dataFile exported file
-     * @return constructed output file for export
-     */
-    File constructReportFile(DataFile dataFile);
+  /**
+   * Exports scraped data into appropriate file
+   *
+   * @param dataFile exported file
+   * @param reportData class contains scraped data
+   */
+  void export(DataFile dataFile, DataTable reportData);
 }
