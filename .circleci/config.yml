@@ -3,7 +3,7 @@ version: '2.1'
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:11-browsers-legacy
+      - image: circleci/openjdk:17.0.9-browsers
 
     working_directory: ~/repo
     environment:
