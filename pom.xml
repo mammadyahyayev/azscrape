@@ -13,6 +13,7 @@
         <module>export</module>
         <module>scrape</module>
         <module>azscrape-api</module>
+        <module>client</module>
     </modules>
 
     <name>azscrape</name>

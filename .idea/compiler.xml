@@ -9,6 +9,7 @@
         <module name="app" />
         <module name="core" />
         <module name="scrape" />
+        <module name="client" />
         <module name="azscrape-api" />
         <module name="export" />
       </profile>
