@@ -17,7 +17,7 @@ class StringToEnumConverterTest {
 
   @Test
   void testConvert_whenExistedEnumTypeGivenAsString_returnEnum() {
-    String expectedType = "JSON";
+    String expectedType = "CSV";
     FileType fileType = StringToEnumConverter.convert(expectedType, FileType.class);
     assertEquals(fileType.name(), expectedType);
   }

@@ -25,17 +25,12 @@ class EnumerationTest {
 
   @Test
   void testContains_whenGivenStringFoundAsFileExtension_returnTrue() {
-    assertTrue(FileExtension.contains("JsOn"));
+    assertTrue(FileExtension.contains("CsV"));
   }
 
   @Test
   void testContains_whenGivenStringFoundAsFileExtension_returnFalse() {
     assertFalse(FileExtension.contains("Invalid FileExtension"));
-  }
-
-  @Test
-  void testContains_whenGivenStringFoundAsConfigFileExtension_returnTrue() {
-    assertTrue(ConfigFileExtension.contains("JsOn"));
   }
 
   @Test
