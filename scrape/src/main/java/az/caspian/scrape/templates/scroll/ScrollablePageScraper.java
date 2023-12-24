@@ -8,21 +8,22 @@ import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.TemplateException;
+import org.openqa.selenium.WebElement;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.openqa.selenium.WebElement;
 
 public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePageTemplate> {
-
-  private ScrapeErrorCallback callback;
   private final ScrapedDataCollector collector = new ScrapedDataCollector();
 
-  public ScrollablePageScraper() {}
+  public ScrollablePageScraper() {
+    super();
+  }
 
   public ScrollablePageScraper(ScrapeErrorCallback callback) {
-    this.callback = callback;
+    super(callback);
   }
 
   public DataTable scrape(final ScrollablePageTemplate template) {
@@ -64,10 +65,9 @@ public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePage
       }
       dataTable.addAll(dataRows);
     } catch (Exception e) {
-      String message =
-          MessageFormat.format(
-              "Failed to scrape data from {0}, Exception: {1}",
-              pageParameters.getUrl(), e.getMessage());
+      String message = MessageFormat.format(
+        "Failed to scrape data from {0}, Exception: {1}", pageParameters.getUrl(), e.getMessage()
+      );
 
       if (callback != null) callback.handle(message, dataTable);
 

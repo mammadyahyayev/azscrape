@@ -10,21 +10,21 @@ import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
+import org.openqa.selenium.WebElement;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import org.openqa.selenium.WebElement;
 
-public class PaginationItemVisitorScraper
-    extends AbstractScrapeTemplate<PaginationItemVisitorTemplate> {
-
-  private ScrapeErrorCallback callback;
+public class PaginationItemVisitorScraper extends AbstractScrapeTemplate<PaginationItemVisitorTemplate> {
   private final ScrapedDataCollector collector = new ScrapedDataCollector();
 
-  public PaginationItemVisitorScraper() {}
+  public PaginationItemVisitorScraper() {
+    super();
+  }
 
   public PaginationItemVisitorScraper(ScrapeErrorCallback callback) {
-    this.callback = callback;
+    super(callback);
   }
 
   public DataTable scrape() {
@@ -51,7 +51,7 @@ public class PaginationItemVisitorScraper
         List<WebElement> elements = page.fetchWebElements(rootNode.getSelector());
         for (WebElement element : elements) {
           String urlOfSubPage = safeGetAttribute(element, "href");
-          if(urlOfSubPage == null) continue;
+          if (urlOfSubPage == null) continue;
           WebPage webPage = browser.goTo(urlOfSubPage, pageParameters.getDelayBetweenPages());
           DataRow dataRow = collector.collect(rootNode.getChildren(), webPage);
           dataRows.add(dataRow);
@@ -60,10 +60,9 @@ public class PaginationItemVisitorScraper
       }
       dataTable.addAll(dataRows);
     } catch (Exception e) {
-      String message =
-          MessageFormat.format(
-              "Failed to scrape data from {0} in page {1}, Exception: {2}",
-              url, current, e.getMessage());
+      String message = MessageFormat.format(
+        "Failed to scrape data from {0} in page {1}, Exception: {2}", url, current, e.getMessage()
+      );
 
       if (callback != null) callback.handle(message, dataTable);
 
@@ -80,7 +79,7 @@ public class PaginationItemVisitorScraper
       attribute = element.getAttribute(attributeType);
     } catch (Exception e) {
       // Ignore: It is highly possible to get Exception in pages.
-      //TODO: Log it
+      LOG.error("Fail to get {} attribute of {} element: ", attributeType, element);
       return attribute;
     }
 
