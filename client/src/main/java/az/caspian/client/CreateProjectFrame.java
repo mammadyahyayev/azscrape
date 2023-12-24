@@ -55,13 +55,37 @@ public class CreateProjectFrame extends JFrame {
         contentPanel.setLayout(new GridBagLayout());
         contentPanel.setBackground(new Color(0x0F172A));
 
-        var projectOwnerLbl = new JLabel("Project Owner");
-        projectOwnerLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-        projectOwnerLbl.setForeground(Color.WHITE);
+        var projectNameLbl = new JLabel("Project Name");
+        projectNameLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+        projectNameLbl.setForeground(Color.WHITE);
 
         var gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = 0;
         gridConstraints.gridy = 0;
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridConstraints.insets = new Insets(0, 10, 10, 0);
+        gridConstraints.weightx = 0.1;
+        contentPanel.add(projectNameLbl, gridConstraints);
+
+        var projectNameTxt = new JTextField();
+        projectNameTxt.setToolTipText("Enter Project Name");
+        projectNameTxt.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+
+        gridConstraints = new GridBagConstraints();
+        gridConstraints.gridx = 1;
+        gridConstraints.gridy = 0;
+        gridConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gridConstraints.insets = new Insets(0, 0, 10, 10);
+        gridConstraints.weightx = 0.9;
+        contentPanel.add(projectNameTxt, gridConstraints);
+
+        var projectOwnerLbl = new JLabel("Project Owner");
+        projectOwnerLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+        projectOwnerLbl.setForeground(Color.WHITE);
+
+        gridConstraints = new GridBagConstraints();
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 1;
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.insets = new Insets(0, 10, 10, 0);
         gridConstraints.weightx = 0.1;
@@ -73,7 +97,7 @@ public class CreateProjectFrame extends JFrame {
 
         gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = 1;
-        gridConstraints.gridy = 0;
+        gridConstraints.gridy = 1;
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.insets = new Insets(0, 0, 10, 10);
         gridConstraints.weightx = 0.9;
@@ -85,7 +109,7 @@ public class CreateProjectFrame extends JFrame {
 
         gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = 0;
-        gridConstraints.gridy = 1;
+        gridConstraints.gridy = 2;
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.insets = new Insets(0, 10, 10, 10);
         contentPanel.add(projectLocationLbl, gridConstraints);
@@ -96,7 +120,7 @@ public class CreateProjectFrame extends JFrame {
 
         gridConstraints = new GridBagConstraints();
         gridConstraints.gridx = 1;
-        gridConstraints.gridy = 1;
+        gridConstraints.gridy = 2;
         gridConstraints.fill = GridBagConstraints.HORIZONTAL;
         gridConstraints.insets = new Insets(0, 0, 10, 10);
         contentPanel.add(projectLocationTxt, gridConstraints);
@@ -112,7 +136,7 @@ public class CreateProjectFrame extends JFrame {
         createNewProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         gridConstraints.gridx = 0;
-        gridConstraints.gridy = 2;
+        gridConstraints.gridy = 3;
         gridConstraints.gridwidth = 2;
         gridConstraints.insets = new Insets(0, 10, 0, 10);
         contentPanel.add(createNewProjectBtn, gridConstraints);
