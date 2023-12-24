@@ -1,14 +1,15 @@
-package az.caspian.client;
+package az.caspian.client.ui;
 
-import java.awt.*;
+import az.caspian.client.ui.components.FooterPanel;
+import az.caspian.client.ui.components.HeaderPanel;
+import az.caspian.client.ui.constants.Colors;
+
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
+import java.awt.*;
 
 public class ProjectViewFrame extends JFrame {
-  private static final Border debugBorder = BorderFactory.createLineBorder(Color.RED, 3);
-
   private JButton seeConfigFileBtn;
 
   private JButton editMemberBtn;
@@ -30,41 +31,27 @@ public class ProjectViewFrame extends JFrame {
   }
 
   private void loadUi() {
-    JPanel headerPanel = createHeaderPanel();
+    var headerPanel = new HeaderPanel();
     JPanel contentPanel = createContentPanel();
-    JPanel footerPanel = createFooterPanel();
+    var footerPanel = new FooterPanel();
 
     this.add(headerPanel, BorderLayout.NORTH);
     this.add(contentPanel, BorderLayout.CENTER);
     this.add(footerPanel, BorderLayout.SOUTH);
   }
 
-  private JPanel createHeaderPanel() {
-    JPanel headerPanel = new JPanel();
-    headerPanel.setSize(headerPanel.getWidth(), 50);
-    headerPanel.setBackground(new Color(0x0F172A));
-
-    JLabel headerLabel = new JLabel("AZScrape");
-    headerLabel.setHorizontalTextPosition(JLabel.CENTER);
-    headerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
-    headerLabel.setForeground(Color.WHITE);
-
-    headerPanel.add(headerLabel);
-    return headerPanel;
-  }
-
   private JPanel createContentPanel() {
     var contentPanel = new JPanel();
     contentPanel.setLayout(new BorderLayout(0, 10));
-    contentPanel.setBackground(new Color(0x0F172A));
+    contentPanel.setBackground(Colors.BASE_BG_COLOR);
 
-    // #region Project Description Panel
+    //#region Project Description Panel
     var projectDescriptionPanel = new JPanel();
     projectDescriptionPanel.setLayout(new GridBagLayout());
-    projectDescriptionPanel.setBackground(new Color(0x0F172A));
+    projectDescriptionPanel.setBackground(Colors.BASE_BG_COLOR);
 
     var projectNamePanel = new JPanel();
-    projectNamePanel.setBackground(new Color(0x0F172A));
+    projectNamePanel.setBackground(Colors.BASE_BG_COLOR);
 
     var projectNameLbl = new JLabel("Project Name: ");
     projectNameLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
@@ -88,7 +75,7 @@ public class ProjectViewFrame extends JFrame {
     projectDescriptionPanel.add(projectNamePanel, gridConstraints);
 
     var projectOwnerPanel = new JPanel();
-    projectOwnerPanel.setBackground(new Color(0x0F172A));
+    projectOwnerPanel.setBackground(Colors.BASE_BG_COLOR);
 
     var projectOwnerLbl = new JLabel("Project Owner: ");
     projectOwnerLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
@@ -112,7 +99,7 @@ public class ProjectViewFrame extends JFrame {
     projectDescriptionPanel.add(projectOwnerPanel, gridConstraints);
 
     var projectConfigPanel = new JPanel();
-    projectConfigPanel.setBackground(new Color(0x0F172A));
+    projectConfigPanel.setBackground(Colors.BASE_BG_COLOR);
 
     var projectConfigLbl = new JLabel("Project Config: ");
     projectConfigLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
@@ -123,7 +110,7 @@ public class ProjectViewFrame extends JFrame {
     seeConfigFileBtn = new JButton("See Config file");
     seeConfigFileBtn.setFocusable(false);
     seeConfigFileBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-    seeConfigFileBtn.setBackground(new Color(0x1E727C));
+    seeConfigFileBtn.setBackground(Colors.BASE_BTN_BG_COLOR);
     seeConfigFileBtn.setForeground(Color.WHITE);
     seeConfigFileBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -141,12 +128,12 @@ public class ProjectViewFrame extends JFrame {
 
     contentPanel.add(projectDescriptionPanel, BorderLayout.NORTH);
 
-    // #endregion
+    //#endregion
 
-    // #region Project Members Panel
+    //#region Project Members Panel
     var projectMembersPanel = new JPanel();
     projectMembersPanel.setLayout(new BorderLayout(0, 20));
-    projectMembersPanel.setBackground(new Color(0x0F172A));
+    projectMembersPanel.setBackground(Colors.BASE_BG_COLOR);
 
     var projectMembersLbl = new JLabel("Project Members");
     projectMembersLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
@@ -155,13 +142,13 @@ public class ProjectViewFrame extends JFrame {
 
     projectMembersPanel.add(projectMembersLbl, BorderLayout.NORTH);
 
-    var columnNames = new String[] {"Id", "Name", "Computer", "Actions"};
+    var columnNames = new String[]{"Id", "Name", "Computer", "Actions"};
     var data =
-        new String[][] {
-          {"1", "Jack", "Jackson", ""},
-          {"2", "John", "Doe", ""},
-          {"3", "Smith", "Machine", ""},
-        };
+      new String[][]{
+        {"1", "Jack", "Jackson", ""},
+        {"2", "John", "Doe", ""},
+        {"3", "Smith", "Machine", ""},
+      };
     var membersTable = new JTable(data, columnNames);
     projectMembersPanel.add(new JScrollPane(membersTable));
 
@@ -171,7 +158,7 @@ public class ProjectViewFrame extends JFrame {
     membersTable.getTableHeader().setForeground(Color.WHITE);
     membersTable.getTableHeader().setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
-    membersTable.setBackground(new Color(0x0F172A));
+    membersTable.setBackground(Colors.BASE_BG_COLOR);
     membersTable.setForeground(Color.WHITE);
     membersTable.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
     membersTable.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
@@ -183,23 +170,9 @@ public class ProjectViewFrame extends JFrame {
     membersTable.getColumn("Actions").setCellRenderer(getTableActions());
 
     contentPanel.add(projectMembersPanel, BorderLayout.CENTER);
-    // #endregion
+    //#endregion
 
     return contentPanel;
-  }
-
-  private JPanel createFooterPanel() {
-    JPanel footerPanel = new JPanel();
-    footerPanel.setSize(footerPanel.getWidth(), 50);
-    footerPanel.setBackground(new Color(0x0F172A));
-
-    JLabel footerLabel = new JLabel("Copyright - Mammad Yahyayev");
-    footerLabel.setHorizontalTextPosition(JLabel.CENTER);
-    footerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
-    footerLabel.setForeground(Color.WHITE);
-
-    footerPanel.add(footerLabel);
-    return footerPanel;
   }
 
   private TableCellRenderer getTableActions() {
@@ -207,7 +180,7 @@ public class ProjectViewFrame extends JFrame {
       var actionsPanel = new JPanel();
 
       if (isSelected) actionsPanel.setBackground(table.getSelectionBackground());
-      else actionsPanel.setBackground(new Color(0x0F172A));
+      else actionsPanel.setBackground(Colors.BASE_BG_COLOR);
 
       actionsPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 

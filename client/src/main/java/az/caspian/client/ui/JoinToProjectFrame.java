@@ -1,14 +1,15 @@
-package az.caspian.client;
+package az.caspian.client.ui;
 
+import az.caspian.client.ui.components.FooterPanel;
+import az.caspian.client.ui.components.HeaderPanel;
+import az.caspian.client.ui.constants.Colors;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 
 public class JoinToProjectFrame extends JFrame {
-  private static final Border debugBorder = BorderFactory.createLineBorder(Color.RED, 3);
-
   private JButton joinToProjectBtn;
   private JButton createNewProjectBtn;
 
@@ -18,7 +19,7 @@ public class JoinToProjectFrame extends JFrame {
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
 
-    this.getContentPane().setBackground(new Color(0x0F172A));
+    this.getContentPane().setBackground(Colors.BASE_BG_COLOR);
     this.setSize(400, 400);
     this.setLocation(700, 380);
 
@@ -28,34 +29,20 @@ public class JoinToProjectFrame extends JFrame {
   }
 
   private void loadUi() {
-    JPanel headerPanel = createHeaderPanel();
+    var headerPanel = new HeaderPanel();
     JPanel contentPanel = createContentPanel();
-    JPanel footerPanel = createFooterPanel();
+    var footerPanel = new FooterPanel();
 
     this.add(headerPanel, BorderLayout.NORTH);
     this.add(contentPanel, BorderLayout.CENTER);
     this.add(footerPanel, BorderLayout.SOUTH);
   }
 
-  private JPanel createHeaderPanel() {
-    JPanel headerPanel = new JPanel();
-    headerPanel.setSize(headerPanel.getWidth(), 50);
-    headerPanel.setBackground(new Color(0x0F172A));
-
-    JLabel headerLabel = new JLabel("AZScrape");
-    headerLabel.setHorizontalTextPosition(JLabel.CENTER);
-    headerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
-    headerLabel.setForeground(Color.WHITE);
-
-    headerPanel.add(headerLabel);
-    return headerPanel;
-  }
-
   private JPanel createContentPanel() {
     var contentPanel = new JPanel();
     contentPanel.setSize(300, 400);
     contentPanel.setLayout(new GridBagLayout());
-    contentPanel.setBackground(new Color(0x0F172A));
+    contentPanel.setBackground(Colors.BASE_BG_COLOR);
 
     JTextField projectIdTxt = new JTextField();
     projectIdTxt.setToolTipText("Enter Project ID");
@@ -76,7 +63,7 @@ public class JoinToProjectFrame extends JFrame {
     createNewProjectBtn.setVerticalAlignment(JButton.CENTER);
     createNewProjectBtn.setHorizontalAlignment(JButton.CENTER);
     createNewProjectBtn.setSize(100, 200);
-    createNewProjectBtn.setBackground(new Color(0x1E727C));
+    createNewProjectBtn.setBackground(Colors.BASE_BTN_BG_COLOR);
     createNewProjectBtn.setForeground(Color.WHITE);
     createNewProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
     createNewProjectBtn.addActionListener(this::openCreateProjectFrameAction);
@@ -93,7 +80,7 @@ public class JoinToProjectFrame extends JFrame {
     joinToProjectBtn.setVerticalAlignment(JButton.CENTER);
     joinToProjectBtn.setHorizontalAlignment(JButton.CENTER);
     joinToProjectBtn.setSize(100, 200);
-    joinToProjectBtn.setBackground(new Color(0x1E727C));
+    joinToProjectBtn.setBackground(Colors.BASE_BTN_BG_COLOR);
     joinToProjectBtn.setForeground(Color.WHITE);
     joinToProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -104,20 +91,6 @@ public class JoinToProjectFrame extends JFrame {
     contentPanel.add(joinToProjectBtn, gridConstraints);
 
     return contentPanel;
-  }
-
-  private JPanel createFooterPanel() {
-    JPanel footerPanel = new JPanel();
-    footerPanel.setSize(footerPanel.getWidth(), 50);
-    footerPanel.setBackground(new Color(0x0F172A));
-
-    JLabel footerLabel = new JLabel("Copyright - Mammad Yahyayev");
-    footerLabel.setHorizontalTextPosition(JLabel.CENTER);
-    footerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
-    footerLabel.setForeground(Color.WHITE);
-
-    footerPanel.add(footerLabel);
-    return footerPanel;
   }
 
   private void openCreateProjectFrameAction(ActionEvent event) {
