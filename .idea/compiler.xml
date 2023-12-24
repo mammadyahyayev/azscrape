@@ -9,8 +9,9 @@
         <module name="app" />
         <module name="core" />
         <module name="scrape" />
-        <module name="client" />
+        <module name="server" />
         <module name="azscrape-api" />
+        <module name="client" />
         <module name="export" />
       </profile>
     </annotationProcessing>
