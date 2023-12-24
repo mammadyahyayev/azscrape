@@ -1,6 +1,7 @@
 package az.caspian.client;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -78,6 +79,7 @@ public class JoinToProjectFrame extends JFrame {
     createNewProjectBtn.setBackground(new Color(0x1E727C));
     createNewProjectBtn.setForeground(Color.WHITE);
     createNewProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
+    createNewProjectBtn.addActionListener(this::openCreateProjectFrameAction);
 
     gridConstraints.gridx = 0;
     gridConstraints.gridy = 1;
@@ -116,5 +118,10 @@ public class JoinToProjectFrame extends JFrame {
 
     footerPanel.add(footerLabel);
     return footerPanel;
+  }
+
+  private void openCreateProjectFrameAction(ActionEvent event) {
+    this.dispose();
+    new CreateProjectFrame();
   }
 }
