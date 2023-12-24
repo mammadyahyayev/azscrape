@@ -1,3 +1,4 @@
 module client {
-    requires java.desktop;
+  requires java.desktop;
+  requires azscrape.core;
 }
