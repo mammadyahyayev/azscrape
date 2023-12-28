@@ -27,10 +27,6 @@ public class PaginationItemVisitorScraper extends AbstractScrapeTemplate<Paginat
     super(callback);
   }
 
-  public DataTable scrape() {
-    return null;
-  }
-
   @Override
   public DataTable scrape(PaginationItemVisitorTemplate template) {
     DataTable dataTable = new DataTable();
