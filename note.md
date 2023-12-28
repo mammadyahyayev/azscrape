@@ -40,57 +40,39 @@ To create an application that scrapes data from websites using a Java backend an
 By creating a Python wrapper around your Java application, you can provide a user-friendly interface for Python developers to configure and interact with the web scraping functionality without needing to delve into Java specifics.
 
 ---
+### AZScrape Backup Process
 
-Each page can have different parameters therefore create separate class that will extend from PageParameters
-Then add that PageParameter (getPageParamrter) into scraper interface
+Choosing a meaningful name for backup files depends on the nature of your application and the data being backed up. Here are some common approaches for naming backup files:
 
-Restrict access to those classes only allow to use PageParameters and build those parameters with factory class and builder classes
+1. **Timestamps:**
+   - Include a timestamp in the filename to represent when the backup was created. This allows users to easily identify the most recent backups.
+     - Example: `backup_20230101_120000`
 
----
+2. **Incremental Numbers:**
+   - Use incremental numbers to indicate the order of backups.
+     - Example: `backup_001`, `backup_002`, and so on.
 
-DataNode creation
+3. **User-Friendly Descriptions:**
+   - Include user-friendly descriptions in the filename to provide context about the backup content.
+     - Example: `backup_settings`, `backup_documents`, etc.
 
-```java
-var parentNode = new ParentNode().Builder()
-     name()
-     selector()
-     children(
-          new DataNode(),
-          new ListNode(),
-          new KeyValueNode()
-     ).build()
-```
----
+When it comes to loading backups when the user opens the application, consider the following steps:
 
-Create AddChildren method that will accepts both varargs and list of child nodes
+1. **Listing Available Backups:**
+   - Provide a way for users to see a list of available backups within the application. This could be a dropdown menu, a list view, or another interface that shows backup names and relevant details.
 
----
+2. **Selecting a Backup:**
+   - Allow users to select a backup from the list. This could be done through a user interface where they choose a backup file.
 
-Create ScrollablePageParameters and add followings
-ScrollAmount
-DelayBetweenScrolls
+3. **Restoring from Backup:**
+   - Implement a restore functionality that reads the selected backup file and applies the stored data to restore the application to the state it was in when the backup was created.
 
----
-Remove root from DataTree and change error messages
+4. **Confirming the Restore:**
+   - Consider adding a confirmation step before restoring to avoid accidental data loss. This could be a dialog box asking the user to confirm the restore operation.
 
----
+5. **Logging and Notifications:**
+   - Provide logs or notifications to inform users about the restore operation and its success or failure. This helps users understand what happened during the restore process.
 
-DataCollector
-JsonDataCollector
+Major applications often follow similar principles but may have more sophisticated backup and restore mechanisms, especially for large-scale or enterprise applications. They might include features like automatic backups, versioning, and cloud-based storage options.
 
-
-There will be void methods
-
-Void collect(node, page, table)
-
-Table has multiple mrthods inside addRow
-AddColumn
-
-So it will have some conventions, whenever new node appeared on the application
-
-Make it default implementation in interface
-
-
-The template first element must be list node
----
-
+Remember to handle errors gracefully and communicate effectively with users during the backup and restore processes to ensure a positive user experience.
