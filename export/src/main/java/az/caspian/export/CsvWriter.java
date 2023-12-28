@@ -1,6 +1,6 @@
 package az.caspian.export;
 
-import az.caspian.core.DataReportAppException;
+import az.caspian.core.AzScrapeAppException;
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.DataTable;
@@ -53,7 +53,7 @@ public class CsvWriter implements Closeable {
       if (!StringUtils.isNullOrEmpty(column)) writer.write(quote(column));
       cursorInRow++;
     } catch (IOException ex) {
-      throw new DataReportAppException("Failed to write to csv file", ex);
+      throw new AzScrapeAppException("Failed to write to csv file", ex);
     }
   }
 
@@ -62,7 +62,7 @@ public class CsvWriter implements Closeable {
       writer.write('\n');
       this.cursorInRow = 0;
     } catch (IOException ex) {
-      throw new DataReportAppException("Failed to write to csv file", ex);
+      throw new AzScrapeAppException("Failed to write to csv file", ex);
     }
   }
 
@@ -79,7 +79,7 @@ public class CsvWriter implements Closeable {
     try {
       this.writer.close();
     } catch (IOException ex) {
-      throw new DataReportAppException("Failed to close output stream", ex);
+      throw new AzScrapeAppException("Failed to close output stream", ex);
     }
   }
 }

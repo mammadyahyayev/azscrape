@@ -1,6 +1,6 @@
 package az.caspian.core.utils;
 
-import az.caspian.core.DataReportAppException;
+import az.caspian.core.AzScrapeAppException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,7 +45,7 @@ public abstract class AbstractFileSystem implements FileSystem {
             file.createNewFile();
         } catch (IOException e) {
             LOG.error("Couldn't create file with {}", path);
-            throw new DataReportAppException("Couldn't create file with [ " + path + " ]", e);
+            throw new AzScrapeAppException("Couldn't create file with [ " + path + " ]", e);
         }
 
         return file;
@@ -64,14 +64,14 @@ public abstract class AbstractFileSystem implements FileSystem {
                 return file;
             }
 
-            throw new DataReportAppException("Given path [ " + path + " ] isn't file!");
+            throw new AzScrapeAppException("Given path [ " + path + " ] isn't file!");
         }
 
         try {
             file.createNewFile();
         } catch (IOException e) {
             LOG.error("Couldn't create file with {}", path);
-            throw new DataReportAppException("Couldn't create file with [ " + path + " ]", e);
+            throw new AzScrapeAppException("Couldn't create file with [ " + path + " ]", e);
         }
 
         return file;
@@ -93,7 +93,7 @@ public abstract class AbstractFileSystem implements FileSystem {
             file.mkdirs();
         } catch (IOException e) {
             LOG.error("Couldn't create directory with {}", path);
-            throw new DataReportAppException("Failed to create directory with " + path, e);
+            throw new AzScrapeAppException("Failed to create directory with " + path, e);
         }
 
         return file;
@@ -112,13 +112,13 @@ public abstract class AbstractFileSystem implements FileSystem {
                 return file;
             }
 
-            throw new DataReportAppException("Given path [" + path + "] isn't directory");
+            throw new AzScrapeAppException("Given path [" + path + "] isn't directory");
         }
 
         boolean isDirCreated = file.mkdirs();
         if (!isDirCreated) {
             LOG.error("Couldn't create directory with {}", path);
-            throw new DataReportAppException("Couldn't create directory with [ " + path + " ]");
+            throw new AzScrapeAppException("Couldn't create directory with [ " + path + " ]");
         }
 
         return file;

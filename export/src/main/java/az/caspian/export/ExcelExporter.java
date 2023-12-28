@@ -1,6 +1,6 @@
 package az.caspian.export;
 
-import az.caspian.core.DataReportAppException;
+import az.caspian.core.AzScrapeAppException;
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataFile;
 import az.caspian.core.model.DataRow;
@@ -42,7 +42,7 @@ public class ExcelExporter extends AbstractExporter {
     } catch (IOException e) {
       String message = "Failed to write into excel file [" + file.getAbsolutePath() + "]";
       LOG.error(message, e);
-      throw new DataReportAppException(message, e);
+      throw new AzScrapeAppException(message, e);
     }
   }
 
