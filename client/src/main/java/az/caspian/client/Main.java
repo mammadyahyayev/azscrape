@@ -13,15 +13,15 @@ public class Main {
   private static final Logger LOG = LogManager.getLogger(Main.class);
 
   public static void main(String[] args) {
-    LOG.info("AZScrape client is about to start...");
+    LOG.debug("AZScrape Client is about to start...");
 
     try {
       if (!Files.exists(FileConstants.APP_PATH)) {
         Files.createDirectory(FileConstants.APP_PATH);
-        LOG.info("Main app folder is created...");
+        LOG.debug("Main app folder is created...");
       }
     } catch (IOException e) {
-      LOG.error("Failed to create main application folder!");
+      LOG.fatal("Failed to create main application folder!");
       throw new AzScrapeAppException("Failed to create main app folder", e);
     }
 
