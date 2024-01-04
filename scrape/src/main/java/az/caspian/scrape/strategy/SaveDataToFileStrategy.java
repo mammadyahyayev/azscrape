@@ -18,6 +18,10 @@ public class SaveDataToFileStrategy implements DataHandlingStrategy {
 
   @Override
   public void handle(DataTable data) {
+    if (data == null) {
+      throw new IllegalArgumentException("Can't save null data to file");
+    }
+
     try {
       if (!Files.exists(FileConstants.BACKUP_FILES_PATH)) {
         Files.createDirectory(FileConstants.BACKUP_FILES_PATH);
@@ -38,10 +42,6 @@ public class SaveDataToFileStrategy implements DataHandlingStrategy {
       }
     } catch (IOException ex) {
       LOG.error("Failed to create backup file: {}", filepath);
-    }
-
-    if (data == null) {
-      throw new IllegalArgumentException("Can't save null data to %s file".formatted(filepath));
     }
 
     byte[] serializedData = ObjectSerializer.serialize(data);
