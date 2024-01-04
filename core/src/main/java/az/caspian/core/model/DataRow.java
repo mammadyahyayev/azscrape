@@ -1,11 +1,14 @@
 package az.caspian.core.model;
 
 import az.caspian.core.utils.Asserts;
+import com.google.common.base.Objects;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class DataRow {
+public class DataRow implements Serializable {
   private List<DataColumn> dataColumns;
 
   public DataRow() {
@@ -24,5 +27,18 @@ public class DataRow {
 
   public List<DataColumn> columns() {
     return Collections.unmodifiableList(dataColumns);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    DataRow row = (DataRow) o;
+    return Objects.equal(dataColumns, row.dataColumns);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(dataColumns);
   }
 }

@@ -2,13 +2,15 @@ package az.caspian.core.tree;
 
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class DataTable {
+public class DataTable implements Serializable {
   private final List<DataRow> dataRows;
 
   public DataTable() {
@@ -28,9 +30,9 @@ public class DataTable {
   }
 
   public Set<String> getColumnNames() {
-      return this.dataRows.stream()
-        .flatMap((row) -> row.columns().stream())
-        .collect(Collectors.groupingBy(DataColumn::name))
-        .keySet();
+    return this.dataRows.stream()
+      .flatMap((row) -> row.columns().stream())
+      .collect(Collectors.groupingBy(DataColumn::name))
+      .keySet();
   }
 }
