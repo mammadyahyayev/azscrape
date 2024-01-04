@@ -31,18 +31,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <jackson.databind.version>2.16.0</jackson.databind.version>
-        <commons.io.version>2.15.0</commons.io.version>
+        <jackson.databind.version>2.16.1</jackson.databind.version>
+        <commons.io.version>2.15.1</commons.io.version>
 
         <junit.jupiter.version>5.10.1</junit.jupiter.version>
-        <mockito.core.version>5.5.0</mockito.core.version>
+        <mockito.core.version>5.8.0</mockito.core.version>
         <assertj.version>3.24.2</assertj.version>
         <hamcrest.version>2.2</hamcrest.version>
 
         <log4j.api.version>2.22.0</log4j.api.version>
         <log4j.core.version>2.22.0</log4j.core.version>
 
-        <jetbrains.annotations.version>24.0.1</jetbrains.annotations.version>
+        <jetbrains.annotations.version>24.1.0</jetbrains.annotations.version>
 
         <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
         <maven.dependency.plugin.version>3.6.1</maven.dependency.plugin.version>
@@ -50,7 +50,7 @@
         <maven.pmd.plugin.version>3.21.2</maven.pmd.plugin.version>
         <maven.javadoc.plugin.version>3.5.0</maven.javadoc.plugin.version>
         <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
-        <maven.compiler.plugin.version>3.11.0</maven.compiler.plugin.version>
+        <maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
         <maven.exec.plugin.version>3.1.0</maven.exec.plugin.version>
         <maven.checkstyle.plugin.version>3.3.1</maven.checkstyle.plugin.version>
         <maven.jacoco.plugin.version>0.8.11</maven.jacoco.plugin.version>
