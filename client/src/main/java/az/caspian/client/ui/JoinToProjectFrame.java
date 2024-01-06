@@ -1,5 +1,7 @@
 package az.caspian.client.ui;
 
+import az.caspian.client.Session;
+import az.caspian.client.service.ClientService;
 import az.caspian.client.ui.components.FooterPanel;
 import az.caspian.client.ui.components.HeaderPanel;
 import az.caspian.client.ui.constants.Colors;
@@ -10,10 +12,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class JoinToProjectFrame extends JFrame {
-  private JButton joinToProjectBtn;
-  private JButton createNewProjectBtn;
+  private final ClientService clientService;
 
-  public JoinToProjectFrame() {
+  private JTextField projectIdTxt;
+
+  public JoinToProjectFrame(ClientService clientService) {
+    this.clientService = clientService;
+
+    initUi();
+  }
+
+  private void initUi() {
     this.setTitle("AZScrape Client");
     this.setResizable(false);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,6 +36,7 @@ public class JoinToProjectFrame extends JFrame {
 
     this.setVisible(true);
   }
+
 
   private void loadUi() {
     var headerPanel = new HeaderPanel();
@@ -44,7 +54,7 @@ public class JoinToProjectFrame extends JFrame {
     contentPanel.setLayout(new GridBagLayout());
     contentPanel.setBackground(Colors.BASE_BG_COLOR);
 
-    JTextField projectIdTxt = new JTextField();
+    projectIdTxt = new JTextField();
     projectIdTxt.setToolTipText("Enter Project ID");
     projectIdTxt.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
     projectIdTxt.setSize(200, 40);
@@ -57,7 +67,7 @@ public class JoinToProjectFrame extends JFrame {
     gridConstraints.insets = new Insets(0, 0, 10, 0);
     contentPanel.add(projectIdTxt, gridConstraints);
 
-    createNewProjectBtn = new JButton("Create new Project");
+    JButton createNewProjectBtn = new JButton("Create new Project");
     createNewProjectBtn.setFocusable(false);
     createNewProjectBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
     createNewProjectBtn.setVerticalAlignment(JButton.CENTER);
@@ -74,7 +84,7 @@ public class JoinToProjectFrame extends JFrame {
     gridConstraints.insets = new Insets(0, 0, 0, 10);
     contentPanel.add(createNewProjectBtn, gridConstraints);
 
-    joinToProjectBtn = new JButton("Join to Project");
+    JButton joinToProjectBtn = new JButton("Join to Project");
     joinToProjectBtn.setFocusable(false);
     joinToProjectBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
     joinToProjectBtn.setVerticalAlignment(JButton.CENTER);
@@ -83,6 +93,7 @@ public class JoinToProjectFrame extends JFrame {
     joinToProjectBtn.setBackground(Colors.BASE_BTN_BG_COLOR);
     joinToProjectBtn.setForeground(Color.WHITE);
     joinToProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
+    joinToProjectBtn.addActionListener(this::joinToProjectAction);
 
     gridConstraints.gridx = 1;
     gridConstraints.gridy = 1;
@@ -96,5 +107,10 @@ public class JoinToProjectFrame extends JFrame {
   private void openCreateProjectFrameAction(ActionEvent event) {
     this.dispose();
     new CreateProjectFrame();
+  }
+
+  private void joinToProjectAction(ActionEvent event) {
+    String projectId = projectIdTxt.getText();
+    clientService.joinToProject(projectId, Session.getCurrentClient());
   }
 }
