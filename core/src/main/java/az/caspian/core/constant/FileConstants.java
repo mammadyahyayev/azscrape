@@ -7,6 +7,8 @@ import java.nio.file.Path;
 public class FileConstants {
   public static final Path APP_PATH = Path.of(System.getProperty("user.home"), ".azscrape");
   public static final Path BACKUP_FILES_PATH = APP_PATH.resolve("backups");
+  public static final Path IDENTITY_FILE_PATH = APP_PATH.resolve("identity.properties");
+
   public static final String TEMP_DIR_PATH = getTempDirPath();
 
   public static final String USER_DIR = System.getProperty("user.dir");
