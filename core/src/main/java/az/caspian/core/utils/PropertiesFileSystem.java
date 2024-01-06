@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.Objects;
 import java.util.Properties;
@@ -20,20 +21,20 @@ public class PropertiesFileSystem extends AbstractFileSystem {
         this.properties = new Properties();
     }
 
-    public PropertiesFileSystem(String propertyFilePath) {
-        Objects.requireNonNull(propertyFilePath, "Path of property file cannot be null or empty");
+    public PropertiesFileSystem(Path filePath) {
+        Objects.requireNonNull(filePath, "Path of property file cannot be null or empty");
         this.properties = new Properties();
-        load(propertyFilePath);
+        load(filePath);
     }
 
-    public Properties load(String propertiesFilePath) {
-        Objects.requireNonNull(propertiesFilePath, "Path of property file cannot be null or empty");
+    public Properties load(Path filePath) {
+        Objects.requireNonNull(filePath, "Path of property file cannot be null or empty");
 
         try {
-            properties.load(new FileInputStream(propertiesFilePath));
+            properties.load(new FileInputStream(filePath.toString()));
             return properties;
         } catch (IOException e) {
-            String message = MessageFormat.format("Failed to read from file {0}", propertiesFilePath);
+            String message = MessageFormat.format("Failed to read from file {0}", filePath);
             LOG.error(message);
             throw new RuntimeException(message, e);
         }
