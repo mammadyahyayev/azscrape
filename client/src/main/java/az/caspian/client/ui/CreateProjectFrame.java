@@ -1,16 +1,15 @@
 package az.caspian.client.ui;
 
+import az.caspian.client.ui.components.DefaultButton;
 import az.caspian.client.ui.components.FooterPanel;
 import az.caspian.client.ui.components.HeaderPanel;
 import az.caspian.client.ui.constants.Colors;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class CreateProjectFrame extends JFrame {
-  private JButton createNewProjectBtn;
-
   public CreateProjectFrame() {
     this.setTitle("AZScrape Client");
     this.setResizable(false);
@@ -112,14 +111,8 @@ public class CreateProjectFrame extends JFrame {
     gridConstraints.insets = new Insets(0, 0, 10, 10);
     contentPanel.add(projectLocationTxt, gridConstraints);
 
-    createNewProjectBtn = new JButton("Create new Project");
-    createNewProjectBtn.setFocusable(false);
-    createNewProjectBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-    createNewProjectBtn.setVerticalAlignment(JButton.CENTER);
-    createNewProjectBtn.setHorizontalAlignment(JButton.CENTER);
-    createNewProjectBtn.setBackground(Colors.BASE_BTN_BG_COLOR);
-    createNewProjectBtn.setForeground(Color.WHITE);
-    createNewProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
+    var createNewProjectBtn = new DefaultButton("Create new Project");
+    createNewProjectBtn.setActionListener(this::createNewProjectAction);
 
     gridConstraints.gridx = 0;
     gridConstraints.gridy = 3;
@@ -128,6 +121,10 @@ public class CreateProjectFrame extends JFrame {
     contentPanel.add(createNewProjectBtn, gridConstraints);
 
     return contentPanel;
+  }
+
+  private void createNewProjectAction(ActionEvent event) {
+
   }
 
 }

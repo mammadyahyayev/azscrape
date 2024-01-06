@@ -2,12 +2,12 @@ package az.caspian.client.ui;
 
 import az.caspian.client.Session;
 import az.caspian.client.service.ClientService;
+import az.caspian.client.ui.components.DefaultButton;
 import az.caspian.client.ui.components.FooterPanel;
 import az.caspian.client.ui.components.HeaderPanel;
 import az.caspian.client.ui.constants.Colors;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -67,16 +67,8 @@ public class JoinToProjectFrame extends JFrame {
     gridConstraints.insets = new Insets(0, 0, 10, 0);
     contentPanel.add(projectIdTxt, gridConstraints);
 
-    JButton createNewProjectBtn = new JButton("Create new Project");
-    createNewProjectBtn.setFocusable(false);
-    createNewProjectBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-    createNewProjectBtn.setVerticalAlignment(JButton.CENTER);
-    createNewProjectBtn.setHorizontalAlignment(JButton.CENTER);
-    createNewProjectBtn.setSize(100, 200);
-    createNewProjectBtn.setBackground(Colors.BASE_BTN_BG_COLOR);
-    createNewProjectBtn.setForeground(Color.WHITE);
-    createNewProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
-    createNewProjectBtn.addActionListener(this::openCreateProjectFrameAction);
+    var createNewProjectBtn = new DefaultButton("Create new Project");
+    createNewProjectBtn.setActionListener(this::openCreateProjectFrameAction);
 
     gridConstraints.gridx = 0;
     gridConstraints.gridy = 1;
@@ -84,16 +76,8 @@ public class JoinToProjectFrame extends JFrame {
     gridConstraints.insets = new Insets(0, 0, 0, 10);
     contentPanel.add(createNewProjectBtn, gridConstraints);
 
-    JButton joinToProjectBtn = new JButton("Join to Project");
-    joinToProjectBtn.setFocusable(false);
-    joinToProjectBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-    joinToProjectBtn.setVerticalAlignment(JButton.CENTER);
-    joinToProjectBtn.setHorizontalAlignment(JButton.CENTER);
-    joinToProjectBtn.setSize(100, 200);
-    joinToProjectBtn.setBackground(Colors.BASE_BTN_BG_COLOR);
-    joinToProjectBtn.setForeground(Color.WHITE);
-    joinToProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
-    joinToProjectBtn.addActionListener(this::joinToProjectAction);
+    var joinToProjectBtn = new DefaultButton("Join To Project");
+    joinToProjectBtn.setActionListener(this::joinToProjectAction);
 
     gridConstraints.gridx = 1;
     gridConstraints.gridy = 1;
