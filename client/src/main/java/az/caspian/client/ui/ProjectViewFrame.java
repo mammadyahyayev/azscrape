@@ -3,6 +3,7 @@ package az.caspian.client.ui;
 import az.caspian.client.ui.components.FooterPanel;
 import az.caspian.client.ui.components.HeaderPanel;
 import az.caspian.client.ui.constants.Colors;
+import az.caspian.client.ui.constants.UiConstants;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,12 +17,12 @@ public class ProjectViewFrame extends JFrame {
   private JButton deleteMemberBtn;
 
   public ProjectViewFrame() {
-    this.setTitle("AZScrape Client");
+    this.setTitle(UiConstants.MAIN_FRAME_TITLE);
     this.setResizable(false);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
 
-    this.getContentPane().setBackground(new Color(0x0F172A));
+    this.getContentPane().setBackground(Colors.BASE_BG_COLOR);
     this.setSize(700, 800);
     this.setLocation(600, 200);
 

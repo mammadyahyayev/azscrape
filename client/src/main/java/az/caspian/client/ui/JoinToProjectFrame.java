@@ -6,6 +6,7 @@ import az.caspian.client.ui.components.DefaultButton;
 import az.caspian.client.ui.components.FooterPanel;
 import az.caspian.client.ui.components.HeaderPanel;
 import az.caspian.client.ui.constants.Colors;
+import az.caspian.client.ui.constants.UiConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +24,7 @@ public class JoinToProjectFrame extends JFrame {
   }
 
   private void initUi() {
-    this.setTitle("AZScrape Client");
+    this.setTitle(UiConstants.MAIN_FRAME_TITLE);
     this.setResizable(false);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
