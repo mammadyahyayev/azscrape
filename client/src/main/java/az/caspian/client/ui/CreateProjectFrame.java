@@ -65,52 +65,6 @@ public class CreateProjectFrame extends JFrame {
     gridConstraints.weightx = 0.9;
     contentPanel.add(projectNameTxt, gridConstraints);
 
-    var projectOwnerLbl = new JLabel("Project Owner");
-    projectOwnerLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-    projectOwnerLbl.setForeground(Color.WHITE);
-
-    gridConstraints = new GridBagConstraints();
-    gridConstraints.gridx = 0;
-    gridConstraints.gridy = 1;
-    gridConstraints.fill = GridBagConstraints.HORIZONTAL;
-    gridConstraints.insets = new Insets(0, 10, 10, 0);
-    gridConstraints.weightx = 0.1;
-    contentPanel.add(projectOwnerLbl, gridConstraints);
-
-    var projectOwnerTxt = new JTextField();
-    projectOwnerTxt.setToolTipText("Enter Project Owner");
-    projectOwnerTxt.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-
-    gridConstraints = new GridBagConstraints();
-    gridConstraints.gridx = 1;
-    gridConstraints.gridy = 1;
-    gridConstraints.fill = GridBagConstraints.HORIZONTAL;
-    gridConstraints.insets = new Insets(0, 0, 10, 10);
-    gridConstraints.weightx = 0.9;
-    contentPanel.add(projectOwnerTxt, gridConstraints);
-
-    var projectLocationLbl = new JLabel("Project Location");
-    projectLocationLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-    projectLocationLbl.setForeground(Color.WHITE);
-
-    gridConstraints = new GridBagConstraints();
-    gridConstraints.gridx = 0;
-    gridConstraints.gridy = 2;
-    gridConstraints.fill = GridBagConstraints.HORIZONTAL;
-    gridConstraints.insets = new Insets(0, 10, 10, 10);
-    contentPanel.add(projectLocationLbl, gridConstraints);
-
-    var projectLocationTxt = new JTextField();
-    projectLocationTxt.setToolTipText("Enter Project Abstract Location");
-    projectLocationTxt.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-
-    gridConstraints = new GridBagConstraints();
-    gridConstraints.gridx = 1;
-    gridConstraints.gridy = 2;
-    gridConstraints.fill = GridBagConstraints.HORIZONTAL;
-    gridConstraints.insets = new Insets(0, 0, 10, 10);
-    contentPanel.add(projectLocationTxt, gridConstraints);
-
     var createNewProjectBtn = new DefaultButton("Create new Project");
     createNewProjectBtn.setActionListener(this::createNewProjectAction);
 
