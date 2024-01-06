@@ -1,5 +1,6 @@
 package az.caspian.client;
 
+import az.caspian.client.service.ClientService;
 import az.caspian.client.ui.JoinToProjectFrame;
 import az.caspian.core.AzScrapeAppException;
 import az.caspian.core.constant.FileConstants;
@@ -25,6 +26,7 @@ public class Main {
       throw new AzScrapeAppException("Failed to create main app folder", e);
     }
 
-    new JoinToProjectFrame();
+    var clientService = new ClientService(new ClientConnection());
+    new JoinToProjectFrame(clientService);
   }
 }

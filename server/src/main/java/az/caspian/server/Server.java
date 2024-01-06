@@ -1,6 +1,9 @@
 package az.caspian.server;
 
+import az.caspian.core.messaging.JoinToProjectMessage;
 import az.caspian.core.messaging.ShortMessage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
+  private static final Logger LOG = LogManager.getLogger(Server.class);
+
   private static final List<Socket> CLIENT_SOCKETS = new ArrayList<>();
 
   public static void main(String[] args) throws IOException, ClassNotFoundException {
-    System.out.println("Server is up and running...");
+    LOG.debug("Server is up and running...");
     int port = 9090;
     try (ServerSocket serverSocket = new ServerSocket(port)) {
       while (true) {
@@ -22,10 +27,18 @@ public class Server {
           CLIENT_SOCKETS.add(clientSocket);
         }
 
-        var inputStream = new ObjectInputStream(clientSocket.getInputStream());
-        ShortMessage shortMessage = (ShortMessage) inputStream.readObject();
-        System.out.println(shortMessage);
+        try (var inputStream = new ObjectInputStream(clientSocket.getInputStream());) {
+          var shortMessage = (ShortMessage) inputStream.readObject();
+          parseMessage(shortMessage);
+        }
       }
+    }
+  }
+
+  public static void parseMessage(ShortMessage message) {
+    if (message instanceof JoinToProjectMessage joinToProjectMessage) {
+      LOG.debug("{} wants to join to {} project",
+        joinToProjectMessage.clientInfo().getFullName(), joinToProjectMessage.projectId());
     }
   }
 }
