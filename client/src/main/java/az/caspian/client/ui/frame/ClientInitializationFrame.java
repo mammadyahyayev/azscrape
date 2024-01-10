@@ -1,8 +1,6 @@
 package az.caspian.client.ui.frame;
 
-import az.caspian.client.ui.components.DefaultButton;
-import az.caspian.client.ui.components.FooterPanel;
-import az.caspian.client.ui.components.HeaderPanel;
+import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.client.ui.constants.UiConstants;
 
@@ -43,9 +41,7 @@ public class ClientInitializationFrame extends JFrame {
     contentPanel.setBackground(Colors.BASE_BG_COLOR);
 
     //region LastName
-    var lastNameLbl = new JLabel("Lastname");
-    lastNameLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-    lastNameLbl.setForeground(Color.WHITE);
+    var lastNameLbl = new DefaultLabel("Lastname");
 
     var gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 0;
@@ -55,9 +51,7 @@ public class ClientInitializationFrame extends JFrame {
     gridConstraints.weightx = 0.1;
     contentPanel.add(lastNameLbl, gridConstraints);
 
-    var lastNameTxt = new JTextField();
-    lastNameTxt.setToolTipText("Enter your lastname");
-    lastNameTxt.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+    var lastNameTxt = new DefaultTextField("Enter your lastname");
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 1;
@@ -69,9 +63,7 @@ public class ClientInitializationFrame extends JFrame {
     //endregion
 
     //region FirstName
-    var firstNameLbl = new JLabel("Firstname");
-    firstNameLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-    firstNameLbl.setForeground(Color.WHITE);
+    var firstNameLbl = new DefaultLabel("Firstname");
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 0;
@@ -81,9 +73,7 @@ public class ClientInitializationFrame extends JFrame {
     gridConstraints.weightx = 0.1;
     contentPanel.add(firstNameLbl, gridConstraints);
 
-    var firstNameTxt = new JTextField();
-    firstNameTxt.setToolTipText("Enter your firstname");
-    firstNameTxt.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+    var firstNameTxt = new DefaultTextField("Enter your firstname");
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 1;
@@ -95,9 +85,7 @@ public class ClientInitializationFrame extends JFrame {
     //endregionCl
 
     //region Email
-    var emailLbl = new JLabel("Email");
-    emailLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-    emailLbl.setForeground(Color.WHITE);
+    var emailLbl = new DefaultLabel("Email");
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 0;
@@ -107,9 +95,7 @@ public class ClientInitializationFrame extends JFrame {
     gridConstraints.weightx = 0.1;
     contentPanel.add(emailLbl, gridConstraints);
 
-    var emailTxt = new JTextField();
-    emailTxt.setToolTipText("Enter your email");
-    emailTxt.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+    var emailTxt = new DefaultTextField("Enter your email");
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 1;

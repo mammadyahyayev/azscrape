@@ -1,8 +1,6 @@
 package az.caspian.client.ui.frame;
 
-import az.caspian.client.ui.components.DefaultButton;
-import az.caspian.client.ui.components.FooterPanel;
-import az.caspian.client.ui.components.HeaderPanel;
+import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.client.ui.constants.UiConstants;
 
@@ -42,9 +40,7 @@ public class CreateProjectFrame extends JFrame {
     contentPanel.setLayout(new GridBagLayout());
     contentPanel.setBackground(Colors.BASE_BG_COLOR);
 
-    var projectNameLbl = new JLabel("Project Name");
-    projectNameLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-    projectNameLbl.setForeground(Color.WHITE);
+    var projectNameLbl = new DefaultLabel("Project Name");
 
     var gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 0;
@@ -54,9 +50,7 @@ public class CreateProjectFrame extends JFrame {
     gridConstraints.weightx = 0.1;
     contentPanel.add(projectNameLbl, gridConstraints);
 
-    var projectNameTxt = new JTextField();
-    projectNameTxt.setToolTipText("Enter Project Name");
-    projectNameTxt.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+    var projectNameTxt = new DefaultTextField("Enter Project Name");
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 1;
@@ -79,7 +73,5 @@ public class CreateProjectFrame extends JFrame {
   }
 
   private void createNewProjectAction(ActionEvent event) {
-
   }
-
 }
