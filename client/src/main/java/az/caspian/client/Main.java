@@ -1,7 +1,7 @@
 package az.caspian.client;
 
 import az.caspian.client.service.ClientService;
-import az.caspian.client.ui.JoinToProjectFrame;
+import az.caspian.client.ui.frame.JoinToProjectFrame;
 import az.caspian.core.AzScrapeAppException;
 import az.caspian.core.constant.FileConstants;
 import org.apache.logging.log4j.LogManager;

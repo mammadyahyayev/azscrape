@@ -1,4 +1,4 @@
-package az.caspian.client.ui;
+package az.caspian.client.ui.frame;
 
 import az.caspian.client.Session;
 import az.caspian.client.service.ClientService;
