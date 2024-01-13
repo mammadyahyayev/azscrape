@@ -13,40 +13,41 @@ import java.util.Objects;
 import java.util.Properties;
 
 public class PropertiesFileSystem extends AbstractFileSystem {
-    private static final Logger LOG = LogManager.getLogger(PropertiesFileSystem.class);
+  private static final Logger LOG = LogManager.getLogger(PropertiesFileSystem.class);
 
-    private final Properties properties;
+  private final Properties properties;
 
-    public PropertiesFileSystem() {
-        this.properties = new Properties();
+  public PropertiesFileSystem() {
+    this.properties = new Properties();
+  }
+
+  public PropertiesFileSystem(Path filePath) {
+    Objects.requireNonNull(filePath, "Path of property file cannot be null or empty");
+    this.properties = new Properties();
+    load(filePath);
+  }
+
+  public Properties load(Path filePath) {
+    Objects.requireNonNull(filePath, "Path of property file cannot be null or empty");
+
+    try {
+      properties.load(new FileInputStream(filePath.toString()));
+      return properties;
+    } catch (IOException e) {
+      String message = MessageFormat.format("Failed to read from file {0}", filePath);
+      LOG.error(message);
+      throw new RuntimeException(message, e);
     }
+  }
 
-    public PropertiesFileSystem(Path filePath) {
-        Objects.requireNonNull(filePath, "Path of property file cannot be null or empty");
-        this.properties = new Properties();
-        load(filePath);
+  public void store(Path path, Properties properties) {
+    try (OutputStream outputStream = new FileOutputStream(path.toString())) {
+      properties.store(outputStream, null);
+      LOG.debug("Properties is stored on " + path);
+    } catch (IOException e) {
+      String message = MessageFormat.format("Failed to write into file {0}", path);
+      LOG.error(message);
+      throw new RuntimeException(message, e);
     }
-
-    public Properties load(Path filePath) {
-        Objects.requireNonNull(filePath, "Path of property file cannot be null or empty");
-
-        try {
-            properties.load(new FileInputStream(filePath.toString()));
-            return properties;
-        } catch (IOException e) {
-            String message = MessageFormat.format("Failed to read from file {0}", filePath);
-            LOG.error(message);
-            throw new RuntimeException(message, e);
-        }
-    }
-
-    public void store(String propertiesFilePath, Properties properties) {
-        try (OutputStream outputStream = new FileOutputStream(propertiesFilePath)) {
-            properties.store(outputStream, null);
-        } catch (IOException e) {
-            String message = MessageFormat.format("Failed to write into file {0}", propertiesFilePath);
-            LOG.error(message);
-            throw new RuntimeException(message, e);
-        }
-    }
+  }
 }
