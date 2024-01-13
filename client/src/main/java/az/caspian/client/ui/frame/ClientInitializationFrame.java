@@ -1,15 +1,29 @@
 package az.caspian.client.ui.frame;
 
+import az.caspian.client.service.ClientService;
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.client.ui.constants.UiConstants;
+import az.caspian.core.messaging.ClientInfo;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class ClientInitializationFrame extends JFrame {
-  public ClientInitializationFrame() {
+  private final ClientService clientService;
+
+  private JTextField lastNameTxt;
+  private JTextField firstNameTxt;
+  private JTextField emailTxt;
+
+  public ClientInitializationFrame(ClientService clientService) {
+    this.clientService = clientService;
+
+    initFrame();
+  }
+
+  private void initFrame() {
     this.setTitle(UiConstants.MAIN_FRAME_TITLE);
     this.setResizable(false);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -19,12 +33,12 @@ public class ClientInitializationFrame extends JFrame {
     this.setSize(500, 400);
     this.setLocation(700, 380);
 
-    loadUi();
+    addContent();
 
     this.setVisible(true);
   }
 
-  private void loadUi() {
+  private void addContent() {
     var headerPanel = new HeaderPanel();
     JPanel contentPanel = createContentPanel();
     var footerPanel = new FooterPanel();
@@ -51,7 +65,7 @@ public class ClientInitializationFrame extends JFrame {
     gridConstraints.weightx = 0.1;
     contentPanel.add(lastNameLbl, gridConstraints);
 
-    var lastNameTxt = new DefaultTextField("Enter your lastname");
+    lastNameTxt = new DefaultTextField("Enter your lastname");
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 1;
@@ -73,7 +87,7 @@ public class ClientInitializationFrame extends JFrame {
     gridConstraints.weightx = 0.1;
     contentPanel.add(firstNameLbl, gridConstraints);
 
-    var firstNameTxt = new DefaultTextField("Enter your firstname");
+    firstNameTxt = new DefaultTextField("Enter your firstname");
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 1;
@@ -82,7 +96,7 @@ public class ClientInitializationFrame extends JFrame {
     gridConstraints.insets = new Insets(0, 0, 10, 10);
     gridConstraints.weightx = 0.9;
     contentPanel.add(firstNameTxt, gridConstraints);
-    //endregionCl
+    //endregion
 
     //region Email
     var emailLbl = new DefaultLabel("Email");
@@ -95,7 +109,7 @@ public class ClientInitializationFrame extends JFrame {
     gridConstraints.weightx = 0.1;
     contentPanel.add(emailLbl, gridConstraints);
 
-    var emailTxt = new DefaultTextField("Enter your email");
+    emailTxt = new DefaultTextField("Enter your email");
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 1;
@@ -119,7 +133,18 @@ public class ClientInitializationFrame extends JFrame {
   }
 
   private void saveClientInfoAction(ActionEvent event) {
+    var clientInfo = new ClientInfo();
+    clientInfo.setLastName(lastNameTxt.getText());
+    clientInfo.setFirstName(firstNameTxt.getText());
+    clientInfo.setEmail(emailTxt.getText());
 
+    boolean isSaved = clientService.saveClientInfo(clientInfo);
+    if (isSaved) {
+      this.dispose();
+      new JoinToProjectFrame(clientService);
+    } else {
+      MessageBox.error("Problem happened when saving your information!", this);
+    }
   }
 
 }

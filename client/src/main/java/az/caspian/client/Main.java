@@ -1,6 +1,7 @@
 package az.caspian.client;
 
 import az.caspian.client.service.ClientService;
+import az.caspian.client.ui.frame.ClientInitializationFrame;
 import az.caspian.client.ui.frame.JoinToProjectFrame;
 import az.caspian.core.AzScrapeAppException;
 import az.caspian.core.constant.FileConstants;
@@ -27,6 +28,11 @@ public class Main {
     }
 
     var clientService = new ClientService(new ClientConnection());
-    new JoinToProjectFrame(clientService);
+    boolean isInitialized = clientService.isClientInitialized();
+    if (isInitialized) {
+      new JoinToProjectFrame(clientService);
+    } else {
+      new ClientInitializationFrame(clientService);
+    }
   }
 }
