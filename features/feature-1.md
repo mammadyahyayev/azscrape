@@ -2,7 +2,7 @@
 ## Metadata
 **Author:** Mammad Yahyayev\
 **Release:** 3.0.0\
-**Status:** In Progress\
+**Status:** Delayed\
 **Created:** _06-06-2023 12:00_\
 **Updated:** _06-06-2023 12:08_
 
