@@ -91,7 +91,7 @@ public class JoinToProjectFrame extends JFrame {
 
   private void openCreateProjectFrameAction(ActionEvent event) {
     this.dispose();
-    new CreateProjectFrame();
+    new CreateProjectFrame(clientService);
   }
 
   private void joinToProjectAction(ActionEvent event) {

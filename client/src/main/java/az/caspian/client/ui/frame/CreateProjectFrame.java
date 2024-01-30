@@ -1,15 +1,28 @@
 package az.caspian.client.ui.frame;
 
+import az.caspian.client.Session;
+import az.caspian.client.service.ClientService;
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.client.ui.constants.UiConstants;
+import az.caspian.core.utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class CreateProjectFrame extends JFrame {
-  public CreateProjectFrame() {
+  private final ClientService clientService;
+
+  private DefaultTextField projectNameTxt;
+
+  public CreateProjectFrame(ClientService clientService) {
+    this.clientService = clientService;
+
+    init();
+  }
+
+  private void init() {
     this.setTitle(UiConstants.MAIN_FRAME_TITLE);
     this.setResizable(false);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,7 +63,7 @@ public class CreateProjectFrame extends JFrame {
     gridConstraints.weightx = 0.1;
     contentPanel.add(projectNameLbl, gridConstraints);
 
-    var projectNameTxt = new DefaultTextField("Enter Project Name");
+    projectNameTxt = new DefaultTextField("Enter Project Name");
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 1;
@@ -73,5 +86,11 @@ public class CreateProjectFrame extends JFrame {
   }
 
   private void createNewProjectAction(ActionEvent event) {
+    String projectName = projectNameTxt.getText();
+    if (StringUtils.isNullOrEmpty(projectName)) {
+      MessageBox.error("Project Name cannot be empty", this);
+    }
+
+    clientService.createProject(projectName, Session.getCurrentClient());
   }
 }
