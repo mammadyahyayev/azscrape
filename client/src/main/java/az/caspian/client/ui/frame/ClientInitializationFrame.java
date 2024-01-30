@@ -3,14 +3,13 @@ package az.caspian.client.ui.frame;
 import az.caspian.client.service.ClientService;
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
-import az.caspian.client.ui.constants.UiConstants;
 import az.caspian.core.messaging.ClientInfo;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class ClientInitializationFrame extends JFrame {
+public class ClientInitializationFrame extends DefaultFrame {
   private final ClientService clientService;
 
   private JTextField lastNameTxt;
@@ -18,27 +17,15 @@ public class ClientInitializationFrame extends JFrame {
   private JTextField emailTxt;
 
   public ClientInitializationFrame(ClientService clientService) {
+    super();
     this.clientService = clientService;
 
-    initFrame();
-  }
-
-  private void initFrame() {
-    this.setTitle(UiConstants.MAIN_FRAME_TITLE);
-    this.setResizable(false);
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setLayout(new BorderLayout());
-
-    this.getContentPane().setBackground(Colors.BASE_BG_COLOR);
-    this.setSize(500, 400);
-    this.setLocation(700, 380);
-
-    addContent();
+    loadUi();
 
     this.setVisible(true);
   }
 
-  private void addContent() {
+  private void loadUi() {
     var headerPanel = new HeaderPanel();
     JPanel contentPanel = createContentPanel();
     var footerPanel = new FooterPanel();

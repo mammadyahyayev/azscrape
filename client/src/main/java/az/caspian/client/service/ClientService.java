@@ -91,7 +91,7 @@ public class ClientService {
     return false;
   }
 
-  public void createProject(String projectName, ClientInfo clientInfo) {
+  public boolean createProject(String projectName, ClientInfo clientInfo) {
     Asserts.required(projectName, "projectName is required parameter!");
     Path projectPath = FileConstants.APP_PATH.resolve(projectName);
 
@@ -120,6 +120,9 @@ public class ClientService {
     } catch (IOException ex) {
       LOG.error("Failed to write into attendants.txt file!");
       //TODO: Think how to handle it on the UI.
+      return false;
     }
+
+    return true;
   }
 }

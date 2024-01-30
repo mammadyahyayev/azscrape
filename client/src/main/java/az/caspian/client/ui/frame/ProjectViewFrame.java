@@ -3,7 +3,6 @@ package az.caspian.client.ui.frame;
 import az.caspian.client.ui.components.FooterPanel;
 import az.caspian.client.ui.components.HeaderPanel;
 import az.caspian.client.ui.constants.Colors;
-import az.caspian.client.ui.constants.UiConstants;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,10 +16,7 @@ public class ProjectViewFrame extends JFrame {
   private JButton deleteMemberBtn;
 
   public ProjectViewFrame() {
-    this.setTitle(UiConstants.MAIN_FRAME_TITLE);
-    this.setResizable(false);
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setLayout(new BorderLayout());
+    super();
 
     this.getContentPane().setBackground(Colors.BASE_BG_COLOR);
     this.setSize(700, 800);

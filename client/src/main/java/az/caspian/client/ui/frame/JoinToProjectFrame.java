@@ -3,41 +3,30 @@ package az.caspian.client.ui.frame;
 import az.caspian.client.Session;
 import az.caspian.client.service.ClientService;
 import az.caspian.client.ui.components.DefaultButton;
+import az.caspian.client.ui.components.DefaultFrame;
 import az.caspian.client.ui.components.FooterPanel;
 import az.caspian.client.ui.components.HeaderPanel;
 import az.caspian.client.ui.constants.Colors;
-import az.caspian.client.ui.constants.UiConstants;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class JoinToProjectFrame extends JFrame {
+public class JoinToProjectFrame extends DefaultFrame {
   private final ClientService clientService;
 
   private JTextField projectIdTxt;
 
   public JoinToProjectFrame(ClientService clientService) {
+    super();
     this.clientService = clientService;
 
-    initUi();
-  }
-
-  private void initUi() {
-    this.setTitle(UiConstants.MAIN_FRAME_TITLE);
-    this.setResizable(false);
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setLayout(new BorderLayout());
-
-    this.getContentPane().setBackground(Colors.BASE_BG_COLOR);
     this.setSize(400, 400);
-    this.setLocation(700, 380);
 
     loadUi();
 
     this.setVisible(true);
   }
-
 
   private void loadUi() {
     var headerPanel = new HeaderPanel();
