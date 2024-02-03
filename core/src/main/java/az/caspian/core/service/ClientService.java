@@ -1,9 +1,15 @@
-package az.caspian.client.service;
+package az.caspian.core.service;
 
-import az.caspian.client.ClientConnection;
 import az.caspian.core.constant.FileConstants;
 import az.caspian.core.messaging.ClientInfo;
-import az.caspian.core.utils.*;
+import az.caspian.core.messaging.JoinToProjectMessage;
+import az.caspian.core.messaging.ShortMessage;
+import az.caspian.core.remote.Project;
+import az.caspian.core.remote.Session;
+import az.caspian.core.utils.Asserts;
+import az.caspian.core.utils.DateUtils;
+import az.caspian.core.utils.DefaultFileSystem;
+import az.caspian.core.utils.PropertiesFileSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,26 +24,24 @@ import java.util.Properties;
 public class ClientService {
   private static final Logger LOG = LogManager.getLogger(ClientService.class);
 
-  private final ClientConnection connection;
+  private final ProjectService projectService;
 
-  public ClientService(ClientConnection connection) {
-    this.connection = connection;
+  public ClientService(ProjectService projectService) {
+    this.projectService = projectService;
   }
 
-  public void joinToProject(final String projectId, ClientInfo clientInfo) {
-    if (StringUtils.isNullOrEmpty(projectId)) {
-      throw new IllegalArgumentException("projectId cannot be null or empty!");
+  public void handleShortMessage(ShortMessage message) {
+    if (message instanceof JoinToProjectMessage joinToProjectMessage) {
+      joinToProject(joinToProjectMessage.clientInfo(), Session.getCurrentProject());
     }
+  }
 
-    if (clientInfo == null) {
-      throw new IllegalArgumentException("ClientInfo cannot be null!");
-    }
+  public void joinToProject(ClientInfo clientInfo, Project project) {
+    Asserts.required(project, "project cannot be null!");
+    Asserts.required(clientInfo, "clientInfo cannot be null!");
 
-    try {
-      connection.joinToProject(projectId, clientInfo);
-    } catch (IOException | InterruptedException e) {
-      LOG.error("{} is failed to join to project: '{}'", clientInfo.getFullName(), projectId);
-    }
+    project.addAttendant(clientInfo);
+    projectService.saveProject(project);
   }
 
   /**
