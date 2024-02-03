@@ -1,20 +1,20 @@
 package az.caspian.client.ui.frame;
 
-import az.caspian.client.ui.components.DefaultFrame;
-import az.caspian.client.ui.components.DefaultLabel;
-import az.caspian.client.ui.components.FooterPanel;
-import az.caspian.client.ui.components.HeaderPanel;
+import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.client.ui.constants.Fonts;
 import az.caspian.core.service.ProjectService;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.util.Arrays;
 
 public class ShareProjectFrame extends DefaultFrame {
   private final ProjectService projectService;
+
+  private DefaultButton shareProjectBtn;
 
   public ShareProjectFrame(ProjectService projectService) {
     super();
@@ -63,8 +63,9 @@ public class ShareProjectFrame extends DefaultFrame {
 
     var columnNames = new String[]{"RowNum", "Project Name", "Actions"};
     var data = new String[][]{
-      {"1", "Solidia", "", ""},
-      {"2", "Bina.az", "", ""},
+      {"1", "Solidia", ""},
+      {"2", "Bina.az", ""},
+      {"3", "Turbo.az", ""},
     };
     var projectsTable = new JTable(data, columnNames);
     projectsPanel.add(new JScrollPane(projectsTable), BorderLayout.CENTER);
@@ -75,6 +76,13 @@ public class ShareProjectFrame extends DefaultFrame {
     projectsTable.getTableHeader().setForeground(Color.WHITE);
     projectsTable.getTableHeader().setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
 
+
+    projectsTable.setModel(new DefaultTableModel(data, columnNames) {
+      @Override
+      public boolean isCellEditable(int row, int column) {
+        return column == Arrays.asList(columnNames).indexOf("Actions");
+      }
+    });
     projectsTable.setBackground(Colors.BASE_BG_COLOR);
     projectsTable.setForeground(Color.WHITE);
     projectsTable.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
@@ -100,6 +108,8 @@ public class ShareProjectFrame extends DefaultFrame {
 
   private TableCellRenderer getTableActions() {
     return (table, value, isSelected, hasFocus, row, column) -> {
+      //TODO: When running program first time, selected row is the wrong row, for shareProjectBtn
+
       var actionsPanel = new JPanel();
 
       if (isSelected) actionsPanel.setBackground(table.getSelectionBackground());
@@ -107,32 +117,45 @@ public class ShareProjectFrame extends DefaultFrame {
 
       actionsPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 
-      var shareProjectBtn = new JButton("Share");
-      shareProjectBtn.setFocusable(false);
-      shareProjectBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+      shareProjectBtn = new DefaultButton("Share");
       shareProjectBtn.setBackground(new Color(0x1E89D6));
-      shareProjectBtn.setForeground(Color.WHITE);
-      shareProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
+      shareProjectBtn.setMargin(5);
+      shareProjectBtn.addActionListener(e -> {
+        // TODO: Replace this with actual column name to get its index
+        var selectedProject = (String) table.getModel().getValueAt(row, 1);
+        System.out.println("Selected Project: " + selectedProject);
+        projectService.shareProject(selectedProject);
+      });
 
-      var editProjectBtn = new JButton("Edit");
-      editProjectBtn.setFocusable(false);
-      editProjectBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+      var editProjectBtn = new DefaultButton("Edit");
       editProjectBtn.setBackground(new Color(0xFDC402));
-      editProjectBtn.setForeground(Color.WHITE);
-      editProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
+      editProjectBtn.setMargin(5);
 
-      var deleteProjectBtn = new JButton("Delete");
-      deleteProjectBtn.setFocusable(false);
-      deleteProjectBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+      var deleteProjectBtn = new DefaultButton("Delete");
       deleteProjectBtn.setBackground(Color.RED);
-      deleteProjectBtn.setForeground(Color.WHITE);
-      deleteProjectBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
+      deleteProjectBtn.setMargin(5);
 
       actionsPanel.add(shareProjectBtn);
       actionsPanel.add(editProjectBtn);
       actionsPanel.add(deleteProjectBtn);
 
+      table.getColumnModel().getColumn(column).setCellEditor(new TableActionCellEditor(actionsPanel));
       return actionsPanel;
     };
+  }
+
+  public static class TableActionCellEditor extends DefaultCellEditor {
+    private final JPanel actionsPanel;
+
+    public TableActionCellEditor(JPanel actionsPanel) {
+      super(new JCheckBox());
+      this.actionsPanel = actionsPanel;
+    }
+
+    @Override
+    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+      actionsPanel.setBackground(table.getSelectionBackground());
+      return actionsPanel;
+    }
   }
 }
