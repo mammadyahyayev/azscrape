@@ -11,4 +11,6 @@ module azscrape.core {
   exports az.caspian.core.model.enumeration;
   exports az.caspian.core.constant;
   exports az.caspian.core.serialization;
+  exports az.caspian.core.service;
+  exports az.caspian.core.remote;
 }

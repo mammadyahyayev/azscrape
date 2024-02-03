@@ -1,7 +1,7 @@
 package az.caspian.client.ui.frame;
 
-import az.caspian.client.Session;
-import az.caspian.client.service.ClientService;
+import az.caspian.core.remote.Session;
+import az.caspian.core.service.ClientService;
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.core.utils.StringUtils;

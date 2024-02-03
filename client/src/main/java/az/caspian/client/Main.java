@@ -1,10 +1,11 @@
 package az.caspian.client;
 
-import az.caspian.client.service.ClientService;
 import az.caspian.client.ui.frame.ClientInitializationFrame;
 import az.caspian.client.ui.frame.JoinToProjectFrame;
 import az.caspian.core.AzScrapeAppException;
 import az.caspian.core.constant.FileConstants;
+import az.caspian.core.service.ClientService;
+import az.caspian.core.service.ProjectService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +28,7 @@ public class Main {
       throw new AzScrapeAppException("Failed to create main app folder", e);
     }
 
-    var clientService = new ClientService(new ClientConnection());
+    var clientService = new ClientService(new ProjectService());
     boolean isInitialized = clientService.isClientInitialized();
     if (isInitialized) {
       new JoinToProjectFrame(clientService);

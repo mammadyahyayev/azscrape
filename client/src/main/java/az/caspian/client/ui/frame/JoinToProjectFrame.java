@@ -1,24 +1,26 @@
 package az.caspian.client.ui.frame;
 
-import az.caspian.client.Session;
-import az.caspian.client.service.ClientService;
 import az.caspian.client.ui.components.DefaultButton;
 import az.caspian.client.ui.components.DefaultFrame;
 import az.caspian.client.ui.components.FooterPanel;
 import az.caspian.client.ui.components.HeaderPanel;
 import az.caspian.client.ui.constants.Colors;
+import az.caspian.core.remote.ClientConnection;
+import az.caspian.core.remote.Session;
+import az.caspian.core.service.ClientService;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class JoinToProjectFrame extends DefaultFrame {
-  private final ClientService clientService;
+  private JTextField serverIpAddress;
 
-  private JTextField projectIdTxt;
+  private final ClientService clientService;
 
   public JoinToProjectFrame(ClientService clientService) {
     super();
+
     this.clientService = clientService;
 
     this.setSize(400, 400);
@@ -44,10 +46,10 @@ public class JoinToProjectFrame extends DefaultFrame {
     contentPanel.setLayout(new GridBagLayout());
     contentPanel.setBackground(Colors.BASE_BG_COLOR);
 
-    projectIdTxt = new JTextField();
-    projectIdTxt.setToolTipText("Enter Project ID");
-    projectIdTxt.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
-    projectIdTxt.setSize(200, 40);
+    serverIpAddress = new JTextField();
+    serverIpAddress.setToolTipText("Enter Server IP Address");
+    serverIpAddress.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
+    serverIpAddress.setSize(200, 40);
 
     var gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 0;
@@ -55,7 +57,7 @@ public class JoinToProjectFrame extends DefaultFrame {
     gridConstraints.fill = GridBagConstraints.HORIZONTAL;
     gridConstraints.gridwidth = 2;
     gridConstraints.insets = new Insets(0, 0, 10, 0);
-    contentPanel.add(projectIdTxt, gridConstraints);
+    contentPanel.add(serverIpAddress, gridConstraints);
 
     var createNewProjectBtn = new DefaultButton("Create new Project");
     createNewProjectBtn.setActionListener(this::openCreateProjectFrameAction);
@@ -66,7 +68,7 @@ public class JoinToProjectFrame extends DefaultFrame {
     gridConstraints.insets = new Insets(0, 0, 0, 10);
     contentPanel.add(createNewProjectBtn, gridConstraints);
 
-    var joinToProjectBtn = new DefaultButton("Join To Project");
+    var joinToProjectBtn = new DefaultButton("Join to Project");
     joinToProjectBtn.setActionListener(this::joinToProjectAction);
 
     gridConstraints.gridx = 1;
@@ -84,7 +86,8 @@ public class JoinToProjectFrame extends DefaultFrame {
   }
 
   private void joinToProjectAction(ActionEvent event) {
-    String projectId = projectIdTxt.getText();
-    clientService.joinToProject(projectId, Session.getCurrentClient());
+    String ipAddress = serverIpAddress.getText();
+    Session.setServerIpAddress(ipAddress);
+    ClientConnection.joinToProject(Session.getCurrentClient());
   }
 }
