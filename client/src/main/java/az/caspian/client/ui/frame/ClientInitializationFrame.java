@@ -1,9 +1,10 @@
 package az.caspian.client.ui.frame;
 
-import az.caspian.core.service.ClientService;
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.core.messaging.ClientInfo;
+import az.caspian.core.service.ClientService;
+import az.caspian.core.service.ProjectService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,14 +12,16 @@ import java.awt.event.ActionEvent;
 
 public class ClientInitializationFrame extends DefaultFrame {
   private final ClientService clientService;
+  private final ProjectService projectService;
 
   private JTextField lastNameTxt;
   private JTextField firstNameTxt;
   private JTextField emailTxt;
 
-  public ClientInitializationFrame(ClientService clientService) {
+  public ClientInitializationFrame(ProjectService projectService, ClientService clientService) {
     super();
     this.clientService = clientService;
+    this.projectService = projectService;
 
     loadUi();
 
@@ -128,7 +131,7 @@ public class ClientInitializationFrame extends DefaultFrame {
     boolean isSaved = clientService.saveClientInfo(clientInfo);
     if (isSaved) {
       this.dispose();
-      new JoinToProjectFrame(clientService);
+      new JoinToProjectFrame(projectService, clientService);
     } else {
       MessageBox.error("Problem happened when saving your information!", this);
     }

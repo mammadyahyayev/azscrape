@@ -28,12 +28,13 @@ public class Main {
       throw new AzScrapeAppException("Failed to create main app folder", e);
     }
 
-    var clientService = new ClientService(new ProjectService());
+    var projectService = new ProjectService();
+    var clientService = new ClientService(projectService);
     boolean isInitialized = clientService.isClientInitialized();
     if (isInitialized) {
-      new JoinToProjectFrame(clientService);
+      new JoinToProjectFrame(projectService, clientService);
     } else {
-      new ClientInitializationFrame(clientService);
+      new ClientInitializationFrame(projectService, clientService);
     }
   }
 }

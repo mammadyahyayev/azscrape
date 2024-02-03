@@ -1,13 +1,12 @@
 package az.caspian.client.ui.frame;
 
-import az.caspian.client.ui.components.DefaultButton;
-import az.caspian.client.ui.components.DefaultFrame;
-import az.caspian.client.ui.components.FooterPanel;
-import az.caspian.client.ui.components.HeaderPanel;
+import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.core.remote.ClientConnection;
 import az.caspian.core.remote.Session;
 import az.caspian.core.service.ClientService;
+import az.caspian.core.service.ProjectService;
+import az.caspian.core.utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,10 +15,12 @@ import java.awt.event.ActionEvent;
 public class JoinToProjectFrame extends DefaultFrame {
   private JTextField serverIpAddress;
 
+  private final ProjectService projectService;
   private final ClientService clientService;
 
-  public JoinToProjectFrame(ClientService clientService) {
+  public JoinToProjectFrame(ProjectService projectService, ClientService clientService) {
     super();
+    this.projectService = projectService;
 
     this.clientService = clientService;
 
@@ -77,6 +78,15 @@ public class JoinToProjectFrame extends DefaultFrame {
     gridConstraints.insets = new Insets(0, 10, 0, 0);
     contentPanel.add(joinToProjectBtn, gridConstraints);
 
+    var shareProjectBtn = new DefaultButton("Share Project");
+    shareProjectBtn.setActionListener(this::openShareProjectFrameAction);
+
+    gridConstraints.gridx = 0;
+    gridConstraints.gridy = 2;
+    gridConstraints.gridwidth = 2;
+    gridConstraints.insets = new Insets(10, 0, 0, 0);
+    contentPanel.add(shareProjectBtn, gridConstraints);
+
     return contentPanel;
   }
 
@@ -85,8 +95,18 @@ public class JoinToProjectFrame extends DefaultFrame {
     new CreateProjectFrame(clientService);
   }
 
+  private void openShareProjectFrameAction(ActionEvent event) {
+    this.dispose();
+    new ShareProjectFrame(projectService);
+  }
+
   private void joinToProjectAction(ActionEvent event) {
     String ipAddress = serverIpAddress.getText();
+    if (StringUtils.isNullOrEmpty(ipAddress)) {
+      MessageBox.error("IP address must not be null!", this);
+      return;
+    }
+
     Session.setServerIpAddress(ipAddress);
     ClientConnection.joinToProject(Session.getCurrentClient());
   }
