@@ -11,7 +11,6 @@ import java.awt.*;
 import java.util.Arrays;
 
 
-
 public class ShareProjectFrame extends DefaultFrame {
   private final ProjectService projectService;
 
@@ -86,8 +85,6 @@ public class ShareProjectFrame extends DefaultFrame {
 
   private TableCellRenderer getTableActions() {
     return (table, value, isSelected, hasFocus, row, column) -> {
-      //TODO: When running program first time, selected row is the wrong row, for shareProjectBtn
-
       var actionsPanel = new JPanel();
 
       if (isSelected) actionsPanel.setBackground(table.getSelectionBackground());
@@ -97,9 +94,9 @@ public class ShareProjectFrame extends DefaultFrame {
       shareProjectBtn.setBackground(new Color(0x1E89D6));
       shareProjectBtn.setMargin(5);
       shareProjectBtn.addActionListener(e -> {
+        var selectedRow = table.getSelectedRow();
         var colIndexOfProject = table.getColumnModel().getColumnIndex(TableColumnName.PROJECT_NAME.getName());
-        var selectedProject = (String) table.getModel().getValueAt(row, colIndexOfProject);
-        System.out.println("Selected Project: " + selectedProject);
+        var selectedProject = (String) table.getModel().getValueAt(selectedRow, colIndexOfProject);
         projectService.shareProject(selectedProject);
         redirectToProjectViewFrame(selectedProject);
       });
@@ -140,6 +137,7 @@ public class ShareProjectFrame extends DefaultFrame {
     }
   }
 
+  //TODO: Create an interface and force in DefaultTable to use enums with interface
   enum TableColumnName {
     ROW_NUM("RowNum"),
     PROJECT_NAME("Project Name"),
