@@ -1,9 +1,6 @@
 package az.caspian.client.ui.frame;
 
-import az.caspian.client.ui.components.DefaultButton;
-import az.caspian.client.ui.components.DefaultTable;
-import az.caspian.client.ui.components.FooterPanel;
-import az.caspian.client.ui.components.HeaderPanel;
+import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.client.ui.constants.Fonts;
 
@@ -11,7 +8,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.util.Arrays;
 
 
 public class ProjectViewFrame extends JFrame {
@@ -145,11 +141,11 @@ public class ProjectViewFrame extends JFrame {
     projectMembersPanel.add(projectMembersLbl, BorderLayout.NORTH);
 
     var data = new String[][]{
-      {"1", "Jack", "Jackson", ""},
-      {"2", "John", "Doe", ""},
-      {"3", "Smith", "Machine", ""},
+      {"1", "Jack Jackson", ""},
+      {"2", "John Doe", ""},
+      {"3", "Smith Machine", ""},
     };
-    var membersTable = new DefaultTable(TableColumnName.columnNames(), data);
+    var membersTable = new DefaultTable(TableColumnName.class, data);
     projectMembersPanel.add(new JScrollPane(membersTable));
 
     membersTable.makeColumnEditable(TableColumnName.ACTIONS.ordinal());
@@ -184,7 +180,7 @@ public class ProjectViewFrame extends JFrame {
   }
 
 
-  enum TableColumnName {
+  enum TableColumnName implements TableColumn {
     ROW_NUM("RowNum"),
     FULL_NAME("Full Name"),
     ACTIONS("Actions");
@@ -197,10 +193,6 @@ public class ProjectViewFrame extends JFrame {
 
     public String getName() {
       return name;
-    }
-
-    public static String[] columnNames() {
-      return Arrays.stream(values()).map(TableColumnName::getName).toArray(String[]::new);
     }
   }
 }

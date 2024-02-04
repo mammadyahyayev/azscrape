@@ -8,7 +8,6 @@ import az.caspian.core.service.ProjectService;
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.util.Arrays;
 
 
 public class ShareProjectFrame extends DefaultFrame {
@@ -66,7 +65,8 @@ public class ShareProjectFrame extends DefaultFrame {
       {"2", "Bina.az", ""},
       {"3", "Turbo.az", ""},
     };
-    var projectsTable = new DefaultTable(TableColumnName.columnNames(), data);
+
+    var projectsTable = new DefaultTable(TableColumnName.class, data);
     projectsPanel.add(new JScrollPane(projectsTable), BorderLayout.CENTER);
     projectsTable.makeColumnEditable(TableColumnName.ACTIONS.ordinal());
     projectsTable.getColumn(TableColumnName.ACTIONS.getName()).setCellRenderer(getTableActions());
@@ -137,8 +137,7 @@ public class ShareProjectFrame extends DefaultFrame {
     }
   }
 
-  //TODO: Create an interface and force in DefaultTable to use enums with interface
-  enum TableColumnName {
+  enum TableColumnName implements TableColumn {
     ROW_NUM("RowNum"),
     PROJECT_NAME("Project Name"),
     ACTIONS("Actions");
@@ -151,10 +150,6 @@ public class ShareProjectFrame extends DefaultFrame {
 
     public String getName() {
       return name;
-    }
-
-    public static String[] columnNames() {
-      return Arrays.stream(values()).map(TableColumnName::getName).toArray(String[]::new);
     }
   }
 }

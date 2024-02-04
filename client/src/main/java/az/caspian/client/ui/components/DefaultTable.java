@@ -7,14 +7,13 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class DefaultTable extends JTable {
-
   private final String[] columnNames;
   private final Object[][] data;
 
-  public DefaultTable(String[] columnNames, Object[][] data) {
-    super(data, columnNames);
+  public DefaultTable(Class<? extends Enum<? extends TableColumn>> enumClass, Object[][] data) {
+    super(data, TableColumn.columnNames(enumClass));
 
-    this.columnNames = columnNames;
+    this.columnNames = TableColumn.columnNames(enumClass);
     this.data = data;
 
     super.getTableHeader().setReorderingAllowed(false);
