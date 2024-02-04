@@ -1,19 +1,24 @@
 package az.caspian.client.ui.frame;
 
+import az.caspian.client.ui.components.DefaultButton;
+import az.caspian.client.ui.components.DefaultTable;
 import az.caspian.client.ui.components.FooterPanel;
 import az.caspian.client.ui.components.HeaderPanel;
 import az.caspian.client.ui.constants.Colors;
+import az.caspian.client.ui.constants.Fonts;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.util.Arrays;
+
 
 public class ProjectViewFrame extends JFrame {
   private JButton seeConfigFileBtn;
 
-  private JButton editMemberBtn;
-  private JButton deleteMemberBtn;
+  private DefaultButton editMemberBtn;
+  private DefaultButton deleteMemberBtn;
 
   public ProjectViewFrame() {
     super();
@@ -51,7 +56,7 @@ public class ProjectViewFrame extends JFrame {
     projectNamePanel.setBackground(Colors.BASE_BG_COLOR);
 
     var projectNameLbl = new JLabel("Project Name: ");
-    projectNameLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+    projectNameLbl.setFont(Fonts.SANS_SERIF_BOLD_18);
     projectNameLbl.setForeground(Color.WHITE);
 
     var projectNameValueLbl = new JLabel("turbo.az scraping");
@@ -139,32 +144,16 @@ public class ProjectViewFrame extends JFrame {
 
     projectMembersPanel.add(projectMembersLbl, BorderLayout.NORTH);
 
-    var columnNames = new String[]{"Id", "Name", "Computer", "Actions"};
-    var data =
-      new String[][]{
-        {"1", "Jack", "Jackson", ""},
-        {"2", "John", "Doe", ""},
-        {"3", "Smith", "Machine", ""},
-      };
-    var membersTable = new JTable(data, columnNames);
+    var data = new String[][]{
+      {"1", "Jack", "Jackson", ""},
+      {"2", "John", "Doe", ""},
+      {"3", "Smith", "Machine", ""},
+    };
+    var membersTable = new DefaultTable(TableColumnName.columnNames(), data);
     projectMembersPanel.add(new JScrollPane(membersTable));
 
-    membersTable.getTableHeader().setReorderingAllowed(false);
-    membersTable.getTableHeader().setBackground(new Color(0x00E7FF));
-    membersTable.getTableHeader().setOpaque(false);
-    membersTable.getTableHeader().setForeground(Color.WHITE);
-    membersTable.getTableHeader().setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-
-    membersTable.setBackground(Colors.BASE_BG_COLOR);
-    membersTable.setForeground(Color.WHITE);
-    membersTable.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-    membersTable.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-    membersTable.setFocusable(false);
-    membersTable.setIntercellSpacing(new Dimension(0, 0));
-    membersTable.setRowHeight(40);
-    membersTable.setSelectionBackground(new Color(0x50C2D3));
-
-    membersTable.getColumn("Actions").setCellRenderer(getTableActions());
+    membersTable.makeColumnEditable(TableColumnName.ACTIONS.ordinal());
+    membersTable.getColumn(TableColumnName.ACTIONS.getName()).setCellRenderer(getTableActions());
 
     contentPanel.add(projectMembersPanel, BorderLayout.CENTER);
     //#endregion
@@ -177,28 +166,41 @@ public class ProjectViewFrame extends JFrame {
       var actionsPanel = new JPanel();
 
       if (isSelected) actionsPanel.setBackground(table.getSelectionBackground());
-      else actionsPanel.setBackground(Colors.BASE_BG_COLOR);
+      else actionsPanel.setBackground(table.getBackground());
 
-      actionsPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-
-      editMemberBtn = new JButton("Edit");
-      editMemberBtn.setFocusable(false);
-      editMemberBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+      editMemberBtn = new DefaultButton("Edit");
+      editMemberBtn.setFont(Fonts.SANS_SERIF_PLAIN_16);
       editMemberBtn.setBackground(new Color(0xFDC402));
-      editMemberBtn.setForeground(Color.WHITE);
-      editMemberBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-      deleteMemberBtn = new JButton("Delete");
-      deleteMemberBtn.setFocusable(false);
-      deleteMemberBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+      deleteMemberBtn = new DefaultButton("Delete");
+      deleteMemberBtn.setFont(Fonts.SANS_SERIF_PLAIN_16);
       deleteMemberBtn.setBackground(Color.RED);
-      deleteMemberBtn.setForeground(Color.WHITE);
-      deleteMemberBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
 
       actionsPanel.add(editMemberBtn);
       actionsPanel.add(deleteMemberBtn);
 
       return actionsPanel;
     };
+  }
+
+
+  enum TableColumnName {
+    ROW_NUM("RowNum"),
+    FULL_NAME("Full Name"),
+    ACTIONS("Actions");
+
+    private final String name;
+
+    TableColumnName(String name) {
+      this.name = name;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public static String[] columnNames() {
+      return Arrays.stream(values()).map(TableColumnName::getName).toArray(String[]::new);
+    }
   }
 }

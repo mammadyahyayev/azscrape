@@ -6,10 +6,11 @@ import az.caspian.client.ui.constants.Fonts;
 import az.caspian.core.service.ProjectService;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.Arrays;
+
+
 
 public class ShareProjectFrame extends DefaultFrame {
   private final ProjectService projectService;
@@ -61,38 +62,15 @@ public class ShareProjectFrame extends DefaultFrame {
     projectsPanel.setLayout(new BorderLayout());
     projectsPanel.setBackground(Colors.BASE_BG_COLOR);
 
-    var columnNames = new String[]{"RowNum", "Project Name", "Actions"};
     var data = new String[][]{
       {"1", "Solidia", ""},
       {"2", "Bina.az", ""},
       {"3", "Turbo.az", ""},
     };
-    var projectsTable = new JTable(data, columnNames);
+    var projectsTable = new DefaultTable(TableColumnName.columnNames(), data);
     projectsPanel.add(new JScrollPane(projectsTable), BorderLayout.CENTER);
-
-    projectsTable.getTableHeader().setReorderingAllowed(false);
-    projectsTable.getTableHeader().setBackground(new Color(0x00E7FF));
-    projectsTable.getTableHeader().setOpaque(false);
-    projectsTable.getTableHeader().setForeground(Color.WHITE);
-    projectsTable.getTableHeader().setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-
-
-    projectsTable.setModel(new DefaultTableModel(data, columnNames) {
-      @Override
-      public boolean isCellEditable(int row, int column) {
-        return column == Arrays.asList(columnNames).indexOf("Actions");
-      }
-    });
-    projectsTable.setBackground(Colors.BASE_BG_COLOR);
-    projectsTable.setForeground(Color.WHITE);
-    projectsTable.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-    projectsTable.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
-    projectsTable.setFocusable(false);
-    projectsTable.setIntercellSpacing(new Dimension(0, 0));
-    projectsTable.setRowHeight(40);
-    projectsTable.setSelectionBackground(new Color(0x50C2D3));
-
-    projectsTable.getColumn("Actions").setCellRenderer(getTableActions());
+    projectsTable.makeColumnEditable(TableColumnName.ACTIONS.ordinal());
+    projectsTable.getColumn(TableColumnName.ACTIONS.getName()).setCellRenderer(getTableActions());
 
     constraints.gridx = 0;
     constraints.gridy = 1;
@@ -113,18 +91,17 @@ public class ShareProjectFrame extends DefaultFrame {
       var actionsPanel = new JPanel();
 
       if (isSelected) actionsPanel.setBackground(table.getSelectionBackground());
-      else actionsPanel.setBackground(Colors.BASE_BG_COLOR);
-
-      actionsPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+      else actionsPanel.setBackground(table.getBackground());
 
       shareProjectBtn = new DefaultButton("Share");
       shareProjectBtn.setBackground(new Color(0x1E89D6));
       shareProjectBtn.setMargin(5);
       shareProjectBtn.addActionListener(e -> {
-        // TODO: Replace this with actual column name to get its index
-        var selectedProject = (String) table.getModel().getValueAt(row, 1);
+        var colIndexOfProject = table.getColumnModel().getColumnIndex(TableColumnName.PROJECT_NAME.getName());
+        var selectedProject = (String) table.getModel().getValueAt(row, colIndexOfProject);
         System.out.println("Selected Project: " + selectedProject);
         projectService.shareProject(selectedProject);
+        redirectToProjectViewFrame(selectedProject);
       });
 
       var editProjectBtn = new DefaultButton("Edit");
@@ -144,6 +121,10 @@ public class ShareProjectFrame extends DefaultFrame {
     };
   }
 
+  private void redirectToProjectViewFrame(String projectName) {
+
+  }
+
   public static class TableActionCellEditor extends DefaultCellEditor {
     private final JPanel actionsPanel;
 
@@ -156,6 +137,26 @@ public class ShareProjectFrame extends DefaultFrame {
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
       actionsPanel.setBackground(table.getSelectionBackground());
       return actionsPanel;
+    }
+  }
+
+  enum TableColumnName {
+    ROW_NUM("RowNum"),
+    PROJECT_NAME("Project Name"),
+    ACTIONS("Actions");
+
+    private final String name;
+
+    TableColumnName(String name) {
+      this.name = name;
+    }
+
+    public String getName() {
+      return name;
+    }
+
+    public static String[] columnNames() {
+      return Arrays.stream(values()).map(TableColumnName::getName).toArray(String[]::new);
     }
   }
 }

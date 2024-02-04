@@ -18,7 +18,7 @@ public class DefaultButton extends JButton implements SpaceAdjuster {
     this.setSize(100, 200);
     this.setBackground(Colors.BASE_BTN_BG_COLOR);
     this.setForeground(Color.WHITE);
-    this.setBorder(new EmptyBorder(5, 5, 5, 5));
+    this.setMargin(5);
   }
 
   public void setActionListener(ActionListener actionListener) {
