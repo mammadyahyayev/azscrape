@@ -1,0 +1,15 @@
+1. Redirect to Shared Project Frame after sharing a project publicly.
+
+2. Create an enum for shared flag arguments between clients and server.
+Example:
+FLAG_PROJECT(flag_short, flag_long)
+FLAG_SERVER_PORT(flag_short, null)
+
+3. The Server has to check the existence of the given project, if the project doesn't exist, then it must
+throw exception.
+
+4. Create a side panel for showing logs to the Master client.
+Example:
+[22-04-2024T13:34:15] jack joined to 'hospital' project
+[22-04-2024T13:44:28] jack-task#12 assigned to jack
+[22-04-2024T13:56:32] jack completed jack-task#12 in 5:04 minutes
