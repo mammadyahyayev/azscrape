@@ -2,6 +2,7 @@ package az.caspian.core.remote;
 
 import az.caspian.core.constant.FileConstants;
 import az.caspian.core.messaging.ClientInfo;
+import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.PropertiesFileSystem;
 import az.caspian.core.utils.StringUtils;
 
@@ -45,6 +46,18 @@ public final class Session {
     // suggest the project inside that file.
 
     return project;
+  }
+
+  public static void setCurrentProject(String projectName) {
+    Asserts.required(projectName, "projectName cannot be null or empty!");
+
+    if (project == null) {
+      project = new Project();
+      project.setName(projectName);
+      return;
+    }
+
+    project.setName(projectName);
   }
 
   public static String getServerIpAddress() {

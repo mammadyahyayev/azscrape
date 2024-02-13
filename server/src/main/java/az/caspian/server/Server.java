@@ -10,9 +10,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
 
 public class Server {
   private static final Logger LOG = LogManager.getLogger(Server.class);
+
+  public static final int PORT = 9090;
 
   private final ClientService clientService;
 
@@ -23,9 +26,11 @@ public class Server {
   public static void main(String[] args) throws IOException {
     var server = new Server(new ClientService(new ProjectService()));
 
-    LOG.debug("Server is up and running...");
-    int port = 9090;
-    try (ServerSocket serverSocket = new ServerSocket(port)) {
+    LOG.debug("Server is up and running on port " + PORT);
+
+    server.parseArguments(args);
+
+    try (ServerSocket serverSocket = new ServerSocket(PORT)) {
       while (true) {
         Socket clientSocket = serverSocket.accept();
         if (!clientSocket.isConnected()) {
@@ -34,6 +39,22 @@ public class Server {
 
         server.handleClientConnection(clientSocket);
       }
+    }
+  }
+
+  private void parseArguments(String[] args) {
+    var index = 0;
+    while (index < args.length) {
+      if (args[index].equals("-p")) {
+        String projectName = args[index + 1];
+        LOG.debug("""
+          The project {} is shared ({}) publicly and it is available to other clients.\s
+          """, projectName, LocalDateTime.now());
+        index++;
+        continue;
+      }
+
+      index++;
     }
   }
 
