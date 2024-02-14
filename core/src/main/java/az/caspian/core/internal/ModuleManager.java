@@ -1,5 +1,6 @@
 package az.caspian.core.internal;
 
+import az.caspian.core.constant.AzScrapeVersion;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -23,8 +24,7 @@ public final class ModuleManager {
       while ((output = reader.readLine()) != null) {
         System.out.println(output);
       }
-    } catch (
-      IOException e) {
+    } catch (IOException e) {
       LOG.error("Failed to run server module!");
     }
   }
@@ -32,10 +32,12 @@ public final class ModuleManager {
   @NotNull
   private static StringBuilder getRunServerCommand(Map<String, String> cliArguments) {
     var projectDir = System.getProperty("user.dir");
-    Path jarFilePath = Path.of(projectDir, "lib/server-3.0.0-SNAPSHOT-jar-with-dependencies.jar"); //TODO: Get jar version dynamically
-    String mainClass = "az.caspian.server.Server";
+    var projectVersion = AzScrapeVersion.getVersion();
+    var jarFileName = "lib/server-%s-jar-with-dependencies.jar".formatted(projectVersion);
+    var jarFilePath = Path.of(projectDir, jarFileName);
+    var mainClass = "az.caspian.server.Server";
 
-    StringBuilder command = new StringBuilder("java -cp %s %s".formatted(jarFilePath, mainClass));
+    var command = new StringBuilder("java -cp %s %s".formatted(jarFilePath, mainClass));
 
     for (var cliArgument : cliArguments.entrySet()) {
       String flag = cliArgument.getKey();
