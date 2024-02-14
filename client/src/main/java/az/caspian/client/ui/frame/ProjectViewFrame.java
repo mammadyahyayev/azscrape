@@ -3,6 +3,7 @@ package az.caspian.client.ui.frame;
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.client.ui.constants.Fonts;
+import az.caspian.core.remote.Project;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,19 +17,31 @@ public class ProjectViewFrame extends JFrame {
   private DefaultButton editMemberBtn;
   private DefaultButton deleteMemberBtn;
 
+  private Project project;
+
   public ProjectViewFrame() {
     super();
+    initUi();
+  }
 
+  public ProjectViewFrame(Project project) {
+    super();
+    this.project = project;
+
+    initUi();
+  }
+
+  private void initUi() {
     this.getContentPane().setBackground(Colors.BASE_BG_COLOR);
     this.setSize(700, 800);
     this.setLocation(600, 200);
 
-    loadUi();
+    loadUiComponents();
 
     this.setVisible(true);
   }
 
-  private void loadUi() {
+  private void loadUiComponents() {
     var headerPanel = new HeaderPanel();
     JPanel contentPanel = createContentPanel();
     var footerPanel = new FooterPanel();
@@ -55,7 +68,7 @@ public class ProjectViewFrame extends JFrame {
     projectNameLbl.setFont(Fonts.SANS_SERIF_BOLD_18);
     projectNameLbl.setForeground(Color.WHITE);
 
-    var projectNameValueLbl = new JLabel("turbo.az scraping");
+    var projectNameValueLbl = new JLabel(project.getName());
     projectNameValueLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
     projectNameValueLbl.setForeground(Color.WHITE);
 
@@ -79,9 +92,14 @@ public class ProjectViewFrame extends JFrame {
     projectOwnerLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
     projectOwnerLbl.setForeground(Color.WHITE);
 
-    var projectOwnerValueLbl = new JLabel("Mammad Yahyayev");
-    projectOwnerValueLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-    projectOwnerValueLbl.setForeground(Color.WHITE);
+    var projectOwner = project.getCreatedBy();
+
+    var projectOwnerValueLbl = new JLabel();
+    if (projectOwner != null) {
+      projectOwnerValueLbl.setText(projectOwner.getFullName());
+      projectOwnerValueLbl.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
+      projectOwnerValueLbl.setForeground(Color.WHITE);
+    }
 
     gridConstraints = new GridBagConstraints();
     gridConstraints.gridx = 0;

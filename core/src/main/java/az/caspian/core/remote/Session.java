@@ -48,16 +48,9 @@ public final class Session {
     return project;
   }
 
-  public static void setCurrentProject(String projectName) {
-    Asserts.required(projectName, "projectName cannot be null or empty!");
-
-    if (project == null) {
-      project = new Project();
-      project.setName(projectName);
-      return;
-    }
-
-    project.setName(projectName);
+  public static void setCurrentProject(Project project) {
+    Asserts.required(project, "project cannot be null!");
+    Session.project = project;
   }
 
   public static String getServerIpAddress() {

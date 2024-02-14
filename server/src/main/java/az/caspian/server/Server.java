@@ -3,6 +3,7 @@ package az.caspian.server;
 import az.caspian.core.messaging.ShortMessage;
 import az.caspian.core.service.ClientService;
 import az.caspian.core.service.ProjectService;
+import az.caspian.core.utils.DateUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,12 +12,9 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Server {
   private static final Logger LOG = LogManager.getLogger(Server.class);
-
-  private static final DateTimeFormatter DEFAULT_DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
   public static final int PORT = 9090;
 
@@ -52,7 +50,7 @@ public class Server {
         String projectName = args[index + 1];
         LOG.debug("""
           The project '{}' is shared ({}) publicly and it is available to other clients.\s
-          """, projectName, LocalDateTime.now().format(DEFAULT_DATE_FORMAT));
+          """, projectName, DateUtils.ofDefaultFormat(LocalDateTime.now()));
         index++;
         continue;
       }

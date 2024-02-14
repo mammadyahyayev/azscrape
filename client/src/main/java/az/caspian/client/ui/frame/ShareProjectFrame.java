@@ -3,6 +3,7 @@ package az.caspian.client.ui.frame;
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.client.ui.constants.Fonts;
+import az.caspian.core.remote.Project;
 import az.caspian.core.service.ProjectService;
 
 import javax.swing.*;
@@ -62,7 +63,7 @@ public class ShareProjectFrame extends DefaultFrame {
 
     //TODO: Create getAllProjects method and populate table
     var data = new String[][]{
-      {"1", "Solidia", ""},
+      {"1", "solidia", ""},
       {"2", "Bina.az", ""},
       {"3", "Turbo.az", ""},
     };
@@ -98,10 +99,10 @@ public class ShareProjectFrame extends DefaultFrame {
         var selectedRow = table.getSelectedRow();
         var colIndexOfProject = table.getColumnModel().getColumnIndex(TableColumnName.PROJECT_NAME.getName());
         var selectedProject = (String) table.getModel().getValueAt(selectedRow, colIndexOfProject);
-        boolean isShared = projectService.shareProject(selectedProject);
+        Project sharedProject = projectService.shareProject(selectedProject);
 
-        if (isShared)
-          redirectToProjectViewFrame(selectedProject);
+        if (sharedProject != null)
+          redirectToProjectViewFrame(sharedProject);
         else
           MessageBox.error("Failed to share project", this);
       });
@@ -123,9 +124,9 @@ public class ShareProjectFrame extends DefaultFrame {
     };
   }
 
-  private void redirectToProjectViewFrame(String projectName) {
+  private void redirectToProjectViewFrame(Project sharedProject) {
     this.dispose();
-    new ProjectViewFrame();
+    new ProjectViewFrame(sharedProject);
   }
 
   public static class TableActionCellEditor extends DefaultCellEditor {
