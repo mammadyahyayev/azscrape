@@ -11,9 +11,12 @@ import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Server {
   private static final Logger LOG = LogManager.getLogger(Server.class);
+
+  private static final DateTimeFormatter DEFAULT_DATE_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
   public static final int PORT = 9090;
 
@@ -48,8 +51,8 @@ public class Server {
       if (args[index].equals("-p")) {
         String projectName = args[index + 1];
         LOG.debug("""
-          The project {} is shared ({}) publicly and it is available to other clients.\s
-          """, projectName, LocalDateTime.now());
+          The project '{}' is shared ({}) publicly and it is available to other clients.\s
+          """, projectName, LocalDateTime.now().format(DEFAULT_DATE_FORMAT));
         index++;
         continue;
       }
