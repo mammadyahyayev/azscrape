@@ -3,6 +3,7 @@ package az.caspian.core.service;
 import az.caspian.core.constant.FileConstants;
 import az.caspian.core.internal.ModuleManager;
 import az.caspian.core.messaging.ClientInfo;
+import az.caspian.core.messaging.ClientType;
 import az.caspian.core.remote.Project;
 import az.caspian.core.remote.Session;
 import az.caspian.core.utils.Asserts;
@@ -48,19 +49,21 @@ public class ProjectService {
         throw new IllegalArgumentException("Project '" + projectName + "' does not exist!");
       }
 
-      var project = findProjectByName(projectName);
-      Session.setCurrentProject(project);
-
       //TODO: Check if there is already shared project or not, if user clicks second time.
       FutureTask<Boolean> runServerModuleTask = new FutureTask<>(
         () -> ModuleManager.runServerModule(Map.of("-p", projectName)));
       new Thread(runServerModuleTask).start();
 
       boolean isRunning = runServerModuleTask.get();
-      if (isRunning)
+      if (isRunning) {
+        ClientInfo currentClient = Session.getCurrentClient();
+        currentClient.setClientType(ClientType.COORDINATOR);
+        Session.setCurrentClient(currentClient);
+
+        var project = findProjectByName(projectName);
+        Session.setCurrentProject(project);
         return project;
-      else
-        return null;
+      }
     } catch (IOException e) {
       LOG.error("Failed to read projects from {}", FileConstants.APP_PATH);
     } catch (ExecutionException e) {

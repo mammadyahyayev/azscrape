@@ -33,6 +33,11 @@ public final class Session {
     return clientInfo;
   }
 
+  public static void setCurrentClient(ClientInfo client) {
+    Asserts.required(client, "client cannot be null!");
+    currentClient = client;
+  }
+
   public static Project getCurrentProject() {
     if (project != null) {
       return project;
