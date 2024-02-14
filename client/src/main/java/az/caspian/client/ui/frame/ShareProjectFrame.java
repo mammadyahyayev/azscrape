@@ -60,6 +60,7 @@ public class ShareProjectFrame extends DefaultFrame {
     projectsPanel.setLayout(new BorderLayout());
     projectsPanel.setBackground(Colors.BASE_BG_COLOR);
 
+    //TODO: Create getAllProjects method and populate table
     var data = new String[][]{
       {"1", "Solidia", ""},
       {"2", "Bina.az", ""},
@@ -97,8 +98,12 @@ public class ShareProjectFrame extends DefaultFrame {
         var selectedRow = table.getSelectedRow();
         var colIndexOfProject = table.getColumnModel().getColumnIndex(TableColumnName.PROJECT_NAME.getName());
         var selectedProject = (String) table.getModel().getValueAt(selectedRow, colIndexOfProject);
-        projectService.shareProject(selectedProject);
-        redirectToProjectViewFrame(selectedProject);
+        boolean isShared = projectService.shareProject(selectedProject);
+
+        if (isShared)
+          redirectToProjectViewFrame(selectedProject);
+        else
+          MessageBox.error("Failed to share project", this);
       });
 
       var editProjectBtn = new DefaultButton("Edit");
@@ -119,7 +124,8 @@ public class ShareProjectFrame extends DefaultFrame {
   }
 
   private void redirectToProjectViewFrame(String projectName) {
-
+    this.dispose();
+    new ProjectViewFrame();
   }
 
   public static class TableActionCellEditor extends DefaultCellEditor {

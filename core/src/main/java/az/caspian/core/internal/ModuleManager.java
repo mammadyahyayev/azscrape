@@ -14,7 +14,7 @@ import java.util.Map;
 public final class ModuleManager {
   private static final Logger LOG = LogManager.getLogger(ModuleManager.class);
 
-  public static void runServerModule(Map<String, String> cliArguments) {
+  public static boolean runServerModule(Map<String, String> cliArguments) {
     StringBuilder command = getRunServerCommand(cliArguments);
 
     try {
@@ -26,7 +26,10 @@ public final class ModuleManager {
       }
     } catch (IOException e) {
       LOG.error("Failed to run server module!");
+      return false;
     }
+
+    return true;
   }
 
   @NotNull

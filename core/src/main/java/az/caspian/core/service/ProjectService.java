@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.stream.Stream;
 
 public class ProjectService {
@@ -28,7 +30,7 @@ public class ProjectService {
      */
   }
 
-  public void shareProject(String projectName) {
+  public boolean shareProject(String projectName) {
     Asserts.required(projectName, "projectName must not be null or empty!");
 
     try (Stream<Path> directoryStream = Files.list(FileConstants.APP_PATH)) {
@@ -45,10 +47,19 @@ public class ProjectService {
       Session.setCurrentProject(projectName);
 
       //TODO: Check if there is already shared project or not, if user clicks second time.
-      Runnable runServerModuleTask = () -> ModuleManager.runServerModule(Map.of("-p", projectName.toLowerCase()));
+      FutureTask<Boolean> runServerModuleTask = new FutureTask<>(
+        () -> ModuleManager.runServerModule(Map.of("-p", projectName.toLowerCase())));
       new Thread(runServerModuleTask).start();
+
+      return runServerModuleTask.get();
     } catch (IOException e) {
-      LOG.error("Failed to share project");
+      LOG.error("Failed to read projects from {}", FileConstants.APP_PATH);
+    } catch (ExecutionException e) {
+      LOG.error("Failed to run server module!");
+    } catch (InterruptedException e) {
+      LOG.error("Task is interrupted!");
     }
+
+    return false;
   }
 }
