@@ -1,6 +1,8 @@
 package az.caspian.core.service;
 
 import az.caspian.core.constant.FileConstants;
+import az.caspian.core.io.DefaultFileSystem;
+import az.caspian.core.io.PropertiesFileSystem;
 import az.caspian.core.messaging.Client;
 import az.caspian.core.messaging.JoinToProjectMessage;
 import az.caspian.core.messaging.ShortMessage;
@@ -8,8 +10,6 @@ import az.caspian.core.remote.Project;
 import az.caspian.core.remote.Session;
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.DateUtils;
-import az.caspian.core.utils.DefaultFileSystem;
-import az.caspian.core.utils.PropertiesFileSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -86,7 +86,7 @@ public class ClientService {
    */
   public boolean isClientInitialized() {
     var fileSystem = new PropertiesFileSystem();
-    boolean isExists = fileSystem.isFileExist(FileConstants.IDENTITY_FILE_PATH.toString());
+    boolean isExists = fileSystem.isFileExist(FileConstants.IDENTITY_FILE_PATH);
     if (isExists) {
       Properties properties = fileSystem.load(FileConstants.IDENTITY_FILE_PATH);
       return Boolean.parseBoolean((String) properties.get("initialized"));
@@ -100,7 +100,7 @@ public class ClientService {
     Path projectPath = FileConstants.APP_PATH.resolve(projectName);
 
     var fileSystem = new DefaultFileSystem();
-    fileSystem.createDirectoryIfNotExist(projectPath.toString());
+    fileSystem.createDirectoryIfNotExist(projectPath);
     LOG.debug("Project " + projectName + " folder is created.");
     LOG.debug("Setting up configurations...");
 
@@ -115,7 +115,7 @@ public class ClientService {
     LOG.debug("project.properties file is created.");
 
     var attendantsFilePath = projectPath.resolve("attendants.txt");
-    File attendantsFile = fileSystem.createFileIfNotExist(attendantsFilePath.toString());
+    File attendantsFile = fileSystem.createFileIfNotExist(attendantsFilePath);
     LOG.debug("attendants file is created.");
 
     String attendant = client.getFullName();

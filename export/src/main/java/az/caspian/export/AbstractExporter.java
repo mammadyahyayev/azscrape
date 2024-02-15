@@ -1,14 +1,15 @@
 package az.caspian.export;
 
 import az.caspian.core.constant.FileConstants;
+import az.caspian.core.io.AbstractFileSystem;
+import az.caspian.core.io.DefaultFileSystem;
 import az.caspian.core.model.DataFile;
-import az.caspian.core.utils.AbstractFileSystem;
 import az.caspian.core.utils.Asserts;
-import az.caspian.core.utils.DefaultFileSystem;
-import java.io.File;
-import java.nio.file.Path;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.File;
+import java.nio.file.Path;
 
 public abstract class AbstractExporter implements Exporter {
   private static final Logger LOG = LogManager.getLogger(AbstractExporter.class);
@@ -17,7 +18,7 @@ public abstract class AbstractExporter implements Exporter {
    * Constructs ReportFile that is going to being used to store scraped data
    *
    * @param directoryPath given directory path, can be absolute or relative
-   * @param dataFile exported file
+   * @param dataFile      exported file
    * @return constructed output file for export
    */
   protected File constructReportFile(final String directoryPath, final DataFile dataFile) {
@@ -25,13 +26,13 @@ public abstract class AbstractExporter implements Exporter {
     Asserts.required(dataFile, "ReportFile is required");
 
     AbstractFileSystem abstractFileSystem = new DefaultFileSystem();
-    abstractFileSystem.createDirectoryIfNotExist(directoryPath);
+    abstractFileSystem.createDirectoryIfNotExist(Path.of(directoryPath));
 
     String filename = abstractFileSystem.createFilename(dataFile.getFilename());
     String extension = dataFile.getFileExtension().name().toLowerCase();
     Path filepath = Path.of(directoryPath, filename + "." + extension);
 
-    return abstractFileSystem.createFileIfNotExist(filepath.toString());
+    return abstractFileSystem.createFileIfNotExist(filepath);
   }
 
   /**

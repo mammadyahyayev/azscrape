@@ -1,6 +1,8 @@
-package az.caspian.core.utils;
+package az.caspian.core.io;
 
 import az.caspian.core.AzScrapeAppException;
+import az.caspian.core.utils.Asserts;
+import az.caspian.core.utils.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,95 +36,92 @@ public abstract class AbstractFileSystem implements FileSystem {
    * {@inheritDoc}
    */
   @Override
-  public File createFile(String path) {
-    Asserts.required(path);
+  public File createFile(Path path) {
+    Asserts.required(path, "path cannot be null!");
 
-    File file = new File(path);
     try {
-      if (file.exists()) {
+      if (Files.exists(path)) {
         throw new FileAlreadyExistsException("Given path [ " + path + " ] is already exist!");
       }
-      file.createNewFile();
+      Files.createFile(path);
     } catch (IOException e) {
       LOG.error("Couldn't create file with {}", path);
       throw new AzScrapeAppException("Couldn't create file with [ " + path + " ]", e);
     }
 
-    return file;
+    return path.toFile();
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public File createFileIfNotExist(String path) {
-    Asserts.required(path);
+  public File createFileIfNotExist(Path path) {
+    Asserts.required(path, "path cannot be null!");
 
-    File file = new File(path);
-    if (file.exists()) {
-      if (file.isFile()) {
-        return file;
+    if (Files.exists(path)) {
+      if (Files.isRegularFile(path)) {
+        return path.toFile();
       }
 
       throw new AzScrapeAppException("Given path [ " + path + " ] isn't file!");
     }
 
     try {
-      file.createNewFile();
+      Files.createFile(path);
       LOG.debug("File " + path + " is created...");
     } catch (IOException e) {
       LOG.error("Couldn't create file with {}", path);
       throw new AzScrapeAppException("Couldn't create file with [ " + path + " ]", e);
     }
 
-    return file;
+    return path.toFile();
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public File createDirectory(String path) {
-    Asserts.required(path);
-    File file = new File(path);
+  public File createDirectory(Path path) {
+    Asserts.required(path, "path cannot be null!");
 
     try {
-      if (file.exists()) {
+      if (Files.exists(path)) {
         throw new FileAlreadyExistsException("Given path [ " + path + " ] is already exist!");
       }
 
-      file.mkdirs();
+      Files.createDirectories(path);
     } catch (IOException e) {
       LOG.error("Couldn't create directory with {}", path);
       throw new AzScrapeAppException("Failed to create directory with " + path, e);
     }
 
-    return file;
+    return path.toFile();
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public File createDirectoryIfNotExist(String path) {
-    Asserts.required(path);
-    File file = new File(path);
+  public File createDirectoryIfNotExist(Path path) {
+    Asserts.required(path, "path cannot be null!");
 
-    if (file.exists()) {
-      if (file.isDirectory()) {
-        return file;
+    try {
+      if (Files.exists(path)) {
+        if (Files.isDirectory(path)) {
+          return path.toFile();
+        }
+
+        throw new AzScrapeAppException("Given path [" + path + "] isn't directory");
       }
 
-      throw new AzScrapeAppException("Given path [" + path + "] isn't directory");
-    }
-
-    boolean isDirCreated = file.mkdirs();
-    if (!isDirCreated) {
+      Files.createDirectory(path);
+    } catch (IOException e) {
       LOG.error("Couldn't create directory with {}", path);
       throw new AzScrapeAppException("Couldn't create directory with [ " + path + " ]");
     }
 
-    return file;
+    return path.toFile();
   }
 
   /**
@@ -160,12 +159,11 @@ public abstract class AbstractFileSystem implements FileSystem {
    * {@inheritDoc}
    */
   @Override
-  public File getFile(String filepath) {
-    Asserts.required(filepath, "filepath is required");
+  public File getFile(Path path) {
+    Asserts.required(path, "path cannot be null!");
 
-    File file = new File(filepath);
-    if (file.exists() && file.canRead()) {
-      return file;
+    if (Files.exists(path) && Files.isReadable(path)) {
+      return path.toFile();
     }
 
     return null;
@@ -175,11 +173,11 @@ public abstract class AbstractFileSystem implements FileSystem {
    * {@inheritDoc}
    */
   @Override
-  public boolean deleteFile(Path filepath) {
-    Asserts.required(filepath, "filepath is required");
+  public boolean deleteFile(Path path) {
+    Asserts.required(path, "path cannot be null!");
 
     try {
-      return Files.deleteIfExists(filepath);
+      return Files.deleteIfExists(path);
     } catch (IOException e) {
       LOG.error("Failed to delete file!", e);
       return false;
@@ -190,9 +188,8 @@ public abstract class AbstractFileSystem implements FileSystem {
    * {@inheritDoc}
    */
   @Override
-  public boolean isFileExist(String path) {
-    File file = new File(path);
-    return file.exists();
+  public boolean isFileExist(Path path) {
+    Asserts.required(path, "path cannot be null!");
+    return Files.exists(path);
   }
-
 }

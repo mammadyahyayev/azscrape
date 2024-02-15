@@ -8,7 +8,7 @@ import az.caspian.core.remote.Project;
 import az.caspian.core.remote.Session;
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.DateUtils;
-import az.caspian.core.utils.PropertiesFileSystem;
+import az.caspian.core.io.PropertiesFileSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,4 +1,4 @@
-package az.caspian.core.utils;
+package az.caspian.core.io;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -16,7 +16,7 @@ public interface FileSystem {
      * @return a {@code File}
      * @see java.nio.file.FileAlreadyExistsException
      */
-    File createFile(String path);
+    File createFile(Path path);
 
     /**
      * Creates a new file in File System. If there is a file
@@ -25,7 +25,7 @@ public interface FileSystem {
      * @param path a path of file
      * @return a {@code File}
      */
-    File createFileIfNotExist(String path);
+    File createFileIfNotExist(Path path);
 
     /**
      * Deletes file from File System if it exists.
@@ -41,7 +41,7 @@ public interface FileSystem {
      * @param path a path of File
      * @return {@code true} if file exists, otherwise {@code false}
      */
-    boolean isFileExist(String path);
+    boolean isFileExist(Path path);
 
     /**
      * Gets a {@code File} object with given path
@@ -49,7 +49,7 @@ public interface FileSystem {
      * @param path a path of File
      * @return a {@code File}
      */
-    File getFile(String path);
+    File getFile(Path path);
 
     /**
      * Creates directory if directory exists already,
@@ -59,8 +59,7 @@ public interface FileSystem {
      * @return a {@code File}
      * @see java.nio.file.FileAlreadyExistsException
      */
-    File createDirectory(String path);
-
+    File createDirectory(Path path);
 
     /**
      * Creates directory if not exist.
@@ -68,5 +67,5 @@ public interface FileSystem {
      * @param path a path of directory
      * @return a {@code File}
      */
-    File createDirectoryIfNotExist(String path);
+    File createDirectoryIfNotExist(Path path);
 }

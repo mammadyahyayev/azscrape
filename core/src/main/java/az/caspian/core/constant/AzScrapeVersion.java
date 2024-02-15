@@ -1,6 +1,6 @@
 package az.caspian.core.constant;
 
-import az.caspian.core.utils.PropertiesFileSystem;
+import az.caspian.core.io.PropertiesFileSystem;
 
 import java.util.Properties;
 

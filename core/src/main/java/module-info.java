@@ -13,4 +13,5 @@ module azscrape.core {
   exports az.caspian.core.serialization;
   exports az.caspian.core.service;
   exports az.caspian.core.remote;
+  exports az.caspian.core.io;
 }
