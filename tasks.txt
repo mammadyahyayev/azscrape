@@ -5,7 +5,7 @@ The reason we return a project to pass it to another UI frame and use its parame
 
 3. Rename ClientInfo class to Client ✅
 
-4. Load attendants into Shared Project as well to show them on UI
+4. Load attendants into Shared Project as well to show them on UI ✅
 
 5. Implement saveProject and getAllProjects methods
 

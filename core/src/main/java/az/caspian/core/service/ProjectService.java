@@ -91,6 +91,26 @@ public class ProjectService {
     var createdBy = (String) properties.get("createdBy");
     project.setCreatedBy(createdBy.equals(currentClient.getFullName()) ? currentClient : null);
 
+    loadAttendantsToProject(project);
+
     return project;
+  }
+
+  private void loadAttendantsToProject(Project project) {
+    var attendantsFilePath = FileConstants.APP_PATH.resolve(project.getName())
+      .resolve("attendants.txt");
+
+    try {
+      List<Client> attendants = Files.readAllLines(attendantsFilePath)
+        .stream()
+        .map((fullName) -> {
+          String[] fullNameSplit = fullName.split(" ");
+          return new Client(fullNameSplit[0], fullNameSplit[1]);
+        })
+        .toList();
+      project.setAttendants(attendants);
+    } catch (IOException e) {
+      LOG.error("Failed to read attendants from " + attendantsFilePath);
+    }
   }
 }

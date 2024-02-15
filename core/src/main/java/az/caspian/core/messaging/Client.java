@@ -17,6 +17,14 @@ public final class Client implements Serializable {
   private Map<String, String> computerDetails;
   private ClientType clientType = ClientType.WORKER;
 
+  public Client() {
+  }
+
+  public Client(String firstName, String lastName) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
   //region Helper Methods
 
   public String getFullName() {

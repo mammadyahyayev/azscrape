@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.util.List;
 
 
 public class ProjectViewFrame extends JFrame {
@@ -158,12 +159,11 @@ public class ProjectViewFrame extends JFrame {
 
     projectMembersPanel.add(projectMembersLbl, BorderLayout.NORTH);
 
-    var data = new String[][]{
-      {"1", "Jack Jackson", ""},
-      {"2", "John Doe", ""},
-      {"3", "Smith Machine", ""},
-    };
-    var membersTable = new DefaultTable(TableColumnName.class, data);
+    List<String[]> list = project.getAttendants().stream()
+      .map(client -> new String[]{"", client.getFullName(), ""})
+      .toList();
+
+    var membersTable = new DefaultTable(TableColumnName.class, list.toArray(new String[0][]));
     projectMembersPanel.add(new JScrollPane(membersTable));
 
     membersTable.makeColumnEditable(TableColumnName.ACTIONS.ordinal());
