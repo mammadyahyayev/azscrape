@@ -7,7 +7,9 @@ The reason we return a project to pass it to another UI frame and use its parame
 
 4. Load attendants into Shared Project as well to show them on UI ✅
 
-5. Implement saveProject and getAllProjects methods
+5. UI is blocking when a project is shared (1 or 2 seconds)
+
+6. Implement saveAttendants and getAllProjects methods ✅
 
 [UPCOMING] Create an enum for shared flag arguments between clients and server.
 Example:

@@ -12,27 +12,53 @@ import az.caspian.core.utils.PropertiesFileSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
 import java.util.stream.Stream;
 
 public class ProjectService {
   private static final Logger LOG = LogManager.getLogger(ProjectService.class);
 
+  public List<String> getAllProjectNames() {
+    try (var files = Files.list(FileConstants.APP_PATH)) {
+      return files
+        .filter(Files::isDirectory)
+        .map(file -> file.getFileName().toString())
+        .toList();
+    } catch (IOException e) {
+      LOG.error("Failed to read files from " + FileConstants.APP_PATH);
+    }
+
+    return Collections.emptyList();
+  }
+
   public void saveProject(Project project) {
     Asserts.required(project, "project is required!");
 
-    /*
-        1. Check project name
-        2. Check if there is already a project with this name, if no continues, if yes error
-        3. Create a folder and put required data into it.
-     */
+    List<String> projectNames = getAllProjectNames();
+    boolean isExist = projectNames.contains(project.getName());
+    if (!isExist) {
+      //TODO: create a custom operation response class and return it
+    }
+  }
+
+  public void saveAttendants(Project project) {
+    var attendatsFilePath = FileConstants.APP_PATH.resolve(project.getName()).resolve("attendants.txt");
+
+    try (var writer = new BufferedWriter(new FileWriter(attendatsFilePath.toFile()))) {
+      for (Client attendant : project.getAttendants()) {
+        writer.write(attendant.getFullName());
+      }
+    } catch (IOException e) {
+      LOG.error("Failed to save attendants to file: {}", attendatsFilePath);
+    }
   }
 
   public Project shareProject(String projectName) {
@@ -49,12 +75,13 @@ public class ProjectService {
         throw new IllegalArgumentException("Project '" + projectName + "' does not exist!");
       }
 
-      //TODO: Check if there is already shared project or not, if user clicks second time.
-      FutureTask<Boolean> runServerModuleTask = new FutureTask<>(
+      //TODO: Find a way to execute runServerModule in separate thread to not block UI
+      /*FutureTask<Boolean> runServerModuleTask = new FutureTask<>(
         () -> ModuleManager.runServerModule(Map.of("-p", projectName)));
-      new Thread(runServerModuleTask).start();
+      new Thread(runServerModuleTask).start();*/
 
-      boolean isRunning = runServerModuleTask.get();
+      //TODO: Check if there is already shared project or not, if user clicks second time.
+      boolean isRunning = ModuleManager.runServerModule(Map.of("-p", projectName));
       if (isRunning) {
         Client currentClient = Session.getCurrentClient();
         currentClient.setClientType(ClientType.COORDINATOR);
@@ -66,10 +93,6 @@ public class ProjectService {
       }
     } catch (IOException e) {
       LOG.error("Failed to read projects from {}", FileConstants.APP_PATH);
-    } catch (ExecutionException e) {
-      LOG.error("Failed to run server module!");
-    } catch (InterruptedException e) {
-      LOG.error("Task is interrupted!");
     }
 
     return null;

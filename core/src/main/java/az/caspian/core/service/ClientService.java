@@ -41,7 +41,7 @@ public class ClientService {
     Asserts.required(client, "client cannot be null!");
 
     project.addAttendant(client);
-    projectService.saveProject(project);
+    projectService.saveAttendants(project);
   }
 
   /**
