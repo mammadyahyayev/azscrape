@@ -34,9 +34,9 @@
         <jackson.databind.version>2.16.1</jackson.databind.version>
         <commons.io.version>2.15.1</commons.io.version>
 
-        <junit.jupiter.version>5.10.1</junit.jupiter.version>
+        <junit.jupiter.version>5.10.2</junit.jupiter.version>
         <mockito.core.version>5.10.0</mockito.core.version>
-        <assertj.version>3.25.1</assertj.version>
+        <assertj.version>3.25.3</assertj.version>
         <hamcrest.version>2.2</hamcrest.version>
 
         <log4j.api.version>2.22.1</log4j.api.version>
