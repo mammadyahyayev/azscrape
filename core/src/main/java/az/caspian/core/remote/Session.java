@@ -1,22 +1,22 @@
 package az.caspian.core.remote;
 
 import az.caspian.core.constant.FileConstants;
-import az.caspian.core.messaging.ClientInfo;
+import az.caspian.core.messaging.Client;
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.PropertiesFileSystem;
 import az.caspian.core.utils.StringUtils;
 
 public final class Session {
   private static String serverIpAddress;
-  private static ClientInfo currentClient;
+  private static Client currentClient;
   private static Project project;
 
-  public static ClientInfo getCurrentClient() {
+  public static Client getCurrentClient() {
     if (currentClient != null) {
       return currentClient;
     }
 
-    var clientInfo = new ClientInfo();
+    var clientInfo = new Client();
 
     var propertiesFileSystem = new PropertiesFileSystem();
     var properties = propertiesFileSystem.load(FileConstants.IDENTITY_FILE_PATH);
@@ -33,7 +33,7 @@ public final class Session {
     return clientInfo;
   }
 
-  public static void setCurrentClient(ClientInfo client) {
+  public static void setCurrentClient(Client client) {
     Asserts.required(client, "client cannot be null!");
     currentClient = client;
   }

@@ -2,7 +2,7 @@ package az.caspian.client.ui.frame;
 
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
-import az.caspian.core.messaging.ClientInfo;
+import az.caspian.core.messaging.Client;
 import az.caspian.core.service.ClientService;
 import az.caspian.core.service.ProjectService;
 
@@ -123,7 +123,7 @@ public class ClientInitializationFrame extends DefaultFrame {
   }
 
   private void saveClientInfoAction(ActionEvent event) {
-    var clientInfo = new ClientInfo();
+    var clientInfo = new Client();
     clientInfo.setLastName(lastNameTxt.getText());
     clientInfo.setFirstName(firstNameTxt.getText());
     clientInfo.setEmail(emailTxt.getText());

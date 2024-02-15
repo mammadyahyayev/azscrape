@@ -1,4 +1,4 @@
 package az.caspian.core.messaging;
 
-public record JoinToProjectMessage(ClientInfo clientInfo) implements ShortMessage {
+public record JoinToProjectMessage(Client client) implements ShortMessage {
 }

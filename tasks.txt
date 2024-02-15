@@ -3,7 +3,7 @@
 2. Return Project class instead of boolean for sharedProject method.
 The reason we return a project to pass it to another UI frame and use its parameters. ✅
 
-3. Rename ClientInfo class to Client
+3. Rename ClientInfo class to Client ✅
 
 4. Load attendants into Shared Project as well to show them on UI
 

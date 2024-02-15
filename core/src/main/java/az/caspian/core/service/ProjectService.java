@@ -2,7 +2,7 @@ package az.caspian.core.service;
 
 import az.caspian.core.constant.FileConstants;
 import az.caspian.core.internal.ModuleManager;
-import az.caspian.core.messaging.ClientInfo;
+import az.caspian.core.messaging.Client;
 import az.caspian.core.messaging.ClientType;
 import az.caspian.core.remote.Project;
 import az.caspian.core.remote.Session;
@@ -56,7 +56,7 @@ public class ProjectService {
 
       boolean isRunning = runServerModuleTask.get();
       if (isRunning) {
-        ClientInfo currentClient = Session.getCurrentClient();
+        Client currentClient = Session.getCurrentClient();
         currentClient.setClientType(ClientType.COORDINATOR);
         Session.setCurrentClient(currentClient);
 
@@ -87,7 +87,7 @@ public class ProjectService {
     var createdAt = LocalDateTime.parse((String) properties.get("createdAt"), DateUtils.DEFAULT_DATE_FORMAT);
     project.setCreatedAt(createdAt);
 
-    ClientInfo currentClient = Session.getCurrentClient();
+    Client currentClient = Session.getCurrentClient();
     var createdBy = (String) properties.get("createdBy");
     project.setCreatedBy(createdBy.equals(currentClient.getFullName()) ? currentClient : null);
 

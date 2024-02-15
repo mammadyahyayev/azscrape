@@ -1,6 +1,6 @@
 package az.caspian.core.remote;
 
-import az.caspian.core.messaging.ClientInfo;
+import az.caspian.core.messaging.Client;
 import az.caspian.core.messaging.JoinToProjectMessage;
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.StringUtils;
@@ -14,7 +14,7 @@ import java.net.Socket;
 public class ClientConnection {
   private static final Logger LOG = LogManager.getLogger(ClientConnection.class);
 
-  public static void joinToProject(ClientInfo client) {
+  public static void joinToProject(Client client) {
     Asserts.required(client, "client cannot be null!");
 
     String serverIpAddress = Session.getServerIpAddress();

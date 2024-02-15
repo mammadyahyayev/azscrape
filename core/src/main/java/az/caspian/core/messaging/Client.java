@@ -2,8 +2,13 @@ package az.caspian.core.messaging;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.StringJoiner;
 
-public final class ClientInfo implements Serializable {
+/**
+ * The Client can manage projects of his own.
+ * It is responsible to collect and send data between other clients.
+ */
+public final class Client implements Serializable {
   private String id;
   private String firstName;
   private String lastName;
@@ -12,9 +17,13 @@ public final class ClientInfo implements Serializable {
   private Map<String, String> computerDetails;
   private ClientType clientType = ClientType.WORKER;
 
+  //region Helper Methods
+
   public String getFullName() {
     return this.firstName + " " + this.lastName;
   }
+
+  //endregion
 
   //#region Getters & Setters
   public String getId() {
@@ -73,4 +82,16 @@ public final class ClientInfo implements Serializable {
     this.clientType = clientType;
   }
   //#endregion
+
+  //region toString()
+  @Override
+  public String toString() {
+    return new StringJoiner(", ", Client.class.getSimpleName() + "[", "]")
+      .add("firstName='" + firstName + "'")
+      .add("lastName='" + lastName + "'")
+      .add("email='" + email + "'")
+      .add("clientType=" + clientType)
+      .toString();
+  }
+  //endregion
 }

@@ -1,6 +1,6 @@
 package az.caspian.core.remote;
 
-import az.caspian.core.messaging.ClientInfo;
+import az.caspian.core.messaging.Client;
 import az.caspian.core.utils.Asserts;
 
 import java.time.LocalDateTime;
@@ -10,8 +10,8 @@ import java.util.List;
 public class Project {
   private String name;
   private LocalDateTime createdAt;
-  private ClientInfo createdBy;
-  private List<ClientInfo> attendants;
+  private Client createdBy;
+  private List<Client> attendants;
 
   public Project() {
     attendants = new ArrayList<>();
@@ -33,25 +33,25 @@ public class Project {
     this.createdAt = createdAt;
   }
 
-  public ClientInfo getCreatedBy() {
+  public Client getCreatedBy() {
     return createdBy;
   }
 
-  public void setCreatedBy(ClientInfo createdBy) {
+  public void setCreatedBy(Client createdBy) {
     this.createdBy = createdBy;
   }
 
-  public List<ClientInfo> getAttendants() {
+  public List<Client> getAttendants() {
     return attendants;
   }
 
-  public void setAttendants(List<ClientInfo> attendants) {
+  public void setAttendants(List<Client> attendants) {
     this.attendants = attendants;
   }
 
-  public void addAttendant(ClientInfo clientInfo) {
-    Asserts.required(clientInfo, "clientInfo is required!");
+  public void addAttendant(Client client) {
+    Asserts.required(client, "client is required!");
 
-    this.attendants.add(clientInfo);
+    this.attendants.add(client);
   }
 }

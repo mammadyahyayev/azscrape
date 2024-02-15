@@ -1,7 +1,7 @@
 package az.caspian.core.service;
 
 import az.caspian.core.constant.FileConstants;
-import az.caspian.core.messaging.ClientInfo;
+import az.caspian.core.messaging.Client;
 import az.caspian.core.messaging.JoinToProjectMessage;
 import az.caspian.core.messaging.ShortMessage;
 import az.caspian.core.remote.Project;
@@ -32,15 +32,15 @@ public class ClientService {
 
   public void handleShortMessage(ShortMessage message) {
     if (message instanceof JoinToProjectMessage joinToProjectMessage) {
-      joinToProject(joinToProjectMessage.clientInfo(), Session.getCurrentProject());
+      joinToProject(joinToProjectMessage.client(), Session.getCurrentProject());
     }
   }
 
-  public void joinToProject(ClientInfo clientInfo, Project project) {
+  public void joinToProject(Client client, Project project) {
     Asserts.required(project, "project cannot be null!");
-    Asserts.required(clientInfo, "clientInfo cannot be null!");
+    Asserts.required(client, "client cannot be null!");
 
-    project.addAttendant(clientInfo);
+    project.addAttendant(client);
     projectService.saveProject(project);
   }
 
@@ -48,21 +48,21 @@ public class ClientService {
    * Creates <b>identity.properties</b> file and stores Client's information
    * on the file.
    *
-   * @param clientInfo information of Client
+   * @param client information of Client
    * @return {@code true} if operation successful, otherwise {@code false}.
    */
-  public boolean saveClientInfo(ClientInfo clientInfo) {
-    if (clientInfo == null)
-      throw new IllegalArgumentException("ClientInfo can't be null");
+  public boolean saveClientInfo(Client client) {
+    if (client == null)
+      throw new IllegalArgumentException("Client can't be null");
 
     try {
       var properties = new Properties();
-      properties.put("fullName", clientInfo.getFullName());
-      properties.put("email", clientInfo.getEmail());
+      properties.put("fullName", client.getFullName());
+      properties.put("email", client.getEmail());
       properties.put("os", System.getProperty("os.name"));
 
-      if (clientInfo.getComputerDetails() != null) {
-        Map<String, String> computerDetails = clientInfo.getComputerDetails();
+      if (client.getComputerDetails() != null) {
+        Map<String, String> computerDetails = client.getComputerDetails();
         properties.put("computerBrand", computerDetails.get("computerBrand"));
         properties.put("ram", computerDetails.get("ram"));
       }
@@ -95,7 +95,7 @@ public class ClientService {
     return false;
   }
 
-  public boolean createProject(String projectName, ClientInfo clientInfo) {
+  public boolean createProject(String projectName, Client client) {
     Asserts.required(projectName, "projectName is required parameter!");
     Path projectPath = FileConstants.APP_PATH.resolve(projectName);
 
@@ -110,7 +110,7 @@ public class ClientService {
     var properties = new Properties();
     properties.put("projectName", projectName);
     properties.put("createdAt", DateUtils.ofDefaultFormat(LocalDateTime.now()));
-    properties.put("createdBy", clientInfo.getFullName());
+    properties.put("createdBy", client.getFullName());
     propertiesFileSystem.store(projectPropertiesFilePath, properties);
     LOG.debug("project.properties file is created.");
 
@@ -118,7 +118,7 @@ public class ClientService {
     File attendantsFile = fileSystem.createFileIfNotExist(attendantsFilePath.toString());
     LOG.debug("attendants file is created.");
 
-    String attendant = clientInfo.getFullName();
+    String attendant = client.getFullName();
     try (FileWriter fileWriter = new FileWriter(attendantsFile)) {
       fileWriter.write(attendant);
     } catch (IOException ex) {
