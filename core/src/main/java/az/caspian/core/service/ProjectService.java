@@ -2,13 +2,13 @@ package az.caspian.core.service;
 
 import az.caspian.core.constant.FileConstants;
 import az.caspian.core.internal.ModuleManager;
+import az.caspian.core.io.PropertiesFileSystem;
 import az.caspian.core.messaging.Client;
 import az.caspian.core.messaging.ClientType;
 import az.caspian.core.remote.Project;
 import az.caspian.core.remote.Session;
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.DateUtils;
-import az.caspian.core.io.PropertiesFileSystem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +21,8 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.FutureTask;
 import java.util.stream.Stream;
 
 public class ProjectService {
@@ -75,13 +77,12 @@ public class ProjectService {
         throw new IllegalArgumentException("Project '" + projectName + "' does not exist!");
       }
 
-      //TODO: Find a way to execute runServerModule in separate thread to not block UI
-      /*FutureTask<Boolean> runServerModuleTask = new FutureTask<>(
+      FutureTask<Boolean> runServerModuleTask = new FutureTask<>(
         () -> ModuleManager.runServerModule(Map.of("-p", projectName)));
-      new Thread(runServerModuleTask).start();*/
+      new Thread(runServerModuleTask).start();
 
       //TODO: Check if there is already shared project or not, if user clicks second time.
-      boolean isRunning = ModuleManager.runServerModule(Map.of("-p", projectName));
+      boolean isRunning = runServerModuleTask.get();
       if (isRunning) {
         Client currentClient = Session.getCurrentClient();
         currentClient.setClientType(ClientType.COORDINATOR);
@@ -93,6 +94,10 @@ public class ProjectService {
       }
     } catch (IOException e) {
       LOG.error("Failed to read projects from {}", FileConstants.APP_PATH);
+    } catch (ExecutionException e) {
+      LOG.error("Failed to execute server module!");
+    } catch (InterruptedException e) {
+      LOG.error("Executing server module task is interrupted!");
     }
 
     return null;

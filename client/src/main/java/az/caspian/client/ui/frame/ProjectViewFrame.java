@@ -3,13 +3,14 @@ package az.caspian.client.ui.frame;
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.client.ui.constants.Fonts;
+import az.caspian.core.messaging.Client;
 import az.caspian.core.remote.Project;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.List;
+import java.util.stream.IntStream;
 
 
 public class ProjectViewFrame extends JFrame {
@@ -124,13 +125,7 @@ public class ProjectViewFrame extends JFrame {
 
     projectConfigPanel.add(projectConfigLbl);
 
-    seeConfigFileBtn = new JButton("See Config file");
-    seeConfigFileBtn.setFocusable(false);
-    seeConfigFileBtn.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 18));
-    seeConfigFileBtn.setBackground(Colors.BASE_BTN_BG_COLOR);
-    seeConfigFileBtn.setForeground(Color.WHITE);
-    seeConfigFileBtn.setBorder(new EmptyBorder(5, 5, 5, 5));
-
+    seeConfigFileBtn = new DefaultButton("See Config file");
     projectConfigPanel.add(seeConfigFileBtn);
 
     gridConstraints = new GridBagConstraints();
@@ -159,8 +154,11 @@ public class ProjectViewFrame extends JFrame {
 
     projectMembersPanel.add(projectMembersLbl, BorderLayout.NORTH);
 
-    List<String[]> list = project.getAttendants().stream()
-      .map(client -> new String[]{"", client.getFullName(), ""})
+    List<String[]> list = IntStream.range(0, project.getAttendants().size()).boxed()
+      .map(index -> {
+        Client client = project.getAttendants().get(index);
+        return new String[]{String.valueOf(index + 1), client.getFullName(), ""};
+      })
       .toList();
 
     var membersTable = new DefaultTable(TableColumnName.class, list.toArray(new String[0][]));
@@ -184,11 +182,11 @@ public class ProjectViewFrame extends JFrame {
 
       editMemberBtn = new DefaultButton("Edit");
       editMemberBtn.setFont(Fonts.SANS_SERIF_PLAIN_16);
-      editMemberBtn.setBackground(new Color(0xFDC402));
+      editMemberBtn.setBackground(Colors.TBL_EDIT_BTN_COLOR);
 
       deleteMemberBtn = new DefaultButton("Delete");
       deleteMemberBtn.setFont(Fonts.SANS_SERIF_PLAIN_16);
-      deleteMemberBtn.setBackground(Color.RED);
+      deleteMemberBtn.setBackground(Colors.TBL_DELETE_BTN_COLOR);
 
       actionsPanel.add(editMemberBtn);
       actionsPanel.add(deleteMemberBtn);

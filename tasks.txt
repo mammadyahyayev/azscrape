@@ -11,6 +11,8 @@ The reason we return a project to pass it to another UI frame and use its parame
 
 6. Implement saveAttendants and getAllProjects methods ✅
 
+7. Kill application on 9090 port after terminating program (Research awaitTermination).
+
 [UPCOMING] Create an enum for shared flag arguments between clients and server.
 Example:
 FLAG_PROJECT(flag_short, flag_long)

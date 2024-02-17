@@ -3,6 +3,7 @@ package az.caspian.client.ui.components;
 import az.caspian.client.ui.constants.Fonts;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
@@ -38,6 +39,8 @@ public class DefaultTable extends JTable {
     super.setFont(Fonts.SANS_SERIF_PLAIN_16);
     super.setShowGrid(false);
     super.setIntercellSpacing(new Dimension(0, 0));
+
+    centerAllCells();
   }
 
   public String[] getColumnNames() {
@@ -51,5 +54,11 @@ public class DefaultTable extends JTable {
         return columnIndex == column;
       }
     });
+  }
+
+  public void centerAllCells() {
+    var centerRenderer = new DefaultTableCellRenderer();
+    centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+    super.setDefaultRenderer(Object.class, centerRenderer);
   }
 }

@@ -9,6 +9,8 @@ import az.caspian.core.service.ProjectService;
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.util.List;
+import java.util.stream.IntStream;
 
 
 public class ShareProjectFrame extends DefaultFrame {
@@ -61,14 +63,15 @@ public class ShareProjectFrame extends DefaultFrame {
     projectsPanel.setLayout(new BorderLayout());
     projectsPanel.setBackground(Colors.BASE_BG_COLOR);
 
-    //TODO: Create getAllProjects method and populate table
-    var data = new String[][]{
-      {"1", "solidia", ""},
-      {"2", "Bina.az", ""},
-      {"3", "Turbo.az", ""},
-    };
+    List<String[]> projectsTableDate = IntStream.range(0, projectService.getAllProjectNames().size())
+      .boxed()
+      .map(index -> {
+        String project = projectService.getAllProjectNames().get(index);
+        return new String[]{String.valueOf(index + 1), project, ""};
+      })
+      .toList();
 
-    var projectsTable = new DefaultTable(TableColumnName.class, data);
+    var projectsTable = new DefaultTable(TableColumnName.class, projectsTableDate.toArray(new String[0][]));
     projectsPanel.add(new JScrollPane(projectsTable), BorderLayout.CENTER);
     projectsTable.makeColumnEditable(TableColumnName.ACTIONS.ordinal());
     projectsTable.getColumn(TableColumnName.ACTIONS.getName()).setCellRenderer(getTableActions());
@@ -108,11 +111,11 @@ public class ShareProjectFrame extends DefaultFrame {
       });
 
       var editProjectBtn = new DefaultButton("Edit");
-      editProjectBtn.setBackground(new Color(0xFDC402));
+      editProjectBtn.setBackground(Colors.TBL_EDIT_BTN_COLOR);
       editProjectBtn.setMargin(5);
 
       var deleteProjectBtn = new DefaultButton("Delete");
-      deleteProjectBtn.setBackground(Color.RED);
+      deleteProjectBtn.setBackground(Colors.TBL_DELETE_BTN_COLOR);
       deleteProjectBtn.setMargin(5);
 
       actionsPanel.add(shareProjectBtn);
