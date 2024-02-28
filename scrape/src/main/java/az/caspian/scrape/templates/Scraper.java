@@ -9,11 +9,11 @@ import az.caspian.scrape.templates.pagination.PaginationPageScraper;
  * @see PaginationPageScraper
  */
 public interface Scraper<T extends ScrapeTemplate> {
-    /**
-     * Scrapes data from webpages
-     *
-     * @param type scraping type
-     * @return list of report data
-     */
-    DataTable scrape(T type);
+  /**
+   * Scrapes data from webpages
+   *
+   * @param template scraping template
+   * @return list of report data
+   */
+  DataTable scrape(T template);
 }

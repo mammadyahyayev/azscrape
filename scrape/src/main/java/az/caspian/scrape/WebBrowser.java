@@ -73,7 +73,7 @@ public class WebBrowser implements AutoCloseable {
    *
    * @param delayInMillis delay in milliseconds
    */
-  public WebPage goTo(final String url, int delayInMillis) {
+  public WebPage goTo(final String url, long delayInMillis) {
     // TODO: Check url is valid
     Asserts.required(url, "url cannot be null or empty");
     if (delayInMillis < 0) {
