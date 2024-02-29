@@ -32,51 +32,14 @@ public class MultiUrlTemplateScraper extends AbstractScrapeTemplate<MultiUrlTemp
       browser.open();
 
       var templateParameters = template.getTemplateParameters();
-      long delayBetweenUrls = templateParameters.getDelayBetweenUrls();
       Set<String> urls = templateParameters.getUrls();
       List<DataRow> dataRows = new ArrayList<>();
       for (String strUrl : urls) {
-        try {
-          URL url = new URL(strUrl);
-          WebPage page = browser.goTo(url.toString(), delayBetweenUrls);
-
-          var rootNode = (ListNode) template.getTree().nodes().get(0);
-          List<WebElement> webElements = page.fetchWebElements(rootNode.getSelector());
-          for (WebElement webElement : webElements) {
-            DataRow dataRow = collector.collect(rootNode.getChildren(), webElement);
-            dataRows.add(dataRow);
-          }
-        } catch (MalformedURLException e) {
-          if (templateParameters.isFailFast()) {
-            LOG.error("Template failed fast because of invalid url {}", strUrl);
-            throw new TemplateException("Given string %s is not valid url!".formatted(strUrl), e);
-          }
-
-          LOG.warn("{} is skipped because it isn't valid url", strUrl);
-        }
+        scrapePage(browser, strUrl, template, dataRows);
       }
 
       Path urlSourceFilePath = templateParameters.getUrlSourceFilePath();
-      Files.readAllLines(urlSourceFilePath).forEach(strUrl -> {
-        try {
-          URL url = new URL(strUrl);
-          WebPage page = browser.goTo(url.toString(), delayBetweenUrls);
-
-          var rootNode = (ListNode) template.getTree().nodes().get(0);
-          List<WebElement> webElements = page.fetchWebElements(rootNode.getSelector());
-          for (WebElement webElement : webElements) {
-            DataRow dataRow = collector.collect(rootNode.getChildren(), webElement);
-            dataRows.add(dataRow);
-          }
-        } catch (MalformedURLException e) {
-          if (templateParameters.isFailFast()) {
-            LOG.error("Template failed fast because of invalid url {}", strUrl);
-            throw new TemplateException("Given string %s is not valid url!".formatted(strUrl), e);
-          }
-
-          LOG.warn("{} is skipped because it isn't valid url", strUrl);
-        }
-      });
+      Files.readAllLines(urlSourceFilePath).forEach(strUrl -> scrapePage(browser, strUrl, template, dataRows));
 
       dataTable.addAll(dataRows);
     } catch (Exception e) {
@@ -88,5 +51,29 @@ public class MultiUrlTemplateScraper extends AbstractScrapeTemplate<MultiUrlTemp
     }
 
     return dataTable;
+  }
+
+  private void scrapePage(WebBrowser browser, String strUrl, MultiUrlTemplate template, List<DataRow> dataRows) {
+    MultiUrlTemplateParameters templateParameters = template.getTemplateParameters();
+    long delayBetweenUrls = templateParameters.getDelayBetweenUrls();
+
+    try {
+      URL url = new URL(strUrl);
+      WebPage page = browser.goTo(url.toString(), delayBetweenUrls);
+
+      var rootNode = (ListNode) template.getTree().nodes().get(0);
+      List<WebElement> webElements = page.fetchWebElements(rootNode.getSelector());
+      for (WebElement webElement : webElements) {
+        DataRow dataRow = collector.collect(rootNode.getChildren(), webElement);
+        dataRows.add(dataRow);
+      }
+    } catch (MalformedURLException e) {
+      if (templateParameters.isFailFast()) {
+        LOG.error("Template failed fast because of invalid url {}", strUrl);
+        throw new TemplateException("Given string %s is not valid url!".formatted(strUrl), e);
+      }
+
+      LOG.warn("{} is skipped because it isn't valid url", strUrl);
+    }
   }
 }
