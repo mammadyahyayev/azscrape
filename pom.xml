@@ -35,7 +35,7 @@
         <commons.io.version>2.15.1</commons.io.version>
 
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
-        <mockito.core.version>5.10.0</mockito.core.version>
+        <mockito.core.version>5.11.0</mockito.core.version>
         <assertj.version>3.25.3</assertj.version>
         <hamcrest.version>2.2</hamcrest.version>
 
