@@ -15,8 +15,8 @@ public abstract class AbstractScrapeTemplate<T extends ScrapeTemplate> implement
 
   public AbstractScrapeTemplate() {
     LOG.warn("""
-       It is recommended to create callback method because when failure happens it will return
-       collected data until failure.
+      It is recommended to create callback method because when failure happens it will return
+      collected data until failure.
       """);
   }
 
