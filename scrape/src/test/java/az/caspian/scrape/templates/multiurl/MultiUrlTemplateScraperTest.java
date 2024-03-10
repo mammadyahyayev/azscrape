@@ -3,6 +3,7 @@ package az.caspian.scrape.templates.multiurl;
 import az.caspian.core.tree.*;
 import org.junit.jupiter.api.Test;
 
+import java.nio.file.Path;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -20,6 +21,7 @@ class MultiUrlTemplateScraperTest {
 
     var templateParameters = new MultiUrlTemplateParameters.Builder()
       .urls(urls)
+      .urlSource(Path.of("src/test/resources/urls.txt"))
       .delayBetweenUrls(1, TimeUnit.SECONDS)
       .failFast(false)
       .build();

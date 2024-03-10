@@ -1,7 +1,6 @@
 package az.caspian.scrape;
 
 import az.caspian.core.utils.Asserts;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -18,8 +17,7 @@ public class WebBrowser implements AutoCloseable {
   private boolean isOpen;
 
   static {
-    WebDriverManager.chromedriver().setup();
-    ChromeOptions chromeOptions = new ChromeOptions();
+    var chromeOptions = new ChromeOptions();
     chromeOptions.addArguments("--remote-allow-origins=*");
     var chromeDriverService = new ChromeDriverService.Builder()
             .withLogLevel(ChromiumDriverLogLevel.OFF)
@@ -30,9 +28,12 @@ public class WebBrowser implements AutoCloseable {
     DRIVER = new ChromeDriver(chromeDriverService, chromeOptions);
   }
 
-  public WebBrowser() {}
+  public WebBrowser() {
+  }
 
-  /** Opens Web Browser */
+  /**
+   * Opens Web Browser
+   */
   public void open() {
     try {
       DRIVER.manage().window().maximize();
@@ -40,11 +41,13 @@ public class WebBrowser implements AutoCloseable {
     } catch (Exception e) {
       close();
       throw new WebBrowserException(
-          "Failed to connect to webpage, check your internet connection!", e);
+        "Failed to connect to webpage, check your internet connection!", e);
     }
   }
 
-  /** Closes Web Browser */
+  /**
+   * Closes Web Browser
+   */
   @Override
   public void close() {
     if (isOpen) {

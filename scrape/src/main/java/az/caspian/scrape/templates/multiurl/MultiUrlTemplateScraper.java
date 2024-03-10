@@ -39,7 +39,10 @@ public class MultiUrlTemplateScraper extends AbstractScrapeTemplate<MultiUrlTemp
       }
 
       Path urlSourceFilePath = templateParameters.getUrlSourceFilePath();
-      Files.readAllLines(urlSourceFilePath).forEach(strUrl -> scrapePage(browser, strUrl, template, dataRows));
+      if (urlSourceFilePath != null) {
+        Files.readAllLines(urlSourceFilePath)
+          .forEach(strUrl -> scrapePage(browser, strUrl, template, dataRows));
+      }
 
       dataTable.addAll(dataRows);
     } catch (Exception e) {
