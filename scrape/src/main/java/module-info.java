@@ -6,4 +6,5 @@ module azscrape.scrape {
     requires org.seleniumhq.selenium.remote_driver;
     requires org.seleniumhq.selenium.chrome_driver;
     requires io.github.bonigarcia.webdrivermanager;
+    requires dev.failsafe.core;
 }
