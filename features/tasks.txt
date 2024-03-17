@@ -1,0 +1,53 @@
+- Redirect to Shared Project Frame after sharing a project publicly. ✅
+
+- Return Project class instead of boolean for sharedProject method. The reason we return a project to pass it
+ to another UI frame and use its parameters. ✅
+
+- Rename ClientInfo class to Client ✅
+
+- Load attendants into Shared Project as well to show them on UI ✅
+
+- Implement saveAttendants and getAllProjects methods ✅
+
+- UI is blocking when a project is shared (1 or 2 seconds)
+
+- Parallel scraping Feature:
+    - Create a Task class which will be split and shared between clients. Each client is responsible for his own part.
+    class Task:
+        id: String
+        name: String
+        template: ScrapeTemplate
+        assignee: Client
+        status: TaskStatus (enum) (ASSIGNED, DRAFT, DELETED, CANCELLED, COMPLETED, UNCOMPLETED)
+        description: The reason or explanation of the task status. e.g. Task #12 is cancelled because of
+            internet connectivity or task #12 is finished successfully at 22.03.2024 13:34:45.
+    Hint: in the future, the Task class can carry other parameters e.g. TaskDetails.
+
+    - Splittable interface. The interface will be implemented by every template that can be split into multiple parts.
+        Here's the blueprint of the Splittable interface:
+     interface Splittable {
+        List<Task> split(String taskName, Collection<Client> clients);
+     }
+
+    - Create a class which is responsible to share tasks between Clients. e.g. TaskManager
+    class TaskManager
+        The class will send receive list of tasks and iterate over them and send them to appropriate Clients. The class
+        will log the details of each operation. For instance:
+        Task #12 for 'turbo.az scraping' project sent to Mammad Yahyayev (mammadyahyayev@gmail.com or ip address)
+
+
+- Kill application on 9090 port after terminating program (Research awaitTermination).
+
+- [UPCOMING] Create an enum for shared flag arguments between clients and server.
+Example:
+FLAG_PROJECT(flag_short, flag_long)
+FLAG_SERVER_PORT(flag_short, null)
+
+- [UPCOMING] The Server has to check the existence of the given project, if the project doesn't exist, then it must
+throw exception.
+
+- [UPCOMING] Create a side panel for showing logs to the Coordinator client.
+Example:
+[22-04-2024T13:34:15] jack joined to 'hospital' project
+[22-04-2024T13:44:28] jack-task#12 assigned to jack
+[22-04-2024T13:56:32] jack completed jack-task#12 in 5:04 minutes
