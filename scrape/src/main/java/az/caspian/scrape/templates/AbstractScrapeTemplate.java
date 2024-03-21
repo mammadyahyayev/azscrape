@@ -1,5 +1,6 @@
 package az.caspian.scrape.templates;
 
+import az.caspian.core.template.ScrapeTemplate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

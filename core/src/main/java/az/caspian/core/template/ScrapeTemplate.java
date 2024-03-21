@@ -1,10 +1,8 @@
-package az.caspian.scrape.templates;
+package az.caspian.core.template;
 
 /**
  * Base interface for Scrape Templates.
  *
- * @see az.caspian.scrape.templates.pagination.PaginationTemplate
- * @see az.caspian.scrape.templates.scroll.ScrollablePageTemplate
  */
 public interface ScrapeTemplate {
 

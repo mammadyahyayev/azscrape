@@ -1,5 +1,6 @@
 package az.caspian.scrape.templates;
 
+import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.core.tree.DataTable;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 
