@@ -1,12 +1,16 @@
 package az.caspian.scrape.templates.pagination;
 
+import az.caspian.core.messaging.Client;
+import az.caspian.core.task.Task;
+import az.caspian.core.template.ScrapeTemplate;
+import az.caspian.core.template.SplitStrategy;
+import az.caspian.core.template.Splittable;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.Node;
-import az.caspian.scrape.templates.ScrapeTemplate;
 
-import java.util.Objects;
+import java.util.*;
 
-public class PaginationTemplate implements ScrapeTemplate {
+public class PaginationTemplate implements ScrapeTemplate, Splittable<PaginationTemplate> {
   private final PageParameters pageParameters;
   private final DataTree<Node> tree;
 
@@ -31,5 +35,85 @@ public class PaginationTemplate implements ScrapeTemplate {
   @Override
   public boolean supportParallelExecution() {
     return true;
+  }
+
+  @Override
+  public List<Task<PaginationTemplate>> split(String taskName, List<Client> clients) {
+    return split(taskName, clients, SplitStrategy.EQUAL);
+  }
+
+  @Override
+  public List<Task<PaginationTemplate>> split(String taskName, List<Client> clients, SplitStrategy strategy) {
+    return switch (strategy) {
+      case EQUAL -> new EqualSplitStrategy().split(taskName, clients);
+      case SYSTEM_POWER -> SystemPoweredSplitStrategy.split(taskName, clients);
+    };
+  }
+
+  private class EqualSplitStrategy {
+    private static final int PAGE_COUNT_FOR_EACH = 3;
+
+    public List<Task<PaginationTemplate>> split(String taskName, List<Client> clients) {
+      int startPage = pageParameters.startPage();
+      int endPage = pageParameters.endPage();
+      int totalClientCount = clients.size();
+      int totalPageCount = endPage - startPage + 1;
+      int pageCountForEach = totalPageCount / totalClientCount;
+      int remainder = totalPageCount % totalClientCount;
+
+      if (pageCountForEach < PAGE_COUNT_FOR_EACH) {
+        remainder = totalPageCount % PAGE_COUNT_FOR_EACH;
+        int clientCount = (totalPageCount / PAGE_COUNT_FOR_EACH) + (remainder == 0 ? 0 : 1);
+        List<Client> subClients = clients.subList(0, clientCount);
+        return createTasks(taskName, subClients, startPage, PAGE_COUNT_FOR_EACH, endPage, 0);
+      }
+
+      return createTasks(taskName, clients, startPage, pageCountForEach, endPage, remainder);
+    }
+
+    private List<Task<PaginationTemplate>> createTasks(
+      String taskName,
+      Collection<Client> clients,
+      int startPage,
+      int pageCountForEach,
+      int endPage,
+      int remainder
+    ) {
+      List<Task<PaginationTemplate>> tasks = new ArrayList<>();
+
+      for (Client client : clients) {
+        int clientEndPage = startPage + (pageCountForEach - 1) + (remainder > 0 ? 1 : 0);
+
+        if (clientEndPage > endPage) {
+          clientEndPage = endPage;
+        }
+
+        var task = createTask(taskName, client, startPage, clientEndPage);
+        tasks.add(task);
+
+        startPage += pageCountForEach + (remainder > 0 ? 1 : 0);
+        remainder--;
+      }
+
+      return tasks;
+    }
+
+    private Task<PaginationTemplate> createTask(String taskName, Client client, int startPage, int endPage) {
+      var clientPageParameters = new PageParameters.Builder()
+        .url(pageParameters.getPageUrlFormat())
+        .pageRange(startPage, endPage)
+        .delayBetweenPages(pageParameters.getDelayBetweenPages())
+        .build();
+
+      var paginationTemplate = new PaginationTemplate(clientPageParameters, tree);
+
+      return new Task<>(taskName, paginationTemplate, client);
+    }
+  }
+
+  private static class SystemPoweredSplitStrategy {
+    public static List<Task<PaginationTemplate>> split(String taskName, Collection<Client> clients) {
+      return Collections.emptyList();
+    }
   }
 }
