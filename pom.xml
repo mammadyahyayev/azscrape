@@ -39,7 +39,7 @@
         <assertj.version>3.25.3</assertj.version>
         <hamcrest.version>2.2</hamcrest.version>
 
-        <log4j.api.version>2.23.0</log4j.api.version>
+        <log4j.api.version>2.23.1</log4j.api.version>
         <log4j.core.version>2.23.0</log4j.core.version>
 
         <jetbrains.annotations.version>24.1.0</jetbrains.annotations.version>
