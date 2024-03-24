@@ -4,14 +4,14 @@ import az.caspian.core.messaging.Client;
 import az.caspian.core.template.ScrapeTemplate;
 
 public class Task<T extends ScrapeTemplate> {
-  private String id;
-  private String name;
-  private T template;
-  private Client assignee;
+  private final String id;
+  private final String name;
+  private final T template;
+  private final Client assignee;
   private String description;
 
   public Task(String name, T template, Client assignee) {
-    this.id = "";
+    this.id = ""; //TODO: Create random id for task
     this.name = name;
     this.template = template;
     this.assignee = assignee;
@@ -31,6 +31,10 @@ public class Task<T extends ScrapeTemplate> {
 
   public Client getAssignee() {
     return assignee;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
   }
 
   public String getDescription() {
