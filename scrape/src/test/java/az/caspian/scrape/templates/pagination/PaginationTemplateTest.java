@@ -2,6 +2,7 @@ package az.caspian.scrape.templates.pagination;
 
 import az.caspian.core.messaging.Client;
 import az.caspian.core.task.Task;
+import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.core.template.SplitStrategy;
 import az.caspian.core.tree.DataTree;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,17 +33,20 @@ class PaginationTemplateTest {
     List<Client> clients = IntStream.range(0, clientCount)
       .mapToObj(i -> new Client())
       .toList();
-    List<Task<PaginationTemplate>> tasks = template.split("Test", clients, SplitStrategy.EQUAL);
+    List<Task> tasks = template.split("Test", clients, SplitStrategy.EQUAL);
 
     tasks.forEach(task -> assertEquals(task.getName(), "Test"));
 
     for (int i = 0; i < tasks.size(); i++) {
-      Task<PaginationTemplate> task = tasks.get(i);
-      PageParameters taskPageParameters = task.getTemplate().getPageParameters();
+      Task task = tasks.get(i);
 
-      Object[] expectedTaskSplit = expectedTaskSplits[i];
-      assertEquals(expectedTaskSplit[0], taskPageParameters.startPage());
-      assertEquals(expectedTaskSplit[1], taskPageParameters.endPage());
+      ScrapeTemplate scrapeTemplate = task.getTemplate();
+      if (scrapeTemplate instanceof PaginationTemplate paginationTemplate) {
+        var taskPageParameters = paginationTemplate.getPageParameters();
+        Object[] expectedTaskSplit = expectedTaskSplits[i];
+        assertEquals(expectedTaskSplit[0], taskPageParameters.startPage());
+        assertEquals(expectedTaskSplit[1], taskPageParameters.endPage());
+      }
     }
 
   }

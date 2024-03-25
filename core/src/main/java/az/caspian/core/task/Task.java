@@ -3,21 +3,21 @@ package az.caspian.core.task;
 import az.caspian.core.messaging.Client;
 import az.caspian.core.template.ScrapeTemplate;
 
-public class Task<T extends ScrapeTemplate> {
+public class Task {
   private final String id;
   private final String name;
-  private final T template;
+  private final ScrapeTemplate template;
   private final Client assignee;
   private String description;
 
-  public Task(String name, T template, Client assignee) {
+  public Task(String name, ScrapeTemplate template, Client assignee) {
     this.id = ""; //TODO: Create random id for task
     this.name = name;
     this.template = template;
     this.assignee = assignee;
   }
 
-  public Task(String id, String name, T template, Client assignee) {
+  public Task(String id, String name, ScrapeTemplate template, Client assignee) {
     this.id = id;
     this.name = name;
     this.template = template;
@@ -32,7 +32,7 @@ public class Task<T extends ScrapeTemplate> {
     return name;
   }
 
-  public T getTemplate() {
+  public ScrapeTemplate getTemplate() {
     return template;
   }
 

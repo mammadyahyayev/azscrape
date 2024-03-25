@@ -9,8 +9,8 @@ import java.util.List;
  * The interface is used by scrape templates to create different tasks that can
  * be shared between clients.
  */
-public interface Splittable<T extends ScrapeTemplate> {
-  List<Task<T>> split(String taskName, List<Client> clients);
+public interface Splittable {
+  List<Task> split(String taskName, List<Client> clients);
 
-  List<Task<T>> split(String taskName, List<Client> clients, SplitStrategy strategy);
+  List<Task> split(String taskName, List<Client> clients, SplitStrategy strategy);
 }
