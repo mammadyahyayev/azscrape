@@ -3,9 +3,14 @@ package az.caspian.client.ui.frame;
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
 import az.caspian.core.task.Task;
+import az.caspian.core.task.TaskManager;
+import az.caspian.core.template.TemplateExecutor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.Optional;
+import java.util.ServiceLoader;
 
 public class ClientTaskFrame extends DefaultFrame {
 
@@ -50,9 +55,21 @@ public class ClientTaskFrame extends DefaultFrame {
     contentPanel.add(taskLabel, gridConstraints);
 
     var executeTaskBtn = new DefaultButton("Execute Task");
+    executeTaskBtn.setActionListener(this::executeTaskAction);
     gridConstraints.gridy = 1;
     contentPanel.add(executeTaskBtn, gridConstraints);
 
     return contentPanel;
+  }
+
+  private void executeTaskAction(ActionEvent event) {
+    ServiceLoader<TemplateExecutor> templateExecutors = ServiceLoader.load(TemplateExecutor.class);
+    Optional<TemplateExecutor> optionalTemplateExecutor = templateExecutors.findFirst();
+    if (optionalTemplateExecutor.isEmpty()) {
+      throw new IllegalStateException("Can't find TemplateExecutor implementation to execute task!");
+    }
+
+    TaskManager manager = new TaskManager(optionalTemplateExecutor.get());
+    manager.executeTask(task);
   }
 }
