@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>azscrape-bom</artifactId>
+    <version>3.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Spring Framework (Bill of Materials)</name>
+    <description>Spring Framework (Bill of Materials)</description>
+    <url>https://github.com/spring-projects/spring-framework</url>
+
+    <organization>
+        <name>Caspian Clan</name>
+        <url>https://github.com/caspian-clan</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>mammadyahyayev</id>
+            <name>Mammad Yahyayev</name>
+            <email>mammadyahyayev@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/mammadyahyayev/azscrape</connection>
+        <developerConnection>scm:git:git://github.com/mammadyahyayev/azscrape</developerConnection>
+        <url>https://github.com/mammadyahyayev/azscrape</url>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/mammadyahyayev/azscrape/issues</url>
+    </issueManagement>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <jackson.databind.version>2.16.1</jackson.databind.version>
+        <commons.io.version>2.15.1</commons.io.version>
+
+        <junit.jupiter.version>5.10.2</junit.jupiter.version>
+        <mockito.core.version>5.11.0</mockito.core.version>
+        <assertj.version>3.25.3</assertj.version>
+        <hamcrest.version>2.2</hamcrest.version>
+
+        <log4j.api.version>2.23.1</log4j.api.version>
+        <log4j.core.version>2.23.1</log4j.core.version>
+
+        <jetbrains.annotations.version>24.1.0</jetbrains.annotations.version>
+
+        <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
+        <maven.dependency.plugin.version>3.6.1</maven.dependency.plugin.version>
+        <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
+        <maven.pmd.plugin.version>3.21.2</maven.pmd.plugin.version>
+        <maven.javadoc.plugin.version>3.5.0</maven.javadoc.plugin.version>
+        <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
+        <maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
+        <maven.exec.plugin.version>3.1.0</maven.exec.plugin.version>
+        <maven.checkstyle.plugin.version>3.3.1</maven.checkstyle.plugin.version>
+        <maven.jacoco.plugin.version>0.8.11</maven.jacoco.plugin.version>
+        <maven.release.plugin.version>3.0.0</maven.release.plugin.version>
+        <maven.flatten.plugin.version>1.4.1</maven.flatten.plugin.version>
+        <maven.clean.plugin.version>3.2.0</maven.clean.plugin.version>
+        <maven.assembly.plugin.version>3.5.0</maven.assembly.plugin.version>
+        <owasp.dependecy.plugin.version>8.2.1</owasp.dependecy.plugin.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.databind.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.jupiter.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.core.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>${jetbrains.annotations.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest</artifactId>
+                <version>${hamcrest.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

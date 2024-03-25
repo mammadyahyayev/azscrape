@@ -16,6 +16,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="azscrape-bom" target="17" />
       <module name="data-report-cli" target="11" />
       <module name="data-report-parser" target="11" />
       <module name="data-report-scanner" target="11" />
