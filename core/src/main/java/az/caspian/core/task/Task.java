@@ -2,6 +2,7 @@ package az.caspian.core.task;
 
 import az.caspian.core.messaging.Client;
 import az.caspian.core.template.ScrapeTemplate;
+import az.caspian.core.utils.RandomUtils;
 
 public class Task {
   private final String id;
@@ -11,7 +12,7 @@ public class Task {
   private String description;
 
   public Task(String name, ScrapeTemplate template, Client assignee) {
-    this.id = ""; //TODO: Create random id for task
+    this.id = RandomUtils.generateRandomKey();
     this.name = name;
     this.template = template;
     this.assignee = assignee;
