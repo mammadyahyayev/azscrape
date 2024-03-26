@@ -32,7 +32,10 @@ public class ClientService {
 
   public void handleShortMessage(ShortMessage message) {
     if (message instanceof JoinToProjectMessage joinToProjectMessage) {
-      joinToProject(joinToProjectMessage.client(), Session.getCurrentProject());
+      Client client = joinToProjectMessage.client();
+      Project currentProject = Session.getCurrentProject();
+      LOG.debug("Client ({}) is trying to connect to {}", client.getFullName(), currentProject.getName());
+      joinToProject(client, currentProject);
     }
   }
 

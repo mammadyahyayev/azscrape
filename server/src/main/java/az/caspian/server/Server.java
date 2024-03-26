@@ -62,6 +62,7 @@ public class Server {
   private void handleClientConnection(Socket clientSocket) {
     try (var inputStream = new ObjectInputStream(clientSocket.getInputStream());) {
       var shortMessage = (ShortMessage) inputStream.readObject();
+      LOG.debug("Message {} sent by client", shortMessage);
       parseMessage(shortMessage);
     } catch (Exception e) {
       LOG.error("Failed to read data from client connection!");

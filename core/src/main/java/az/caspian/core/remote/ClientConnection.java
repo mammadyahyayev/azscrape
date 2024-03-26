@@ -37,7 +37,7 @@ public class ClientConnection {
     }
   }
 
-  public static <T extends ScrapeTemplate> boolean sendTaskToClient(Task task) {
+  public static boolean sendTaskToClient(Task task) {
     Asserts.required(task, "task cannot be null!");
 
     Client client = task.getAssignee();

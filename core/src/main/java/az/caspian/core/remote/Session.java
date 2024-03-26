@@ -5,8 +5,15 @@ import az.caspian.core.messaging.Client;
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.io.PropertiesFileSystem;
 import az.caspian.core.utils.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.util.Scanner;
 
 public final class Session {
+  private static final Logger LOG = LogManager.getLogger(Session.class);
+
   private static String serverIpAddress;
   private static Client currentClient;
   private static Project project;
@@ -43,12 +50,13 @@ public final class Session {
       return project;
     }
 
-    //TODO: find a way to set active project in here, it will be not null
-    // for client who shares it, but it will be null for other clients.
+    project = new Project();
 
-    //TODO: IDEA: Create a new text file called shared project and add
-    // project name inside it. whenever user rerun the program again and wants to share project
-    // suggest the project inside that file.
+    try (var scanner = new Scanner(FileConstants.SHARED_PROJECT_FILE_PATH.toFile())) {
+      project.setName(scanner.nextLine());
+    } catch (IOException e) {
+      LOG.error("Failed to read shared project from {}", FileConstants.SHARED_PROJECT_FILE_PATH);
+    }
 
     return project;
   }
@@ -56,6 +64,7 @@ public final class Session {
   public static void setCurrentProject(Project project) {
     Asserts.required(project, "project cannot be null!");
     Session.project = project;
+    LOG.info(project.getName() + " set in the current session.");
   }
 
   public static String getServerIpAddress() {

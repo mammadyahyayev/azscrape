@@ -8,6 +8,7 @@ public class FileConstants {
   public static final Path APP_PATH = Path.of(System.getProperty("user.home"), ".azscrape");
   public static final Path BACKUP_FILES_PATH = APP_PATH.resolve("backups");
   public static final Path IDENTITY_FILE_PATH = APP_PATH.resolve("identity.properties");
+  public static final Path SHARED_PROJECT_FILE_PATH = APP_PATH.resolve("shared-project.txt");
 
   public static final String TEMP_DIR_PATH = getTempDirPath();
 

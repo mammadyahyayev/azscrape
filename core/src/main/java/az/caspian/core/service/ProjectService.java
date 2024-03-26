@@ -2,6 +2,7 @@ package az.caspian.core.service;
 
 import az.caspian.core.constant.FileConstants;
 import az.caspian.core.internal.ModuleManager;
+import az.caspian.core.io.DefaultFileSystem;
 import az.caspian.core.io.PropertiesFileSystem;
 import az.caspian.core.messaging.Client;
 import az.caspian.core.messaging.ClientType;
@@ -13,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -81,23 +83,25 @@ public class ProjectService {
         () -> ModuleManager.runServerModule(Map.of("-p", projectName)));
       new Thread(runServerModuleTask).start();
 
-      //TODO: Check if there is already shared project or not, if user clicks second time.
-      boolean isRunning = runServerModuleTask.get();
-      if (isRunning) {
-        Client currentClient = Session.getCurrentClient();
-        currentClient.setClientType(ClientType.COORDINATOR);
-        Session.setCurrentClient(currentClient);
+      //TODO: Don't allow master to see project frame before running server module
 
-        var project = findProjectByName(projectName);
-        Session.setCurrentProject(project);
-        return project;
+      Client currentClient = Session.getCurrentClient();
+      currentClient.setClientType(ClientType.COORDINATOR);
+      Session.setCurrentClient(currentClient);
+
+      var project = findProjectByName(projectName);
+      Session.setCurrentProject(project);
+
+      var fileSystem = new DefaultFileSystem();
+      File file = fileSystem.createFileIfNotExist(FileConstants.APP_PATH.resolve("shared-project.txt"));
+
+      try (FileWriter fileWriter = new FileWriter(file)) {
+        fileWriter.write(projectName);
       }
+
+      return project;
     } catch (IOException e) {
-      LOG.error("Failed to read projects from {}", FileConstants.APP_PATH);
-    } catch (ExecutionException e) {
-      LOG.error("Failed to execute server module!");
-    } catch (InterruptedException e) {
-      LOG.error("Executing server module task is interrupted!");
+      LOG.error("Failed to share project");
     }
 
     return null;
