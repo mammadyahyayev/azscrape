@@ -34,14 +34,14 @@ public class ClientService {
     if (message instanceof JoinToProjectMessage joinToProjectMessage) {
       Client client = joinToProjectMessage.client();
       Project currentProject = Session.getCurrentProject();
-      LOG.debug("Client ({}) is trying to connect to {}", client.getFullName(), currentProject.getName());
+      LOG.debug("Client ({}) is trying to connect to {} project", client.getFullName(), currentProject.getName());
       joinToProject(client, currentProject);
     }
   }
 
   public void joinToProject(Client client, Project project) {
-    Asserts.required(project, "project cannot be null!");
     Asserts.required(client, "client cannot be null!");
+    Asserts.required(project, "project cannot be null!");
 
     project.addAttendant(client);
     projectService.saveAttendants(project);

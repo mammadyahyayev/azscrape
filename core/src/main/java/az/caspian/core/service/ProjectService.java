@@ -58,7 +58,7 @@ public class ProjectService {
 
     try (var writer = new BufferedWriter(new FileWriter(attendatsFilePath.toFile()))) {
       for (Client attendant : project.getAttendants()) {
-        writer.write(attendant.getFullName());
+        writer.append(attendant.getFullName());
       }
     } catch (IOException e) {
       LOG.error("Failed to save attendants to file: {}", attendatsFilePath);

@@ -66,6 +66,7 @@ public class Server {
       parseMessage(shortMessage);
     } catch (Exception e) {
       LOG.error("Failed to read data from client connection!");
+      LOG.error("Exception: ", e);
     }
   }
 

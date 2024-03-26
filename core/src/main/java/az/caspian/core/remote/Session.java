@@ -58,6 +58,8 @@ public final class Session {
       LOG.error("Failed to read shared project from {}", FileConstants.SHARED_PROJECT_FILE_PATH);
     }
 
+    LOG.info("{} project read from current session.", project.getName());
+
     return project;
   }
 
