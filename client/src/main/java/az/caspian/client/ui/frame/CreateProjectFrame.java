@@ -4,6 +4,7 @@ import az.caspian.core.remote.Session;
 import az.caspian.core.service.ClientService;
 import az.caspian.client.ui.components.*;
 import az.caspian.client.ui.constants.Colors;
+import az.caspian.core.service.ProjectService;
 import az.caspian.core.utils.StringUtils;
 
 import javax.swing.*;
@@ -12,11 +13,13 @@ import java.awt.event.ActionEvent;
 
 public class CreateProjectFrame extends DefaultFrame {
   private final ClientService clientService;
+  private final ProjectService projectService;
 
   private DefaultTextField projectNameTxt;
 
-  public CreateProjectFrame(ClientService clientService) {
+  public CreateProjectFrame(ProjectService projectService, ClientService clientService) {
     super();
+    this.projectService = projectService;
     this.clientService = clientService;
 
     loadUi();
@@ -81,6 +84,8 @@ public class CreateProjectFrame extends DefaultFrame {
     boolean isCreated = clientService.createProject(projectName, Session.getCurrentClient());
     if (isCreated) {
       MessageBox.info("Project created successfully.", this);
+      this.dispose();
+      new JoinToProjectFrame(projectService, clientService);
     } else {
       MessageBox.error("Problem happened while creation of project!", this);
     }

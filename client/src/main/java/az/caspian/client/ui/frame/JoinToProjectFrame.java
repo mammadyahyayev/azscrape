@@ -92,7 +92,7 @@ public class JoinToProjectFrame extends DefaultFrame {
 
   private void openCreateProjectFrameAction(ActionEvent event) {
     this.dispose();
-    new CreateProjectFrame(clientService);
+    new CreateProjectFrame(projectService, clientService);
   }
 
   private void openShareProjectFrameAction(ActionEvent event) {

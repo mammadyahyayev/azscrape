@@ -35,7 +35,7 @@ public class ProjectViewFrame extends JFrame {
 
   private void initUi() {
     this.getContentPane().setBackground(Colors.BASE_BG_COLOR);
-    this.setSize(700, 800);
+    this.setSize(700, 600);
     this.setLocation(600, 200);
 
     loadUiComponents();
