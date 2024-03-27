@@ -3,6 +3,8 @@ package az.caspian.app;
 import az.caspian.core.constant.TestConstants;
 import az.caspian.core.model.DataFile;
 import az.caspian.core.model.enumeration.FileType;
+import az.caspian.core.task.Task;
+import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.core.tree.*;
 import az.caspian.export.CsvExporter;
 import az.caspian.export.ExcelExporter;
@@ -21,6 +23,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -327,4 +331,89 @@ class AzScrapeApplicationTest {
   }
 
   // TODO: 2509 - bina.az https://bina.az/alqi-satqi?page=2509
+
+  @Test
+  @Tag(TestConstants.LONG_LASTING_TEST)
+  void testMultipleChromeInstanceWithThreads() throws InterruptedException {
+    var pageParameters1 = new PageParameters.Builder()
+      .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
+      .pageNum(1)
+      .delayBetweenPages(3000)
+      .build();
+
+    var pageParameters2 = new PageParameters.Builder()
+      .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
+      .pageNum(2)
+      .delayBetweenPages(3000)
+      .build();
+
+    var pageParameters3 = new PageParameters.Builder()
+      .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
+      .pageNum(3)
+      .delayBetweenPages(3000)
+      .build();
+
+    var link = new ListNode("link", ".products-i__link");
+    var carNode = new DataNode("car", ".product-title");
+    var price = new DataNode("price", ".product-price > div:first-child");
+    var advertisementId = new DataNode("advertisement number", ".product-actions__id");
+    var description = new DataNode("description", ".product-description__content");
+    var updateTime = new DataNode("update time", ".product-statistics__i:first-child");
+    var viewCount = new DataNode("view count", ".product-statistics__i:last-child");
+
+    var propertyWrapper = new ListNode("wrapper", ".product-properties__i");
+    var properties =
+      new KeyValueDataNode(".product-properties__i-name", ".product-properties__i-value");
+    propertyWrapper.addChild(properties);
+
+    link.addChild(carNode);
+    link.addChild(price);
+    link.addChild(advertisementId);
+    link.addChild(description);
+    link.addChild(updateTime);
+    link.addChild(viewCount);
+    link.addChild(propertyWrapper);
+
+    DataTree<Node> tree = new DataTree<>();
+    tree.addNode(link);
+
+    var template1 = new PaginationItemVisitorTemplate(pageParameters1, tree);
+    var template2 = new PaginationItemVisitorTemplate(pageParameters2, tree);
+    var template3 = new PaginationItemVisitorTemplate(pageParameters3, tree);
+
+    Task task1 = new Task("#1", "turboaz-scraping", template1, null);
+    Task task2 = new Task("#2", "turboaz-scraping", template2, null);
+    Task task3 = new Task("#3", "turboaz-scraping", template3, null);
+
+    TaskExecutor executor1 = new TaskExecutor(task1);
+    TaskExecutor executor2 = new TaskExecutor(task2);
+    TaskExecutor executor3 = new TaskExecutor(task3);
+
+    executor1.start();
+    executor2.start();
+    executor3.start();
+
+    executor1.join();
+    executor2.join();
+    executor3.join();
+  }
+
+  static class TaskExecutor extends Thread {
+    private final Task task;
+
+    TaskExecutor(Task task) {
+      this.task = task;
+    }
+
+    @Override
+    public void run() {
+      PaginationItemVisitorTemplate template = (PaginationItemVisitorTemplate) task.getTemplate();
+      var scraper = new PaginationItemVisitorScraper();
+      DataTable table = scraper.scrape(template);
+      System.out.printf("""
+        Task %s, completed its job and it collects %d rows.\s
+        """, task.getId(), table.rows().size());
+    }
+  }
+
 }

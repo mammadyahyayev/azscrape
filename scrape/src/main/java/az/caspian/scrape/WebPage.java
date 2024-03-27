@@ -7,16 +7,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
-/** A Web Page */
+/**
+ * A Web Page
+ */
 public class WebPage {
   private static final Logger LOG = LogManager.getLogger(WebPage.class);
 
+  private WebBrowser browser;
   private final String url;
   private final boolean isConnected;
 
@@ -24,6 +28,13 @@ public class WebPage {
     Objects.requireNonNull(url, "Webpage url cannot be null!");
     // TODO: Check given url is valid
     this.url = url;
+    this.isConnected = true;
+  }
+
+  WebPage(String url, WebBrowser browser) {
+    Objects.requireNonNull(url, "Webpage url cannot be null!");
+    this.url = url;
+    this.browser = browser;
     this.isConnected = true;
   }
 
@@ -37,9 +48,9 @@ public class WebPage {
     String text;
     try {
       text =
-          webElement.findElements(By.cssSelector(cssSelector)).stream()
-              .map(WebElement::getText)
-              .collect(Collectors.joining("\n"));
+        webElement.findElements(By.cssSelector(cssSelector)).stream()
+          .map(WebElement::getText)
+          .collect(Collectors.joining("\n"));
     } catch (Exception e) {
       LOG.error("Unknown error happened");
       text = "";
@@ -74,7 +85,7 @@ public class WebPage {
   public String fetchElementAsText(String cssSelector) {
     String text;
     try {
-      text = WebBrowser.DRIVER.findElement(By.cssSelector(cssSelector)).getText();
+      text = browser.findElement(By.cssSelector(cssSelector)).getText();
     } catch (Exception e) {
       LOG.error("Unknown error happened: " + e);
       text = "";
@@ -93,7 +104,7 @@ public class WebPage {
   public List<WebElement> fetchWebElements(String cssSelector) {
     List<WebElement> elements = new ArrayList<>();
     try {
-      elements = new ArrayList<>(WebBrowser.DRIVER.findElements(By.cssSelector(cssSelector)));
+      elements = new ArrayList<>(browser.findElements(By.cssSelector(cssSelector)));
     } catch (Exception e) {
       LOG.error("Unknown error happened: " + e);
     }
@@ -104,7 +115,7 @@ public class WebPage {
   public Optional<WebElement> fetchWebElement(String cssSelector) {
     WebElement element;
     try {
-      element = WebBrowser.DRIVER.findElement(By.cssSelector(cssSelector));
+      element = browser.findElement(By.cssSelector(cssSelector));
       return Optional.of(element);
     } catch (Exception e) {
       LOG.error("Unknown error happened: " + e);
@@ -113,17 +124,15 @@ public class WebPage {
     return Optional.empty();
   }
 
-  /** Scrolls to the end of Web Page */
+  /**
+   * Scrolls to the end of Web Page
+   */
   public void scrollToEnd() {
-    JavascriptExecutor js = (JavascriptExecutor) WebBrowser.DRIVER;
-    long amount = (long) js.executeScript("return document.body.offsetHeight");
-
-    js.executeScript(format("window.scrollBy(0, %d)", amount));
+    browser.executeScript("return document.body.offsetHeight");
   }
 
   public void scroll(int scrollHeight) {
-    JavascriptExecutor js = (JavascriptExecutor) WebBrowser.DRIVER;
-    js.executeScript(format("window.scrollBy(0, %d)", scrollHeight));
+    browser.executeScript(format("window.scrollBy(0, %d)", scrollHeight));
   }
 
   /**
@@ -132,8 +141,7 @@ public class WebPage {
    * @return scroll height
    */
   public long height() {
-    JavascriptExecutor js = (JavascriptExecutor) WebBrowser.DRIVER;
-    return (long) js.executeScript("return document.body.scrollHeight");
+    return (long) browser.executeScript("return document.body.scrollHeight");
   }
 
   /**

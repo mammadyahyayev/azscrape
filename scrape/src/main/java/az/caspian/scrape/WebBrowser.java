@@ -3,29 +3,35 @@ package az.caspian.scrape;
 import az.caspian.core.utils.Asserts;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.chromium.ChromiumDriverLogLevel;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.List;
+
 public class WebBrowser implements AutoCloseable {
   private static final Logger LOG = LogManager.getLogger(WebPage.class);
 
-  static final WebDriver DRIVER;
+  private final WebDriver driver;
   private boolean isOpen;
 
-  static {
+  {
     var chromeOptions = new ChromeOptions();
     chromeOptions.addArguments("--remote-allow-origins=*");
+    chromeOptions.setCapability("browserVersion", "122");
     var chromeDriverService = new ChromeDriverService.Builder()
-            .withLogLevel(ChromiumDriverLogLevel.OFF)
-            .build();
+      .withLogLevel(ChromiumDriverLogLevel.OFF)
+      .build();
     DesiredCapabilities capabilities = new DesiredCapabilities();
     capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
     chromeOptions.merge(capabilities);
-    DRIVER = new ChromeDriver(chromeDriverService, chromeOptions);
+    driver = new ChromeDriver(chromeDriverService, chromeOptions);
   }
 
   public WebBrowser() {
@@ -36,7 +42,7 @@ public class WebBrowser implements AutoCloseable {
    */
   public void open() {
     try {
-      DRIVER.manage().window().maximize();
+      driver.manage().window().maximize();
       isOpen = true;
     } catch (Exception e) {
       close();
@@ -51,7 +57,7 @@ public class WebBrowser implements AutoCloseable {
   @Override
   public void close() {
     if (isOpen) {
-      DRIVER.quit();
+      driver.quit();
       isOpen = false;
     }
   }
@@ -85,17 +91,30 @@ public class WebBrowser implements AutoCloseable {
 
     try {
       Thread.sleep(delayInMillis);
-      DRIVER.get(url);
+      driver.get(url);
     } catch (Exception e) {
       LOG.error("Failed to connect to web page ", e);
       close();
       throw new WebBrowserException("Failed to connect to webpage", e);
     }
 
-    return new WebPage(url);
+    return new WebPage(url, this);
   }
 
   public void backToPrevPage() {
-    DRIVER.navigate().back();
+    driver.navigate().back();
+  }
+
+  public WebElement findElement(By by) {
+    return driver.findElement(by);
+  }
+
+  public List<WebElement> findElements(By by) {
+    return driver.findElements(by);
+  }
+
+  public Object executeScript(String script) {
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    return js.executeScript(script);
   }
 }
