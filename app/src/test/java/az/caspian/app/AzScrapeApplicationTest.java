@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.concurrent.*;
 import java.util.stream.Stream;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
@@ -317,7 +318,7 @@ class AzScrapeApplicationTest {
     var scraper = new PaginationItemVisitorScraper();
     DataTable table = scraper.scrape(template);
 
-    Exporter excelExporter = new CsvExporter();
+    Exporter csvExporter = new CsvExporter();
 
     //TODO: We can create multiple DataFileFormat such as CsvDataFile, ExcelDataFile. Each file will has own
     // parameters. And Builder will return exact fileFormat with its own parameters, after fileType()
@@ -327,14 +328,14 @@ class AzScrapeApplicationTest {
       .fileType(FileType.CSV)
       .build();
 
-    excelExporter.export(dataFile, table);
+    csvExporter.export(dataFile, table);
   }
 
   // TODO: 2509 - bina.az https://bina.az/alqi-satqi?page=2509
 
   @Test
   @Tag(TestConstants.LONG_LASTING_TEST)
-  void testMultipleChromeInstanceWithThreads() throws InterruptedException {
+  void testMultipleChromeInstanceWithThreads() throws InterruptedException, ExecutionException {
     var pageParameters1 = new PageParameters.Builder()
       .url("https://turbo.az/autos?page=" + PAGE_SPECIFIER)
       .pageNum(1)
@@ -389,16 +390,27 @@ class AzScrapeApplicationTest {
     TaskExecutor executor2 = new TaskExecutor(task2);
     TaskExecutor executor3 = new TaskExecutor(task3);
 
-    executor1.start();
-    executor2.start();
-    executor3.start();
+    ExecutorService executorService = Executors.newFixedThreadPool(3);
+    List<Future<DataTable>> futures = executorService.invokeAll(List.of(executor1, executor2, executor3));
 
-    executor1.join();
-    executor2.join();
-    executor3.join();
+    DataTable table = new DataTable();
+    for (Future<DataTable> future : futures) {
+      DataTable dataTable = future.get();
+      table.addAll(dataTable.rows());
+    }
+
+    Exporter csvExporter = new CsvExporter();
+
+    DataFile dataFile = new DataFile.Builder()
+      .filename("turbo_az")
+      .storeAt(Path.of("C:/Users/Admin/Desktop").toString())
+      .fileType(FileType.CSV)
+      .build();
+
+    csvExporter.export(dataFile, table);
   }
 
-  static class TaskExecutor extends Thread {
+  static class TaskExecutor implements Callable<DataTable> {
     private final Task task;
 
     TaskExecutor(Task task) {
@@ -406,13 +418,14 @@ class AzScrapeApplicationTest {
     }
 
     @Override
-    public void run() {
+    public DataTable call() throws Exception {
       PaginationItemVisitorTemplate template = (PaginationItemVisitorTemplate) task.getTemplate();
       var scraper = new PaginationItemVisitorScraper();
       DataTable table = scraper.scrape(template);
       System.out.printf("""
         Task %s, completed its job and it collects %d rows.\s
         """, task.getId(), table.rows().size());
+      return table;
     }
   }
 
