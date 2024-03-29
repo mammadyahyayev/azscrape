@@ -101,6 +101,10 @@ public class WebBrowser implements AutoCloseable {
     return new WebPage(url, this);
   }
 
+  public WebPage getCurrentWebPage() {
+    return new WebPage(driver.getCurrentUrl(), this);
+  }
+
   public void backToPrevPage() {
     driver.navigate().back();
   }

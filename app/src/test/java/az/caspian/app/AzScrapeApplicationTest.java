@@ -1,15 +1,20 @@
 package az.caspian.app;
 
 import az.caspian.core.constant.TestConstants;
+import az.caspian.core.io.DefaultFileSystem;
 import az.caspian.core.model.DataFile;
 import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.task.Task;
-import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.core.tree.*;
 import az.caspian.export.CsvExporter;
 import az.caspian.export.ExcelExporter;
 import az.caspian.export.Exporter;
+import az.caspian.scrape.WebBrowser;
+import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.Scraper;
+import az.caspian.scrape.templates.multiurl.MultiUrlTemplate;
+import az.caspian.scrape.templates.multiurl.MultiUrlTemplateParameters;
+import az.caspian.scrape.templates.multiurl.MultiUrlTemplateScraper;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import az.caspian.scrape.templates.pagination.PaginationPageScraper;
 import az.caspian.scrape.templates.pagination.PaginationTemplate;
@@ -20,12 +25,17 @@ import az.caspian.scrape.templates.scroll.ScrollablePageScraper;
 import az.caspian.scrape.templates.scroll.ScrollablePageTemplate;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.WebElement;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.*;
-import java.util.stream.Stream;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -427,6 +437,118 @@ class AzScrapeApplicationTest {
         """, task.getId(), table.rows().size());
       return table;
     }
+  }
+
+
+  @Test
+  @Tag(TestConstants.LONG_LASTING_TEST)
+  void testScrapingComputerScienceBooks() throws IOException {
+    /*
+      Book urls: .a-size-mini > .a-link-normal
+      Page url: https://www.amazon.com/s?k=computer+science&rh=n%3A283155%2Cn%3A3839&dc&ds=v1%3AG6CsZ387yhcKjK0fm9lyJjv2pP2JXDVjX43u7UMiX7s&qid=1711649858&rnid=2941120011&ref=sr_nr_n_2
+      Pagination Button Element: .s-pagination-next
+     */
+
+    //TODO: Do following urls tomorrow
+    // https://www.amazon.com/s?k=computer+science&i=stripbooks-intl-ship&rh=n%3A283155%2Cn%3A75&s=review-count-rank&dc&crid=2UU2E05VLYK8A&qid=1711658555&rnid=283155&sprefix=computer+scien%2Cstripbooks-intl-ship%2C260&ref=sr_st_review-count-rank&ds=v1%3AzLAjg3%2FBIDD%2BKC%2B46%2BR0aF8YM2QVHpBkqLfOfI%2FgK28
+
+    String url = "https://www.amazon.com";
+
+    List<String> urls = new ArrayList<>();
+    try {
+      WebBrowser browser = new WebBrowser();
+      browser.goTo(url);
+      while (true) {
+        WebPage page = browser.getCurrentWebPage();
+        Thread.sleep(5000);
+        List<WebElement> elements = page.fetchWebElements(".a-size-mini > .a-link-normal");
+        for (WebElement element : elements) {
+          String href = element.getAttribute("href");
+          urls.add(href);
+        }
+
+        System.out.println("Elements on the page: " + elements.size());
+
+        Thread.sleep(5000);
+
+        Optional<WebElement> optionalWebElement = page.fetchWebElement(".s-pagination-next");
+        if (optionalWebElement.isEmpty()) {
+          break;
+        }
+
+        WebElement webElement = optionalWebElement.get();
+        webElement.click();
+      }
+
+    } catch (Exception e) {
+      // ignore
+    }
+
+    writeUrlsToFile(urls);
+  }
+
+  private void writeUrlsToFile(List<String> urls) throws IOException {
+    var fileSystem = new DefaultFileSystem();
+    File file = fileSystem.createFileIfNotExist(Path.of("C:/Users/Admin/Desktop/urls4.txt"));
+    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+    urls.forEach(url -> {
+      try {
+        bufferedWriter.append(url)
+          .append("\n");
+      } catch (IOException e) {
+        // ignore
+      }
+    });
+  }
+
+  @Test
+  @Tag(TestConstants.LONG_LASTING_TEST)
+  void testMultiUrlTemplate() {
+    MultiUrlTemplateParameters templateParameters = new MultiUrlTemplateParameters.Builder()
+      .urlSource(Path.of("C:/Users/Admin/Desktop/urls2.txt"))
+      .delayBetweenUrls(5, TimeUnit.SECONDS)
+      .build();
+
+    DataNode bookTitle = new DataNode("book", "#productTitle");
+    DataNode bookDescription = new DataNode("description", "#bookDescription_feature_div");
+    DataNode authorBio = new DataNode("author_bio", "#editorialReviews_feature_div");
+
+    var propertyWrapper = new ListNode("wrapper", "#detailBullets_feature_div .a-list-item");
+    var properties =
+      new KeyValueDataNode("#detailBullets_feature_div .a-list-item > span:first-child",
+        "#detailBullets_feature_div .a-list-item > span:last-child");
+    propertyWrapper.addChild(properties);
+
+    DataTree<Node> tree = new DataTree<>();
+    tree.addNode(bookTitle);
+    tree.addNode(bookDescription);
+    tree.addNode(authorBio);
+    tree.addNode(propertyWrapper);
+
+    var template = new MultiUrlTemplate(templateParameters, tree);
+    var scraper = new MultiUrlTemplateScraper(this::handleFailure);
+    DataTable table = scraper.scrape(template);
+
+    exportDataToExcel("books", table);
+  }
+
+  public void handleFailure(String reasonForFailure, DataTable table) {
+    System.out.println("Program crashed because of -> " + reasonForFailure);
+    exportDataToExcel("failed_data", table);
+  }
+
+  public void exportDataToExcel(String filename, DataTable table) {
+    System.out.printf("table has %d rows", table.rows().size());
+
+    Exporter excelExporter = new ExcelExporter();
+
+    DataFile dataFile = new DataFile.Builder()
+      .filename(filename)
+      .storeAt(Path.of("C:/Users/Admin/Desktop").toString())
+      .fileType(FileType.EXCEL)
+      .build();
+
+    excelExporter.export(dataFile, table);
   }
 
 }

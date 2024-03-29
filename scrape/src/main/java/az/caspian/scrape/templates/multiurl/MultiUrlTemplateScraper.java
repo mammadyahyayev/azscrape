@@ -1,12 +1,16 @@
 package az.caspian.scrape.templates.multiurl;
 
+import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
+import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTable;
 import az.caspian.core.tree.ListNode;
+import az.caspian.core.tree.Node;
 import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
+import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.TemplateException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,6 +27,14 @@ import java.util.Set;
 public class MultiUrlTemplateScraper extends AbstractScrapeTemplate<MultiUrlTemplate> {
   private static final Logger LOG = LogManager.getLogger(WebPage.class);
   private final ScrapedDataCollector collector = new ScrapedDataCollector();
+
+  public MultiUrlTemplateScraper() {
+
+  }
+
+  public MultiUrlTemplateScraper(ScrapeErrorCallback callback) {
+    super(callback);
+  }
 
   @Override
   public DataTable scrape(MultiUrlTemplate template) {
@@ -50,6 +62,11 @@ public class MultiUrlTemplateScraper extends AbstractScrapeTemplate<MultiUrlTemp
         throw ex;
       }
 
+      if (callback != null) {
+        LOG.info("Callback function is executed because of failure");
+        callback.handle(e.getMessage(), dataTable);
+      }
+
       LOG.error("Exception: {}", e.getMessage());
     }
 
@@ -64,12 +81,12 @@ public class MultiUrlTemplateScraper extends AbstractScrapeTemplate<MultiUrlTemp
       URL url = new URL(strUrl);
       WebPage page = browser.goTo(url.toString(), delayBetweenUrls);
 
-      var rootNode = (ListNode) template.getTree().nodes().get(0);
-      List<WebElement> webElements = page.fetchWebElements(rootNode.getSelector());
-      for (WebElement webElement : webElements) {
-        DataRow dataRow = collector.collect(rootNode.getChildren(), webElement);
-        dataRows.add(dataRow);
-      }
+      var nodes = template.getTree().nodes();
+      DataRow dataRow = collector.collect(nodes, page);
+      dataRow.addColumn(new DataColumn("link", strUrl));
+      dataRows.add(dataRow);
+
+      LOG.debug("Data scraped from url: {}", strUrl);
     } catch (MalformedURLException e) {
       if (templateParameters.isFailFast()) {
         LOG.error("Template failed fast because of invalid url {}", strUrl);
