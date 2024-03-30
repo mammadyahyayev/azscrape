@@ -28,7 +28,7 @@ class PaginationTemplateTest {
       .delayBetweenPages(3000)
       .build();
 
-    PaginationTemplate template = new PaginationTemplate(pageParameters, new DataTree<>());
+    var template = new PaginationTemplate(pageParameters, new DataTree<>());
 
     List<Client> clients = IntStream.range(0, clientCount)
       .mapToObj(i -> new Client())
