@@ -2,11 +2,11 @@ package az.caspian.scrape.templates.multiurl;
 
 import az.caspian.core.messaging.Client;
 import az.caspian.core.task.Task;
+import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.core.template.SplitStrategy;
 import az.caspian.core.template.Splittable;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.Node;
-import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.scrape.WebPage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,7 +15,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class MultiUrlTemplate implements ScrapeTemplate, Splittable {

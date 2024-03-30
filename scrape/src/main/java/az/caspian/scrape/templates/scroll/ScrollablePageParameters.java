@@ -1,7 +1,7 @@
 package az.caspian.scrape.templates.scroll;
 
-import az.caspian.scrape.templates.QueryParameter;
 import az.caspian.core.utils.StringUtils;
+import az.caspian.scrape.templates.QueryParameter;
 
 import java.util.ArrayList;
 import java.util.List;

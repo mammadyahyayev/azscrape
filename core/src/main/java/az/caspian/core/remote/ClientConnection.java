@@ -4,7 +4,6 @@ import az.caspian.core.messaging.Client;
 import az.caspian.core.messaging.JoinToProjectMessage;
 import az.caspian.core.messaging.ShareTaskMessage;
 import az.caspian.core.task.Task;
-import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.StringUtils;
 import org.apache.logging.log4j.LogManager;

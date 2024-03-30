@@ -2,10 +2,7 @@ package az.caspian.scrape.templates.multiurl;
 
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
-import az.caspian.core.tree.DataNode;
 import az.caspian.core.tree.DataTable;
-import az.caspian.core.tree.ListNode;
-import az.caspian.core.tree.Node;
 import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
@@ -14,7 +11,6 @@ import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.TemplateException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.WebElement;
 
 import java.net.MalformedURLException;
 import java.net.URL;

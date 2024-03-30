@@ -1,13 +1,13 @@
 package az.caspian.scrape.templates.pagination.item;
 
-import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import az.caspian.core.constant.TestConstants;
 import az.caspian.core.tree.*;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class PaginationItemVisitorScraperTest {
 

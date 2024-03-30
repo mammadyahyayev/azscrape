@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PaginationTemplateTest {
 

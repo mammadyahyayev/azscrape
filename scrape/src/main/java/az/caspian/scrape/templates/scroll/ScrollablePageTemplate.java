@@ -1,8 +1,8 @@
 package az.caspian.scrape.templates.scroll;
 
+import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.Node;
-import az.caspian.core.template.ScrapeTemplate;
 
 import java.util.Objects;
 

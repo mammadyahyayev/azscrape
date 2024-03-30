@@ -2,12 +2,16 @@ package az.caspian.scrape;
 
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
-import az.caspian.core.tree.*;
+import az.caspian.core.tree.DataNode;
+import az.caspian.core.tree.KeyValueDataNode;
+import az.caspian.core.tree.ListNode;
+import az.caspian.core.tree.Node;
 import az.caspian.core.utils.Asserts;
+import org.openqa.selenium.WebElement;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.openqa.selenium.WebElement;
 
 /**
  * The class is used to collect already scraped data into internal models which represents Tree

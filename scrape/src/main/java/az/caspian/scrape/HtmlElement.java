@@ -1,7 +1,8 @@
 package az.caspian.scrape;
 
-import java.util.List;
 import org.openqa.selenium.*;
+
+import java.util.List;
 
 /**
  * Decorator of {@link WebElement}. It will eliminate of using try-catch statements in other places.
