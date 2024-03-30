@@ -27,8 +27,8 @@ public class PropertiesFileSystem extends AbstractFileSystem {
   public Properties load(Path filePath) {
     Objects.requireNonNull(filePath, "Path of property file cannot be null or empty");
 
-    try {
-      properties.load(new FileInputStream(filePath.toString()));
+    try (var fileInputStream = new FileInputStream(filePath.toString())) {
+      properties.load(fileInputStream);
       return properties;
     } catch (IOException e) {
       String message = MessageFormat.format("Failed to read from file {0}", filePath);
@@ -53,7 +53,7 @@ public class PropertiesFileSystem extends AbstractFileSystem {
   public void store(Path path, Properties properties) {
     try (OutputStream outputStream = new FileOutputStream(path.toString())) {
       properties.store(outputStream, null);
-      LOG.debug("Properties is stored on " + path);
+      LOG.debug("Properties is stored on {}", path);
     } catch (IOException e) {
       String message = MessageFormat.format("Failed to write into file {0}", path);
       LOG.error(message);

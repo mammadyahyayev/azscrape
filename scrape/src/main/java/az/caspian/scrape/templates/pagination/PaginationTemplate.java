@@ -8,7 +8,10 @@ import az.caspian.core.template.Splittable;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.Node;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 public class PaginationTemplate implements ScrapeTemplate, Splittable {
   private final PageParameters pageParameters;
@@ -46,7 +49,7 @@ public class PaginationTemplate implements ScrapeTemplate, Splittable {
   public List<Task> split(String taskName, List<Client> clients, SplitStrategy strategy) {
     return switch (strategy) {
       case EQUAL -> new EqualSplitStrategy().split(taskName, clients);
-      case SYSTEM_POWER -> SystemPoweredSplitStrategy.split(taskName, clients);
+      case SYSTEM_POWER -> new SystemPoweredSplitStrategy().split(taskName, clients);
     };
   }
 
@@ -111,9 +114,10 @@ public class PaginationTemplate implements ScrapeTemplate, Splittable {
     }
   }
 
-  private static class SystemPoweredSplitStrategy {
-    public static List<Task> split(String taskName, Collection<Client> clients) {
-      return Collections.emptyList();
+  private class SystemPoweredSplitStrategy {
+    public List<Task> split(String taskName, Collection<Client> clients) {
+      throw new UnsupportedOperationException(
+        "SystemPowered split strategy isn't supported for " + PaginationTemplate.this.name() + " yet!");
     }
   }
 }

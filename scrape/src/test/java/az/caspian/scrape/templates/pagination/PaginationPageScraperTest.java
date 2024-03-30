@@ -10,8 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -22,13 +21,13 @@ class PaginationPageScraperTest {
   @Tag(TestConstants.LONG_LASTING_TEST)
   void testPaginationPageScraper() {
     var pageParameters =
-        new PageParameters.Builder()
-            .url("https://github.com/search?p={pageNum}")
-            .pageRange(0, 2)
-            .queryParam("q", "java")
-            .queryParam("type", "Repositories")
-            .delayBetweenPages(3000)
-            .build();
+      new PageParameters.Builder()
+        .url("https://github.com/search?p={pageNum}")
+        .pageRange(0, 2)
+        .queryParam("q", "java")
+        .queryParam("type", "Repositories")
+        .delayBetweenPages(3000)
+        .build();
 
     var repoItem = new ListNode("repoItem", ".Box-sc-g0xbh4-0 .bItZsX");
     var title = new DataNode("title", ".search-title");
@@ -43,7 +42,9 @@ class PaginationPageScraperTest {
     PaginationTemplate template = new PaginationTemplate(pageParameters, tree);
 
     Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
-    scraper.scrape(template);
+    DataTable table = scraper.scrape(template);
+
+    assertNotNull(table);
   }
 
   @Test
@@ -56,10 +57,10 @@ class PaginationPageScraperTest {
 
     var exceptionMessageCaptor = ArgumentCaptor.forClass(String.class);
     when(mockPaginationTemplate.getPageParameters())
-        .thenThrow(new RuntimeException("Error happened"));
+      .thenThrow(new RuntimeException("Error happened"));
 
     var runtimeException =
-        assertThrows(RuntimeException.class, () -> scraper.scrape(mockPaginationTemplate));
+      assertThrows(RuntimeException.class, () -> scraper.scrape(mockPaginationTemplate));
     verify(mockCallback).handle(exceptionMessageCaptor.capture(), any(DataTable.class));
     assertEquals(runtimeException.getMessage(), exceptionMessageCaptor.getValue());
   }

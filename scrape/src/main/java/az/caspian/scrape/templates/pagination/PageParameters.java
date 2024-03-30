@@ -55,7 +55,7 @@ public class PageParameters {
 
   private void buildPageUrl() {
     String url = this.pageUrl;
-    String queryParams = queryParameters.stream().map(param -> param.getKey() + "=" + param.getValue())
+    String queryParams = queryParameters.stream().map(param -> param.key() + "=" + param.value())
       .collect(Collectors.joining(QUERY_PARAM_SEPARATOR));
 
     if (pageSpecifier == null || pageSpecifier.type == PageSpecifierType.NOT_SET) {

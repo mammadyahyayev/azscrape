@@ -74,7 +74,7 @@ public class WebPage {
       WebElement element = webElement.findElement(By.cssSelector(cssSelector));
       if (element != null) text = element.getText();
     } catch (Exception e) {
-      LOG.error("Unknown error happened: " + e);
+      LOG.error("Unknown error happened: {}", e.getMessage());
       text = "";
     }
 
@@ -86,7 +86,7 @@ public class WebPage {
     try {
       text = browser.findElement(By.cssSelector(cssSelector)).getText();
     } catch (Exception e) {
-      LOG.error("Unknown error happened: " + e);
+      LOG.error("Unknown error happened: {}", e.getMessage());
       text = "";
     }
 
@@ -105,7 +105,7 @@ public class WebPage {
     try {
       elements = new ArrayList<>(browser.findElements(By.cssSelector(cssSelector)));
     } catch (Exception e) {
-      LOG.error("Unknown error happened: " + e);
+      LOG.error("Unknown error happened: {}", e.getMessage());
     }
 
     return elements;
@@ -117,7 +117,7 @@ public class WebPage {
       element = browser.findElement(By.cssSelector(cssSelector));
       return Optional.of(element);
     } catch (Exception e) {
-      LOG.error("Unknown error happened: " + e);
+      LOG.error("Unknown error happened: {}", e.getMessage());
     }
 
     return Optional.empty();

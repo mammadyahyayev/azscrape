@@ -16,8 +16,4 @@ public class AzScrapeAppException extends RuntimeException {
   public AzScrapeAppException(String message, Throwable cause) {
     super(message, cause);
   }
-
-  public AzScrapeAppException(Throwable cause) {
-    super(cause);
-  }
 }

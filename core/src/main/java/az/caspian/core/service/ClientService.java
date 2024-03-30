@@ -104,7 +104,7 @@ public class ClientService {
 
     var fileSystem = new DefaultFileSystem();
     fileSystem.createDirectoryIfNotExist(projectPath);
-    LOG.debug("Project " + projectName + " folder is created.");
+    LOG.debug("Project '{}' folder is created.", projectName);
     LOG.debug("Setting up configurations...");
 
     var propertiesFileSystem = new PropertiesFileSystem();
@@ -126,7 +126,6 @@ public class ClientService {
       fileWriter.write(attendant);
     } catch (IOException ex) {
       LOG.error("Failed to write into attendants.txt file!");
-      //TODO: Think how to handle it on the UI.
       return false;
     }
 

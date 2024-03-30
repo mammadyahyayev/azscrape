@@ -36,14 +36,10 @@ public class MultiUrlTemplateParameters {
   }
 
   public static class Builder {
-    private final Set<String> urls;
+    private final Set<String> urls = new HashSet<>();
     private long delayBetweenUrls;
     private boolean failFast;
     private Path urlSourceFilePath;
-
-    {
-      urls = new HashSet<>();
-    }
 
     public Builder urls(Set<String> urls) {
       this.urls.addAll(urls);

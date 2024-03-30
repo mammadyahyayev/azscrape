@@ -1,5 +1,8 @@
 package az.caspian.core.constant;
 
-public class TestConstants {
-    public static final String LONG_LASTING_TEST = "long.lasting.test";
+public final class TestConstants {
+  public static final String LONG_LASTING_TEST = "long.lasting.test";
+
+  private TestConstants() {
+  }
 }

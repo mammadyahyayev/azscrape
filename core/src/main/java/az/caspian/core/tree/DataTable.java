@@ -31,7 +31,7 @@ public class DataTable implements Serializable {
 
   public Set<String> getColumnNames() {
     return this.dataRows.stream()
-      .flatMap((row) -> row.columns().stream())
+      .flatMap(row -> row.columns().stream())
       .collect(Collectors.groupingBy(DataColumn::name))
       .keySet();
   }

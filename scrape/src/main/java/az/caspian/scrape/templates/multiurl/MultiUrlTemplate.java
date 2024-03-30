@@ -7,7 +7,6 @@ import az.caspian.core.template.SplitStrategy;
 import az.caspian.core.template.Splittable;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.Node;
-import az.caspian.scrape.WebPage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +21,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class MultiUrlTemplate implements ScrapeTemplate, Splittable {
-  private static final Logger LOG = LogManager.getLogger(WebPage.class);
+  private static final Logger LOG = LogManager.getLogger(MultiUrlTemplate.class);
 
   private final MultiUrlTemplateParameters templateParameters;
   private final DataTree<Node> tree;

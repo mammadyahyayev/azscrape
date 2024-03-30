@@ -5,6 +5,7 @@ import java.util.Random;
 public final class RandomUtils {
   static final int DEFAULT_KEY_LENGTH = 6;
 
+  private static final Random random = new Random();
   private static final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
   private static final String NUMBERS = "0123456789";
 
@@ -13,7 +14,6 @@ public final class RandomUtils {
   }
 
   public static String generateRandomKey(int length) {
-    Random random = new Random();
     StringBuilder keyBuilder = new StringBuilder();
 
     for (int i = 0; i < length; i++) {

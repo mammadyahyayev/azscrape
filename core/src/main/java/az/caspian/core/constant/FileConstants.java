@@ -1,10 +1,12 @@
 package az.caspian.core.constant;
 
+import az.caspian.core.AzScrapeAppException;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class FileConstants {
+public final class FileConstants {
   public static final Path APP_PATH = Path.of(System.getProperty("user.home"), ".azscrape");
   public static final Path BACKUP_FILES_PATH = APP_PATH.resolve("backups");
   public static final Path IDENTITY_FILE_PATH = APP_PATH.resolve("identity.properties");
@@ -23,8 +25,12 @@ public class FileConstants {
       Path tempDir = Files.createTempDirectory("__exported_files__");
       return tempDir.toString();
     } catch (IOException e) {
-      throw new RuntimeException("Failed to create temp directory: " + e.getMessage());
+      throw new AzScrapeAppException("Failed to create temp directory: " + e.getMessage());
     }
+  }
+
+  private FileConstants() {
+
   }
 
 }

@@ -16,7 +16,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.util.List;
 
 public class WebBrowser implements AutoCloseable {
-  private static final Logger LOG = LogManager.getLogger(WebPage.class);
+  private static final Logger LOG = LogManager.getLogger(WebBrowser.class);
 
   private final WebDriver driver;
   private boolean isOpen;
@@ -32,9 +32,6 @@ public class WebBrowser implements AutoCloseable {
     capabilities.setCapability(ChromeOptions.CAPABILITY, chromeOptions);
     chromeOptions.merge(capabilities);
     driver = new ChromeDriver(chromeDriverService, chromeOptions);
-  }
-
-  public WebBrowser() {
   }
 
   /**

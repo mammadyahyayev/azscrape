@@ -11,7 +11,7 @@ public class FooterPanel extends JPanel {
     this.setBackground(Colors.BASE_BTN_BG_COLOR);
 
     JLabel footerLabel = new JLabel("Copyright - Mammad Yahyayev");
-    footerLabel.setHorizontalTextPosition(JLabel.CENTER);
+    footerLabel.setHorizontalTextPosition(SwingConstants.CENTER);
     footerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
     footerLabel.setForeground(Color.WHITE);
 

@@ -25,13 +25,13 @@ public class TaskManager {
       if (isShared) sharedTasks++;
     }
 
-    LOG.info(sharedTasks + " out of " + tasks.size() + " tasks shared with clients!");
+    LOG.info("{} out of {} tasks shared with clients!", sharedTasks, tasks.size());
   }
 
   public void executeTask(Task task) {
     ScrapeTemplate template = task.getTemplate();
     DataTable dataTable = templateExecutor.executeTemplate(template);
-    System.out.println(dataTable);
+    LOG.info("DataTable: {}", dataTable);
   }
 
 }

@@ -73,7 +73,4 @@ public class Server {
   private void parseMessage(ShortMessage message) {
     clientService.handleShortMessage(message);
   }
-
-  //TODO: projectOwnerIpAddress is required to send data to server, in our case server will
-  // be projectOwner.
 }

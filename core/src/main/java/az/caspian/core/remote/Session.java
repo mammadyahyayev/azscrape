@@ -66,7 +66,7 @@ public final class Session {
   public static void setCurrentProject(Project project) {
     Asserts.required(project, "project cannot be null!");
     Session.project = project;
-    LOG.info(project.getName() + " set in the current session.");
+    LOG.info("{} set in the current session.", project.getName());
   }
 
   public static String getServerIpAddress() {

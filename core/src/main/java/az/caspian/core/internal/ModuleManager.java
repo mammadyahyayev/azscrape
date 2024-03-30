@@ -22,7 +22,7 @@ public final class ModuleManager {
       var reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
       String output;
       while ((output = reader.readLine()) != null) {
-        System.out.println(output);
+        LOG.debug("Output: {}", output);
       }
     } catch (IOException e) {
       LOG.error("Failed to run server module!");

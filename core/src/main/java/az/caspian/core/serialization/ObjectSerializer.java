@@ -11,6 +11,10 @@ import java.util.Objects;
 public final class ObjectSerializer {
   private static final Logger LOG = LogManager.getLogger(ObjectSerializer.class);
 
+  private ObjectSerializer() {
+
+  }
+
   public static byte[] serialize(Object obj) {
     Objects.requireNonNull(obj, "Cannot serialize null object!");
 

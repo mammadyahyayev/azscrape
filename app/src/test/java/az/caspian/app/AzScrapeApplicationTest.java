@@ -2,6 +2,7 @@ package az.caspian.app;
 
 import az.caspian.core.constant.TestConstants;
 import az.caspian.core.io.DefaultFileSystem;
+import az.caspian.core.messaging.Client;
 import az.caspian.core.model.DataFile;
 import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.task.Task;
@@ -11,6 +12,7 @@ import az.caspian.export.ExcelExporter;
 import az.caspian.export.Exporter;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
+import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.Scraper;
 import az.caspian.scrape.templates.multiurl.MultiUrlTemplate;
 import az.caspian.scrape.templates.multiurl.MultiUrlTemplateParameters;
@@ -35,11 +37,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.*;
 
 import static az.caspian.scrape.templates.pagination.PageParameters.PAGE_SPECIFIER;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AzScrapeApplicationTest {
   @Test
@@ -86,6 +88,9 @@ class AzScrapeApplicationTest {
         .build();
 
     excelExporter.export(dataFile, table);
+
+    assertNotNull(table);
+    assertFalse(table.rows().isEmpty());
   }
 
   @Test
@@ -158,6 +163,8 @@ class AzScrapeApplicationTest {
       .build();
 
     excelExporter.export(reportFile, table);
+    assertNotNull(table);
+    assertFalse(table.rows().isEmpty());
   }
 
   @Test
@@ -195,6 +202,8 @@ class AzScrapeApplicationTest {
         .build();
 
     excelExporter.export(dataFile, table);
+    assertNotNull(table);
+    assertFalse(table.rows().isEmpty());
   }
 
   @Test
@@ -226,7 +235,6 @@ class AzScrapeApplicationTest {
   }
 
   void callback(String message, DataTable data) {
-    System.out.println(message);
     ExcelExporter excelExporter = new ExcelExporter();
 
     DataFile dataFile =
@@ -288,6 +296,8 @@ class AzScrapeApplicationTest {
         .build();
 
     excelExporter.export(dataFile, table);
+    assertNotNull(table);
+    assertFalse(table.rows().isEmpty());
   }
 
   @Test
@@ -339,6 +349,8 @@ class AzScrapeApplicationTest {
       .build();
 
     csvExporter.export(dataFile, table);
+    assertNotNull(table);
+    assertFalse(table.rows().isEmpty());
   }
 
   // TODO: 2509 - bina.az https://bina.az/alqi-satqi?page=2509
@@ -418,6 +430,8 @@ class AzScrapeApplicationTest {
       .build();
 
     csvExporter.export(dataFile, table);
+    assertNotNull(table);
+    assertFalse(table.rows().isEmpty());
   }
 
   static class TaskExecutor implements Callable<DataTable> {
@@ -485,6 +499,8 @@ class AzScrapeApplicationTest {
     }
 
     writeUrlsToFile(urls);
+    assertNotNull(urls);
+    assertFalse(urls.isEmpty());
   }
 
   private void writeUrlsToFile(List<String> urls) throws IOException {
@@ -534,7 +550,7 @@ class AzScrapeApplicationTest {
 
   public void handleFailure(String reasonForFailure, DataTable table) {
     System.out.println("Program crashed because of -> " + reasonForFailure);
-    exportDataToExcel("failed_data", table);
+    exportDataToExcel("failed_data-" + new Random().nextInt(), table);
   }
 
   public void exportDataToExcel(String filename, DataTable table) {
@@ -549,6 +565,72 @@ class AzScrapeApplicationTest {
       .build();
 
     excelExporter.export(dataFile, table);
+  }
+
+  @Test
+  void testScrapingAmazonBooksInParallel() throws ExecutionException, InterruptedException {
+    MultiUrlTemplateParameters templateParameters = new MultiUrlTemplateParameters.Builder()
+      .urlSource(Path.of("C:/Users/Admin/Desktop/urls3.txt"))
+      .delayBetweenUrls(5, TimeUnit.SECONDS)
+      .build();
+
+    DataNode bookTitle = new DataNode("book", "#productTitle");
+    DataNode bookDescription = new DataNode("description", "#bookDescription_feature_div");
+    DataNode authorBio = new DataNode("author_bio", "#editorialReviews_feature_div");
+
+    var propertyWrapper = new ListNode("wrapper", "#detailBullets_feature_div .a-list-item");
+    var properties =
+      new KeyValueDataNode("#detailBullets_feature_div .a-list-item > span:first-child",
+        "#detailBullets_feature_div .a-list-item > span:last-child");
+    propertyWrapper.addChild(properties);
+
+    DataTree<Node> tree = new DataTree<>();
+    tree.addNode(bookTitle);
+    tree.addNode(bookDescription);
+    tree.addNode(authorBio);
+    tree.addNode(propertyWrapper);
+
+    var template = new MultiUrlTemplate(templateParameters, tree);
+    var fakeClients = List.of(new Client(), new Client(), new Client());
+    List<Task> tasks = template.split("amazon_book_scraping", fakeClients);
+
+    List<MultiUrlTemplateTaskExecutor> executors = tasks.stream()
+      .map((task) -> new MultiUrlTemplateTaskExecutor(task, this::handleFailure))
+      .toList();
+
+    ExecutorService executorService = Executors.newFixedThreadPool(executors.size());
+    List<Future<DataTable>> futures = executorService.invokeAll(executors);
+
+    DataTable table = new DataTable();
+    for (Future<DataTable> future : futures) {
+      DataTable dataTable = future.get();
+      table.addAll(dataTable.rows());
+    }
+
+    exportDataToExcel("books", table);
+    assertNotNull(table);
+    assertFalse(table.rows().isEmpty());
+  }
+
+  static class MultiUrlTemplateTaskExecutor implements Callable<DataTable> {
+    private final Task task;
+    private final ScrapeErrorCallback callback;
+
+    MultiUrlTemplateTaskExecutor(Task task, ScrapeErrorCallback callback) {
+      this.task = task;
+      this.callback = callback;
+    }
+
+    @Override
+    public DataTable call() {
+      MultiUrlTemplate template = (MultiUrlTemplate) task.getTemplate();
+      var scraper = new MultiUrlTemplateScraper(callback);
+      DataTable table = scraper.scrape(template);
+      System.out.printf("""
+        Task %s, completed its job and it collects %d rows.\s
+        """, task.getId(), table.rows().size());
+      return table;
+    }
   }
 
 }

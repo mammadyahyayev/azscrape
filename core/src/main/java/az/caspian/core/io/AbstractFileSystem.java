@@ -29,7 +29,7 @@ public abstract class AbstractFileSystem implements FileSystem {
    */
   private static final char FILE_NAME_DELIMITER = '_';
 
-  public AbstractFileSystem() {
+  protected AbstractFileSystem() {
   }
 
   /**
@@ -37,11 +37,11 @@ public abstract class AbstractFileSystem implements FileSystem {
    */
   @Override
   public File createFile(Path path) {
-    Asserts.required(path, "path cannot be null!");
+    checkPathNotNull(path);
 
     try {
       if (Files.exists(path)) {
-        throw new FileAlreadyExistsException("Given path [ " + path + " ] is already exist!");
+        throw new FileAlreadyExistsException("Path [ " + path + " ] is already exist!");
       }
       Files.createFile(path);
     } catch (IOException e) {
@@ -57,7 +57,7 @@ public abstract class AbstractFileSystem implements FileSystem {
    */
   @Override
   public File createFileIfNotExist(Path path) {
-    Asserts.required(path, "path cannot be null!");
+    checkPathNotNull(path);
 
     if (Files.exists(path)) {
       if (Files.isRegularFile(path)) {
@@ -69,7 +69,7 @@ public abstract class AbstractFileSystem implements FileSystem {
 
     try {
       Files.createFile(path);
-      LOG.debug("File " + path + " is created...");
+      LOG.debug("File {} is created...", path);
     } catch (IOException e) {
       LOG.error("Couldn't create file with {}", path);
       throw new AzScrapeAppException("Couldn't create file with [ " + path + " ]", e);
@@ -83,7 +83,7 @@ public abstract class AbstractFileSystem implements FileSystem {
    */
   @Override
   public File createDirectory(Path path) {
-    Asserts.required(path, "path cannot be null!");
+    checkPathNotNull(path);
 
     try {
       if (Files.exists(path)) {
@@ -104,7 +104,7 @@ public abstract class AbstractFileSystem implements FileSystem {
    */
   @Override
   public File createDirectoryIfNotExist(Path path) {
-    Asserts.required(path, "path cannot be null!");
+    checkPathNotNull(path);
 
     try {
       if (Files.exists(path)) {
@@ -160,7 +160,7 @@ public abstract class AbstractFileSystem implements FileSystem {
    */
   @Override
   public File getFile(Path path) {
-    Asserts.required(path, "path cannot be null!");
+    checkPathNotNull(path);
 
     if (Files.exists(path) && Files.isReadable(path)) {
       return path.toFile();
@@ -174,7 +174,7 @@ public abstract class AbstractFileSystem implements FileSystem {
    */
   @Override
   public boolean deleteFile(Path path) {
-    Asserts.required(path, "path cannot be null!");
+    checkPathNotNull(path);
 
     try {
       return Files.deleteIfExists(path);
@@ -189,7 +189,17 @@ public abstract class AbstractFileSystem implements FileSystem {
    */
   @Override
   public boolean isFileExist(Path path) {
-    Asserts.required(path, "path cannot be null!");
+    checkPathNotNull(path);
     return Files.exists(path);
+  }
+
+  /**
+   * Helper method to check given {@link Path} is not null. It is created to avoid duplications of checking
+   * in each method.
+   *
+   * @param path path of file
+   */
+  private static void checkPathNotNull(Path path) {
+    Asserts.required(path, "path cannot be null!");
   }
 }

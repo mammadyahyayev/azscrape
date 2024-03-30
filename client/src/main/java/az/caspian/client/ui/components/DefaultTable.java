@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class DefaultTable extends JTable {
   private final String[] columnNames;
-  private final Object[][] data;
+  private final transient Object[][] data;
 
   public DefaultTable(Class<? extends Enum<? extends TableColumn>> enumClass, Object[][] data) {
     super(data, TableColumn.columnNames(enumClass));

@@ -12,7 +12,7 @@ import java.nio.file.Path;
  * A temporary folder, responsible to store exported files
  */
 public class TempFolder {
-    private static final Logger LOG = LogManager.getLogger(ExcelExporter.class);
+    private static final Logger LOG = LogManager.getLogger(TempFolder.class);
 
     private static final String TEMP_FILE_NAME = "__exports__";
     private Path tempDirPath;
@@ -75,7 +75,6 @@ public class TempFolder {
      * Deletes temp folder
      */
     public boolean deleteOnExit() {
-        //TODO: delete file inside of temp folder, then delete temp folder itself
         try {
             Files.deleteIfExists(this.tempDirPath);
             LOG.debug("Temp folder {} deleted successfully", this.tempDirPath);

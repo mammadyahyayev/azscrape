@@ -8,11 +8,11 @@ import java.util.List;
  * @param <N> A node
  */
 public interface Tree<N> {
-    enum NodeType {
-        DATA, PARENT, KEY_VALUE, LINK, LIST
-    }
+  enum NodeType {
+    DATA, PARENT, KEY_VALUE, LINK, LIST
+  }
 
-    void addNode(N node);
+  void addNode(N node);
 
-    List<N> nodes();
+  List<N> nodes();
 }

@@ -11,7 +11,7 @@ public class HeaderPanel extends JPanel {
     this.setBackground(Colors.BASE_BG_COLOR);
 
     JLabel headerLabel = new JLabel("AZScrape");
-    headerLabel.setHorizontalTextPosition(JLabel.CENTER);
+    headerLabel.setHorizontalTextPosition(SwingConstants.CENTER);
     headerLabel.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
     headerLabel.setForeground(Color.WHITE);
 

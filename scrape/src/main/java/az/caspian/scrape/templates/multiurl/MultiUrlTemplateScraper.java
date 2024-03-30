@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 public class MultiUrlTemplateScraper extends AbstractScrapeTemplate<MultiUrlTemplate> {
-  private static final Logger LOG = LogManager.getLogger(WebPage.class);
+  private static final Logger LOG = LogManager.getLogger(MultiUrlTemplateScraper.class);
   private final ScrapedDataCollector collector = new ScrapedDataCollector();
 
   public MultiUrlTemplateScraper() {

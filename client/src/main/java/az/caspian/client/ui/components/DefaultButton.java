@@ -13,8 +13,8 @@ public class DefaultButton extends JButton implements SpaceAdjuster {
     this.setText(title);
     this.setFocusable(false);
     this.setFont(Fonts.SANS_SERIF_BOLD_14);
-    this.setVerticalAlignment(JButton.CENTER);
-    this.setHorizontalAlignment(JButton.CENTER);
+    this.setVerticalAlignment(SwingConstants.CENTER);
+    this.setHorizontalAlignment(SwingConstants.CENTER);
     this.setSize(100, 200);
     this.setBackground(Colors.BASE_BTN_BG_COLOR);
     this.setForeground(Color.WHITE);

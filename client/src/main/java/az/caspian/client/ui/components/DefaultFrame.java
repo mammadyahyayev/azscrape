@@ -10,7 +10,7 @@ public class DefaultFrame extends JFrame {
   protected DefaultFrame() {
     this.setTitle(UiConstants.MAIN_FRAME_TITLE);
     this.setResizable(false);
-    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.setLayout(new BorderLayout());
     this.getContentPane().setBackground(Colors.BASE_BG_COLOR);
     this.setSize(500, 400);

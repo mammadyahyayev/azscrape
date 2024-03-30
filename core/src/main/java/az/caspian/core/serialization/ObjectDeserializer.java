@@ -11,6 +11,10 @@ import java.io.ObjectInputStream;
 public final class ObjectDeserializer {
   private static final Logger LOG = LogManager.getLogger(ObjectDeserializer.class);
 
+  private ObjectDeserializer() {
+
+  }
+
   public static Object deserialize(byte[] bytes) {
     if (bytes == null || bytes.length == 0) {
       throw new IllegalArgumentException("Cannot deserialize from null or empty bytes!");

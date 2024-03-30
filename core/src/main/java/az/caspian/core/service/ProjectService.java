@@ -36,7 +36,7 @@ public class ProjectService {
         .map(file -> file.getFileName().toString())
         .toList();
     } catch (IOException e) {
-      LOG.error("Failed to read files from " + FileConstants.APP_PATH);
+      LOG.error("Failed to read files from {}", FileConstants.APP_PATH);
     }
 
     return Collections.emptyList();
@@ -134,14 +134,14 @@ public class ProjectService {
     try {
       List<Client> attendants = Files.readAllLines(attendantsFilePath)
         .stream()
-        .map((fullName) -> {
+        .map(fullName -> {
           String[] fullNameSplit = fullName.split(" ");
           return new Client(fullNameSplit[0], fullNameSplit[1]);
         })
         .toList();
       project.setAttendants(attendants);
     } catch (IOException e) {
-      LOG.error("Failed to read attendants from " + attendantsFilePath);
+      LOG.error("Failed to read attendants from {}", attendantsFilePath);
     }
   }
 }

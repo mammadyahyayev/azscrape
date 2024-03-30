@@ -8,8 +8,6 @@ import java.util.Optional;
 public class DataTree<N extends Node> implements Tree<N> {
   private final List<N> nodes = new ArrayList<>();
 
-  public DataTree() {}
-
   @Override
   public List<N> nodes() {
     return Collections.unmodifiableList(nodes);
