@@ -38,6 +38,31 @@
 
 - Kill application on 9090 port after terminating program (Research awaitTermination).
 
+- Create a Web App for UI to manage all the tasks, configurations, clients connections and so on.
+There will be listeners, notifications for clients to manage app better way. This way we can easily create UI by using
+some of the powerful libraries in frontend.
+
+- Make it possible for templates to be divided for only one client, in order to execute them with Threads internally.
+
+- Add Human interaction Node where application will wait indefinitely until human clicking a button called Continue.
+This is useful for websites that you want to populate passwords, some credentials or simplify process of scraping
+(Example on Amazon, there was security concerns that you have to provide recaptcha). In these cases, notification
+pop up will be appeared on Web App UI to tell the Client Human Interaction required...
+
+- Problem: Either collecting data or exporting to CSV slipped column names and values
+
+- Handle NoSuchElementException of Selenium differently. Because it prints huge exception message.
+
+- Add tryCount or timeout for elements on UI maybe element will be loaded lately. TimeOut can be described as Node to
+put it between other nodes.
+
+- Add actions as Node, those will be executed in order. For instance scrape data, then click the dropdown menu button
+in this case there will be Action node which accepts selectors, action object (mouse click, hover) and so on.
+
+- Create Node flow that will be executed in order.
+
+- Design Configuration file which is specific to AZScrape.
+
 - [UPCOMING] Create an enum for shared flag arguments between clients and server.
 Example:
 FLAG_PROJECT(flag_short, flag_long)
@@ -51,3 +76,8 @@ Example:
 [22-04-2024T13:34:15] jack joined to 'hospital' project
 [22-04-2024T13:44:28] jack-task#12 assigned to jack
 [22-04-2024T13:56:32] jack completed jack-task#12 in 5:04 minutes
+
+
+AZScrape Logo Ideas
+
+Scrape keywords pulling AZ letters and those letters will be seen as distorted.
