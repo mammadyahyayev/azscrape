@@ -2,11 +2,9 @@ package az.caspian.scrape;
 
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
-import az.caspian.core.tree.DataNode;
-import az.caspian.core.tree.KeyValueDataNode;
-import az.caspian.core.tree.ListNode;
-import az.caspian.core.tree.Node;
+import az.caspian.core.tree.*;
 import az.caspian.core.utils.Asserts;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -37,6 +35,44 @@ public class ScrapedDataCollector {
 
     row.addColumns(columns);
     return row;
+  }
+
+  public List<DataRow> collectListNodes(List<Node> nodes, WebPage page) {
+    ListNode listNode = (ListNode) nodes.get(0);
+
+    List<DataRow> dataRows = new ArrayList<>();
+
+    Optional<LinkNode> linkNode = listNode.getChildren().stream()
+      .filter(Node::isLinkNode)
+      .map(LinkNode.class::cast)
+      .findFirst();
+
+    while (true) {
+      List<WebElement> webElements = page.fetchWebElements(listNode.getSelector());
+      for (WebElement webElement : webElements) {
+        DataRow dataRow = collect(listNode.getChildren(), webElement);
+        dataRows.add(dataRow);
+      }
+
+      if (linkNode.isEmpty()) {
+        break;
+      }
+
+      Optional<WebElement> webElement = page.fetchWebElement(linkNode.get().getSelector());
+      if (webElement.isEmpty()) {
+        break;
+      }
+
+      webElement.get().click();
+
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e) {
+        // ignore
+      }
+    }
+
+    return dataRows;
   }
 
   public DataRow collect(List<Node> nodes, WebElement element) {
@@ -86,7 +122,7 @@ public class ScrapedDataCollector {
     List<DataColumn> columns = new ArrayList<>();
     List<WebElement> webElements = page.fetchWebElements(listNode.getSelector());
     webElements.forEach(
-        webElement -> columns.addAll(collect(listNode.getChildren(), webElement).columns()));
+      webElement -> columns.addAll(collect(listNode.getChildren(), webElement).columns()));
     return columns;
   }
 }

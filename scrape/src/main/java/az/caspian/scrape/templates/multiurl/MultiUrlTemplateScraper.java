@@ -78,9 +78,8 @@ public class MultiUrlTemplateScraper extends AbstractScrapeTemplate<MultiUrlTemp
       WebPage page = browser.goTo(url.toString(), delayBetweenUrls);
 
       var nodes = template.getTree().nodes();
-      DataRow dataRow = collector.collect(nodes, page);
-      dataRow.addColumn(new DataColumn("link", strUrl));
-      dataRows.add(dataRow);
+      List<DataRow> collectedDataRows = collector.collectListNodes(nodes, page);
+      dataRows.addAll(collectedDataRows);
 
       LOG.debug("Data scraped from url: {}", strUrl);
     } catch (MalformedURLException e) {

@@ -568,6 +568,7 @@ class AzScrapeApplicationTest {
   }
 
   @Test
+  @Tag(TestConstants.LONG_LASTING_TEST)
   void testScrapingAmazonBooksInParallel() throws ExecutionException, InterruptedException {
     MultiUrlTemplateParameters templateParameters = new MultiUrlTemplateParameters.Builder()
       .urlSource(Path.of("C:/Users/Admin/Desktop/urls3.txt"))
@@ -608,6 +609,61 @@ class AzScrapeApplicationTest {
     }
 
     exportDataToExcel("books", table);
+    assertNotNull(table);
+    assertFalse(table.rows().isEmpty());
+  }
+
+  @Test
+  @Tag(TestConstants.LONG_LASTING_TEST)
+  void scrapeComments() throws InterruptedException, ExecutionException {
+    MultiUrlTemplateParameters templateParameters = new MultiUrlTemplateParameters.Builder()
+      .urlSource(Path.of("C:/Users/Admin/Desktop/urls-for-comments1.txt"))
+      .delayBetweenUrls(5, TimeUnit.SECONDS)
+      .build();
+
+    //TODO: allow adding multiple selectors for one element so it will try every one of them until it find an element
+    // or use regex to define selectors
+
+    // title of comment: .review-title-content > span:last-child
+    // rating of comment: .review-rating
+    // comment: .review-text-content > span
+
+    var listNode = new ListNode("parent", "div[data-hook=\"review\"]");
+
+    DataNode commentTitle = new DataNode("comment_title", ".review-title-content > span:last-child");
+    DataNode commentRating = new DataNode("comment_rating", "span.a-icon-alt");
+    DataNode comment = new DataNode("comment", ".review-text-content > span");
+    DataNode bookTitle = new DataNode("book", "h1.a-size-large a");
+
+    LinkNode linkNode = new LinkNode("nextPageForComments", ".a-last a");
+
+    listNode.addChild(commentTitle);
+    listNode.addChild(commentRating);
+    listNode.addChild(comment);
+    listNode.addChild(bookTitle);
+    listNode.addChild(linkNode);
+
+    DataTree<Node> tree = new DataTree<>();
+    tree.addNode(listNode);
+
+    var template = new MultiUrlTemplate(templateParameters, tree);
+    var fakeClients = List.of(new Client(), new Client(), new Client());
+    List<Task> tasks = template.split("amazon_book_comment_scraping", fakeClients);
+
+    List<MultiUrlTemplateTaskExecutor> executors = tasks.stream()
+      .map((task) -> new MultiUrlTemplateTaskExecutor(task, this::handleFailure))
+      .toList();
+
+    ExecutorService executorService = Executors.newFixedThreadPool(1);
+    List<Future<DataTable>> futures = executorService.invokeAll(executors);
+
+    DataTable table = new DataTable();
+    for (Future<DataTable> future : futures) {
+      DataTable dataTable = future.get();
+      table.addAll(dataTable.rows());
+    }
+
+    exportDataToExcel("comments", table);
     assertNotNull(table);
     assertFalse(table.rows().isEmpty());
   }

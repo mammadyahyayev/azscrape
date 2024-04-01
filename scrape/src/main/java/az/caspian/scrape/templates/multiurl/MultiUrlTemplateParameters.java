@@ -51,7 +51,7 @@ public class MultiUrlTemplateParameters {
 
       boolean isExist = Files.exists(urlSourceFilePath);
       if (!isExist || Files.isDirectory(urlSourceFilePath)) {
-        throw new TemplateException("Path isn't exist or it is a directory",
+        throw new TemplateException("Path %s isn't exist or it is a directory".formatted(urlSourceFilePath),
           new FileNotFoundException("URL sources file %s not found".formatted(urlSourceFilePath)));
       }
 
