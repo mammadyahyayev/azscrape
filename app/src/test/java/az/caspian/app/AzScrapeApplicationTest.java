@@ -617,7 +617,7 @@ class AzScrapeApplicationTest {
   @Tag(TestConstants.LONG_LASTING_TEST)
   void scrapeComments() throws InterruptedException, ExecutionException {
     MultiUrlTemplateParameters templateParameters = new MultiUrlTemplateParameters.Builder()
-      .urlSource(Path.of("C:/Users/Admin/Desktop/urls-for-comments1.txt"))
+      .urlSource(Path.of("C:/Users/Admin/Desktop/urls-for-comments3.txt"))
       .delayBetweenUrls(5, TimeUnit.SECONDS)
       .build();
 
@@ -647,14 +647,14 @@ class AzScrapeApplicationTest {
     tree.addNode(listNode);
 
     var template = new MultiUrlTemplate(templateParameters, tree);
-    var fakeClients = List.of(new Client(), new Client(), new Client());
+    var fakeClients = List.of(new Client(), new Client(), new Client(), new Client());
     List<Task> tasks = template.split("amazon_book_comment_scraping", fakeClients);
 
     List<MultiUrlTemplateTaskExecutor> executors = tasks.stream()
       .map((task) -> new MultiUrlTemplateTaskExecutor(task, this::handleFailure))
       .toList();
 
-    ExecutorService executorService = Executors.newFixedThreadPool(1);
+    ExecutorService executorService = Executors.newFixedThreadPool(tasks.size());
     List<Future<DataTable>> futures = executorService.invokeAll(executors);
 
     DataTable table = new DataTable();

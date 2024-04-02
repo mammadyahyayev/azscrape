@@ -25,7 +25,16 @@ public class HtmlElement {
   public String getElement(final String cssSelector) {
     try {
       WebElement element = webElement.findElement(By.cssSelector(cssSelector));
-      return element != null ? element.getText() : null;
+      if (element == null) {
+        return null;
+      }
+
+      String text = element.getText();
+      if (text == null || text.isEmpty()) {
+        text = element.getAttribute("innerText");
+      }
+
+      return text;
     } catch (NoSuchElementException e) {
       // Ignore: It is highly possible that this exception will throw on web pages.
       return null;
