@@ -2,7 +2,6 @@ package az.caspian.app;
 
 import az.caspian.core.constant.TestConstants;
 import az.caspian.core.io.DefaultFileSystem;
-import az.caspian.core.messaging.Client;
 import az.caspian.core.model.DataFile;
 import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.task.Task;
@@ -546,6 +545,7 @@ class AzScrapeApplicationTest {
     DataTable table = scraper.scrape(template);
 
     exportDataToExcel("books", table);
+    assertNotNull(table);
   }
 
   public void handleFailure(String reasonForFailure, DataTable table) {
@@ -592,8 +592,7 @@ class AzScrapeApplicationTest {
     tree.addNode(propertyWrapper);
 
     var template = new MultiUrlTemplate(templateParameters, tree);
-    var fakeClients = List.of(new Client(), new Client(), new Client());
-    List<Task> tasks = template.split("amazon_book_scraping", fakeClients);
+    List<Task> tasks = template.splitInternally("amazon_book_scraping");
 
     List<MultiUrlTemplateTaskExecutor> executors = tasks.stream()
       .map((task) -> new MultiUrlTemplateTaskExecutor(task, this::handleFailure))
@@ -647,8 +646,7 @@ class AzScrapeApplicationTest {
     tree.addNode(listNode);
 
     var template = new MultiUrlTemplate(templateParameters, tree);
-    var fakeClients = List.of(new Client(), new Client(), new Client(), new Client());
-    List<Task> tasks = template.split("amazon_book_comment_scraping", fakeClients);
+    List<Task> tasks = template.splitInternally("amazon_book_comment_scraping");
 
     List<MultiUrlTemplateTaskExecutor> executors = tasks.stream()
       .map((task) -> new MultiUrlTemplateTaskExecutor(task, this::handleFailure))

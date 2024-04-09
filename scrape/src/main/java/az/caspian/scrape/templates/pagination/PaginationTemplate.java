@@ -53,6 +53,17 @@ public class PaginationTemplate implements ScrapeTemplate, Splittable {
     };
   }
 
+  @Override
+  public List<Task> splitInternally(String taskName) {
+    return splitInternally(taskName, Runtime.getRuntime().availableProcessors());
+  }
+
+  @Override
+  public List<Task> splitInternally(String taskName, int taskCounts) {
+    //TODO: implement later
+    return null;
+  }
+
   private class EqualSplitStrategy {
     private static final int PAGE_COUNT_FOR_EACH = 3;
 

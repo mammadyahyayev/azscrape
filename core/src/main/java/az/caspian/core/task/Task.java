@@ -8,7 +8,7 @@ public class Task {
   private final String id;
   private final String name;
   private final ScrapeTemplate template;
-  private final Client assignee;
+  private Client assignee;
   private String description;
 
   public Task(String name, ScrapeTemplate template, Client assignee) {
@@ -35,6 +35,10 @@ public class Task {
 
   public ScrapeTemplate getTemplate() {
     return template;
+  }
+
+  public void setAssignee(Client assignee) {
+    this.assignee = assignee;
   }
 
   public Client getAssignee() {

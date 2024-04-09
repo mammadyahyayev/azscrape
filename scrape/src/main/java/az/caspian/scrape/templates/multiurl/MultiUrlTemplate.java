@@ -14,10 +14,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class MultiUrlTemplate implements ScrapeTemplate, Splittable {
@@ -46,7 +43,7 @@ public class MultiUrlTemplate implements ScrapeTemplate, Splittable {
 
   @Override
   public boolean supportParallelExecution() {
-    return false;
+    return true;
   }
 
   @Override
@@ -62,22 +59,43 @@ public class MultiUrlTemplate implements ScrapeTemplate, Splittable {
     };
   }
 
+  @Override
+  public List<Task> splitInternally(String taskName) {
+    return splitInternally(taskName, Runtime.getRuntime().availableProcessors());
+  }
+
+  @Override
+  public List<Task> splitInternally(String taskName, int taskCounts) {
+    return new MultiUrlTemplate.EqualSplitStrategy().splitEqually(taskName, taskCounts);
+  }
 
   private class EqualSplitStrategy {
     public List<Task> split(String taskName, List<Client> clients) {
-      List<Task> tasks = new ArrayList<>();
       if (clients.isEmpty()) {
-        return tasks;
+        return Collections.emptyList();
       }
+
+      return assignTasksToClients(taskName, clients);
+    }
+
+    private List<Task> assignTasksToClients(String taskName, List<Client> clients) {
+      List<Task> tasks = splitEqually(taskName, clients.size());
+      for (int i = 0; i < Math.min(tasks.size(), clients.size()); i++) {
+        tasks.get(i).setAssignee(clients.get(i));
+      }
+      return tasks;
+    }
+
+    public List<Task> splitEqually(String taskName, int taskCount) {
+      List<Task> tasks = new ArrayList<>();
       List<String> allUrls = new ArrayList<>(getAllUrls());
 
       int urlsCount = allUrls.size();
-      int totalClientsCount = clients.size();
-      int urlCountForEach = urlsCount / totalClientsCount;
-      int remainder = urlsCount % totalClientsCount;
+      int urlCountForEach = urlsCount / taskCount;
+      int remainder = urlsCount % taskCount;
 
       int currentIndex = 0;
-      for (Client client : clients) {
+      for (int i = 0; i < taskCount; i++) {
         int clientUrlsCount = urlCountForEach + (remainder > 0 ? 1 : 0);
 
         List<String> urls = allUrls.subList(currentIndex, currentIndex + clientUrlsCount);
@@ -88,7 +106,7 @@ public class MultiUrlTemplate implements ScrapeTemplate, Splittable {
           .build();
 
         var template = new MultiUrlTemplate(clientTemplateParameters, tree);
-        tasks.add(new Task(taskName, template, client));
+        tasks.add(new Task(taskName, template, null));
 
         currentIndex += urlCountForEach + (remainder > 0 ? 1 : 0);
         remainder--;

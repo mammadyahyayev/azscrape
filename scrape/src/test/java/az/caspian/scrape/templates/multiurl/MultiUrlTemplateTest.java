@@ -5,6 +5,7 @@ import az.caspian.core.task.Task;
 import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.core.template.SplitStrategy;
 import az.caspian.core.tree.DataTree;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -41,17 +42,42 @@ class MultiUrlTemplateTest {
       .toList();
 
     List<Task> tasks = template.split("Test", clients, SplitStrategy.EQUAL);
-
     assertEquals(clientCount, tasks.size());
+
     for (Task task : tasks) {
       ScrapeTemplate scrapeTemplate = task.getTemplate();
-      assertInstanceOf(MultiUrlTemplate.class, scrapeTemplate);
-
       var multiUrlTemplate = (MultiUrlTemplate) scrapeTemplate;
       var multiUrlTemplateParameters = multiUrlTemplate.getTemplateParameters();
-      assertNull(multiUrlTemplateParameters.getUrlSourceFilePath());
 
+      assertInstanceOf(MultiUrlTemplate.class, scrapeTemplate);
+      assertNull(multiUrlTemplateParameters.getUrlSourceFilePath());
       assertTrue(multiUrlTemplateParameters.getUrls().size() >= expectedLeastUrlCountForEachClient);
+    }
+  }
+
+  @Test
+  void testEqualSplitStrategyForInternalSplit() throws IOException {
+    Path filePath = createFileWithFakeUrls(0, 100);
+
+    var templateParameters = new MultiUrlTemplateParameters.Builder()
+      .urlSource(filePath)
+      .delayBetweenUrls(5, TimeUnit.SECONDS)
+      .build();
+
+    var template = new MultiUrlTemplate(templateParameters, new DataTree<>());
+
+    List<Task> tasks = template.splitInternally("Test");
+
+    assertEquals(Runtime.getRuntime().availableProcessors(), tasks.size());
+
+    for (Task task : tasks) {
+      ScrapeTemplate scrapeTemplate = task.getTemplate();
+      var multiUrlTemplate = (MultiUrlTemplate) scrapeTemplate;
+      var multiUrlTemplateParameters = multiUrlTemplate.getTemplateParameters();
+
+      assertNull(task.getAssignee());
+      assertInstanceOf(MultiUrlTemplate.class, scrapeTemplate);
+      assertNull(multiUrlTemplateParameters.getUrlSourceFilePath());
     }
   }
 

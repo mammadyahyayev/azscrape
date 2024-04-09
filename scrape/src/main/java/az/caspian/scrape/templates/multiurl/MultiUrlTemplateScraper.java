@@ -1,6 +1,5 @@
 package az.caspian.scrape.templates.multiurl;
 
-import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.DataTable;
 import az.caspian.scrape.ScrapedDataCollector;
