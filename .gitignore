@@ -175,3 +175,5 @@ logs
 
 # .txt files
 *references.txt
+
+*.iml
