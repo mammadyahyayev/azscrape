@@ -6,8 +6,8 @@ import az.caspian.core.model.DataFile;
 import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.task.Task;
 import az.caspian.core.tree.*;
-import az.caspian.export.CsvExporter;
-import az.caspian.export.ExcelExporter;
+import az.caspian.export.csv.CsvExporter;
+import az.caspian.export.excel.ExcelExporter;
 import az.caspian.export.Exporter;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
@@ -567,6 +567,22 @@ class AzScrapeApplicationTest {
     excelExporter.export(dataFile, table);
   }
 
+  public void exportDataToCsv(String filename, DataTable table) {
+    System.out.printf("table has %d rows", table.rows().size());
+
+    // TODO: Don't let user to define both exporter and file type, it might be conflict with each other
+    //  user forget to choose csv when he is using CsvExporter.
+    Exporter excelExporter = new CsvExporter();
+
+    DataFile dataFile = new DataFile.Builder()
+      .filename(filename)
+      .storeAt(Path.of("C:/Users/Admin/Desktop").toString())
+      .fileType(FileType.CSV)
+      .build();
+
+    excelExporter.export(dataFile, table);
+  }
+
   @Test
   @Tag(TestConstants.LONG_LASTING_TEST)
   void testScrapingAmazonBooksInParallel() throws ExecutionException, InterruptedException {
@@ -661,7 +677,7 @@ class AzScrapeApplicationTest {
       table.addAll(dataTable.rows());
     }
 
-    exportDataToExcel("comments", table);
+    exportDataToCsv("comments", table);
     assertNotNull(table);
     assertFalse(table.rows().isEmpty());
   }

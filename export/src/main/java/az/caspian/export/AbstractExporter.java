@@ -46,7 +46,7 @@ public abstract class AbstractExporter implements Exporter {
       dataFile.setStoreAt(FileConstants.TEMP_DIR_PATH);
     }
 
-    LOG.info("Constructed path for report file [ " + dataFile.getStoreAt() + " ]");
+    LOG.info("Constructed path for report file [{}] ", dataFile.getStoreAt());
     return constructReportFile(dataFile.getStoreAt(), dataFile);
   }
 }

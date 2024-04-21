@@ -1,4 +1,4 @@
-package az.caspian.export;
+package az.caspian.export.csv;
 
 import az.caspian.core.AzScrapeAppException;
 import az.caspian.core.model.DataColumn;
@@ -9,26 +9,28 @@ import az.caspian.core.utils.StringUtils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Path;
 import java.util.Set;
 
-public class CsvWriter implements Closeable {
+public class DefaultCsvWriter implements CsvWriter, Closeable {
   private final Writer writer;
   private static final char DEFAULT_CSV_DELIMITER = ',';
   private final char delimiter;
 
   private int cursorInRow = 0;
 
-  public CsvWriter(Writer writer) {
+  public DefaultCsvWriter(Writer writer) {
     this.writer = writer;
     this.delimiter = DEFAULT_CSV_DELIMITER;
   }
 
-  public CsvWriter(Writer writer, char delimiter) {
+  public DefaultCsvWriter(Writer writer, char delimiter) {
     this.writer = writer;
     this.delimiter = delimiter;
   }
 
-  public void writeData(DataTable data) {
+  @Override
+  public void writeData(DataTable data, Path filePath) {
     Set<String> columnNames = data.getColumnNames();
     columnNames.forEach(this::writeColumn);
 
