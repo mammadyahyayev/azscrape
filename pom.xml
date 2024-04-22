@@ -16,6 +16,7 @@
         <module>azscrape-api</module>
         <module>client</module>
         <module>server</module>
+        <module>client-ui</module>
     </modules>
 
     <name>azscrape</name>
