@@ -7,6 +7,7 @@
     <artifactId>azscrape</artifactId>
     <packaging>pom</packaging>
     <version>3.0.0-SNAPSHOT</version>
+
     <modules>
         <module>core</module>
         <module>app</module>
@@ -212,28 +213,11 @@
 
     <reporting>
         <plugins>
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>${maven.pmd.plugin.version}</version>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/site/pmd</outputDirectory>
-                </configuration>
-            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.plugin.version}</version>
             </plugin>
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>${maven.checkstyle.plugin.version}</version>
-                <configuration>
-                    <enableRulesSummary>false</enableRulesSummary>
-                    <configLocation>core/src/main/resources/checkstyle.xml</configLocation>
-                </configuration>
-            </plugin>-->
         </plugins>
     </reporting>
 
