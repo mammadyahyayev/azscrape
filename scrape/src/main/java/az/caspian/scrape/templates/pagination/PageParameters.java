@@ -55,7 +55,8 @@ public class PageParameters {
 
   private void buildPageUrl() {
     String url = this.pageUrl;
-    String queryParams = queryParameters.stream().map(param -> param.key() + "=" + param.value())
+    String queryParams = queryParameters.stream()
+      .map(param -> param.key() + "=" + param.value())
       .collect(Collectors.joining(QUERY_PARAM_SEPARATOR));
 
     if (pageSpecifier == null || pageSpecifier.type == PageSpecifierType.NOT_SET) {
@@ -63,35 +64,28 @@ public class PageParameters {
       pageSpecifier = pageSpecifierDetection.detect();
     }
 
-    if (pageSpecifier.type == PageSpecifierType.QUERY_PARAM) {
-      if (!queryParameters.isEmpty())
-        url += QUERY_PARAM_SEPARATOR + queryParams;
+    switch (pageSpecifier.type) {
+      case QUERY_PARAM -> url += (!queryParameters.isEmpty() ? (QUERY_PARAM_SEPARATOR + queryParams) : "");
+      case HASH_FRAGMENT -> {
+        String fragmentPart = url.substring(pageSpecifier.begin, pageSpecifier.end + 1);
 
-    } else if (pageSpecifier.type == PageSpecifierType.HASH_FRAGMENT) {
-      String fragmentPart = url.substring(pageSpecifier.begin, pageSpecifier.end + 1);
-
-      if (!queryParameters.isEmpty()) {
-        String queryParamsPart = url.substring(0, pageSpecifier.begin) + "?" + queryParams;
-        url = queryParamsPart + fragmentPart;
+        if (!queryParameters.isEmpty()) {
+          String queryParamsPart = url.substring(0, pageSpecifier.begin) + "?" + queryParams;
+          url = queryParamsPart + fragmentPart;
+        }
       }
-    } else {
-      if (!queryParameters.isEmpty())
-        url += "?" + queryParams;
+      default -> url += (!queryParameters.isEmpty() ? ("?" + queryParams) : "");
     }
 
     this.pageUrl = url;
   }
 
   public static class Builder {
+    private final List<QueryParameter> queryParameters = new ArrayList<>();
     private String pageUrl;
-    private final List<QueryParameter> queryParameters;
     private int startPage;
     private int endPage;
     private int delayBetweenPages;
-
-    {
-      queryParameters = new ArrayList<>();
-    }
 
     public Builder url(String url) {
       if (StringUtils.isNullOrEmpty(url)) {
@@ -105,8 +99,7 @@ public class PageParameters {
     public Builder pageNum(int page) {
       if (page < 0) {
         throw new IllegalArgumentException(
-          format("Page cannot be less than 0, page (%d)", page)
-        );
+          format("Page cannot be less than 0, page (%d)", page));
       }
 
       this.startPage = page;
@@ -117,9 +110,7 @@ public class PageParameters {
     public Builder pageRange(int minPage, int maxPage) {
       if (minPage < 0 || maxPage < 0 || minPage > maxPage) {
         throw new IllegalArgumentException(
-          format("Range must be greater or equal than 0 and minPage (%d) must be less than maxPage (%d)",
-            minPage, maxPage)
-        );
+          format("Range must be greater or equal than 0 and minPage (%d) must be less than maxPage (%d)", minPage, maxPage));
       }
 
       this.startPage = minPage;
@@ -138,9 +129,7 @@ public class PageParameters {
 
     public Builder queryParam(String key, String value) {
       if (StringUtils.isNullOrEmpty(key) || StringUtils.isNullOrEmpty(value)) {
-        throw new IllegalArgumentException(
-          format("key (%s) and value (%s) cannot be null or empty", key, value)
-        );
+        throw new IllegalArgumentException(format("key (%s) and value (%s) cannot be null or empty", key, value));
       }
 
       queryParameters.add(new QueryParameter(key, value));
@@ -176,8 +165,7 @@ public class PageParameters {
 
       if (begin == -1 || end == -1 || begin > end) {
         throw new IllegalArgumentException(
-          format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end)
-        );
+          format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end));
       }
 
       int pageSpecifierKey = url.indexOf(PAGE_SPECIFIER_KEY);

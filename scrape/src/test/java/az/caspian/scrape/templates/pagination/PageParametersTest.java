@@ -11,31 +11,30 @@ class PageParametersTest {
   @Test
   void testWithoutPageSpecifier() {
     var url = "https://www.example.com/products?page";
-    var illegalArgumentException =
-        assertThrows(
-            IllegalArgumentException.class, () -> new PageParameters.Builder().url(url).build());
+    var illegalArgumentException = assertThrows(IllegalArgumentException.class,
+      () -> new PageParameters.Builder().url(url).build());
 
     int begin = url.indexOf('{');
     int end = url.indexOf("}");
 
     assertEquals(
-        format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end),
-        illegalArgumentException.getMessage());
+      format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end),
+      illegalArgumentException.getMessage());
   }
 
   @Test
   void testWithoutEndingWrapperPageSpecifier() {
     var url = "https://www.example.com/products?page={";
     var illegalArgumentException =
-        assertThrows(
-            IllegalArgumentException.class, () -> new PageParameters.Builder().url(url).build());
+      assertThrows(
+        IllegalArgumentException.class, () -> new PageParameters.Builder().url(url).build());
 
     int begin = url.indexOf('{');
     int end = url.indexOf("}");
 
     assertEquals(
-        format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end),
-        illegalArgumentException.getMessage());
+      format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end),
+      illegalArgumentException.getMessage());
   }
 
   @Test
@@ -43,38 +42,36 @@ class PageParametersTest {
     var url = "https://www.example.com/products?page=}";
 
     var illegalArgumentException =
-        assertThrows(
-            IllegalArgumentException.class, () -> new PageParameters.Builder().url(url).build());
+      assertThrows(
+        IllegalArgumentException.class, () -> new PageParameters.Builder().url(url).build());
 
     int begin = url.indexOf('{');
     int end = url.indexOf("}");
 
     assertEquals(
-        format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end),
-        illegalArgumentException.getMessage());
+      format("Page specifier isn't configured correctly!, begin=%d, end=%d", begin, end),
+      illegalArgumentException.getMessage());
   }
 
   @Test
   void testWithoutPageSpecifierKey() {
     var url = "https://www.example.com/products?page={}";
-    var illegalArgumentException =
-        assertThrows(
-            IllegalArgumentException.class, () -> new PageParameters.Builder().url(url).build());
+    var illegalArgumentException = assertThrows(IllegalArgumentException.class,
+      () -> new PageParameters.Builder().url(url).build());
 
     int begin = url.indexOf('{');
     int pageKey = url.indexOf("pageNum");
     int end = url.indexOf("}");
 
     assertEquals(
-        format(
-            "Page specifier is in wrong place!, begin=%d, pageKey=%d, end=%d", begin, pageKey, end),
-        illegalArgumentException.getMessage());
+      format(
+        "Page specifier is in wrong place!, begin=%d, pageKey=%d, end=%d", begin, pageKey, end),
+      illegalArgumentException.getMessage());
   }
 
   @Test
   void testQueryParamSpecifierGiven() {
-    var pageParameters =
-        new PageParameters.Builder().url("https://www.example.com/products?page={pageNum}").build();
+    var pageParameters = new PageParameters.Builder().url("https://www.example.com/products?page={pageNum}").build();
 
     var pageUrl = pageParameters.getPageUrl(4);
 
@@ -83,12 +80,11 @@ class PageParametersTest {
 
   @Test
   void testQueryParamSpecifierGivenWithQueryParameters() {
-    var pageParameters =
-        new PageParameters.Builder()
-            .url("https://www.example.com/products?page={pageNum}")
-            .queryParam("q", "java")
-            .queryParam("type", "Repositories")
-            .build();
+    var pageParameters = new PageParameters.Builder()
+      .url("https://www.example.com/products?page={pageNum}")
+      .queryParam("q", "java")
+      .queryParam("type", "Repositories")
+      .build();
 
     var pageUrl = pageParameters.getPageUrl(4);
 
@@ -97,8 +93,7 @@ class PageParametersTest {
 
   @Test
   void testHashFragmentSpecifierGiven() {
-    var pageParameters =
-        new PageParameters.Builder().url("https://www.example.com/products#page={pageNum}").build();
+    var pageParameters = new PageParameters.Builder().url("https://www.example.com/products#page={pageNum}").build();
 
     var pageUrl = pageParameters.getPageUrl(4);
 
@@ -107,12 +102,11 @@ class PageParametersTest {
 
   @Test
   void testHashFragmentSpecifierGivenWithQueryParameters() {
-    var pageParameters =
-        new PageParameters.Builder()
-            .url("https://www.example.com/products#page={pageNum}")
-            .queryParam("q", "java")
-            .queryParam("type", "Repositories")
-            .build();
+    var pageParameters = new PageParameters.Builder()
+      .url("https://www.example.com/products#page={pageNum}")
+      .queryParam("q", "java")
+      .queryParam("type", "Repositories")
+      .build();
 
     var pageUrl = pageParameters.getPageUrl(4);
 
@@ -121,8 +115,7 @@ class PageParametersTest {
 
   @Test
   void testUrlPathSpecifierGiven() {
-    var pageParameters =
-        new PageParameters.Builder().url("https://www.example.com/{pageNum}").build();
+    var pageParameters = new PageParameters.Builder().url("https://www.example.com/{pageNum}").build();
 
     var pageUrl = pageParameters.getPageUrl(4);
 
@@ -131,12 +124,11 @@ class PageParametersTest {
 
   @Test
   void testUrlPathSpecifierGivenWithQueryParameters() {
-    var pageParameters =
-        new PageParameters.Builder()
-            .url("https://www.example.com/{pageNum}")
-            .queryParam("q", "java")
-            .queryParam("type", "Repositories")
-            .build();
+    var pageParameters = new PageParameters.Builder()
+      .url("https://www.example.com/{pageNum}")
+      .queryParam("q", "java")
+      .queryParam("type", "Repositories")
+      .build();
 
     var pageUrl = pageParameters.getPageUrl(4);
 
