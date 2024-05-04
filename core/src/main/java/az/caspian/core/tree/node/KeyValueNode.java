@@ -1,11 +1,11 @@
 package az.caspian.core.tree.node;
 
-public class KeyValueDataNode extends Node {
+public class KeyValueNode extends Node {
   private final String keySelector;
   private final String valueSelector;
   private String value;
 
-  public KeyValueDataNode(String keySelector, String valueSelector) {
+  public KeyValueNode(String keySelector, String valueSelector) {
     this.keySelector = keySelector;
     this.valueSelector = valueSelector;
   }

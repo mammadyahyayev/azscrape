@@ -32,7 +32,7 @@ class PaginationItemVisitorScraperTest {
 
     var properties = new ParentNode("key value wrapper", ".product-properties__i");
     var propertiesKeyValue =
-        new KeyValueDataNode(".product-properties__i-name", ".product-properties__i-value");
+        new KeyValueNode(".product-properties__i-name", ".product-properties__i-value");
     properties.addChild(propertiesKeyValue);
 
     linkNode.addChild(carNode);

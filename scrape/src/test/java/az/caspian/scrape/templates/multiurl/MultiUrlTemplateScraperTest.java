@@ -2,7 +2,7 @@ package az.caspian.scrape.templates.multiurl;
 
 import az.caspian.core.tree.*;
 import az.caspian.core.tree.node.DataNode;
-import az.caspian.core.tree.node.KeyValueDataNode;
+import az.caspian.core.tree.node.KeyValueNode;
 import az.caspian.core.tree.node.ListNode;
 import az.caspian.core.tree.node.Node;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ class MultiUrlTemplateScraperTest {
 
     var propertyWrapper = new ListNode("wrapper", ".product-properties__i");
     var properties =
-      new KeyValueDataNode(".product-properties__i-name", ".product-properties__i-value");
+      new KeyValueNode(".product-properties__i-name", ".product-properties__i-value");
     propertyWrapper.addChild(properties);
 
     link.addChild(carNode);

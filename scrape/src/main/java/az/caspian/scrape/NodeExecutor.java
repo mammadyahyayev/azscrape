@@ -59,7 +59,7 @@ public class NodeExecutor {
       .orElse(null);
   }
 
-  public @Nullable DataColumn executeKeyValueNode(KeyValueDataNode keyValueNode, WebPage page) {
+  public @Nullable DataColumn executeKeyValueNode(KeyValueNode keyValueNode, WebPage page) {
     String column = page.fetchElementAsText(keyValueNode.getKeySelector());
     String value = page.fetchElementAsText(keyValueNode.getValueSelector());
 
@@ -70,7 +70,7 @@ public class NodeExecutor {
     return new DataColumn(column, value);
   }
 
-  public @Nullable DataColumn executeKeyValueNode(KeyValueDataNode keyValueNode, WebElement element) {
+  public @Nullable DataColumn executeKeyValueNode(KeyValueNode keyValueNode, WebElement element) {
     WebElement keyElement = element.findElement(By.cssSelector(keyValueNode.getKeySelector()));
     WebElement valueElement = element.findElement(By.cssSelector(keyValueNode.getValueSelector()));
 
@@ -127,7 +127,7 @@ public class NodeExecutor {
     for (Node node : nodes) {
       if (node instanceof DataNode dataNode) {
         dataColumns.add(executeDataNode(dataNode, webElement));
-      } else if (node instanceof KeyValueDataNode keyValueNode) {
+      } else if (node instanceof KeyValueNode keyValueNode) {
         dataColumns.add(executeKeyValueNode(keyValueNode, webElement));
       } else if (node instanceof TimeoutNode timeoutNode) {
         executeTimeoutNode(timeoutNode);

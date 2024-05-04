@@ -266,7 +266,7 @@ class AzScrapeApplicationTest {
 
     var propertyWrapper = new ListNode("wrapper", ".product-properties__i");
     var properties =
-      new KeyValueDataNode(".product-properties__i-name", ".product-properties__i-value");
+      new KeyValueNode(".product-properties__i-name", ".product-properties__i-value");
     propertyWrapper.addChild(properties);
 
     link.addChild(carNode);
@@ -319,7 +319,7 @@ class AzScrapeApplicationTest {
 
     var propertyWrapper = new ListNode("wrapper", ".product-properties__i");
     var properties =
-      new KeyValueDataNode(".product-properties__i-name", ".product-properties__i-value");
+      new KeyValueNode(".product-properties__i-name", ".product-properties__i-value");
     propertyWrapper.addChild(properties);
 
     link.addChild(carNode);
@@ -386,7 +386,7 @@ class AzScrapeApplicationTest {
 
     var propertyWrapper = new ListNode("wrapper", ".product-properties__i");
     var properties =
-      new KeyValueDataNode(".product-properties__i-name", ".product-properties__i-value");
+      new KeyValueNode(".product-properties__i-name", ".product-properties__i-value");
     propertyWrapper.addChild(properties);
 
     link.addChild(carNode);
@@ -531,7 +531,7 @@ class AzScrapeApplicationTest {
 
     var propertyWrapper = new ListNode("wrapper", "#detailBullets_feature_div .a-list-item");
     var properties =
-      new KeyValueDataNode("#detailBullets_feature_div .a-list-item > span:first-child",
+      new KeyValueNode("#detailBullets_feature_div .a-list-item > span:first-child",
         "#detailBullets_feature_div .a-list-item > span:last-child");
     propertyWrapper.addChild(properties);
 
@@ -598,7 +598,7 @@ class AzScrapeApplicationTest {
 
     var propertyWrapper = new ListNode("wrapper", "#detailBullets_feature_div .a-list-item");
     var properties =
-      new KeyValueDataNode("#detailBullets_feature_div .a-list-item > span:first-child",
+      new KeyValueNode("#detailBullets_feature_div .a-list-item > span:first-child",
         "#detailBullets_feature_div .a-list-item > span:last-child");
     propertyWrapper.addChild(properties);
 

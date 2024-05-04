@@ -1,7 +1,7 @@
 package az.caspian.core.tree;
 
 import az.caspian.core.tree.node.DataNode;
-import az.caspian.core.tree.node.KeyValueDataNode;
+import az.caspian.core.tree.node.KeyValueNode;
 import az.caspian.core.tree.node.ParentNode;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ class ParentNodeTest {
 
     DataNode child1 = new DataNode("child-node-1", ".child-node-1");
     DataNode child2 = new DataNode("child-node-2", ".child-node-2");
-    KeyValueDataNode keyValueNode = new KeyValueDataNode(".key", ".value");
+    KeyValueNode keyValueNode = new KeyValueNode(".key", ".value");
 
     parentNode.addChild(child1);
     parentNode.addChild(child2);
@@ -24,6 +24,6 @@ class ParentNodeTest {
 
     assertEquals(parentNode.getChildren().size(), 3);
     assertTrue(
-        parentNode.getChildren().stream().anyMatch(child -> child instanceof KeyValueDataNode));
+        parentNode.getChildren().stream().anyMatch(child -> child instanceof KeyValueNode));
   }
 }

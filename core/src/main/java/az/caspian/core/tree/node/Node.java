@@ -10,7 +10,7 @@ public abstract class Node {
   }
 
   public boolean isKeyValueNode() {
-    return this instanceof KeyValueDataNode;
+    return this instanceof KeyValueNode;
   }
 
   public boolean isListNode() {

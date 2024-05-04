@@ -24,7 +24,7 @@ public class ScrapedDataCollector {
       if (node instanceof DataNode dataNode) {
         Optional<DataColumn> dataColumn = collect(dataNode, page);
         dataColumn.ifPresent(columns::add);
-      } else if (node instanceof KeyValueDataNode keyValueNode) {
+      } else if (node instanceof KeyValueNode keyValueNode) {
         String column = page.fetchElementAsText(keyValueNode.getKeySelector());
         String value = page.fetchElementAsText(keyValueNode.getValueSelector());
         columns.add(new DataColumn(column, value));
@@ -84,7 +84,7 @@ public class ScrapedDataCollector {
       if (node instanceof DataNode dataNode) {
         Optional<DataColumn> dataColumn = collect(dataNode, element);
         dataColumn.ifPresent(columns::add);
-      } else if (node instanceof KeyValueDataNode keyValueNode) {
+      } else if (node instanceof KeyValueNode keyValueNode) {
         String column = htmlElement.getElement(keyValueNode.getKeySelector());
         String value = htmlElement.getElement(keyValueNode.getValueSelector());
         if (column == null) continue;
