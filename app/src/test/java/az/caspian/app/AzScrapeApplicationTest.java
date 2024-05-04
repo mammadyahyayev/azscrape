@@ -6,6 +6,7 @@ import az.caspian.core.model.DataFile;
 import az.caspian.core.model.enumeration.FileType;
 import az.caspian.core.task.Task;
 import az.caspian.core.tree.*;
+import az.caspian.core.tree.node.*;
 import az.caspian.export.csv.CsvExporter;
 import az.caspian.export.excel.ExcelExporter;
 import az.caspian.export.Exporter;
@@ -701,6 +702,51 @@ class AzScrapeApplicationTest {
         """, task.getId(), table.rows().size());
       return table;
     }
+  }
+
+  @Test
+  @Tag(TestConstants.LONG_LASTING_TEST)
+  void testAgency() {
+    var listNode = new ListNode("agent", ".c-agent-item");
+    var actionNode = new ActionNode("phone_link", ".o-phone", Action.CLICK);
+    listNode.addChild(actionNode);
+
+    var secondPartListNode = new ListNode("agent", ".c-agent-item");
+    var agentName = new DataNode("agent_name", ".agent-item__name");
+    var timeoutNode = new TimeoutNode(3, TimeUnit.SECONDS);
+    var phoneNumber = new DataNode("phone_number", ".o-phone");
+
+    secondPartListNode.addChild(agentName);
+    secondPartListNode.addChild(timeoutNode);
+    secondPartListNode.addChild(phoneNumber);
+
+    DataTree<Node> tree = new DataTree<>();
+    tree.addNode(listNode);
+    tree.addNode(secondPartListNode);
+
+    var pageParameters = new PageParameters.Builder()
+      .url("https://www.christiesrealestate.com/associates/int/%s-pg".formatted(PAGE_SPECIFIER))
+      .pageRange(1, 50)
+      .delayBetweenPages(6000)
+      .build();
+
+    var paginationTemplate = new PaginationTemplate(pageParameters, tree);
+
+    Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
+    DataTable table = scraper.scrape(paginationTemplate);
+
+    ExcelExporter excelExporter = new ExcelExporter();
+
+    DataFile dataFile = new DataFile.Builder()
+      .filename("agencies")
+      .fileType(FileType.EXCEL)
+      .storeAt(Path.of("C:/Users/Admin/Desktop").toString())
+      .build();
+
+    excelExporter.export(dataFile, table);
+
+    assertNotNull(table);
+    assertFalse(table.rows().isEmpty());
   }
 
 }

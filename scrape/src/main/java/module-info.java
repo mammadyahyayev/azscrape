@@ -7,4 +7,5 @@ module azscrape.scrape {
     requires org.seleniumhq.selenium.chrome_driver;
     requires io.github.bonigarcia.webdrivermanager;
     requires dev.failsafe.core;
+    requires org.jetbrains.annotations;
 }

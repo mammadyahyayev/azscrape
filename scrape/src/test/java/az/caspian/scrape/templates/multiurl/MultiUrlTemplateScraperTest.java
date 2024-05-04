@@ -1,6 +1,10 @@
 package az.caspian.scrape.templates.multiurl;
 
 import az.caspian.core.tree.*;
+import az.caspian.core.tree.node.DataNode;
+import az.caspian.core.tree.node.KeyValueDataNode;
+import az.caspian.core.tree.node.ListNode;
+import az.caspian.core.tree.node.Node;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;

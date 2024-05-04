@@ -1,4 +1,4 @@
-package az.caspian.core.tree;
+package az.caspian.core.tree.node;
 
 public class LinkNode extends Node {
   private final String name;

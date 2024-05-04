@@ -1,4 +1,4 @@
-package az.caspian.core.tree;
+package az.caspian.core.tree.node;
 
 import az.caspian.core.utils.Asserts;
 

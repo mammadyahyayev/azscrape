@@ -2,8 +2,9 @@ package az.caspian.scrape;
 
 import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
-import az.caspian.core.tree.*;
+import az.caspian.core.tree.node.*;
 import az.caspian.core.utils.Asserts;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -88,6 +89,20 @@ public class ScrapedDataCollector {
         String value = htmlElement.getElement(keyValueNode.getValueSelector());
         if (column == null) continue;
         columns.add(new DataColumn(column, value));
+      } else if (node instanceof ActionNode actionNode) {
+        WebElement webElement = element.findElement(By.cssSelector(actionNode.getSelector()));
+        if (webElement == null) {
+          continue;
+        }
+
+        if (actionNode.getActionType() == Action.CLICK) {
+          element.click();
+          try {
+            Thread.sleep(4000);
+          } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+        }
       }
     }
 

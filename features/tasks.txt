@@ -1,13 +1,12 @@
-- Redirect to Shared Project Frame after sharing a project publicly. ✅
+- Rename KeyValueDataNode ==> KeyValueNode
+- Create helper methods inside HtmlElement class to get other parameters of html element
+e.g.
 
-- Return Project class instead of boolean for sharedProject method. The reason we return a project to pass it
- to another UI frame and use its parameters. ✅
+<a href="https://www.example.com"></a>
+<div data-test="title"></div>
 
-- Rename ClientInfo class to Client ✅
+In above case, we might want to get href attribute or data-test attribute value. Provide a way to define them in API
 
-- Load attendants into Shared Project as well to show them on UI ✅
-
-- Implement saveAttendants and getAllProjects methods ✅
 
 - UI is blocking when a project is shared (1 or 2 seconds)
 

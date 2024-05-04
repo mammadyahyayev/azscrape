@@ -1,4 +1,4 @@
-package az.caspian.core.tree;
+package az.caspian.core.tree.node;
 
 public abstract class Node {
   public boolean isDataNode() {
@@ -19,5 +19,9 @@ public abstract class Node {
 
   public boolean isLinkNode() {
     return this instanceof LinkNode;
+  }
+
+  public boolean isTimeoutNode() {
+    return this instanceof TimeoutNode;
   }
 }

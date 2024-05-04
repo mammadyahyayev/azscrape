@@ -6,7 +6,7 @@ import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.core.template.SplitStrategy;
 import az.caspian.core.template.Splittable;
 import az.caspian.core.tree.DataTree;
-import az.caspian.core.tree.Node;
+import az.caspian.core.tree.node.Node;
 
 import java.util.ArrayList;
 import java.util.Collection;

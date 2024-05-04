@@ -1,4 +1,4 @@
-package az.caspian.core.tree;
+package az.caspian.core.tree.node;
 
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.StringUtils;
@@ -11,7 +11,7 @@ public class DataNodeLocation {
     private final String level;
     private final int order;
 
-    DataNodeLocation(String level, int order) {
+    public DataNodeLocation(String level, int order) {
         Asserts.required(level, "node level cannot be null");
         Asserts.checkArgument(order >= 0, "node order cannot be less than 0");
 
@@ -48,11 +48,11 @@ public class DataNodeLocation {
         return this.order + 1;
     }
 
-    DataNodeLocation nextLocation() {
+    public DataNodeLocation nextLocation() {
         return nextLocation(false);
     }
 
-    DataNodeLocation nextLocation(boolean newLevel) {
+    public DataNodeLocation nextLocation(boolean newLevel) {
         String nextLevel = newLevel ? nextLevel() : this.level;
         int nextOrder = newLevel ? 0 : nextOrder();
         String location = StringUtils.combine(nextLevel, nextOrder);

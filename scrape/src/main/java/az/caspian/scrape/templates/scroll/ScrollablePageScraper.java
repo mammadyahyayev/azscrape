@@ -2,6 +2,8 @@ package az.caspian.scrape.templates.scroll;
 
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.*;
+import az.caspian.core.tree.node.ListNode;
+import az.caspian.core.tree.node.Node;
 import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;

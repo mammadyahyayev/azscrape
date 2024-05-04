@@ -2,7 +2,9 @@ package az.caspian.scrape.templates.pagination;
 
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.DataTable;
-import az.caspian.core.tree.ListNode;
+import az.caspian.core.tree.node.ListNode;
+import az.caspian.core.tree.node.Node;
+import az.caspian.scrape.NodeExecutor;
 import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
@@ -16,6 +18,7 @@ import java.util.List;
 
 public class PaginationPageScraper extends AbstractScrapeTemplate<PaginationTemplate> {
   private final ScrapedDataCollector collector = new ScrapedDataCollector();
+  private final NodeExecutor executor = new NodeExecutor();
 
   public PaginationPageScraper() {
   }
@@ -33,20 +36,15 @@ public class PaginationPageScraper extends AbstractScrapeTemplate<PaginationTemp
       browser.open();
 
       var pageParameters = paginationTemplate.getPageParameters();
-      List<DataRow> dataRows = new ArrayList<>();
       for (current = pageParameters.startPage(); current <= pageParameters.endPage(); current++) {
         url = pageParameters.getPageUrl(current);
 
         WebPage page = browser.goTo(url, pageParameters.getDelayBetweenPages());
 
-        var rootNode = (ListNode) paginationTemplate.getTree().nodes().get(0);
-        List<WebElement> webElements = page.fetchWebElements(rootNode.getSelector());
-        for (WebElement webElement : webElements) {
-          DataRow dataRow = collector.collect(rootNode.getChildren(), webElement);
-          dataRows.add(dataRow);
-        }
+        List<Node> nodes = paginationTemplate.getTree().nodes();
+        List<DataRow> dataRows = executor.executeNodes(nodes, page);
+        dataTable.addAll(dataRows);
       }
-      dataTable.addAll(dataRows);
     } catch (Exception e) {
       String message = MessageFormat.format(
         "Failed to scrape data from {0} in page {1}, Exception: {2}", url, current, e.getMessage()

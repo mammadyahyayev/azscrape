@@ -1,4 +1,4 @@
-package az.caspian.core.tree;
+package az.caspian.core.tree.node;
 
 public class KeyValueDataNode extends Node {
   private final String keySelector;

@@ -16,4 +16,5 @@ module azscrape.core {
   exports az.caspian.core.io;
   exports az.caspian.core.template;
   exports az.caspian.core.task;
+    exports az.caspian.core.tree.node;
 }

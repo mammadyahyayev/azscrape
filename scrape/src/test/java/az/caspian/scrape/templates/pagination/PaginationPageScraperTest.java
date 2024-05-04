@@ -2,6 +2,9 @@ package az.caspian.scrape.templates.pagination;
 
 import az.caspian.core.constant.TestConstants;
 import az.caspian.core.tree.*;
+import az.caspian.core.tree.node.DataNode;
+import az.caspian.core.tree.node.ListNode;
+import az.caspian.core.tree.node.Node;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.Scraper;
 import org.junit.jupiter.api.Tag;
