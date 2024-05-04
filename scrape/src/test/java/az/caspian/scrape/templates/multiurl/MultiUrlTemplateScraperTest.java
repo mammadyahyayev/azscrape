@@ -1,6 +1,7 @@
 package az.caspian.scrape.templates.multiurl;
 
-import az.caspian.core.tree.*;
+import az.caspian.core.tree.DataTable;
+import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.node.DataNode;
 import az.caspian.core.tree.node.KeyValueNode;
 import az.caspian.core.tree.node.ListNode;

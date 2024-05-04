@@ -2,22 +2,17 @@ package az.caspian.scrape.templates.pagination;
 
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.DataTable;
-import az.caspian.core.tree.node.ListNode;
 import az.caspian.core.tree.node.Node;
 import az.caspian.scrape.NodeExecutor;
-import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
-import org.openqa.selenium.WebElement;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PaginationPageScraper extends AbstractScrapeTemplate<PaginationTemplate> {
-  private final ScrapedDataCollector collector = new ScrapedDataCollector();
   private final NodeExecutor executor = new NodeExecutor();
 
   public PaginationPageScraper() {

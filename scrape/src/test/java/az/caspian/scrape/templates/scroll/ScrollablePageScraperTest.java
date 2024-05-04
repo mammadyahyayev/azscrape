@@ -1,7 +1,8 @@
 package az.caspian.scrape.templates.scroll;
 
 import az.caspian.core.constant.TestConstants;
-import az.caspian.core.tree.*;
+import az.caspian.core.tree.DataTable;
+import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.node.DataNode;
 import az.caspian.core.tree.node.ListNode;
 import az.caspian.core.tree.node.Node;

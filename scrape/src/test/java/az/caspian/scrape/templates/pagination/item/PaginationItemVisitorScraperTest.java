@@ -1,7 +1,8 @@
 package az.caspian.scrape.templates.pagination.item;
 
 import az.caspian.core.constant.TestConstants;
-import az.caspian.core.tree.*;
+import az.caspian.core.tree.DataTable;
+import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.node.*;
 import az.caspian.scrape.templates.pagination.PageParameters;
 import org.junit.jupiter.api.Tag;
