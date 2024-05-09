@@ -43,7 +43,7 @@ public class NodeExecutor {
     Asserts.notNull(dataNode, "DataNode can't be null!");
     Asserts.notNull(webElement, "WebElement can't be null");
 
-    var elementValue = webElement.getElement(dataNode.getSelector());
+    var elementValue = webElement.getElementValue(dataNode.getSelector());
     return new DataColumn(dataNode.getName(), elementValue);
   }
 

@@ -81,8 +81,8 @@ public class ScrapedDataCollector {
         Optional<DataColumn> dataColumn = collect(dataNode, element);
         dataColumn.ifPresent(columns::add);
       } else if (node instanceof KeyValueNode keyValueNode) {
-        String column = element.getElement(keyValueNode.getKeySelector());
-        String value = element.getElement(keyValueNode.getValueSelector());
+        String column = element.getElementValue(keyValueNode.getKeySelector());
+        String value = element.getElementValue(keyValueNode.getValueSelector());
         if (column == null) continue;
         columns.add(new DataColumn(column, value));
       } else if (node instanceof ActionNode actionNode) {
@@ -118,7 +118,7 @@ public class ScrapedDataCollector {
     Asserts.notNull(dataNode, "DataNode can't be null!");
     Asserts.notNull(webElement, "SafeWebElement can't be null");
 
-    var element = webElement.getElement(dataNode.getSelector());
+    var element = webElement.getElementValue(dataNode.getSelector());
     if (element == null) return Optional.empty();
     return Optional.of(new DataColumn(dataNode.getName(), element));
   }
