@@ -6,6 +6,7 @@ import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.Tree;
 import az.caspian.core.tree.node.ListNode;
 import az.caspian.core.tree.node.Node;
+import az.caspian.scrape.SafeWebElement;
 import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
@@ -62,8 +63,8 @@ public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePage
         currentHeight += 5 * 200;
       }
 
-      List<WebElement> webElements = webPage.fetchWebElements(listNode.getSelector());
-      for (WebElement webElement : webElements) {
+      List<SafeWebElement> webElements = webPage.fetchWebElements(listNode.getSelector());
+      for (SafeWebElement webElement : webElements) {
         DataRow row = collector.collect(listNode.getChildren(), webElement);
         dataRows.add(row);
       }

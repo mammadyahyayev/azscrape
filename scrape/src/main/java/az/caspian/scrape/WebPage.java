@@ -5,10 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -46,10 +43,9 @@ public class WebPage {
   public String fetchElementsAsText(String cssSelector, WebElement webElement) {
     String text;
     try {
-      text =
-        webElement.findElements(By.cssSelector(cssSelector)).stream()
-          .map(WebElement::getText)
-          .collect(Collectors.joining("\n"));
+      text = webElement.findElements(By.cssSelector(cssSelector)).stream()
+        .map(WebElement::getText)
+        .collect(Collectors.joining("\n"));
     } catch (Exception e) {
       LOG.error("Unknown error happened");
       text = "";
@@ -86,7 +82,7 @@ public class WebPage {
     try {
       text = browser.findElement(By.cssSelector(cssSelector)).getText();
     } catch (Exception e) {
-      LOG.error("Unknown error happened: {}", e.getMessage());
+      LOG.error("Error occurred: {}", e.getMessage());
       text = "";
     }
 
@@ -100,24 +96,24 @@ public class WebPage {
    * @return scraped elements as WebElement
    * @see WebElement
    */
-  public List<WebElement> fetchWebElements(String cssSelector) {
+  public List<SafeWebElement> fetchWebElements(String cssSelector) {
     List<WebElement> elements = new ArrayList<>();
     try {
       elements = new ArrayList<>(browser.findElements(By.cssSelector(cssSelector)));
     } catch (Exception e) {
-      LOG.error("Unknown error happened: {}", e.getMessage());
+      LOG.error("Error occurred: {}", e.getMessage());
     }
 
-    return elements;
+    return elements.stream().map(SafeWebElement::new).toList();
   }
 
-  public Optional<WebElement> fetchWebElement(String cssSelector) {
+  public Optional<SafeWebElement> fetchWebElement(String cssSelector) {
     WebElement element;
     try {
       element = browser.findElement(By.cssSelector(cssSelector));
-      return Optional.of(element);
-    } catch (Exception e) {
-      LOG.error("Unknown error happened: {}", e.getMessage());
+      return Optional.of(new SafeWebElement(element));
+    } catch (NoSuchElementException e) {
+      LOG.error("NoSuchElementException occurred: {}", e.getMessage());
     }
 
     return Optional.empty();

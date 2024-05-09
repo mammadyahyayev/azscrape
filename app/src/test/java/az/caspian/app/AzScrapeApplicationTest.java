@@ -11,6 +11,7 @@ import az.caspian.core.tree.node.*;
 import az.caspian.export.Exporter;
 import az.caspian.export.csv.CsvExporter;
 import az.caspian.export.excel.ExcelExporter;
+import az.caspian.scrape.SafeWebElement;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
@@ -471,13 +472,13 @@ class AzScrapeApplicationTest {
 
     List<String> urls = new ArrayList<>();
     try {
-      WebBrowser browser = new WebBrowser();
+      var browser = new WebBrowser();
       browser.goTo(url);
       while (true) {
         WebPage page = browser.getCurrentWebPage();
         Thread.sleep(5000);
-        List<WebElement> elements = page.fetchWebElements(".a-size-mini > .a-link-normal");
-        for (WebElement element : elements) {
+        List<SafeWebElement> elements = page.fetchWebElements(".a-size-mini > .a-link-normal");
+        for (SafeWebElement element : elements) {
           String href = element.getAttribute("href");
           urls.add(href);
         }
@@ -486,12 +487,12 @@ class AzScrapeApplicationTest {
 
         Thread.sleep(5000);
 
-        Optional<WebElement> optionalWebElement = page.fetchWebElement(".s-pagination-next");
+        Optional<SafeWebElement> optionalWebElement = page.fetchWebElement(".s-pagination-next");
         if (optionalWebElement.isEmpty()) {
           break;
         }
 
-        WebElement webElement = optionalWebElement.get();
+        SafeWebElement webElement = optionalWebElement.get();
         webElement.click();
       }
 

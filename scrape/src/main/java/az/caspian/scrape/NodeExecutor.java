@@ -6,11 +6,10 @@ import az.caspian.core.tree.node.*;
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.StringUtils;
 import org.jetbrains.annotations.Nullable;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class NodeExecutor {
@@ -23,29 +22,28 @@ public class NodeExecutor {
     }
   }
 
-  public void executeActionNode(ActionNode actionNode, WebElement webElement) {
+  public void executeActionNode(ActionNode actionNode, SafeWebElement webElement) {
     if (webElement == null) {
       return;
     }
 
-    var elementToClick = webElement.findElement(By.cssSelector(actionNode.getSelector()));
-    if (elementToClick == null) {
+    var elementToClick = webElement.findElement(actionNode.getSelector());
+    if (elementToClick.isEmpty()) {
       return;
     }
 
-    switch (actionNode.getActionType()) {
-      case CLICK -> elementToClick.click();
-      default -> throw new UnsupportedOperationException("Not supported yet.");
+    if (Objects.requireNonNull(actionNode.getActionType()) == Action.CLICK) {
+      elementToClick.get().click();
+    } else {
+      throw new UnsupportedOperationException("Not supported yet.");
     }
   }
 
-  public DataColumn executeDataNode(DataNode dataNode, WebElement webElement) {
+  public DataColumn executeDataNode(DataNode dataNode, SafeWebElement webElement) {
     Asserts.notNull(dataNode, "DataNode can't be null!");
     Asserts.notNull(webElement, "WebElement can't be null");
 
-    var htmlElement = new HtmlElement(webElement);
-    var elementValue = htmlElement.getElement(dataNode.getSelector());
-
+    var elementValue = webElement.getElement(dataNode.getSelector());
     return new DataColumn(dataNode.getName(), elementValue);
   }
 
@@ -53,7 +51,7 @@ public class NodeExecutor {
     Asserts.notNull(dataNode, "DataNode can't be null!");
     Asserts.notNull(webPage, "WebPage can't be null");
 
-    Optional<WebElement> webElement = webPage.fetchWebElement(dataNode.getSelector());
+    Optional<SafeWebElement> webElement = webPage.fetchWebElement(dataNode.getSelector());
 
     return webElement.map(element -> new DataColumn(dataNode.getName(), element.getText()))
       .orElse(null);
@@ -70,23 +68,22 @@ public class NodeExecutor {
     return new DataColumn(column, value);
   }
 
-  public @Nullable DataColumn executeKeyValueNode(KeyValueNode keyValueNode, WebElement element) {
-    WebElement keyElement = element.findElement(By.cssSelector(keyValueNode.getKeySelector()));
-    WebElement valueElement = element.findElement(By.cssSelector(keyValueNode.getValueSelector()));
+  public @Nullable DataColumn executeKeyValueNode(KeyValueNode keyValueNode, SafeWebElement element) {
+    Optional<SafeWebElement> keyElement = element.findElement(keyValueNode.getKeySelector());
+    Optional<SafeWebElement> valueElement = element.findElement(keyValueNode.getValueSelector());
 
-    if (keyElement == null) {
-      return null;
-    }
-
-
-    return new DataColumn(keyElement.getText(), valueElement != null ? valueElement.getText() : "");
+    return keyElement.map(safeWebElement -> {
+        String value = valueElement.map(SafeWebElement::getText).orElse("");
+        return new DataColumn(safeWebElement.getText(), value);
+      })
+      .orElse(null);
   }
 
   public List<DataRow> executeListNode(ListNode listNode, WebPage webPage) {
     List<DataRow> dataRows = new ArrayList<>();
-    List<WebElement> webElements = webPage.fetchWebElements(listNode.getSelector());
+    List<SafeWebElement> webElements = webPage.fetchWebElements(listNode.getSelector());
 
-    for (WebElement webElement : webElements) {
+    for (SafeWebElement webElement : webElements) {
       var dataRow = new DataRow();
       List<DataColumn> dataColumns = executeNodes(listNode.getChildren(), webElement);
 
@@ -99,17 +96,20 @@ public class NodeExecutor {
     return dataRows;
   }
 
-  public DataRow executeParentNode(ParentNode parentNode, WebElement parentWebElement) {
-    WebElement webElement = parentWebElement.findElement(By.cssSelector(parentNode.getSelector()));
-
+  public DataRow executeParentNode(ParentNode parentNode, SafeWebElement parentWebElement) {
+    Optional<SafeWebElement> webElement = parentWebElement.findElement(parentNode.getSelector());
     var dataRow = new DataRow();
-    List<DataColumn> dataColumns = executeNodes(parentNode.getChildren(), webElement);
-    dataRow.addColumns(dataColumns);
+
+    webElement.ifPresent(element -> {
+      List<DataColumn> dataColumns = executeNodes(parentNode.getChildren(), element);
+      dataRow.addColumns(dataColumns);
+    });
+
     return dataRow;
   }
 
   public DataRow executeParentNode(ParentNode parentNode, WebPage page) {
-    Optional<WebElement> webElement = page.fetchWebElement(parentNode.getSelector());
+    Optional<SafeWebElement> webElement = page.fetchWebElement(parentNode.getSelector());
 
     var dataRow = new DataRow();
 
@@ -121,7 +121,7 @@ public class NodeExecutor {
     return dataRow;
   }
 
-  public List<DataColumn> executeNodes(List<Node> nodes, WebElement webElement) {
+  public List<DataColumn> executeNodes(List<Node> nodes, SafeWebElement webElement) {
     List<DataColumn> dataColumns = new ArrayList<>();
 
     for (Node node : nodes) {

@@ -5,12 +5,12 @@ import az.caspian.core.tree.DataTable;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.node.ListNode;
 import az.caspian.core.tree.node.Node;
+import az.caspian.scrape.SafeWebElement;
 import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
-import org.openqa.selenium.WebElement;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -44,8 +44,8 @@ public class PaginationItemVisitorScraper extends AbstractScrapeTemplate<Paginat
         WebPage page = browser.goTo(url, pageParameters.getDelayBetweenPages());
         DataTree<Node> tree = template.getTree();
         var rootNode = (ListNode) tree.nodes().get(0);
-        List<WebElement> elements = page.fetchWebElements(rootNode.getSelector());
-        for (WebElement element : elements) {
+        List<SafeWebElement> elements = page.fetchWebElements(rootNode.getSelector());
+        for (SafeWebElement element : elements) {
           String urlOfSubPage = safeGetAttribute(element, "href");
           if (urlOfSubPage == null) continue;
           WebPage webPage = browser.goTo(urlOfSubPage, pageParameters.getDelayBetweenPages());
@@ -68,7 +68,7 @@ public class PaginationItemVisitorScraper extends AbstractScrapeTemplate<Paginat
     return dataTable;
   }
 
-  private String safeGetAttribute(final WebElement element, final String attributeType) {
+  private String safeGetAttribute(final SafeWebElement element, final String attributeType) {
     String attribute = null;
 
     try {

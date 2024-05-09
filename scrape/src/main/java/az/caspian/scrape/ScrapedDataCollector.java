@@ -4,8 +4,6 @@ import az.caspian.core.model.DataColumn;
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.node.*;
 import az.caspian.core.utils.Asserts;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +46,8 @@ public class ScrapedDataCollector {
       .findFirst();
 
     while (true) {
-      List<WebElement> webElements = page.fetchWebElements(listNode.getSelector());
-      for (WebElement webElement : webElements) {
+      List<SafeWebElement> webElements = page.fetchWebElements(listNode.getSelector());
+      for (var webElement : webElements) {
         DataRow dataRow = collect(listNode.getChildren(), webElement);
         dataRows.add(dataRow);
       }
@@ -58,7 +56,7 @@ public class ScrapedDataCollector {
         break;
       }
 
-      Optional<WebElement> webElement = page.fetchWebElement(linkNode.get().getSelector());
+      Optional<SafeWebElement> webElement = page.fetchWebElement(linkNode.get().getSelector());
       if (webElement.isEmpty()) {
         break;
       }
@@ -75,9 +73,7 @@ public class ScrapedDataCollector {
     return dataRows;
   }
 
-  public DataRow collect(List<Node> nodes, WebElement element) {
-    var htmlElement = new HtmlElement(element);
-
+  public DataRow collect(List<Node> nodes, SafeWebElement element) {
     var row = new DataRow();
     List<DataColumn> columns = new ArrayList<>();
     for (Node node : nodes) {
@@ -85,13 +81,13 @@ public class ScrapedDataCollector {
         Optional<DataColumn> dataColumn = collect(dataNode, element);
         dataColumn.ifPresent(columns::add);
       } else if (node instanceof KeyValueNode keyValueNode) {
-        String column = htmlElement.getElement(keyValueNode.getKeySelector());
-        String value = htmlElement.getElement(keyValueNode.getValueSelector());
+        String column = element.getElement(keyValueNode.getKeySelector());
+        String value = element.getElement(keyValueNode.getValueSelector());
         if (column == null) continue;
         columns.add(new DataColumn(column, value));
       } else if (node instanceof ActionNode actionNode) {
-        WebElement webElement = element.findElement(By.cssSelector(actionNode.getSelector()));
-        if (webElement == null) {
+        Optional<SafeWebElement> webElement = element.findElement(actionNode.getSelector());
+        if (webElement.isEmpty()) {
           continue;
         }
 
@@ -114,17 +110,15 @@ public class ScrapedDataCollector {
     Asserts.notNull(dataNode, "DataNode can't be null!");
     Asserts.notNull(page, "WebPage can't be null");
 
-    Optional<WebElement> webElement = page.fetchWebElement(dataNode.getSelector());
+    Optional<SafeWebElement> webElement = page.fetchWebElement(dataNode.getSelector());
     return webElement.map(element -> new DataColumn(dataNode.getName(), element.getText()));
   }
 
-  public Optional<DataColumn> collect(DataNode dataNode, WebElement webElement) {
+  public Optional<DataColumn> collect(DataNode dataNode, SafeWebElement webElement) {
     Asserts.notNull(dataNode, "DataNode can't be null!");
-    Asserts.notNull(webElement, "WebElement can't be null");
+    Asserts.notNull(webElement, "SafeWebElement can't be null");
 
-    var htmlElement = new HtmlElement(webElement);
-
-    var element = htmlElement.getElement(dataNode.getSelector());
+    var element = webElement.getElement(dataNode.getSelector());
     if (element == null) return Optional.empty();
     return Optional.of(new DataColumn(dataNode.getName(), element));
   }
@@ -134,7 +128,7 @@ public class ScrapedDataCollector {
     Asserts.notNull(page, "WebPage can't be null!");
 
     List<DataColumn> columns = new ArrayList<>();
-    List<WebElement> webElements = page.fetchWebElements(listNode.getSelector());
+    List<SafeWebElement> webElements = page.fetchWebElements(listNode.getSelector());
     webElements.forEach(
       webElement -> columns.addAll(collect(listNode.getChildren(), webElement).columns()));
     return columns;
