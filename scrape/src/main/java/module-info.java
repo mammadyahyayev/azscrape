@@ -8,4 +8,5 @@ module azscrape.scrape {
     requires io.github.bonigarcia.webdrivermanager;
     requires dev.failsafe.core;
     requires org.jetbrains.annotations;
+    requires org.slf4j;
 }
