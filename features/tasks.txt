@@ -7,6 +7,22 @@ e.g.
 
 In above case, we might want to get href attribute or data-test attribute value. Provide a way to define them in API
 
+---
+SafeWebElement can throw exceptions if user tell the entire template to throw exceptions
+
+one way to define is, create another type SensibleWebElement that will throw every exception back to the
+person other than NoSuchElementException
+
+for instance, user can exclude exceptions for sensible web element if that exception happened ignore it,
+if exception happens other than excluded one, then throw it and let the program stop.
+
+Template Configurations
+.silentOnExceptions(true) -> use SafeWebElement
+.silentOnExceptions(false) -> use SensibleWebElement
+.excludeExceptions() -> if empty then throw all exceptions if element is SensibleWebElement
+.excludeExceptions(NoSuchElementException.class, StateStateException.class) -> ignore given ones, and throw others
+---
+
 
 - UI is blocking when a project is shared (1 or 2 seconds)
 

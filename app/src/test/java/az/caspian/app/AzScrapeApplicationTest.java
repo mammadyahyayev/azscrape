@@ -29,7 +29,6 @@ import az.caspian.scrape.templates.scroll.ScrollablePageScraper;
 import az.caspian.scrape.templates.scroll.ScrollablePageTemplate;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebElement;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -716,7 +715,7 @@ class AzScrapeApplicationTest {
     var secondPartListNode = new ListNode("agent", ".c-agent-item");
     var agentName = new DataNode("agent_name", ".agent-item__name");
     var timeoutNode = new TimeoutNode(3, TimeUnit.SECONDS);
-    var phoneNumber = new DataNode("phone_number", ".o-phone");
+    var phoneNumber = new AttributeNode("phone_number", "title", ".o-phone");
 
     secondPartListNode.addChild(agentName);
     secondPartListNode.addChild(timeoutNode);

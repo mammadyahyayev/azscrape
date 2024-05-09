@@ -28,6 +28,7 @@ public class SafeWebElement {
    * element. {@code null} will be returned if the HTML element isn't found on the web page.
    *
    * @param cssSelector selector of Html Element
+   *
    * @return element's text
    */
   public String getElementValue(final String cssSelector) {
@@ -106,7 +107,15 @@ public class SafeWebElement {
 
   public String getAttribute(String attributeName) {
     try {
-      return webElement.getAttribute(attributeName);
+      String attribute = webElement.getAttribute(attributeName);
+      if (attribute == null) {
+        return "";
+      }
+
+      return attribute;
+    } catch (NoSuchElementException e) {
+      LOG.error("NoSuchElementException occurred while retrieving attribute, ex: {}", e.getMessage());
+      return "";
     } catch (Exception e) {
       LOG.error("Exception occurred while retrieving attribute, ex: {}", e.getMessage());
       return "";

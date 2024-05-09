@@ -47,6 +47,15 @@ public class NodeExecutor {
     return new DataColumn(dataNode.getName(), elementValue);
   }
 
+  private DataColumn executeAttributeNode(AttributeNode attributeNode, SafeWebElement webElement) {
+    Asserts.notNull(attributeNode, "AttributeNode can't be null!");
+    Asserts.notNull(webElement, "WebElement can't be null");
+
+    return webElement.findElement(attributeNode.getSelector())
+      .map(element -> new DataColumn(attributeNode.getName(), element.getAttribute(attributeNode.getAttributeName())))
+      .orElse(new DataColumn(attributeNode.getName(), ""));
+  }
+
   public @Nullable DataColumn executeDataNode(DataNode dataNode, WebPage webPage) {
     Asserts.notNull(dataNode, "DataNode can't be null!");
     Asserts.notNull(webPage, "WebPage can't be null");
@@ -127,6 +136,8 @@ public class NodeExecutor {
     for (Node node : nodes) {
       if (node instanceof DataNode dataNode) {
         dataColumns.add(executeDataNode(dataNode, webElement));
+      } else if (node instanceof AttributeNode attributeNode) {
+        dataColumns.add(executeAttributeNode(attributeNode, webElement));
       } else if (node instanceof KeyValueNode keyValueNode) {
         dataColumns.add(executeKeyValueNode(keyValueNode, webElement));
       } else if (node instanceof TimeoutNode timeoutNode) {
