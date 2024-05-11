@@ -21,7 +21,7 @@ public class WebBrowser implements AutoCloseable {
   private final WebDriver driver;
   private boolean isOpen;
 
-  {
+  public WebBrowser() {
     var chromeOptions = new ChromeOptions();
     chromeOptions.addArguments("--remote-allow-origins=*");
     chromeOptions.setCapability("browserVersion", "122");

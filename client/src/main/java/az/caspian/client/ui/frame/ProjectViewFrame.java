@@ -12,6 +12,8 @@ import java.awt.*;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static javax.swing.SwingConstants.CENTER;
+
 
 public class ProjectViewFrame extends JFrame {
   private JButton seeConfigFileBtn;
@@ -149,7 +151,7 @@ public class ProjectViewFrame extends JFrame {
 
     var projectMembersLbl = new JLabel("Project Members");
     projectMembersLbl.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 22));
-    projectMembersLbl.setHorizontalAlignment(JLabel.CENTER);
+    projectMembersLbl.setHorizontalAlignment(CENTER);
     projectMembersLbl.setForeground(Color.WHITE);
 
     projectMembersPanel.add(projectMembersLbl, BorderLayout.NORTH);

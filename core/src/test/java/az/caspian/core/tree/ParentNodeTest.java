@@ -22,8 +22,7 @@ class ParentNodeTest {
     parentNode.addChild(child2);
     parentNode.addChild(keyValueNode);
 
-    assertEquals(parentNode.getChildren().size(), 3);
-    assertTrue(
-        parentNode.getChildren().stream().anyMatch(child -> child instanceof KeyValueNode));
+    assertEquals(3, parentNode.getChildren().size());
+    assertTrue(parentNode.getChildren().stream().anyMatch(child -> child instanceof KeyValueNode));
   }
 }

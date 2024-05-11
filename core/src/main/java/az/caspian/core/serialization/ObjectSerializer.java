@@ -23,7 +23,7 @@ public final class ObjectSerializer {
       return bos.toByteArray();
     } catch (IOException e) {
       LOG.error("Failed to serialize data!", e);
-      return null;
+      return new byte[0];
     }
   }
 }

@@ -27,7 +27,6 @@ public class ScrollablePageParameters {
 
   public static class Builder {
     private final List<QueryParameter> queryParameters = new ArrayList<>();
-    ;
     private String pageUrl;
 
     public ScrollablePageParameters.Builder url(String url) {

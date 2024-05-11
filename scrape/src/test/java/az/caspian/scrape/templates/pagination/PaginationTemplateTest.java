@@ -35,7 +35,7 @@ class PaginationTemplateTest {
       .toList();
     List<Task> tasks = template.split("Test", clients, SplitStrategy.EQUAL);
 
-    tasks.forEach(task -> assertEquals(task.getName(), "Test"));
+    tasks.forEach(task -> assertEquals("Test", task.getName()));
 
     for (int i = 0; i < tasks.size(); i++) {
       Task task = tasks.get(i);

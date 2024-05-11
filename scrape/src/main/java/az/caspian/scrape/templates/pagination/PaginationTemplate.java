@@ -8,10 +8,7 @@ import az.caspian.core.template.Splittable;
 import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.node.Node;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class PaginationTemplate implements ScrapeTemplate, Splittable {
   private final PageParameters pageParameters;
@@ -61,7 +58,7 @@ public class PaginationTemplate implements ScrapeTemplate, Splittable {
   @Override
   public List<Task> splitInternally(String taskName, int taskCounts) {
     //TODO: implement later
-    return null;
+    return Collections.emptyList();
   }
 
   private class EqualSplitStrategy {

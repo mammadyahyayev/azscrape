@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class StringUtilsTest {
+class StringUtilsTest {
 
   @Test
   void testReplaceAllSymbols_whenTextWithUnderlineGiven_replaceUnderlineWithSpace() {

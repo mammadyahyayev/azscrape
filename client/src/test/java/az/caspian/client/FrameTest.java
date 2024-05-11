@@ -4,7 +4,7 @@ import az.caspian.client.ui.frame.ClientTaskFrame;
 import az.caspian.core.task.Task;
 import org.junit.jupiter.api.Test;
 
-public class FrameTest {
+class FrameTest {
 
   @Test
   void testClientTaskFrame() throws InterruptedException {

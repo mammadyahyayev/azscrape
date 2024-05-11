@@ -7,6 +7,14 @@ e.g.
 
 In above case, we might want to get href attribute or data-test attribute value. Provide a way to define them in API
 
+--- Execute Tree Nodes in for loop
+I've already correct this one in PaginationPageScraper, do the same in the others
+---
+
+--- Dedicated Exceptions
+Define dedicated exceptions inside Templates
+---
+
 ---
 SafeWebElement can throw exceptions if user tell the entire template to throw exceptions
 
@@ -21,6 +29,8 @@ Template Configurations
 .silentOnExceptions(false) -> use SensibleWebElement
 .excludeExceptions() -> if empty then throw all exceptions if element is SensibleWebElement
 .excludeExceptions(NoSuchElementException.class, StateStateException.class) -> ignore given ones, and throw others
+
+Find a way to pass these configurations to internal classes to define the logic based on it.
 ---
 
 
