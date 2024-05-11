@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static az.caspian.core.utils.UrlUtils.validateUrl;
 import static java.lang.String.format;
 
 /**
@@ -21,9 +22,7 @@ public class WebPage {
   private final boolean isConnected;
 
   WebPage(String url) {
-    Objects.requireNonNull(url, "Webpage url cannot be null!");
-    // TODO: Check given url is valid
-    this.url = url;
+    this.url = validateUrl(url);
     this.isConnected = true;
   }
 
@@ -38,6 +37,7 @@ public class WebPage {
    * Fetch web elements and stores them in list of strings
    *
    * @param cssSelector selector of the element
+   *
    * @return scraped elements
    */
   public String fetchElementsAsText(String cssSelector, WebElement webElement) {
@@ -58,6 +58,7 @@ public class WebPage {
    * Fetch a web element
    *
    * @param cssSelector selector of the element
+   *
    * @return scraped element
    */
   public String fetchElementAsText(String cssSelector, WebElement webElement) {
@@ -93,6 +94,7 @@ public class WebPage {
    * Fetch web elements and stores them in list of strings
    *
    * @param cssSelector selector of the element
+   *
    * @return scraped elements as WebElement
    * @see WebElement
    */

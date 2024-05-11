@@ -15,6 +15,8 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.util.List;
 
+import static az.caspian.core.utils.UrlUtils.validateUrl;
+
 public class WebBrowser implements AutoCloseable {
   private static final Logger LOG = LogManager.getLogger(WebBrowser.class);
 
@@ -79,8 +81,8 @@ public class WebBrowser implements AutoCloseable {
    *
    * @param delayInMillis delay in milliseconds
    */
-  public WebPage goTo(final String url, long delayInMillis) {
-    // TODO: Check url is valid
+  public WebPage goTo(String url, long delayInMillis) {
+    url = validateUrl(url);
     Asserts.required(url, "url cannot be null or empty");
     if (delayInMillis < 0) {
       delayInMillis = 0;
