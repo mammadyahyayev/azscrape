@@ -6,6 +6,8 @@ import az.caspian.core.tree.node.*;
 import az.caspian.core.utils.Asserts;
 import az.caspian.core.utils.StringUtils;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +16,14 @@ import java.util.Optional;
 
 public class NodeExecutor {
 
+  private static final Logger LOG = LoggerFactory.getLogger(NodeExecutor.class);
+
   public void executeTimeoutNode(TimeoutNode timeoutNode) {
     try {
       Thread.sleep(timeoutNode.getTimeout());
+      LOG.debug("TimeoutNode is executed and waiting {} seconds!", timeoutNode.getTimeoutInSeconds());
     } catch (InterruptedException e) {
-      // ignore interruption
+      LOG.error("TimeoutNode interrupted!");
     }
   }
 
@@ -27,15 +32,20 @@ public class NodeExecutor {
       return;
     }
 
-    var elementToClick = webElement.findElement(actionNode.getSelector());
-    if (elementToClick.isEmpty()) {
+    var elementForAction = webElement.findElement(actionNode.getSelector());
+    if (elementForAction.isEmpty()) {
+      LOG.debug("Element with selector [{}] not found to apply {}",
+        actionNode.getSelector(), actionNode.getActionType());
       return;
     }
 
     if (Objects.requireNonNull(actionNode.getActionType()) == Action.CLICK) {
-      elementToClick.get().click();
+      elementForAction.get().click();
+      LOG.debug("Element with selector [{}] clicked", actionNode.getSelector());
     } else {
-      throw new UnsupportedOperationException("Not supported yet.");
+      String message = "Unsupported action type " + actionNode.getActionType();
+      LOG.error(message);
+      throw new UnsupportedOperationException(message);
     }
   }
 
@@ -44,6 +54,7 @@ public class NodeExecutor {
     Asserts.notNull(webElement, "WebElement can't be null");
 
     var elementValue = webElement.getElementValue(dataNode.getSelector());
+    LOG.debug("DataNode is executed and got {} for {}", elementValue, dataNode.getName());
     return new DataColumn(dataNode.getName(), elementValue);
   }
 
@@ -51,9 +62,12 @@ public class NodeExecutor {
     Asserts.notNull(attributeNode, "AttributeNode can't be null!");
     Asserts.notNull(webElement, "WebElement can't be null");
 
-    return webElement.findElement(attributeNode.getSelector())
+    DataColumn dataColumn = webElement.findElement(attributeNode.getSelector())
       .map(element -> new DataColumn(attributeNode.getName(), element.getAttribute(attributeNode.getAttributeName())))
       .orElse(new DataColumn(attributeNode.getName(), ""));
+
+    LOG.debug("AttributeNode is executed and got {} for {}", dataColumn.value(), dataColumn.name());
+    return dataColumn;
   }
 
   public @Nullable DataColumn executeDataNode(DataNode dataNode, WebPage webPage) {
@@ -62,8 +76,7 @@ public class NodeExecutor {
 
     Optional<SafeWebElement> webElement = webPage.fetchWebElement(dataNode.getSelector());
 
-    return webElement.map(element -> new DataColumn(dataNode.getName(), element.getText()))
-      .orElse(null);
+    return webElement.map(element -> new DataColumn(dataNode.getName(), element.getText())).orElse(null);
   }
 
   public @Nullable DataColumn executeKeyValueNode(KeyValueNode keyValueNode, WebPage page) {
@@ -81,11 +94,18 @@ public class NodeExecutor {
     Optional<SafeWebElement> keyElement = element.findElement(keyValueNode.getKeySelector());
     Optional<SafeWebElement> valueElement = element.findElement(keyValueNode.getValueSelector());
 
-    return keyElement.map(safeWebElement -> {
-        String value = valueElement.map(SafeWebElement::getText).orElse("");
-        return new DataColumn(safeWebElement.getText(), value);
-      })
-      .orElse(null);
+    DataColumn dataColumn = keyElement.map(safeWebElement -> {
+      String value = valueElement.map(SafeWebElement::getText).orElse("");
+      return new DataColumn(safeWebElement.getText(), value);
+    }).orElse(null);
+
+    if (dataColumn == null) {
+      LOG.debug("Key element with [{}] selector is null for KeyValueNode", keyValueNode.getKeySelector());
+      return null;
+    }
+
+    LOG.debug("KeyValueNode is executed and got {} for {}", dataColumn.value(), dataColumn.name());
+    return dataColumn;
   }
 
   public List<DataRow> executeListNode(ListNode listNode, WebPage webPage) {
@@ -101,6 +121,8 @@ public class NodeExecutor {
         dataRows.add(dataRow);
       }
     }
+
+    LOG.debug("ListNode with [{}] selector is executed and got {} elements", listNode.getSelector(), dataRows.size());
 
     return dataRows;
   }
@@ -127,6 +149,9 @@ public class NodeExecutor {
       dataRow.addColumns(dataColumns);
     });
 
+    LOG.debug("ParentNode ({}) is executed and got {} columns in one row", parentNode.getSelector(),
+      dataRow.columns().size());
+
     return dataRow;
   }
 
@@ -144,6 +169,8 @@ public class NodeExecutor {
         executeTimeoutNode(timeoutNode);
       } else if (node instanceof ActionNode actionNode) {
         executeActionNode(actionNode, webElement);
+      } else {
+        throw new IllegalStateException("Not implemented node " + node);
       }
     }
 

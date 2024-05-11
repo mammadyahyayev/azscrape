@@ -16,4 +16,8 @@ public class TimeoutNode extends Node {
   public long getTimeout() {
     return timeout;
   }
+
+  public long getTimeoutInSeconds() {
+    return TimeUnit.MILLISECONDS.toSeconds(timeout);
+  }
 }
