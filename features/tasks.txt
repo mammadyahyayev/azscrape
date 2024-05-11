@@ -20,6 +20,85 @@ https://github.com/ctongfei/progressbar
 carriage return
 ---
 
+--- InterventionNode
+
+InterventionNotifier will implement from base notification interface.
+It will take InterventionNode as parameter and will convert InterventionNode to
+common form for notifications and user can see dedicated message on the console.
+
+NotificationMessage {
+    - id
+    - title
+    - message
+    - description
+    - type (HUMAN_INTERACTION_NEED, SCRAPING_FINISHED)
+}
+
+There will be some notifications that require input from humans so based on the input
+it can publish an event to appropriate listeners based on NotificationType.
+
+There might be multiple threads to give input. Here's the ideal scenario:
+
+Let's say you've done what you have to do in each browser application, then on console, you
+are going to see something like following
+
+Notification: Thread-1 is waiting for your interaction
+NotificationMessage [
+    id: 1,
+    title: Fill Login Form
+    message: Please fill the form that requires username and password manually
+    type: HUMAN_INTERACTION
+]
+Please, type one of these for next (1. Continue (c), 2. Wait (w), 3. Stop (s)): c
+
+Thread-1 took your input, and continue its job.
+
+
+Notification: Thread-2 is waiting for your interaction
+NotificationMessage [
+    id: 2,
+    title: Fill Login Form
+    message: Please fill the form that requires username and password manually
+    type: HUMAN_INTERACTION
+]
+Please, type one of these for next (1. Continue (c), 2. Wait (w), 3. Stop (s), 4. Continue for all (ca)): c
+
+Thread-2 took your input, and continue its job.
+
+Continue for all option will publish an event for same type of notifications
+In above case, let's say there are 5 other intervention node notification published,
+then user did its job, and wants to continue for all, instead of one by one. In this
+case, there might be other notifications, however, only continue for the same type of
+notifications (in this case InterventionNotifier)
+
+ConsoleInputDispatcher is responsible to send input results to each listener. Inside
+each listener, they will get the result of operation, and do what they have to do.
+In above case, InterventionNodeListener, might take InterventionNode as a reference
+so whenever, it gets result, it will change its status to something else. Therefore, thread
+safety is important here. Because listening process will happen in another thread.
+
+Additional type names:
+- InterventionNodeListener
+- InterventionNotifier
+- ConsoleInputDispatcher
+- ConsoleInputPayload
+- UserNotification
+- NotificationType (enum)
+
+---
+
+
+--- Verbose mode (Info mode)
+It is recommended and might be useful for clients to turn on and off verbose mode.
+
+if (verboseMode) {
+    // Set logging level to DEBUG if verbose mode is enabled
+    ch.qos.logback.classic.Logger rootLogger = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+    rootLogger.setLevel(ch.qos.logback.classic.Level.DEBUG);
+}
+
+---
+
 
 ---
 SafeWebElement can throw exceptions if user tell the entire template to throw exceptions
