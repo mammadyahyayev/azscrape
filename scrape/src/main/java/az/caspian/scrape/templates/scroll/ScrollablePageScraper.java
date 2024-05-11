@@ -6,10 +6,7 @@ import az.caspian.core.tree.DataTree;
 import az.caspian.core.tree.Tree;
 import az.caspian.core.tree.node.ListNode;
 import az.caspian.core.tree.node.Node;
-import az.caspian.scrape.SafeWebElement;
-import az.caspian.scrape.ScrapedDataCollector;
-import az.caspian.scrape.WebBrowser;
-import az.caspian.scrape.WebPage;
+import az.caspian.scrape.*;
 import az.caspian.scrape.templates.AbstractScrapeTemplate;
 import az.caspian.scrape.templates.ScrapeErrorCallback;
 import az.caspian.scrape.templates.TemplateException;
@@ -76,7 +73,7 @@ public class ScrollablePageScraper extends AbstractScrapeTemplate<ScrollablePage
 
       if (callback != null) callback.handle(message, dataTable);
 
-      throw new RuntimeException(message, e);
+      throw new ScrapeFailedException(message, e);
     }
 
     return dataTable;

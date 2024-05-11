@@ -2,6 +2,7 @@ package az.caspian.scrape.templates.multiurl;
 
 import az.caspian.core.model.DataRow;
 import az.caspian.core.tree.DataTable;
+import az.caspian.scrape.ScrapeFailedException;
 import az.caspian.scrape.ScrapedDataCollector;
 import az.caspian.scrape.WebBrowser;
 import az.caspian.scrape.WebPage;
@@ -63,6 +64,7 @@ public class MultiUrlTemplateScraper extends AbstractScrapeTemplate<MultiUrlTemp
       }
 
       LOG.error("Exception: {}", e.getMessage());
+      throw new ScrapeFailedException("Exception: " + e.getMessage());
     }
 
     return dataTable;
