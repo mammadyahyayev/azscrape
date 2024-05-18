@@ -45,11 +45,6 @@ public class SaveDataToFileStrategy implements DataHandlingStrategy {
     }
 
     byte[] serializedData = ObjectSerializer.serialize(data);
-    if (serializedData == null) {
-      LOG.debug("Backup process is skipped because serialized data is null!");
-      return;
-    }
-
     try (var fileOutputStream = new FileOutputStream(filepath.toString())) {
       fileOutputStream.write(serializedData);
       LOG.debug("Serialized data has been written to file {}", filepath);
