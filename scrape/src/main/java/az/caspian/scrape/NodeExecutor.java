@@ -49,6 +49,16 @@ public class NodeExecutor {
     }
   }
 
+  public void executeInterventionNode(InterventionNode interventionNode) {
+    if (interventionNode == null) {
+      LOG.warn("InterventionNode is null and do nothing!");
+      return;
+    }
+
+    var notifier = new InterventionNotifier(interventionNode);
+    notifier.notifyClients();
+  }
+
   public DataColumn executeDataNode(DataNode dataNode, SafeWebElement webElement) {
     Asserts.notNull(dataNode, "DataNode can't be null!");
     Asserts.notNull(webElement, "WebElement can't be null");
