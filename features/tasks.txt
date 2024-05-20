@@ -53,7 +53,6 @@ Please, type one of these for next (1. Continue (c), 2. Wait (w), 3. Stop (s)): 
 
 Thread-1 took your input, and continue its job.
 
-
 Notification: Thread-2 is waiting for your interaction
 NotificationMessage [
     id: 2,

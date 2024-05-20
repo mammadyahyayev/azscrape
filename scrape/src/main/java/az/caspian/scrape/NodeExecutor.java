@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class NodeExecutor {
+public final class NodeExecutor {
 
   private static final Logger LOG = LoggerFactory.getLogger(NodeExecutor.class);
 
@@ -179,6 +179,8 @@ public class NodeExecutor {
         executeTimeoutNode(timeoutNode);
       } else if (node instanceof ActionNode actionNode) {
         executeActionNode(actionNode, webElement);
+      } else if (node instanceof InterventionNode interventionNode) {
+        executeInterventionNode(interventionNode);
       } else {
         throw new IllegalStateException("Not implemented node " + node);
       }
