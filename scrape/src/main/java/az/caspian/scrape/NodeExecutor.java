@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 public final class NodeExecutor {
 
@@ -57,6 +58,15 @@ public final class NodeExecutor {
 
     var notifier = new InterventionNotifier(interventionNode);
     notifier.notifyClients();
+
+    while (interventionNode.getStatus() == InterventionNode.Status.WAIT) {
+      try {
+        Thread.sleep(TimeUnit.SECONDS.toMillis(interventionNode.getExpiredAfterInSeconds()));
+        interventionNode.setStatus(InterventionNode.Status.CONTINUE);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+      }
+    }
   }
 
   public DataColumn executeDataNode(DataNode dataNode, SafeWebElement webElement) {

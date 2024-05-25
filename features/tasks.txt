@@ -1,4 +1,3 @@
-- Rename KeyValueDataNode ==> KeyValueNode
 - Create helper methods inside HtmlElement class to get other parameters of html element
 e.g.
 
@@ -83,6 +82,9 @@ Additional type names:
 - ConsoleInputPayload
 - UserNotification
 - NotificationType (enum)
+
+ClientInputProcessor will take input from clients with validation of input, then will change status of
+InterventionNodes from WAIT to FINISH. 
 
 ---
 
