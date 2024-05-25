@@ -1,18 +1,18 @@
 package az.caspian.core.tree.node;
 
-import az.caspian.core.messaging.ConsoleMessageDispatcher;
+import az.caspian.core.messaging.ConsoleMessagePrinter;
 
 public class InterventionNodeNotificationListener implements Listener {
 
-  private final ConsoleMessageDispatcher consoleMessageDispatcher;
+  private final ConsoleMessagePrinter consoleMessagePrinter;
 
-  public InterventionNodeNotificationListener(ConsoleMessageDispatcher consoleMessageDispatcher) {
-    this.consoleMessageDispatcher = consoleMessageDispatcher;
+  public InterventionNodeNotificationListener(ConsoleMessagePrinter consoleMessagePrinter) {
+    this.consoleMessagePrinter = consoleMessagePrinter;
   }
 
   @Override
   public void listen(NotificationMessage notificationMessage) {
-    consoleMessageDispatcher.dispatchConsoleMessage(notificationMessage);
-    consoleMessageDispatcher.start();
+    consoleMessagePrinter.dispatchConsoleMessage(notificationMessage);
+    consoleMessagePrinter.start();
   }
 }

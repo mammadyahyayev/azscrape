@@ -1,8 +1,8 @@
 package az.caspian.core.tree.node;
 
-import az.caspian.core.messaging.ConsoleMessageDispatcher;
+import az.caspian.core.messaging.ConsoleMessagePrinter;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class NotificationListenerHolder {
@@ -14,9 +14,9 @@ public class NotificationListenerHolder {
   }
 
   private static Map<NotificationMethod, Listener> initListeners() {
-    var consoleMessageDispatcher = new ConsoleMessageDispatcher();
+    var consoleMessageDispatcher = new ConsoleMessagePrinter();
 
-    var notificationListeners = new HashMap<NotificationMethod, Listener>();
+    Map<NotificationMethod, Listener> notificationListeners = new EnumMap<>(NotificationMethod.class);
     notificationListeners.putIfAbsent(
       NotificationMethod.CONSOLE,
       new InterventionNodeNotificationListener(consoleMessageDispatcher)

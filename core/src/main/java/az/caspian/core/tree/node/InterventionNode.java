@@ -22,7 +22,7 @@ public class InterventionNode extends Node {
   private Status status;
 
   public InterventionNode() {
-    this(DEFAULT_EXPIRED_TIME_IN_SECONDS, TimeUnit.SECONDS, NotificationMethod.CONSOLE_WITH_SOUND);
+    this(DEFAULT_EXPIRED_TIME_IN_SECONDS, TimeUnit.SECONDS, NotificationMethod.CONSOLE);
   }
 
   public InterventionNode(long value, TimeUnit timeUnit, NotificationMethod notificationMethod) {
@@ -53,11 +53,15 @@ public class InterventionNode extends Node {
     return message;
   }
 
+  public void setStatus(Status status) {
+    this.status = status;
+  }
+
   public Status getStatus() {
     return status;
   }
 
-  public long getExpiredAfterInMs() {
+  public long getExpiredAfterInSeconds() {
     return expiredAfterInSec;
   }
 
