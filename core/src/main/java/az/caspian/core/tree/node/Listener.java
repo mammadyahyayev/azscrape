@@ -2,5 +2,5 @@ package az.caspian.core.tree.node;
 
 public interface Listener {
 
-  void listen(NotificationMessage notificationMessage);
+  void listen(NotificationMessage<?> notificationMessage);
 }

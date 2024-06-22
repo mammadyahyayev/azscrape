@@ -10,9 +10,11 @@ class NodeExecutorTest {
 
   @Test
   void executeInterventionNode() {
-    var interventionNode = new InterventionNode(20, TimeUnit.SECONDS, NotificationMethod.CONSOLE);
+    var interventionNode1 = new InterventionNode(40, TimeUnit.SECONDS, NotificationMethod.CONSOLE);
+    var interventionNode2 = new InterventionNode(20, TimeUnit.SECONDS, NotificationMethod.CONSOLE);
 
     var executor = new NodeExecutor();
-    executor.executeInterventionNode(interventionNode);
+    executor.executeInterventionNode(interventionNode1);
+    executor.executeInterventionNode(interventionNode2);
   }
 }

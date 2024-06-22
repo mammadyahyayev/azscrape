@@ -9,11 +9,17 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 public final class NodeExecutor {
 
@@ -59,10 +65,15 @@ public final class NodeExecutor {
     var notifier = new InterventionNotifier(interventionNode);
     notifier.notifyClients();
 
-    while (interventionNode.getStatus() == InterventionNode.Status.WAIT) {
+    var expirationTime = LocalDateTime.now(ZoneOffset.UTC).plusSeconds(interventionNode.getExpiredAfterInSeconds());
+    Supplier<LocalDateTime> now = () -> LocalDateTime.now(ZoneOffset.UTC);
+
+    while (
+      interventionNode.getStatus() == InterventionNode.Status.WAIT &&
+        Duration.between(now.get(), expirationTime).toSeconds() > 0
+    ) {
       try {
-        Thread.sleep(TimeUnit.SECONDS.toMillis(interventionNode.getExpiredAfterInSeconds()));
-        interventionNode.setStatus(InterventionNode.Status.CONTINUE);
+        Thread.sleep(5000);
       } catch (InterruptedException e) {
         Thread.currentThread().interrupt();
       }

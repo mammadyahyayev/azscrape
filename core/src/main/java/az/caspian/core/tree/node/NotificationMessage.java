@@ -1,16 +1,19 @@
 package az.caspian.core.tree.node;
 
-public record NotificationMessage(String title,
-                                  String message,
-                                  String description,
-                                  NotificationType notificationType,
-                                  boolean requiresInput) {
+public record NotificationMessage<T>(
+  T object,
+  String title,
+  String message,
+  String description,
+  NotificationType notificationType,
+  boolean requiresInput) {
 
-  public NotificationMessage(String title,
+  public NotificationMessage(T object,
+                             String title,
                              String message,
                              String description,
                              NotificationType notificationType) {
-    this(title, message, description, notificationType, false);
+    this(object, title, message, description, notificationType, false);
   }
 
   @Override

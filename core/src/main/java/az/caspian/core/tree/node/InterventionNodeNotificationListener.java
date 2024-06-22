@@ -11,7 +11,7 @@ public class InterventionNodeNotificationListener implements Listener {
   }
 
   @Override
-  public void listen(NotificationMessage notificationMessage) {
+  public void listen(NotificationMessage<?> notificationMessage) {
     consoleMessagePrinter.dispatchConsoleMessage(notificationMessage);
     consoleMessagePrinter.start();
   }

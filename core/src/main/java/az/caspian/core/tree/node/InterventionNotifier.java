@@ -22,7 +22,8 @@ public class InterventionNotifier implements Notification {
   public void notifyClients() {
     interventionNode.setStatus(InterventionNode.Status.WAIT);
 
-    var message = new NotificationMessage(
+    var message = new NotificationMessage<>(
+      interventionNode,
       "Intervention Node",
       interventionNode.getMessage(),
       interventionNode.getDescription(),
