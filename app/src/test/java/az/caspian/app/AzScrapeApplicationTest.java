@@ -1,5 +1,6 @@
 package az.caspian.app;
 
+import az.caspian.core.constant.FileConstants;
 import az.caspian.core.constant.TestConstants;
 import az.caspian.core.io.DefaultFileSystem;
 import az.caspian.core.model.DataFile;
@@ -47,11 +48,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class AzScrapeApplicationTest {
   @Test
   @Tag(TestConstants.LONG_LASTING_TEST)
-  void testExporting() {
+  void scrapeOneRoomApartments() {
     var pageParameters = new PageParameters.Builder()
-      .url(
-        "https://bina.az/baki/alqi-satqi/menziller/yeni-tikili/1-otaqli?page="
-          + PAGE_SPECIFIER)
+      .url("https://bina.az/baki/alqi-satqi/menziller/yeni-tikili/1-otaqli?page=" + PAGE_SPECIFIER)
       .pageRange(1, 3)
       .delayBetweenPages(6000)
       .build();
@@ -71,22 +70,21 @@ class AzScrapeApplicationTest {
     listNode.addChild(area);
     listNode.addChild(floor);
 
-    DataTree<Node> tree = new DataTree<>();
+    var tree = new DataTree<>();
     tree.addNode(listNode);
 
-    PaginationTemplate paginationTemplate = new PaginationTemplate(pageParameters, tree);
+    var paginationTemplate = new PaginationTemplate(pageParameters, tree);
 
     Scraper<PaginationTemplate> scraper = new PaginationPageScraper();
     DataTable table = scraper.scrape(paginationTemplate);
 
-    ExcelExporter excelExporter = new ExcelExporter();
+    var excelExporter = new ExcelExporter();
 
-    DataFile dataFile =
-      new DataFile.Builder()
-        .filename("one_room_apartment")
-        .fileType(FileType.EXCEL)
-        .storeAt(Path.of("C:/Users/User/Desktop").toString())
-        .build();
+    var dataFile = new DataFile.Builder()
+      .filename("one_room_apartment")
+      .fileType(FileType.EXCEL)
+      .storeAt(Path.of(FileConstants.USER_DIR).toString())
+      .build();
 
     excelExporter.export(dataFile, table);
 

@@ -18,10 +18,14 @@ public class Server {
 
   public static final int PORT = 9090;
 
-  private final ClientService clientService;
+  private final ServerMessageListener serverMessageListener;
 
   public Server(ClientService clientService) {
-    this.clientService = clientService;
+    this.serverMessageListener = new DefaultServerMessageListener(clientService);
+  }
+
+  public Server(ServerMessageListener serverMessageListener) {
+    this.serverMessageListener = serverMessageListener;
   }
 
   public static void main(String[] args) throws IOException {
@@ -61,16 +65,15 @@ public class Server {
 
   private void handleClientConnection(Socket clientSocket) {
     try (var inputStream = new ObjectInputStream(clientSocket.getInputStream());) {
-      var shortMessage = (ShortMessage) inputStream.readObject();
-      LOG.debug("Message {} sent by client", shortMessage);
-      parseMessage(shortMessage);
+      Object message = inputStream.readObject();
+      LOG.debug("Message {} sent by client", message);
+      if (message instanceof ShortMessage shortMessage) {
+        serverMessageListener.onMessageReceived(shortMessage);
+        LOG.debug("Message {} sent to listener", shortMessage);
+      }
     } catch (Exception e) {
       LOG.error("Failed to read data from client connection!");
       LOG.error("Exception: ", e);
     }
-  }
-
-  private void parseMessage(ShortMessage message) {
-    clientService.handleShortMessage(message);
   }
 }
