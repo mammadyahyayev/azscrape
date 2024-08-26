@@ -42,7 +42,7 @@ public class MultiUrlTemplate implements ScrapeTemplate, Splittable {
   }
 
   @Override
-  public boolean supportParallelExecution() {
+  public boolean supportsParallelExecution() {
     return true;
   }
 
@@ -55,7 +55,7 @@ public class MultiUrlTemplate implements ScrapeTemplate, Splittable {
   public List<Task> split(String taskName, List<Client> clients, SplitStrategy strategy) {
     return switch (strategy) {
       case EQUAL -> new MultiUrlTemplate.EqualSplitStrategy().split(taskName, clients);
-      case SYSTEM_POWER -> new MultiUrlTemplate.SystemPoweredSplitStrategy().split(taskName, clients);
+      case SYSTEM_POWER -> new SystemPoweredSplitStrategy().split(taskName, clients);
     };
   }
 
@@ -135,7 +135,7 @@ public class MultiUrlTemplate implements ScrapeTemplate, Splittable {
     }
   }
 
-  public class SystemPoweredSplitStrategy {
+  public static class SystemPoweredSplitStrategy {
     public List<Task> split(String taskName, List<Client> clients) {
       throw new UnsupportedOperationException(
         "Split strategy based on system power isn't supported for this template yet!");

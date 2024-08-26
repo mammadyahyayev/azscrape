@@ -29,7 +29,7 @@ public class ScrollablePageTemplate implements ScrapeTemplate {
     }
 
     @Override
-    public boolean supportParallelExecution() {
+    public boolean supportsParallelExecution() {
         return false;
     }
 }

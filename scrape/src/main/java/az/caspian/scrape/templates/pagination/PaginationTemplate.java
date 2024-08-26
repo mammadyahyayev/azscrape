@@ -33,7 +33,7 @@ public class PaginationTemplate implements ScrapeTemplate, Splittable {
   }
 
   @Override
-  public boolean supportParallelExecution() {
+  public boolean supportsParallelExecution() {
     return true;
   }
 

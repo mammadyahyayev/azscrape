@@ -23,7 +23,7 @@ public class PaginationItemVisitorTemplate extends PaginationTemplate implements
   }
 
   @Override
-  public boolean supportParallelExecution() {
+  public boolean supportsParallelExecution() {
     return false;
   }
 }

@@ -18,6 +18,6 @@ public interface ScrapeTemplate {
    * @return {@code true} if template supports parallel execution,
    * otherwise {@code false}
    */
-  boolean supportParallelExecution();
+  boolean supportsParallelExecution();
 
 }
