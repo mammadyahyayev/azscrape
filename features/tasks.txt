@@ -192,3 +192,30 @@ Example:
 AZScrape Logo Ideas
 
 Scrape keywords pulling AZ letters and those letters will be seen as distorted.
+
+------------------------------------------------------------------------------------
+
+--- [NEW PROJECT CONFIG FILE STRUCTURE]
+project {
+    properties {
+        name: turboaz
+        owner: mammadyahyayev
+        createdAt: 26.08.2024
+    }
+
+    template<PAGINATION_TEMPLATE> {
+
+    }
+
+    template<MULTI_URL_TEMPLATE> {
+
+    }
+}
+
+--- <!> Reason: we can define more than 1 template in the project, because template might collect URLs first
+--- with PAGINATION_TEMPLATE, then use MULTI_URL_TEMPLATE to fetch data
+
+When project owner click the button, then it will create default project file,
+then owner can update project configs
+
+TODO: Use VisitorPattern to read file content
