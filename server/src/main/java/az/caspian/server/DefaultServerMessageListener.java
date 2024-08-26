@@ -16,7 +16,7 @@ public class DefaultServerMessageListener implements ServerMessageListener {
 
   @Override
   public void onMessageReceived(ShortMessage message) {
-    LOG.debug("Received message: {}", message);
+    LOG.debug("Received message {} from: {}", message, message.getSenderIpAddress());
     clientService.handleShortMessage(message);
   }
 }

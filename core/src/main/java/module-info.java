@@ -18,4 +18,5 @@ module azscrape.core {
   exports az.caspian.core.template;
   exports az.caspian.core.task;
   exports az.caspian.core.tree.node;
+  exports az.caspian.core.retry;
 }
