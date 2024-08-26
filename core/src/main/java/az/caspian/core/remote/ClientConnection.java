@@ -39,7 +39,8 @@ public class ClientConnection {
     }
   }
 
-  public static boolean sendTaskToClient(Task task) {
+  public static boolean sendTaskToClient(Client taskSender, Task task) {
+    Asserts.required(taskSender, "task sender cannot be null!");
     Asserts.required(task, "task cannot be null!");
 
     Client client = task.getAssignee();
@@ -57,10 +58,10 @@ public class ClientConnection {
       socket.connect(new InetSocketAddress(clientIpAddress, 9090));
       LOG.debug("Connection is established with {} ({})", client.getFullName(), clientIpAddress);
 
-      var outputStream = new ObjectOutputStream(socket.getOutputStream());
-      outputStream.writeObject(new ShareTaskMessage(task));
-      outputStream.close();
-      LOG.debug("Task shared with {} ({})", client.getFullName(), clientIpAddress);
+      try (var outputStream = new ObjectOutputStream(socket.getOutputStream());) {
+        outputStream.writeObject(new ShareTaskMessage(taskSender, task));
+        LOG.debug("Task shared with {} ({})", client.getFullName(), clientIpAddress);
+      }
     } catch (Exception ex) {
       LOG.error("Failed to connect to {}", clientIpAddress);
       return false;

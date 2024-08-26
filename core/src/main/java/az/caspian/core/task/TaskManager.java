@@ -1,5 +1,6 @@
 package az.caspian.core.task;
 
+import az.caspian.core.messaging.Client;
 import az.caspian.core.remote.ClientConnection;
 import az.caspian.core.template.ScrapeTemplate;
 import az.caspian.core.template.TemplateExecutor;
@@ -18,10 +19,10 @@ public class TaskManager {
     this.templateExecutor = templateExecutor;
   }
 
-  public void sendTasks(Collection<Task> tasks) {
+  public void sendTasks(Client taskSender, Collection<Task> tasks) {
     int sharedTasks = 0;
     for (Task task : tasks) {
-      boolean isShared = ClientConnection.sendTaskToClient(task);
+      boolean isShared = ClientConnection.sendTaskToClient(taskSender, task);
       if (isShared) sharedTasks++;
     }
 
@@ -33,5 +34,4 @@ public class TaskManager {
     DataTable dataTable = templateExecutor.executeTemplate(template);
     LOG.info("DataTable: {}", dataTable);
   }
-
 }
