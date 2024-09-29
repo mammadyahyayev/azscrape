@@ -10,24 +10,4 @@ public class PageController {
   public String index() {
     return "index";
   }
-
-  @GetMapping("/components")
-  public String componentsPage() {
-    return "components";
-  }
-
-  @GetMapping("/forms")
-  public String formsPage() {
-    return "forms";
-  }
-
-  @GetMapping("/table")
-  public String tablesPage() {
-    return "tables";
-  }
-
-  @GetMapping("/icons")
-  public String iconsPage() {
-    return "icons";
-  }
 }
