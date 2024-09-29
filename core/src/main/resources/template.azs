@@ -1,0 +1,23 @@
+project {
+    properties {
+        name: turboaz
+        owner: mammadyahyayev
+    }
+
+    template<PAGINATION_TEMPLATE> {
+        parameters {
+            url: 'https://www.google.com/page={pageNum}'
+            startPage: 1
+            endPage: 10
+            delayBetweenPages: { value: 10, unit: sec } (or: 10 sec, 1 min, 1 hour)
+        }
+    }
+
+    template<MULTI_URL_TEMPLATE> {
+        parameters {
+            urls: ['', '', '']
+            urlSourceFilePath: '/etc/' # if starts with / slash or C: or D:, then absolute path, otherwise relative
+            failFast: true
+        }
+    }
+}
